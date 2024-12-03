@@ -1,2 +1,15 @@
+# env config files
+.env.prod
+
 # docker services data
 .docker/services
+
+# UI assets
+public/bundles/
+
+# composer packages
+vendor/
+composer.lock
+
+# symfony temp storage
+var/

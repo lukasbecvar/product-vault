@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true      # automatically injects dependencies
+        autoconfigure: true # automatically register services
+
+    # define autowiring services for App namespace
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Entity/'
+            - '../src/Kernel.php'
