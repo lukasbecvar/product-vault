@@ -81,10 +81,10 @@ A modern API system for managing product data, designed with a focus on simplici
     - [ ] Category name
     - [ ] Attribute name
 - [ ] Products export
-    - [ ] Export products to excel
-    - [ ] Export products to pdf
-    - [ ] Export products to xml
-    - [ ] Export products to json
+    - [ ] Export products to excel file
+    - [ ] Export products to pdf file 
+    - [ ] Export products to xml file
+    - [ ] Export products to json file
 - [ ] Cache system 
     - [ ] Cache product by id when product is requested
     - [ ] Get product by id from cache or mysql database if not in cache
