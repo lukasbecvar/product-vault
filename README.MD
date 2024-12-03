@@ -59,6 +59,18 @@ A modern API system for managing product data, designed with a focus on simplici
     - [ ] Get products by attribute or multiple attributes
     - [ ] Get product price by specific currency (currency is optional)
     - [ ] Sort by name, price, added-time in all get methods
+    - [ ] Pagination for products result
+        - [ ] Limit items per page
+        - [ ] Endpoint for getting pages count
+        - [ ] Implement pagination info to all get results
+            - [ ] First page
+            - [ ] Last page
+            - [ ] Next page
+            - [ ] Previous page
+            - [ ] Current page
+            - [ ] Total pages
+            - [ ] Total items
+            - [ ] Items per page
 - [ ] Get product assets controller
     - [ ] Get product icon by id
     - [ ] Get list product images by id
@@ -73,6 +85,17 @@ A modern API system for managing product data, designed with a focus on simplici
     - [ ] Export products to pdf
     - [ ] Export products to xml
     - [ ] Export products to json
+- [ ] Cache system 
+    - [ ] Cache product by id when product is requested
+    - [ ] Get product by id from cache or mysql database if not in cache
+    - [ ] Invalidate cached product if product is edited or deleted
+    - [ ] Cache products icon and images with apache mod_expires
+    - [ ] Cache products list for specific filter (cache per page list)
+    - [ ] Invalidate lists cache when product is edited, deleted or added new
+    - [ ] Cache preload
+        - [ ] Preload cache for all products
+        - [ ] Preload cache for most used products list filtering
+        - [ ] When preload process is not finished use mysql database for getting products
 - [ ] Create postman collection
 - [ ] React app implementation
     - [ ] Login to app
