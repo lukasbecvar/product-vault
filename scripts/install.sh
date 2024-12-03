@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# install backend packages
+# install dependencies
 if [ ! -d 'vendor/' ]
 then
     docker-compose run composer

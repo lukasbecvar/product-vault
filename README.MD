@@ -1,5 +1,74 @@
 # Product Vault
 A modern API system for managing product data, designed with a focus on simplicity, flexibility, and security. The system enables efficient storage, organization, and manipulation of product data through a RESTful API, ensuring seamless integration with other applications and services.
 
+## Backlog
+- [ ] Main index controller
+- [ ] Exception handling event subscriber
+- [ ] Log system
+    - [ ] Create log entity (id, message, level, time, user-id, ip-address, user-agent, request-uri, request-method, status)
+    - [ ] Log manager (save log, get logs by status, get logs by user-id, get logs by ip-address, set all logs to readed, truncate)
+    - [ ] CLI command to set all logs to readed
+    - [ ] CLI command command to truncate logs
+    - [ ] CLI command to get logs
+- [ ] App middleware
+    - [ ] Database online check middleware
+    - [ ] Escape request data middleware
+    - [ ] Maintenance mode middleware
+    - [ ] Security check middleware (SSL check)
+- [ ] User system (jwt auth)
+    - [ ] Create user entity (id, email, firstname, lastname, roles, password, register-time, last-login, is-active)
+    - [ ] User registration (api endpoint, cli command)
+    - [ ] User login get jwt token (api endpoint) (with symfony security bundle and nelmio jwt)
+    - [ ] User logout invalidate JWT token (api endpoint) 
+- [ ] Setup nelmio api doc
+- [ ] Setup CSRF protection
+- [ ] Create product schema
+    - [ ] Create product entity (id, name, description, price (default EUR), added-time, last-edit-time, is-active)
+    - [ ] Create product category entity (id, name)
+    - [ ] Create product category value entity (id, product-id, category-id)
+    - [ ] Create product attribute entity (id, name)
+    - [ ] Create product attribute value entity (id, product-id, attribute-id, attribute-value)
+    - [ ] Create product icon entity (id, product-id, icon-file) (one icon per product)
+    - [ ] Create product image entity (id, product-id, image-file) (multiple images per product)
+    - [ ] Create storage folder for product icons and images
+- [ ] Create product controller
+    - [ ] Create product with attributes
+        - [ ] name is required
+        - [ ] description is optional
+        - [ ] price is required
+        - [ ] category is required
+        - [ ] attributes is optional
+        - [ ] icon is required
+        - [ ] images is optional
+- [ ] Edit product controller
+    - [ ] Rename product
+    - [ ] Update price
+    - [ ] Update product description
+    - [ ] Update product attributes
+    - [ ] Disable product visibility (edit is-active)
+    - [ ] Edit product icon
+    - [ ] Edit product images
+- [ ] Delete product controller
+    - [ ] Delete product
+    - [ ] Delete product attributes (if no other products use this attribute)
+- [ ] Get product controller (allow access with api token from .env)
+    - [ ] Get all products
+    - [ ] Get product by id
+    - [ ] Get all products by category
+    - [ ] Get products by attribute or multiple attributes
+    - [ ] Get product price by specific currency (currency is optional)
+    - [ ] Sort by name, price, added-time in all get methods
+- [ ] Product data translation
+    - [ ] Product name
+    - [ ] Product description
+    - [ ] Category name
+    - [ ] Attribute name
+- [ ] Products export
+    - [ ] Export products to excel
+    - [ ] Export products to pdf
+    - [ ] Export products to xml
+    - [ ] Export products to json
+- [ ] Create postman collection
+
 ## License
 This software is licensed under the [MIT license](https://github.com/lukasbecvar/product-vault/blob/main/LICENSE).

@@ -23,7 +23,7 @@ jobs:
         php-version: 8.4
 
     # composer install
-    - name: Install backend dependencies
+    - name: Install dependencies
       run: composer install --no-interaction --no-progress --no-suggest
 
     # codesniffer process

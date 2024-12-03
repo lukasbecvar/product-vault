@@ -34,7 +34,7 @@ jobs:
           extensions: intl, pdo_mysql, pdo
 
       # composer install
-      - name: Install backend dependencies
+      - name: Install dependencies
         run: composer install --no-interaction --no-progress --no-suggest
 
       # create test database
