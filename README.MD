@@ -54,6 +54,7 @@ A modern API system for managing product data, designed with a focus on simplici
 - [ ] Get product controller (allow access with api token from .env)
     - [ ] Get all products
     - [ ] Get product by id
+    - [ ] Get product by name (search by name and description pattern match)
     - [ ] Get all products by category
     - [ ] Get products by attribute or multiple attributes
     - [ ] Get product price by specific currency (currency is optional)
@@ -73,6 +74,16 @@ A modern API system for managing product data, designed with a focus on simplici
     - [ ] Export products to xml
     - [ ] Export products to json
 - [ ] Create postman collection
+- [ ] React app implementation
+    - [ ] Login to app
+    - [ ] Logout from app
+    - [ ] Register new user
+    - [ ] Implement product dashboard with sorting and filtering
+    - [ ] Implement product search
+    - [ ] Implement producit detail view
+    - [ ] Implement product create
+    - [ ] Implement product edit
+    - [ ] Implement product delete
 
 ## License
 This software is licensed under the [MIT license](https://github.com/lukasbecvar/product-vault/blob/main/LICENSE).
