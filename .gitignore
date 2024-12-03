@@ -13,3 +13,6 @@ composer.lock
 
 # symfony temp storage
 var/
+
+# php code sniffer cache
+.phpcs-cache
