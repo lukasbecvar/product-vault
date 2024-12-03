@@ -58,6 +58,10 @@ A modern API system for managing product data, designed with a focus on simplici
     - [ ] Get products by attribute or multiple attributes
     - [ ] Get product price by specific currency (currency is optional)
     - [ ] Sort by name, price, added-time in all get methods
+- [ ] Get product assets controller
+    - [ ] Get product icon by id
+    - [ ] Get list product images by id
+    - [ ] Get product image by product-id and image-file-name
 - [ ] Product data translation
     - [ ] Product name
     - [ ] Product description
