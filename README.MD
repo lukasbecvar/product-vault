@@ -3,6 +3,8 @@ A modern API system for managing product data, designed with a focus on simplici
 
 ## Backlog
 - [ ] Main index controller
+- [ ] Error controller
+- [ ] All responses should be in json format
 - [ ] Exception handling event subscriber
 - [ ] Log system
     - [ ] Create log entity (id, message, level, time, user-id, ip-address, user-agent, request-uri, request-method, status)
@@ -85,7 +87,7 @@ A modern API system for managing product data, designed with a focus on simplici
     - [ ] Export products to pdf file 
     - [ ] Export products to xml file
     - [ ] Export products to json file
-- [ ] Cache system 
+- [ ] Cache system
     - [ ] Cache product by id when product is requested
     - [ ] Get product by id from cache or mysql database if not in cache
     - [ ] Invalidate cached product if product is edited or deleted
