@@ -87,6 +87,10 @@ A modern API system for managing product data, designed with a focus on simplici
     - [ ] Export products to pdf file 
     - [ ] Export products to xml file
     - [ ] Export products to json file
+- [ ] Access control system
+    - [ ] Access log entity (id, access-type, time, ip-address, user-agent request-uri)
+    - [ ] Access log method in log manager (log access to product by id or access to product list)
+    - [ ] Controller for get access log data per concrete period (hour, day, week, month, year, alltime)
 - [ ] Cache system
     - [ ] Cache product by id when product is requested
     - [ ] Get product by id from cache or mysql database if not in cache
@@ -109,6 +113,7 @@ A modern API system for managing product data, designed with a focus on simplici
     - [ ] Implement product create
     - [ ] Implement product edit
     - [ ] Implement product delete
+    - [ ] Implement access log graph view (use access log data from api (access log entity))
 
 ## License
 This software is licensed under the [MIT license](https://github.com/lukasbecvar/product-vault/blob/main/LICENSE).
