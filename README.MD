@@ -134,6 +134,7 @@ A modern API system for managing product data, designed with a focus on simplici
         - [ ] Preload cache for most used products list filtering
         - [ ] When preload process is not finished use mysql database for getting products
 - [ ] Create postman collection
+- [ ] Release product-vault api docker image to github packages
 - [ ] React app implementation
     - [ ] Login to app
     - [ ] Logout from app
