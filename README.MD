@@ -2,10 +2,9 @@
 A modern API system for managing product data, designed with a focus on simplicity, flexibility, and security. The system enables efficient storage, organization, and manipulation of product data through a RESTful API, ensuring seamless integration with other applications and services.
 
 ## Backlog
-- [ ] Main index controller
-- [ ] All responses should be in json format
-- [ ] Error controller
-- [ ] Exception handling event subscriber
+- [X] Main index controller
+- [X] Error controller
+- [X] Exception handling event subscriber
 - [ ] Log system
     - [ ] Create log entity (id, message, level, time, user-id, ip-address, user-agent, request-uri, request-method, status)
     - [ ] Log manager

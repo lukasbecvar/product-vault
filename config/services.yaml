@@ -9,3 +9,8 @@ services:
         exclude:
             - '../src/Entity/'
             - '../src/Kernel.php'
+
+    # exception event subscriber (error handling functionality)
+    App\Event\Subscriber\ExceptionEventSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }
