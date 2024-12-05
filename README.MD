@@ -3,12 +3,19 @@ A modern API system for managing product data, designed with a focus on simplici
 
 ## Backlog
 - [ ] Main index controller
-- [ ] Error controller
 - [ ] All responses should be in json format
+- [ ] Error controller
 - [ ] Exception handling event subscriber
 - [ ] Log system
     - [ ] Create log entity (id, message, level, time, user-id, ip-address, user-agent, request-uri, request-method, status)
-    - [ ] Log manager (save log, get logs by status, get logs by user-id, get logs by ip-address, set all logs to readed, truncate)
+    - [ ] Log manager
+        - [ ] Save log
+        - [ ] Get logs by status
+        - [ ] Get logs by user-id
+        - [ ] Get logs by ip-address
+        - [ ] Set all logs to readed
+        - [ ] Truncate logs table
+        - [ ] All logs get methods with pagination and sorting
     - [ ] CLI command to set all logs to readed
     - [ ] CLI command command to truncate logs
     - [ ] CLI command to get logs
@@ -16,12 +23,24 @@ A modern API system for managing product data, designed with a focus on simplici
     - [ ] Database online check middleware
     - [ ] Escape request data middleware
     - [ ] Maintenance mode middleware
-    - [ ] Security check middleware (SSL check)
+    - [ ] Security check middleware
+        - [ ] SSL check
+        - [ ] Ban by geolocation
+        - [ ] Allow connection for specific ip-address or for all ip-addresses
 - [ ] User system (jwt auth)
-    - [ ] Create user entity (id, email, firstname, lastname, roles, password, register-time, last-login, is-active)
+    - [ ] Create user entity (id, email, firstname, lastname, roles, password, register-time, last-login, ip-address, user-agent, is-active)
     - [ ] User registration (api endpoint, cli command)
     - [ ] User login get jwt token (api endpoint) (with symfony security bundle and nelmio jwt)
-    - [ ] User logout invalidate JWT token (api endpoint) 
+    - [ ] User logout invalidate JWT token (api endpoint)
+- [ ] User info contoller
+    - [ ] User info endpoint
+        - [ ] Get firstname
+        - [ ] Get lastname
+        - [ ] Get email
+        - [ ] Get roles
+        - [ ] Get is-active
+        - [ ] Get last-login
+        - [ ] Get register-time
 - [ ] Setup nelmio api doc
 - [ ] Setup CSRF protection
 - [ ] Create product schema
@@ -33,6 +52,19 @@ A modern API system for managing product data, designed with a focus on simplici
     - [ ] Create product icon entity (id, product-id, icon-file) (one icon per product)
     - [ ] Create product image entity (id, product-id, image-file) (multiple images per product)
     - [ ] Create storage folder for product icons and images
+- [ ] Product manager
+    - [ ] Create product - create new product
+    - [ ] Edit product - edit product by id
+    - [ ] Delete product - delete product by id
+    - [ ] Create new attribute - create new attribute
+    - [ ] Add attribute to product - add new attribute to product by id (add one attribute or multiple attributes)
+    - [ ] Delete attribute from product - delete attribute from product by id (delete one attribute or multiple attributes)
+    - [ ] Get product by id - get product details by id
+    - [ ] Get products by category - get products list by category
+    - [ ] Get products by attributes - get products list by attributes (one or multiple attributes)
+    - [ ] Get products list by search - get all products with matched search criteria (name, description, category)
+    - [ ] All get methods pagination parameter - get products list with pagination (page parameter is optional)
+    - [ ] All get methods sorting parameter - get products list with sorting (by: name, price, added-time) (sort parameter is optional)
 - [ ] Create product controller
     - [ ] Create product with attributes
         - [ ] name is required
@@ -52,15 +84,15 @@ A modern API system for managing product data, designed with a focus on simplici
     - [ ] Edit product images
 - [ ] Delete product controller
     - [ ] Delete product
-    - [ ] Delete product attributes (if no other products use this attribute)
+    - [ ] Delete product attributes and attribute values of deleted product (if attribute is not used by other products)
 - [ ] Get product controller (allow access with api token from .env)
     - [ ] Get all products
     - [ ] Get product by id
-    - [ ] Get product by name (search by name and description pattern match)
     - [ ] Get all products by category
     - [ ] Get products by attribute or multiple attributes
-    - [ ] Get product price by specific currency (currency is optional)
+    - [ ] Get product by name (search by name and description pattern match)
     - [ ] Sort by name, price, added-time in all get methods
+    - [ ] Option to set price currency (for convert currency form default currency (EUR) to required format)
     - [ ] Pagination for products result
         - [ ] Limit items per page
         - [ ] Endpoint for getting pages count
