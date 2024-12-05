@@ -6,7 +6,7 @@ A modern API system for managing product data, designed with a focus on simplici
 - [X] Error controller
 - [X] Exception handling event subscriber
 - [ ] Log system
-    - [ ] Create log entity (id, message, level, time, user-id, ip-address, user-agent, request-uri, request-method, status)
+    - [X] Create log entity (id, message, level, time, user-id, ip-address, user-agent, request-uri, request-method, status)
     - [ ] Log manager
         - [ ] Save log
         - [ ] Get logs by status

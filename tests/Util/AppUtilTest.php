@@ -24,13 +24,11 @@ class AppUtilTest extends TestCase
         $this->kernelInterface = $this->createMock(KernelInterface::class);
 
         // create the app util instance
-        $this->appUtil = new AppUtil(
-            $this->kernelInterface
-        );
+        $this->appUtil = new AppUtil($this->kernelInterface);
     }
 
     /**
-     * Test get app version
+     * Test get app root directory
      *
      * @return void
      */
