@@ -8,7 +8,7 @@ A modern API system for managing product data, designed with a focus on simplici
 - [ ] Log system
     - [X] Create log entity (id, message, level, time, user-id, ip-address, user-agent, request-uri, request-method, status)
     - [ ] Log manager
-        - [ ] Save log
+        - [X] Save log
         - [ ] Get logs by status
         - [ ] Get logs by user-id
         - [ ] Get logs by ip-address
