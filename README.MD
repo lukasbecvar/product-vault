@@ -7,14 +7,14 @@ A modern API system for managing product data, designed with a focus on simplici
 - [X] Exception handling event subscriber
 - [ ] Log system
     - [X] Create log entity (id, message, level, time, user-id, ip-address, user-agent, request-uri, request-method, status)
-    - [ ] Log manager
+    - [X] Log manager
         - [X] Save log
-        - [ ] Get logs by status
-        - [ ] Get logs by user-id
-        - [ ] Get logs by ip-address
-        - [ ] Set all logs to readed
-        - [ ] Truncate logs table
-        - [ ] All logs get methods with pagination and sorting
+        - [X] Get logs by status
+        - [X] Get logs by user-id
+        - [X] Get logs by ip-address
+        - [X] Set all logs to readed
+        - [X] Truncate logs table
+        - [X] All logs get methods with pagination and sorting
     - [ ] CLI command to set all logs to readed
     - [ ] CLI command command to truncate logs
     - [ ] CLI command to get logs

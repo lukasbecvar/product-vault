@@ -3,12 +3,16 @@
 namespace App\Tests\Manager;
 
 use Exception;
+use App\Entity\Log;
 use App\Util\AppUtil;
 use App\Util\SecurityUtil;
 use App\Manager\LogManager;
 use App\Manager\ErrorManager;
 use App\Util\VisitorInfoUtil;
 use PHPUnit\Framework\TestCase;
+use App\Manager\DatabaseManager;
+use App\Repository\LogRepository;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,6 +30,8 @@ class LogManagerTest extends TestCase
     private AppUtil & MockObject $appUtilMock;
     private SecurityUtil & MockObject $securityUtilMock;
     private ErrorManager & MockObject $errorManagerMock;
+    private LogRepository & MockObject $logRepositoryMock;
+    private DatabaseManager & MockObject $databaseManagerMock;
     private VisitorInfoUtil & MockObject $visitorInfoUtilMock;
     private EntityManagerInterface & MockObject $entityManagerMock;
 
@@ -34,6 +40,8 @@ class LogManagerTest extends TestCase
         $this->appUtilMock = $this->createMock(AppUtil::class);
         $this->securityUtilMock = $this->createMock(SecurityUtil::class);
         $this->errorManagerMock = $this->createMock(ErrorManager::class);
+        $this->logRepositoryMock = $this->createMock(LogRepository::class);
+        $this->databaseManagerMock = $this->createMock(DatabaseManager::class);
         $this->visitorInfoUtilMock = $this->createMock(VisitorInfoUtil::class);
         $this->entityManagerMock = $this->createMock(EntityManagerInterface::class);
 
@@ -42,6 +50,8 @@ class LogManagerTest extends TestCase
             $this->appUtilMock,
             $this->securityUtilMock,
             $this->errorManagerMock,
+            $this->logRepositoryMock,
+            $this->databaseManagerMock,
             $this->visitorInfoUtilMock,
             $this->entityManagerMock
         );
@@ -147,5 +157,124 @@ class LogManagerTest extends TestCase
 
         // call tested method
         $this->logManager->saveLog('Test', 'Test message');
+    }
+
+    /**
+     * Test get logs by status with pagination
+     *
+     * @return void
+     */
+    public function testGetLogsByStatus(): void
+    {
+        // mock pagination limit from env
+        $this->appUtilMock->method('getEnvValue')->with('LIMIT_CONTENT_PER_PAGE')->willReturn('10');
+
+        // mock repository to return fake logs
+        $fakeLogs = [$this->createMock(Log::class), $this->createMock(Log::class)];
+        $this->logRepositoryMock->method('findByStatus')->with('UNREADED', 1, 10)->willReturn($fakeLogs);
+
+        // call tested method
+        $logs = $this->logManager->getLogsByStatus('UNREADED', 1);
+
+        // assert logs are returned as expected
+        $this->assertCount(2, $logs);
+        $this->assertInstanceOf(Log::class, $logs[0]);
+    }
+
+    /**
+     * Test get logs by user id with pagination
+     *
+     * @return void
+     */
+    public function testGetLogsByUserId(): void
+    {
+        // mock pagination limit from env
+        $this->appUtilMock->method('getEnvValue')->with('LIMIT_CONTENT_PER_PAGE')->willReturn('10');
+
+        // mock repository to return fake logs
+        $fakeLogs = [$this->createMock(Log::class)];
+        $this->logRepositoryMock->method('findByUserId')->with(1, 1, 10)->willReturn($fakeLogs);
+
+        // call tested method
+        $logs = $this->logManager->getLogsByUserId(1, 1);
+
+        // assert logs are returned as expected
+        $this->assertCount(1, $logs);
+        $this->assertInstanceOf(Log::class, $logs[0]);
+    }
+
+    /**
+     * Test get logs by ip address with pagination
+     *
+     * @return void
+     */
+    public function testGetLogsByIpAddress(): void
+    {
+        // mock pagination limit from env
+        $this->appUtilMock->method('getEnvValue')->with('LIMIT_CONTENT_PER_PAGE')->willReturn('10');
+
+        // mock repository to return fake logs
+        $fakeLogs = [$this->createMock(Log::class)];
+        $this->logRepositoryMock->method('findByIpAddress')->with('127.0.0.1', 1, 10)->willReturn($fakeLogs);
+
+        // call tested method
+        $logs = $this->logManager->getLogsByIpAddress('127.0.0.1', 1);
+
+        // assert logs are returned as expected
+        $this->assertCount(1, $logs);
+        $this->assertInstanceOf(Log::class, $logs[0]);
+    }
+
+    /**
+     * Test set all logs status to readed
+     *
+     * @return void
+     */
+    public function testSetAllLogsToReaded(): void
+    {
+        // mock repository to return fake logs
+        $fakeLogs = [$this->createMock(Log::class), $this->createMock(Log::class)];
+        $fakeLogs[0]->expects($this->once())->method('setStatus')->with('READED');
+        $fakeLogs[1]->expects($this->once())->method('setStatus')->with('READED');
+        $this->logRepositoryMock->method('findBy')->with(['status' => 'UNREADED'])->willReturn($fakeLogs);
+
+        // expect entity manager to flush changes
+        $this->entityManagerMock->expects($this->once())->method('flush');
+
+        // call tested method
+        $this->logManager->setAllLogsToReaded();
+    }
+
+    /**
+     * Test truncate logs table
+     *
+     * @return void
+     */
+    public function testTruncateLogsTable(): void
+    {
+        // mock database name and table name
+        $this->appUtilMock->method('getEnvValue')->with('DATABASE_NAME')->willReturn('test_db');
+
+        // create a mock for ClassMetadata and set the table name
+        $classMetadataMock = $this->createMock(ClassMetadata::class);
+        $classMetadataMock->method('getTableName')->willReturn('logs');
+
+        // mock getClassMetadata to return the ClassMetadata mock
+        $this->entityManagerMock->method('getClassMetadata')->with(Log::class)->willReturn($classMetadataMock);
+
+        // expect database manager to truncate the table
+        $this->databaseManagerMock->expects($this->once())
+            ->method('tableTruncate')
+            ->with('test_db', 'logs');
+
+        // mock saveLog to ensure it's called correctly
+        $this->logManager->saveLog(
+            name: 'log-manager',
+            message: 'logs table truncated in database: test_db',
+            level: LogManager::LEVEL_CRITICAL
+        );
+
+        // call tested method
+        $this->logManager->truncateLogsTable();
     }
 }
