@@ -82,7 +82,7 @@ class LogStatusUpdateCommandTest extends TestCase
         $exitCode = $this->commandTester->execute([
             '--id' => 'invalid',
         ]);
-        
+
         // assert response
         $this->assertEquals(Command::INVALID, $exitCode);
     }
