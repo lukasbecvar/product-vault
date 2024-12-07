@@ -226,6 +226,25 @@ class LogManagerTest extends TestCase
     }
 
     /**
+     * Test update log status
+     *
+     * @return void
+     */
+    public function testUpdateLogStatus(): void
+    {
+        // mock log repository to return fake log
+        $fakeLog = $this->createMock(Log::class);
+        $fakeLog->expects($this->once())->method('setStatus')->with('READED');
+        $this->logRepositoryMock->method('find')->with(1)->willReturn($fakeLog);
+
+        // expect entity manager to flush changes
+        $this->entityManagerMock->expects($this->once())->method('flush');
+
+        // call tested method
+        $this->logManager->updateLogStatus(1, 'READED');
+    }
+
+    /**
      * Test set all logs status to readed
      *
      * @return void

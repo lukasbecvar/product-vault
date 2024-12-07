@@ -5,6 +5,7 @@ namespace App\Tests\Command\LogManager;
 use DateTime;
 use App\Entity\Log;
 use App\Manager\LogManager;
+use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use App\Command\LogManager\LogReaderCommand;
 use Symfony\Component\Console\Command\Command;
@@ -18,7 +19,7 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
  *
  * @package App\Tests\Command\LogManager
  */
-class LogReaderCommandTest extends \PHPUnit\Framework\TestCase
+class LogReaderCommandTest extends TestCase
 {
     private CommandTester $commandTester;
     private LogReaderCommand $logReaderCommand;

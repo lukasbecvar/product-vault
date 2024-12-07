@@ -195,6 +195,43 @@ class LogManager
     }
 
     /**
+     * Update log status by log id
+     *
+     * @param int $id The log id
+     * @param string $status The log status
+     *
+     * @throws Exception Error to update log status
+     *
+     * @return void
+     */
+    public function updateLogStatus(int $id, string $status): void
+    {
+        // get log by id
+        $log = $this->logRepository->find($id);
+
+        // check if log is found
+        if ($log === null) {
+            $this->errorManager->handleError(
+                message: 'error to get log by id: ' . $id,
+                code: Response::HTTP_NOT_FOUND
+            );
+        }
+
+        // update log status
+        $log->setStatus($status);
+
+        try {
+            // flush changes to database
+            $this->entityManager->flush();
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'error to update log status: ' . $e->getMessage(),
+                code: Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    /**
      * Set all logs with status 'UNREADED' to 'READED'
      *
      * This method fetches logs with status 'UNREADED' and
