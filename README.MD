@@ -1,5 +1,5 @@
 # Product Vault
-A modern API system for managing product data, designed with a focus on simplicity, flexibility, and security. The system enables efficient storage, organization, and manipulation of product data through a RESTful API, ensuring seamless integration with other applications and services.
+An open-source platform API system for managing product databases, designed with a focus on simplicity, flexibility, and security. The system enables efficient storage organization and manipulation of product data through a RESTful API, ensuring seamless integration with your e-shop or other applications that require product lists or product details.
 
 ## Backlog
 - [X] Main index controller
