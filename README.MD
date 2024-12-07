@@ -31,6 +31,7 @@ An open-source platform API system for managing product databases, designed with
     - [ ] User registration (api endpoint, cli command)
     - [ ] User login get jwt token (api endpoint) (with symfony security bundle and nelmio jwt)
     - [ ] User logout invalidate JWT token (api endpoint)
+    - [ ] Get user id in save log method
 - [ ] User info contoller
     - [ ] User info endpoint
         - [ ] Get firstname
