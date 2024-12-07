@@ -86,8 +86,6 @@ class LogStatusUpdateCommandTest extends TestCase
         // get command output
         $output = $this->commandTester->getDisplay();
 
-        dd($output);
-
         // assert response
         $this->assertStringContainsString('When --id is not "all", you must provide a valid integer ID and --status.', $output);
         $this->assertEquals(Command::INVALID, $exitCode);
