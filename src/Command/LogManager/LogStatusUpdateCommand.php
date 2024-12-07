@@ -83,7 +83,7 @@ class LogStatusUpdateCommand extends Command
 
         // check if id is valid
         if ($id !== 'all' && (!ctype_digit($id) || $status === null)) {
-            $io->error(trim('When --id is not "all", you must provide a valid integer ID and --status.'));
+            $io->error('When --id is not "all", you must provide a valid integer ID and --status.');
             return Command::INVALID;
         }
 

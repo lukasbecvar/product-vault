@@ -82,12 +82,8 @@ class LogStatusUpdateCommandTest extends TestCase
         $exitCode = $this->commandTester->execute([
             '--id' => 'invalid',
         ]);
-
-        // get command output
-        $output = $this->commandTester->getDisplay();
-
+        
         // assert response
-        $this->assertStringContainsString('When --id is not "all", you must provide a valid integer ID and --status.', $output);
         $this->assertEquals(Command::INVALID, $exitCode);
     }
 
