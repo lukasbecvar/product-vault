@@ -5,7 +5,7 @@ An open-source platform API system for managing product databases, designed with
 - [X] Main index controller
 - [X] Error controller
 - [X] Exception handling event subscriber
-- [ ] Log system
+- [X] Log system
     - [X] Create log entity (id, message, level, time, user-id, ip-address, user-agent, request-uri, request-method, status)
     - [X] Log manager
         - [X] Save log
@@ -17,7 +17,7 @@ An open-source platform API system for managing product databases, designed with
         - [X] All logs get methods with pagination and sorting
     - [X] CLI command to get logs
     - [X] CLI command to set all logs to readed
-    - [ ] CLI command command to truncate logs
+    - [X] CLI command to truncate logs
 - [ ] App middleware
     - [ ] Database online check middleware
     - [ ] Escape request data middleware
