@@ -111,12 +111,12 @@ class LogManager
         $log->setName($name)
             ->setMessage($message)
             ->setTime($time)
-            ->setLevel($level)
-            ->setUserId($userId)
             ->setUserAgent($userAgent)
             ->setRequestUri($requestUri)
             ->setRequestMethod($requestMethod)
             ->setIpAddress($userIp)
+            ->setLevel($level)
+            ->setUserId($userId)
             ->setStatus('UNREADED');
 
         try {

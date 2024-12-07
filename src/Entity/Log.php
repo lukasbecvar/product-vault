@@ -37,12 +37,6 @@ class Log
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $time = null;
 
-    #[ORM\Column]
-    private ?int $level = null;
-
-    #[ORM\Column]
-    private ?int $user_id = null;
-
     #[ORM\Column(length: 255)]
     private ?string $user_agent = null;
 
@@ -54,6 +48,12 @@ class Log
 
     #[ORM\Column(length: 255)]
     private ?string $ip_address = null;
+
+    #[ORM\Column]
+    private ?int $level = null;
+
+    #[ORM\Column]
+    private ?int $user_id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $status = null;
@@ -95,30 +95,6 @@ class Log
     public function setTime(\DateTimeInterface $time): static
     {
         $this->time = $time;
-
-        return $this;
-    }
-
-    public function getLevel(): ?int
-    {
-        return $this->level;
-    }
-
-    public function setLevel(int $level): static
-    {
-        $this->level = $level;
-
-        return $this;
-    }
-
-    public function getUserId(): ?int
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId(int $user_id): static
-    {
-        $this->user_id = $user_id;
 
         return $this;
     }
@@ -167,6 +143,30 @@ class Log
     public function setIpAddress(string $ip_address): static
     {
         $this->ip_address = $ip_address;
+
+        return $this;
+    }
+
+    public function getLevel(): ?int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(int $level): static
+    {
+        $this->level = $level;
+
+        return $this;
+    }
+
+    public function getUserId(): ?int
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(int $user_id): static
+    {
+        $this->user_id = $user_id;
 
         return $this;
     }

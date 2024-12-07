@@ -36,7 +36,7 @@ class LogRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('l')
             ->where('l.status = :status')
             ->setParameter('status', $status)
-            ->orderBy('l.time', 'DESC')
+            ->orderBy('l.id', 'DESC')
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
 
@@ -57,7 +57,7 @@ class LogRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('l')
             ->where('l.user_id = :user_id')
             ->setParameter('user_id', $userId)
-            ->orderBy('l.time', 'DESC')
+            ->orderBy('l.id', 'DESC')
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
 
@@ -78,7 +78,7 @@ class LogRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('l')
             ->where('l.ip_address = :ip_address')
             ->setParameter('ip_address', $ipAddress)
-            ->orderBy('l.time', 'DESC')
+            ->orderBy('l.id', 'DESC')
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
 

@@ -33,12 +33,12 @@ class LogFixtures extends Fixture
             $log->setName('log-fixture')
                 ->setMessage($faker->sentence(10))
                 ->setTime($faker->dateTimeBetween('-1 year', 'now'))
-                ->setLevel($faker->numberBetween(1, 4))
-                ->setUserId(1)
                 ->setUserAgent('data-fixture-user-agent')
                 ->setRequestUri('https://api.becvar.xyz/api/test')
                 ->setRequestMethod($faker->randomElement(['GET', 'POST', 'PUT', 'DELETE']))
                 ->setIpAddress('127.0.0.1')
+                ->setLevel($faker->numberBetween(1, 4))
+                ->setUserId(1)
                 ->setStatus('UNREADED');
 
             // persist log entity

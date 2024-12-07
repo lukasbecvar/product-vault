@@ -15,9 +15,9 @@ An open-source platform API system for managing product databases, designed with
         - [X] Set all logs to readed
         - [X] Truncate logs table
         - [X] All logs get methods with pagination and sorting
+    - [X] CLI command to get logs
     - [ ] CLI command to set all logs to readed
     - [ ] CLI command command to truncate logs
-    - [ ] CLI command to get logs
 - [ ] App middleware
     - [ ] Database online check middleware
     - [ ] Escape request data middleware
@@ -32,6 +32,7 @@ An open-source platform API system for managing product databases, designed with
     - [ ] User login get jwt token (api endpoint) (with symfony security bundle and nelmio jwt)
     - [ ] User logout invalidate JWT token (api endpoint)
     - [ ] Get user id in save log method
+    - [ ] Log reader command get logs by user name instead of user id
 - [ ] User info contoller
     - [ ] User info endpoint
         - [ ] Get firstname
