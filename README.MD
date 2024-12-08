@@ -137,6 +137,8 @@ An open-source platform API system for managing product databases, designed with
         - [ ] Preload cache for most used products list filtering
         - [ ] When preload process is not finished use mysql database for getting products
 - [ ] Create postman collection
+- [ ] Create API documentation with postman
+- [ ] Simple app info in README.MD
 - [ ] Release product-vault api docker image to github packages
 - [ ] React app implementation
     - [ ] Login to app
