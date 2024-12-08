@@ -110,4 +110,21 @@ class AppUtilTest extends TestCase
         $_ENV['DATABASE_LOGGING'] = 'false';
         $this->assertFalse($this->appUtil->isDatabaseLoggingEnabled());
     }
+
+    /**
+     * Test dev mode check
+     *
+     * @return void
+     */
+    public function testIsDevMode(): void
+    {
+        $_ENV['APP_ENV'] = 'dev';
+        $this->assertTrue($this->appUtil->isDevMode());
+
+        $_ENV['APP_ENV'] = 'test';
+        $this->assertTrue($this->appUtil->isDevMode());
+
+        $_ENV['APP_ENV'] = 'prod';
+        $this->assertFalse($this->appUtil->isDevMode());
+    }
 }

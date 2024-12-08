@@ -14,3 +14,10 @@ services:
     App\Event\Subscriber\ExceptionEventSubscriber:
         tags:
             - { name: kernel.event_subscriber }
+
+    # request middlewares
+    # --------------------------------------------------------------------------------- #
+    # check if database is online
+    App\Middleware\DatabaseOnlineMiddleware:
+        tags:
+            - { name: 'kernel.event_listener', event: 'kernel.request', priority: 1 }

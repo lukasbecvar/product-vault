@@ -19,7 +19,7 @@ An open-source platform API system for managing product databases, designed with
     - [X] CLI command to set all logs to readed
     - [X] CLI command to truncate logs
 - [ ] App middleware
-    - [ ] Database online check middleware
+    - [X] Database online check middleware
     - [ ] Escape request data middleware
     - [ ] Maintenance mode middleware
     - [ ] Security check middleware

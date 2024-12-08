@@ -105,4 +105,20 @@ class AppUtil
     {
         return $this->getEnvValue('DATABASE_LOGGING') === 'true';
     }
+
+    /**
+     * Check if the application is in development mode
+     *
+     * @return bool True if the application is in development mode, false otherwise
+     */
+    public function isDevMode(): bool
+    {
+        $envName = $this->getEnvValue('APP_ENV');
+
+        if ($envName == 'dev' || $envName == 'test') {
+            return true;
+        }
+
+        return false;
+    }
 }
