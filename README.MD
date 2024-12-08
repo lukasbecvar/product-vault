@@ -26,6 +26,7 @@ An open-source platform API system for managing product databases, designed with
         - [ ] SSL check
         - [ ] Ban by geolocation
         - [ ] Allow connection for specific ip-address or for all ip-addresses
+- [ ] Split exception error message to error message and exception message getMessage and disable exception message in production
 - [ ] User system (jwt auth)
     - [ ] Create user entity (id, email, firstname, lastname, roles, password, register-time, last-login, ip-address, user-agent, is-active)
     - [ ] User registration (api endpoint, cli command)
