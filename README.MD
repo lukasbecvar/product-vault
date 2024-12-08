@@ -18,14 +18,13 @@ An open-source platform API system for managing product databases, designed with
     - [X] CLI command to get logs
     - [X] CLI command to set all logs to readed
     - [X] CLI command to truncate logs
-- [ ] App middleware
+- [X] App middleware
     - [X] Database online check middleware
     - [X] Escape request data middleware
     - [X] Maintenance mode middleware
-    - [ ] Security check middleware
+    - [X] Security check middleware
         - [X] SSL check
-        - [ ] Ban by geolocation
-        - [ ] Allow connection for specific ip-address or for all ip-addresses
+        - [X] Allow connection for specific ip-address or for all ip-addresses
 - [ ] Split exception error message to error message and exception message getMessage and disable exception message in production
 - [ ] User system (jwt auth)
     - [ ] Create user entity (id, email, firstname, lastname, roles, password, register-time, last-login, ip-address, user-agent, is-active)
@@ -139,6 +138,7 @@ An open-source platform API system for managing product databases, designed with
 - [ ] Create postman collection
 - [ ] Create API documentation with postman
 - [ ] Simple app info in README.MD
+- [ ] Env config documentation in README.MD
 - [ ] Release product-vault api docker image to github packages
 - [ ] React app implementation
     - [ ] Login to app

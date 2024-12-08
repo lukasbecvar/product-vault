@@ -4,6 +4,7 @@ namespace App\Tests\Middleware;
 
 use App\Util\AppUtil;
 use App\Manager\ErrorManager;
+use App\Util\VisitorInfoUtil;
 use PHPUnit\Framework\TestCase;
 use App\Middleware\SecurityCheckMiddleware;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -20,17 +21,20 @@ class SecurityCheckMiddlewareTest extends TestCase
     private AppUtil & MockObject $appUtilMock;
     private SecurityCheckMiddleware $middleware;
     private ErrorManager & MockObject $errorManagerMock;
+    private VisitorInfoUtil & MockObject $visitorInfoUtilMock;
 
     protected function setUp(): void
     {
         // mock dependencies
         $this->appUtilMock = $this->createMock(AppUtil::class);
         $this->errorManagerMock = $this->createMock(ErrorManager::class);
+        $this->visitorInfoUtilMock = $this->createMock(VisitorInfoUtil::class);
 
         // create security check middleware instance
         $this->middleware = new SecurityCheckMiddleware(
             $this->appUtilMock,
-            $this->errorManagerMock
+            $this->errorManagerMock,
+            $this->visitorInfoUtilMock
         );
     }
 
@@ -48,7 +52,7 @@ class SecurityCheckMiddlewareTest extends TestCase
         // expect handle error method call
         $this->errorManagerMock->expects($this->once())->method('handleError');
 
-        // execute the middleware
+        // execute tested middleware
         $this->middleware->onKernelRequest();
     }
 
@@ -66,7 +70,7 @@ class SecurityCheckMiddlewareTest extends TestCase
         // expect no errors to be handled
         $this->errorManagerMock->expects($this->never())->method('handleError');
 
-        // execute the middleware
+        // execute tested middleware
         $this->middleware->onKernelRequest();
     }
 
@@ -83,7 +87,44 @@ class SecurityCheckMiddlewareTest extends TestCase
         // expect no errors to be handled
         $this->errorManagerMock->expects($this->never())->method('handleError');
 
-        // execute the middleware
+        // execute tested middleware
+        $this->middleware->onKernelRequest();
+    }
+
+    /**
+     * Test if the ip address is allowed
+     *
+     * @return void
+     */
+    public function testRequestWhenIpAddressIsAllowed(): void
+    {
+        // mock allowed ip address
+        $this->appUtilMock->expects($this->once())->method('getEnvValue')->willReturn('127.0.0.1');
+
+        // mock get ip address
+        $this->visitorInfoUtilMock->expects($this->once())->method('getIP')->willReturn('127.0.0.1');
+
+        // expect error handler not to be called
+        $this->errorManagerMock->expects($this->never())->method('handleError');
+
+        // execute
+        $this->middleware->onKernelRequest();
+    }
+
+    /**
+     * Test if the ip address is not allowed
+     *
+     * @return void
+     */
+    public function testRequestWhenIpAddressIsNotAllowed(): void
+    {
+        // mock allowed ip address
+        $this->appUtilMock->expects($this->once())->method('getEnvValue')->willReturn('127.0.0.1,192.168.0.1');
+
+        // expect error handler call
+        $this->errorManagerMock->expects($this->once())->method('handleError');
+
+        // execute tested middleware
         $this->middleware->onKernelRequest();
     }
 }
