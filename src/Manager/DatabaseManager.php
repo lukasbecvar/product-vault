@@ -18,10 +18,8 @@ class DatabaseManager
     private Connection $connection;
     private ErrorManager $errorManager;
 
-    public function __construct(
-        Connection $connection,
-        ErrorManager $errorManager
-    ) {
+    public function __construct(Connection $connection, ErrorManager $errorManager)
+    {
         $this->connection = $connection;
         $this->errorManager = $errorManager;
     }
@@ -46,8 +44,9 @@ class DatabaseManager
             $this->connection->executeStatement($sql);
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error truncating table: ' . $e->getMessage() . ' in database: ' . $dbName,
-                code: Response::HTTP_INTERNAL_SERVER_ERROR
+                message: 'error truncating table: ' . $tableName . ' in database: ' . $dbName,
+                code: Response::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
             );
         }
     }

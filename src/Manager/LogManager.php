@@ -125,8 +125,9 @@ class LogManager
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error to save log: ' . $e->getMessage(),
+                message: 'error save log to database',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
             );
         }
     }
@@ -225,8 +226,9 @@ class LogManager
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error to update log status: ' . $e->getMessage(),
-                code: Response::HTTP_INTERNAL_SERVER_ERROR
+                message: 'error to update log status',
+                code: Response::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
             );
         }
     }
@@ -258,8 +260,9 @@ class LogManager
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error to set all logs status to "READED": ' . $e,
-                code: Response::HTTP_INTERNAL_SERVER_ERROR
+                message: 'error to set all logs status to "READED"',
+                code: Response::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
             );
         }
     }

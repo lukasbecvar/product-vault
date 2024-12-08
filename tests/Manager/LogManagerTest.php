@@ -151,8 +151,9 @@ class LogManagerTest extends TestCase
 
         // expect error handler call
         $this->errorManagerMock->expects($this->once())->method('handleError')->with(
-            $this->equalTo('error to save log: Database error'),
-            $this->equalTo(JsonResponse::HTTP_INTERNAL_SERVER_ERROR)
+            $this->equalTo('error save log to database'),
+            $this->equalTo(JsonResponse::HTTP_INTERNAL_SERVER_ERROR),
+            $this->equalTo('Database error')
         );
 
         // call tested method

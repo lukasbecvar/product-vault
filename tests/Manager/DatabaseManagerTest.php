@@ -65,8 +65,9 @@ class DatabaseManagerTest extends TestCase
 
         // expect handleError call
         $this->errorManagerMock->expects($this->once())->method('handleError')->with(
-            $this->stringContains('error truncating table: Database error'),
-            $this->equalTo(Response::HTTP_INTERNAL_SERVER_ERROR)
+            $this->stringContains('error truncating table'),
+            $this->equalTo(Response::HTTP_INTERNAL_SERVER_ERROR),
+            $this->equalTo('Database error')
         );
 
         // call tested method
