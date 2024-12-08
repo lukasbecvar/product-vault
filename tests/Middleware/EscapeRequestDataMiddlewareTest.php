@@ -26,13 +26,13 @@ class EscapeRequestDataMiddlewareTest extends TestCase
 
     protected function setUp(): void
     {
-        // mock SecurityUtil
+        // mock security util
         $this->securityUtil = $this->createMock(SecurityUtil::class);
         $this->securityUtil->method('escapeString')->willReturnCallback(function (string $value) {
             return htmlspecialchars($value, ENT_QUOTES | ENT_HTML5);
         });
 
-        // mock RequestStack
+        // mock request stack
         $this->requestStack = new RequestStack();
 
         // create middleware instance

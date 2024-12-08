@@ -7,7 +7,6 @@ use App\Manager\ErrorManager;
 use PHPUnit\Framework\TestCase;
 use App\Middleware\MaintenanceMiddleware;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
  * Class MaintenanceMiddlewareTest
@@ -22,11 +21,6 @@ class MaintenanceMiddlewareTest extends TestCase
     private AppUtil & MockObject $appUtilMock;
     private ErrorManager & MockObject $errorManagerMock;
 
-    /**
-     * Sets up the mock objects before each test
-     *
-     * @return void
-     */
     protected function setUp(): void
     {
         // mock dependencies

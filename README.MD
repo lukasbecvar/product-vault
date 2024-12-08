@@ -23,7 +23,7 @@ An open-source platform API system for managing product databases, designed with
     - [X] Escape request data middleware
     - [X] Maintenance mode middleware
     - [ ] Security check middleware
-        - [ ] SSL check
+        - [X] SSL check
         - [ ] Ban by geolocation
         - [ ] Allow connection for specific ip-address or for all ip-addresses
 - [ ] Split exception error message to error message and exception message getMessage and disable exception message in production

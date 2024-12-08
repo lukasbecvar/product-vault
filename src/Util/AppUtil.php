@@ -131,4 +131,25 @@ class AppUtil
     {
         return $this->getEnvValue('MAINTENANCE_MODE') === 'true';
     }
+
+    /**
+     * Check if the SSL only is enabled
+     *
+     * @return bool True if the SSL only is enabled, false otherwise
+     */
+    public function isSSLOnly(): bool
+    {
+        return $this->getEnvValue('SSL_ONLY') === 'true';
+    }
+
+    /**
+     * Check if the request is SSL
+     *
+     * @return bool True if the request is SSL, false otherwise
+     */
+    public function isSsl(): bool
+    {
+        // check if HTTPS header is set and its value is either 1 or 'on'
+        return isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 1 || strtolower($_SERVER['HTTPS']) === 'on');
+    }
 }

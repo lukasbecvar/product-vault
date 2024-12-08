@@ -141,4 +141,38 @@ class AppUtilTest extends TestCase
         $_ENV['MAINTENANCE_MODE'] = 'false';
         $this->assertFalse($this->appUtil->isMaintenance());
     }
+
+    /**
+     * Test SSl only check
+     *
+     * @return void
+     */
+    public function testIsSslOnly(): void
+    {
+        $_ENV['SSL_ONLY'] = 'true';
+        $this->assertTrue($this->appUtil->isSSLOnly());
+
+        $_ENV['SSL_ONLY'] = 'false';
+        $this->assertFalse($this->appUtil->isSSLOnly());
+    }
+
+    /**
+     * Test check is SSL
+     *
+     * @return void
+     */
+    public function testIsSsl(): void
+    {
+        $_SERVER['HTTPS'] = 1;
+        $this->assertTrue($this->appUtil->isSsl());
+
+        $_SERVER['HTTPS'] = 'on';
+        $this->assertTrue($this->appUtil->isSsl());
+
+        $_SERVER['HTTPS'] = 0;
+        $this->assertFalse($this->appUtil->isSsl());
+
+        unset($_SERVER['HTTPS']);
+        $this->assertFalse($this->appUtil->isSsl());
+    }
 }
