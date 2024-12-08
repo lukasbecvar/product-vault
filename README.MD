@@ -21,7 +21,7 @@ An open-source platform API system for managing product databases, designed with
 - [ ] App middleware
     - [X] Database online check middleware
     - [X] Escape request data middleware
-    - [ ] Maintenance mode middleware
+    - [X] Maintenance mode middleware
     - [ ] Security check middleware
         - [ ] SSL check
         - [ ] Ban by geolocation

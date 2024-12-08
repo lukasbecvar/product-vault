@@ -121,4 +121,14 @@ class AppUtil
 
         return false;
     }
+
+    /**
+     * Check if the application is in maintenance mode
+     *
+     * @return bool True if the application is in maintenance mode, false otherwise
+     */
+    public function isMaintenance(): bool
+    {
+        return $this->getEnvValue('MAINTENANCE_MODE') === 'true';
+    }
 }

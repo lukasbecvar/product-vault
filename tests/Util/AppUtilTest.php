@@ -127,4 +127,18 @@ class AppUtilTest extends TestCase
         $_ENV['APP_ENV'] = 'prod';
         $this->assertFalse($this->appUtil->isDevMode());
     }
+
+    /**
+     * Test maintenance check
+     *
+     * @return void
+     */
+    public function testIsMaintenance(): void
+    {
+        $_ENV['MAINTENANCE_MODE'] = 'true';
+        $this->assertTrue($this->appUtil->isMaintenance());
+
+        $_ENV['MAINTENANCE_MODE'] = 'false';
+        $this->assertFalse($this->appUtil->isMaintenance());
+    }
 }
