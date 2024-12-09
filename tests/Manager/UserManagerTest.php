@@ -103,6 +103,37 @@ class UserManagerTest extends TestCase
     }
 
     /**
+     * Test delete user by email
+     *
+     * @return void
+     */
+    public function testDeleteUser(): void
+    {
+        $email = 'test@test.com';
+
+        // mock user entity
+        $user = $this->createMock(User::class);
+
+        // simulate find user result
+        $this->userRepositoryMock->expects($this->once())->method('findByEmail')->with($email)
+            ->willReturn($user);
+
+        // expect entity manager to remove and flush
+        $this->entityManagerMock->expects($this->once())->method('remove')->with($user);
+        $this->entityManagerMock->expects($this->once())->method('flush');
+
+        // expect save log call
+        $this->logManagerMock->expects($this->once())->method('saveLog')->with(
+            'user-manager',
+            'user deleted: ' . $email,
+            LogManager::LEVEL_INFO
+        );
+
+        // call tested method
+        $this->userManager->deleteUser($email);
+    }
+
+    /**
      * Test check if user has role
      *
      * @return void

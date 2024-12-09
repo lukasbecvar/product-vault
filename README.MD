@@ -31,7 +31,7 @@ An open-source platform API system for managing product databases, designed with
     - [X] Create user manager service
     - [X] User registration command
     - [X] Update user role command (add, remove parameter)
-    - [ ] Delete user command
+    - [X] Delete user command
     - [ ] Block user command
     - [ ] Reset user password command
     - [ ] User registration (api endpoint, cli command)

@@ -127,6 +127,46 @@ class UserManager
     }
 
     /**
+     * Delete user by email
+     *
+     * @param string $email The email address of the user
+     *
+     * @return void
+     */
+    public function deleteUser(string $email): void
+    {
+        // get user
+        $user = $this->userRepository->findByEmail($email);
+
+        // check if user exists
+        if ($user === null) {
+            $this->errorManager->handleError(
+                message: 'user not found: ' . $email,
+                code: JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        // delete user
+        try {
+            $this->entityManager->remove($user);
+            $this->entityManager->flush();
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'error to delete user: ' . $email,
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
+
+        // log action to database
+        $this->logManager->saveLog(
+            name: 'user-manager',
+            message: 'user deleted: ' . $email,
+            level: LogManager::LEVEL_INFO,
+        );
+    }
+
+    /**
      * Check if user has specific role
      *
      * @param string $email The email address of the user
