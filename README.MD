@@ -40,6 +40,7 @@ An open-source platform API system for managing product databases, designed with
     - [ ] User logout invalidate JWT token (api endpoint)
     - [ ] Get user id in save log method
     - [ ] Get logs by user email instead of user id in log reader cli command
+    - [ ] Check if user status is active in login process (check if user is not blocked)
 - [ ] User info contoller
     - [ ] User info endpoint
         - [ ] Get firstname
