@@ -40,8 +40,9 @@ class LogTruncateCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        // set remote ip address to 127.0.0.1 to avoid ip check
+        // fix get visitor info for cli mode
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+        $_SERVER['HTTP_USER_AGENT'] = 'CLI-COMMAND';
 
         // confirmation prompt
         if (!$io->confirm('Are you sure you want to truncate the logs table? This action cannot be undone.', false)) {

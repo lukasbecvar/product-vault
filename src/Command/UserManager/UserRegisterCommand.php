@@ -40,8 +40,9 @@ class UserRegisterCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        // fix visitor ip address in cli mode
+        // fix get visitor info for cli mode
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+        $_SERVER['HTTP_USER_AGENT'] = 'CLI-COMMAND';
 
         // get email from cli input
         $email = $io->ask('Enter user email');
