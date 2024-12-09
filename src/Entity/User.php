@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
@@ -27,7 +28,7 @@ class User
     #[ORM\GeneratedValue]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
@@ -44,10 +45,10 @@ class User
     private ?string $password = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $register_time = null;
+    private ?DateTimeInterface $register_time = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $last_login_time = null;
+    private ?DateTimeInterface $last_login_time = null;
 
     #[ORM\Column(length: 255)]
     private ?string $ip_address = null;
@@ -129,24 +130,24 @@ class User
         return $this;
     }
 
-    public function getRegisterTime(): ?\DateTimeInterface
+    public function getRegisterTime(): ?DateTimeInterface
     {
         return $this->register_time;
     }
 
-    public function setRegisterTime(\DateTimeInterface $register_time): static
+    public function setRegisterTime(DateTimeInterface $register_time): static
     {
         $this->register_time = $register_time;
 
         return $this;
     }
 
-    public function getLastLoginTime(): ?\DateTimeInterface
+    public function getLastLoginTime(): ?DateTimeInterface
     {
         return $this->last_login_time;
     }
 
-    public function setLastLoginTime(\DateTimeInterface $last_login_time): static
+    public function setLastLoginTime(DateTimeInterface $last_login_time): static
     {
         $this->last_login_time = $last_login_time;
 
