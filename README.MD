@@ -30,15 +30,16 @@ An open-source platform API system for managing product databases, designed with
     - [X] Create user entity (id, email, firstname, lastname, roles, password, register-time, last-login, ip-address, user-agent)
     - [X] Create user manager service
     - [X] User registration command
+    - [X] Update user role command (add, remove parameter)
+    - [ ] Delete user command
+    - [ ] Block user command
+    - [ ] Reset user password command
+    - [ ] User registration (api endpoint, cli command)
     - [ ] User login JWT (with symfony security bundle and nelmio jwt)
         - [ ] Implement password hash to register user and user fixture
     - [ ] User logout invalidate JWT token (api endpoint)
-    - [ ] User registration (api endpoint, cli command)
     - [ ] Get user id in save log method
-    - [ ] Update user roles command
-    - [ ] Delete user command
-    - [ ] Ban user command
-    - [ ] Reset user password command
+    - [ ] Get logs by user email instead of user id in log reader cli command
 - [ ] User info contoller
     - [ ] User info endpoint
         - [ ] Get firstname
@@ -48,6 +49,7 @@ An open-source platform API system for managing product databases, designed with
         - [ ] Get is-active
         - [ ] Get last-login
         - [ ] Get register-time
+- [ ] Get user data CLI command
 - [ ] Setup nelmio api doc
 - [ ] Setup CSRF protection
 - [ ] Create product schema

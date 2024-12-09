@@ -194,4 +194,33 @@ class User
 
         return $this;
     }
+
+    /**
+     * Add a role to the user if not already present
+     *
+     * @param string $role The role to add
+     */
+    public function addRole(string $role): static
+    {
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove a role from the user if present
+     *
+     * @param string $role The role to remove
+     */
+    public function removeRole(string $role): static
+    {
+        $this->roles = array_filter(
+            $this->roles,
+            fn($r) => $r !== $role
+        );
+
+        return $this;
+    }
 }

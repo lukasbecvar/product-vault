@@ -101,4 +101,93 @@ class UserManagerTest extends TestCase
         // call tested method
         $this->userManager->registerUser($email, $firstName, $lastName, $password);
     }
+
+    /**
+     * Test check if user has role
+     *
+     * @return void
+     */
+    public function testCheckIfUserHasRole(): void
+    {
+        // testing user data
+        $email = 'test@test.com';
+        $role = 'ROLE_ADMIN';
+
+        // mock repository to simulate existing user
+        $user = $this->createMock(User::class);
+        $user->expects($this->once())->method('getRoles')->willReturn([$role]);
+        $this->userRepositoryMock->expects($this->once())->method('findByEmail')
+            ->with($email)->willReturn($user);
+
+        // call tested method
+        $this->assertTrue($this->userManager->checkIfUserHasRole($email, $role));
+    }
+
+    /**
+     * Test add role to user
+     *
+     * @return void
+     */
+    public function testAddRoleToUser(): void
+    {
+        $email = 'test@test.com';
+        $role = 'ROLE_ADMIN';
+
+        // mock existing user
+        $user = $this->createMock(User::class);
+        $user->expects($this->once())->method('getRoles')->willReturn([]);
+        $user->expects($this->once())->method('addRole')->with($role);
+
+        // mock repository to return the user twice
+        $this->userRepositoryMock->expects($this->exactly(2))->method('findByEmail')->with($email)
+            ->willReturn($user);
+
+        // expect entity manager to persist and flush
+        $this->entityManagerMock->expects($this->once())->method('persist')->with($user);
+        $this->entityManagerMock->expects($this->once())->method('flush');
+
+        // expect save log call
+        $this->logManagerMock->expects($this->once())->method('saveLog')->with(
+            'user-manager',
+            'user role added: ' . $email . ' - ' . $role,
+            LogManager::LEVEL_INFO
+        );
+
+        // call tested method
+        $this->userManager->addRoleToUser($email, $role);
+    }
+
+    /**
+     * Test remove role from user
+     *
+     * @return void
+     */
+    public function testRemoveRoleFromUser(): void
+    {
+        $email = 'test@test.com';
+        $role = 'ROLE_ADMIN';
+
+        // mock existing user
+        $user = $this->createMock(User::class);
+        $user->expects($this->once())->method('getRoles')->willReturn([$role]);
+        $user->expects($this->once())->method('removeRole')->with($role);
+
+        // mock repository to return the user twice
+        $this->userRepositoryMock->expects($this->exactly(2))->method('findByEmail')->with($email)
+            ->willReturn($user);
+
+        // expect entity manager to persist and flush
+        $this->entityManagerMock->expects($this->once())->method('persist')->with($user);
+        $this->entityManagerMock->expects($this->once())->method('flush');
+
+        // expect save log call
+        $this->logManagerMock->expects($this->once())->method('saveLog')->with(
+            'user-manager',
+            'user role removed: ' . $email . ' - ' . $role,
+            LogManager::LEVEL_INFO
+        );
+
+        // call tested method
+        $this->userManager->removeRoleFromUser($email, $role);
+    }
 }
