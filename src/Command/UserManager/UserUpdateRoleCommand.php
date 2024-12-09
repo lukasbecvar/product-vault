@@ -12,14 +12,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class UpdateUserRoleCommand
+ * Class UserUpdateRoleCommand
  *
  * Command to update user role
  *
  * @package App\Command\UserManager
  */
 #[AsCommand(name: 'app:user:role:update', description: 'Add or remove user role')]
-class UpdateUserRoleCommand extends Command
+class UserUpdateRoleCommand extends Command
 {
     private UserManager $userManager;
 

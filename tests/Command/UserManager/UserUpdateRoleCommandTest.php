@@ -7,20 +7,20 @@ use App\Manager\UserManager;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Command\Command;
-use App\Command\UserManager\UpdateUserRoleCommand;
+use App\Command\UserManager\UserUpdateRoleCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
- * Class UpdateUserRoleCommandTest
+ * Class UserUpdateRoleCommandTest
  *
  * Test cases for update user role command
  *
  * @package App\Tests\Command\UserManager
  */
-class UpdateUserRoleCommandTest extends TestCase
+class UserUpdateRoleCommandTest extends TestCase
 {
     private CommandTester $commandTester;
-    private UpdateUserRoleCommand $command;
+    private UserUpdateRoleCommand $command;
     private UserManager & MockObject $userManager;
 
     public function setUp(): void
@@ -29,7 +29,7 @@ class UpdateUserRoleCommandTest extends TestCase
         $this->userManager = $this->createMock(UserManager::class);
 
         // init command instance
-        $this->command = new UpdateUserRoleCommand($this->userManager);
+        $this->command = new UserUpdateRoleCommand($this->userManager);
         $this->commandTester = new CommandTester($this->command);
     }
 
