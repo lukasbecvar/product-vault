@@ -27,7 +27,7 @@ An open-source platform API system for managing product databases, designed with
         - [X] Allow connection for specific ip-address or for all ip-addresses
 - [X] Protect exception error message in production mode
 - [ ] User system (jwt auth)
-    - [ ] Create user entity (id, email, firstname, lastname, roles, password, register-time, last-login, ip-address, user-agent, is-active)
+    - [X] Create user entity (id, email, firstname, lastname, roles, password, register-time, last-login, ip-address, user-agent)
     - [ ] User registration (api endpoint, cli command)
     - [ ] User login get jwt token (api endpoint) (with symfony security bundle and nelmio jwt)
     - [ ] User logout invalidate JWT token (api endpoint)
