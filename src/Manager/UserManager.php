@@ -254,6 +254,52 @@ class UserManager
     }
 
     /**
+     * Update user status
+     *
+     * @param int $id The user id
+     * @param string $status The new user status
+     *
+     * @return void
+     */
+    public function updateUserStatus(int $id, string $status): void
+    {
+        // get user by id
+        $user = $this->userRepository->find($id);
+
+        // check if user found
+        if ($user === null) {
+            $this->errorManager->handleError(
+                message: 'user id: ' . $id . ' not found',
+                code: JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        // update user status
+        $user->setStatus($status);
+
+        // flush changes to database
+        try {
+            $this->entityManager->flush();
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'user id: ' . $id . ' could not be updated',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
+
+        // get user email by id
+        $email = $this->getUserEmailById($id);
+
+        // log action
+        $this->logManager->saveLog(
+            name: 'user-manager',
+            message: 'user: ' . $email . ' updated status to: ' . $status,
+            level: LogManager::LEVEL_INFO
+        );
+    }
+
+    /**
      * Check if user has specific role
      *
      * @param int $id The user id

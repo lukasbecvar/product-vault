@@ -166,6 +166,43 @@ class UserManagerTest extends TestCase
     }
 
     /**
+     * Test update user status
+     *
+     * @return void
+     */
+    public function testUpdateUserStatus(): void
+    {
+        $userId = 1;
+        $email = 'test@test.test';
+        $newStatus = 'inactive';
+
+        // mock user retrieval
+        $user = $this->createMock(User::class);
+        $user->expects($this->once())->method('getEmail')->willReturn($email);
+
+        // expect set status call
+        $user->expects($this->once())->method('setStatus')->with($newStatus);
+
+        // mock repository to return the user
+        $this->userRepositoryMock->expects($this->any())->method('find')->with($userId)
+            ->willReturn($user);
+
+        // mock entity manager to persist the changes
+        $this->entityManagerMock->expects($this->once())
+            ->method('flush');
+
+        // expect save log call
+        $this->logManagerMock->expects($this->once())->method('saveLog')->with(
+            name: 'user-manager',
+            message: 'user: ' . $email . ' updated status to: ' . $newStatus,
+            level: LogManager::LEVEL_INFO
+        );
+
+        // call the updateUserStatus method
+        $this->userManager->updateUserStatus($userId, $newStatus);
+    }
+
+    /**
      * Test check if user has role
      *
      * @return void
