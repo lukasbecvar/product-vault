@@ -7,6 +7,7 @@ use App\Manager\UserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -29,6 +30,16 @@ class UserDeleteCommand extends Command
     }
 
     /**
+     * Configure the command arguments
+     *
+     * @return void
+     */
+    protected function configure(): void
+    {
+        $this->addArgument('email', InputArgument::REQUIRED, 'Email of the user to delete');
+    }
+
+    /**
      * Execute user delete command
      *
      * @param InputInterface $input The input interface
@@ -44,8 +55,9 @@ class UserDeleteCommand extends Command
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['HTTP_USER_AGENT'] = 'CLI-COMMAND';
 
-        // get email from cli input
-        $email = $io->ask('Enter user email');
+        // get email argument
+        $email = $input->getArgument('email');
+
         if ($email == null) {
             $io->error('Email cannot be empty.');
             return Command::INVALID;
@@ -64,7 +76,7 @@ class UserDeleteCommand extends Command
         // delete user
         try {
             $this->userManager->deleteUser($email);
-            $io->success("User '$email' deleted.");
+            $io->success('User ' . $email . ' deleted.');
         } catch (Exception $e) {
             $io->error('Error deleting user: ' . $e->getMessage());
             return Command::FAILURE;

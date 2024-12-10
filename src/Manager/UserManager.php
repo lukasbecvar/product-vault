@@ -50,6 +50,23 @@ class UserManager
     }
 
     /**
+     * Get user id by email
+     *
+     * @param string $email The email address of the user
+     *
+     * @return int|null The user id or null if user does not exist
+     */
+    public function getUserIdByEmail(string $email): ?int
+    {
+        // get user object
+        $user = $this->userRepository->findByEmail($email);
+
+        // get user id
+        $id = $user !== null ? $user->getId() : null;
+        return $id;
+    }
+
+    /**
      * Check if user already exists
      *
      * @param string $email The email address of the user

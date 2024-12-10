@@ -40,11 +40,8 @@ class UserDeleteCommandTest extends TestCase
      */
     public function testExecuteCommandEmptyEmailInput(): void
     {
-        // simulate empty input
-        $this->commandTester->setInputs(['']);
-
         // execute command
-        $exitCode = $this->commandTester->execute([]);
+        $exitCode = $this->commandTester->execute(['email' => '']);
 
         // get command output
         $output = $this->commandTester->getDisplay();
@@ -61,11 +58,8 @@ class UserDeleteCommandTest extends TestCase
      */
     public function testExecuteCommandInvalidEmail(): void
     {
-        // simulate invalid email input
-        $this->commandTester->setInputs(['invalid_email']);
-
         // execute command
-        $exitCode = $this->commandTester->execute([]);
+        $exitCode = $this->commandTester->execute(['email' => 'invalid_email']);
 
         // get command output
         $output = $this->commandTester->getDisplay();
@@ -82,14 +76,11 @@ class UserDeleteCommandTest extends TestCase
      */
     public function testExecuteCommandUserNotFound(): void
     {
-        // simulate user input
-        $this->commandTester->setInputs(['test@test.com']);
-
         // simulate user not found
         $this->userManager->expects($this->once())->method('isUserExists')->with('test@test.com')->willReturn(false);
 
         // execute command
-        $exitCode = $this->commandTester->execute([]);
+        $exitCode = $this->commandTester->execute(['email' => 'test@test.com']);
 
         // get command output
         $output = $this->commandTester->getDisplay();
@@ -106,21 +97,18 @@ class UserDeleteCommandTest extends TestCase
      */
     public function testExecuteCommandSuccess(): void
     {
-        // simulate user input
-        $this->commandTester->setInputs(['test@test.com']);
-
         // expect delete user call
         $this->userManager->expects($this->once())->method('isUserExists')->with('test@test.com')->willReturn(true);
         $this->userManager->expects($this->once())->method('deleteUser')->with('test@test.com');
 
         // execute command
-        $exitCode = $this->commandTester->execute([]);
+        $exitCode = $this->commandTester->execute(['email' => 'test@test.com']);
 
         // get command output
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString("User 'test@test.com' deleted.", $output);
+        $this->assertStringContainsString("User test@test.com deleted.", $output);
         $this->assertEquals(Command::SUCCESS, $exitCode);
     }
 
@@ -131,15 +119,12 @@ class UserDeleteCommandTest extends TestCase
      */
     public function testExecuteCommandFailure(): void
     {
-        // simulate user input
-        $this->commandTester->setInputs(['test@test.com']);
-
         // mock exception during user deletion throw exception
         $this->userManager->expects($this->once())->method('isUserExists')->with('test@test.com')->willReturn(true);
         $this->userManager->expects($this->once())->method('deleteUser')->with('test@test.com')->willThrowException(new Exception('Database error'));
 
         // execute command
-        $exitCode = $this->commandTester->execute([]);
+        $exitCode = $this->commandTester->execute(['email' => 'test@test.com']);
 
         // get command output
         $output = $this->commandTester->getDisplay();
