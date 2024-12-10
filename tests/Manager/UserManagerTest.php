@@ -48,6 +48,31 @@ class UserManagerTest extends TestCase
     }
 
     /**
+     * Test get user id by email
+     *
+     * @return void
+     */
+    public function testGetUserIdByEmail(): void
+    {
+        $email = 'test@test.com';
+        $userId = 1;
+
+        // mock user entity
+        $user = $this->createMock(User::class);
+        $user->expects($this->once())->method('getId')->willReturn($userId);
+
+        // mock repository response
+        $this->userRepositoryMock->expects($this->once())->method('findByEmail')->with($email)
+            ->willReturn($user);
+
+        // call tested method
+        $result = $this->userManager->getUserIdByEmail($email);
+
+        // assert result
+        $this->assertSame($userId, $result);
+    }
+
+    /**
      * Test is user exists
      *
      * @return void
