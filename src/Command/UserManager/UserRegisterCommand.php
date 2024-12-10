@@ -77,7 +77,7 @@ class UserRegisterCommand extends Command
         }
 
         // check if user already exists
-        if ($this->userManager->isUserExists($email)) {
+        if ($this->userManager->checkIfUserEmailAlreadyRegistered($email)) {
             $io->error('User already exists: ' . $email);
             return Command::INVALID;
         }

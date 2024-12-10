@@ -67,13 +67,13 @@ class UserManager
     }
 
     /**
-     * Check if user already exists
+     * Check if user email already registered in database
      *
      * @param string $email The email address of the user
      *
      * @return bool True if user exists, false otherwise
      */
-    public function isUserExists(string $email): bool
+    public function checkIfUserEmailAlreadyRegistered(string $email): bool
     {
         return $this->userRepository->findByEmail($email) !== null;
     }
@@ -91,7 +91,7 @@ class UserManager
     public function registerUser(string $email, string $firstName, string $lastName, string $password): void
     {
         // check if user already exists
-        if ($this->isUserExists($email)) {
+        if ($this->checkIfUserEmailAlreadyRegistered($email)) {
             $this->errorManager->handleError(
                 message: 'user already exists: ' . $email,
                 code: JsonResponse::HTTP_BAD_REQUEST

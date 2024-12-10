@@ -88,7 +88,7 @@ class UserUpdateRoleCommand extends Command
         }
 
         // check if user exists
-        if (!$this->userManager->isUserExists($email)) {
+        if (!$this->userManager->checkIfUserEmailAlreadyRegistered($email)) {
             $io->error('User not found: ' . $email);
             return Command::INVALID;
         }

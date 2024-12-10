@@ -59,7 +59,7 @@ class UserUpdateRoleCommandTest extends TestCase
     public function testExecuteMissingRoleAction(): void
     {
         // mock user existence check
-        $this->userManager->expects($this->once())->method('isUserExists')->with('test@test.com')
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')
             ->willReturn(true);
 
         // execute command
@@ -83,7 +83,7 @@ class UserUpdateRoleCommandTest extends TestCase
     public function testExecuteCommandWithUserNotFound(): void
     {
         // mock user existence check
-        $this->userManager->expects($this->once())->method('isUserExists')->with('test@test.com')
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')
             ->willReturn(false);
 
         // execute command
@@ -108,7 +108,7 @@ class UserUpdateRoleCommandTest extends TestCase
     public function testExecuteCommandWithSuccessfulRoleAddition(): void
     {
         // mock user existence check
-        $this->userManager->expects($this->once())->method('isUserExists')->with('test@test.com')
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')
             ->willReturn(true);
 
         // expect add role to user call
@@ -139,7 +139,7 @@ class UserUpdateRoleCommandTest extends TestCase
     public function testExecuteCommandWithSuccessfulRoleRemoval(): void
     {
         // mock user existence check
-        $this->userManager->expects($this->once())->method('isUserExists')->with('test@test.com')
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')
             ->willReturn(true);
 
         // expect remove role from user call
@@ -170,7 +170,7 @@ class UserUpdateRoleCommandTest extends TestCase
     public function testExecuteCommandWithExceptionResponse(): void
     {
         // mock user existence check
-        $this->userManager->expects($this->once())->method('isUserExists')->with('test@test.com')
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')
             ->willReturn(true);
 
         // mock add role to user method to throw exception

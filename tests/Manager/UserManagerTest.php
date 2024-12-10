@@ -52,13 +52,13 @@ class UserManagerTest extends TestCase
      *
      * @return void
      */
-    public function testIsUserExists(): void
+    public function testcheckIfUserEmailAlreadyRegistered(): void
     {
         // call tested method
-        $isUserExists = $this->userManager->isUserExists('test@test.test');
+        $checkIfUserEmailAlreadyRegistered = $this->userManager->checkIfUserEmailAlreadyRegistered('test@test.test');
 
         // assert result
-        $this->assertIsBool($isUserExists);
+        $this->assertIsBool($checkIfUserEmailAlreadyRegistered);
     }
 
     /**

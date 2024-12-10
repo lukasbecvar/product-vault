@@ -86,7 +86,7 @@ class UserRegisterCommandTest extends TestCase
         $this->commandTester->setInputs(['test@test.com', 'John', 'Doe', 'password']);
 
         // mock user existence check
-        $this->userManager->expects($this->once())->method('isUserExists')->with('test@test.com')->willReturn(true);
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(true);
 
         // execute command
         $exitCode = $this->commandTester->execute([]);
@@ -110,7 +110,7 @@ class UserRegisterCommandTest extends TestCase
         $this->commandTester->setInputs(['test@test.com', 'John', 'Doe', 'password']);
 
         // mock successful registration
-        $this->userManager->expects($this->once())->method('isUserExists')->with('test@test.com')->willReturn(false);
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(false);
         $this->userManager->expects($this->once())->method('registerUser')->with(
             'test@test.com',
             'John',
@@ -140,7 +140,7 @@ class UserRegisterCommandTest extends TestCase
         $this->commandTester->setInputs(['test@test.com', 'John', 'Doe', 'password']);
 
         // mock exception during registration
-        $this->userManager->expects($this->once())->method('isUserExists')->with('test@test.com')->willReturn(false);
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(false);
         $this->userManager->expects($this->once())->method('registerUser')->willThrowException(new Exception('Database error'));
 
         // execute command
