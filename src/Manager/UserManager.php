@@ -300,6 +300,40 @@ class UserManager
     }
 
     /**
+     * Get user status
+     *
+     * @param int $id The user id
+     *
+     * @return string The user status
+     */
+    public function getUserStatus(int $id): string
+    {
+        // get user
+        $user = $this->userRepository->find($id);
+
+        // check if user exists
+        if ($user === null) {
+            $this->errorManager->handleError(
+                message: 'user id: ' . $id . ' not found',
+                code: JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        // get user status
+        $status = $user->getStatus();
+
+        // check if user status found
+        if ($status === null) {
+            $this->errorManager->handleError(
+                message: 'user id: ' . $id . ' status not found',
+                code: JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        return $status;
+    }
+
+    /**
      * Check if user has specific role
      *
      * @param int $id The user id

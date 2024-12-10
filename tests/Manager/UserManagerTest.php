@@ -203,6 +203,28 @@ class UserManagerTest extends TestCase
     }
 
     /**
+     * Test get user status
+     *
+     * @return void
+     */
+    public function testGetUserStatus(): void
+    {
+        // mock user retrieval
+        $user = $this->createMock(User::class);
+        $user->expects($this->once())->method('getStatus')->willReturn('active');
+
+        // mock repository to return the user
+        $this->userRepositoryMock->expects($this->any())->method('find')->with(1)
+            ->willReturn($user);
+
+        // call tested method
+        $result = $this->userManager->getUserStatus(1);
+
+        // assert result
+        $this->assertSame('active', $result);
+    }
+
+    /**
      * Test check if user has role
      *
      * @return void

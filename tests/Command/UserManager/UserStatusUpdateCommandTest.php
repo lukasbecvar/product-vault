@@ -7,8 +7,8 @@ use App\Manager\UserManager;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Command\Command;
-use App\Command\UserManager\UserStatusUpdateCommand;
 use Symfony\Component\Console\Tester\CommandTester;
+use App\Command\UserManager\UserStatusUpdateCommand;
 
 /**
  * Class UserStatusUpdateCommandTest
@@ -87,6 +87,35 @@ class UserStatusUpdateCommandTest extends TestCase
 
         // assert response
         $this->assertStringContainsString('User not found.', $output);
+        $this->assertEquals(Command::INVALID, $exitCode);
+    }
+
+    /**
+     * Test execute command when user status is already set
+     *
+     * @return void
+     */
+    public function testExecuteCommandWhenStatusIsAlreadySet(): void
+    {
+        // testing user id
+        $id = 1;
+        $status = 'inactive';
+
+        // mock user manager to return the user id
+        $this->userManager->expects($this->once())->method('getUserIdByEmail')->with('test@test.com')->willReturn($id);
+
+        // mock user manager to return the user status
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(true);
+        $this->userManager->expects($this->once())->method('getUserStatus')->with($id)->willReturn($status);
+
+        // execute command
+        $exitCode = $this->commandTester->execute(['email' => 'test@test.com', 'status' => $status]);
+
+        // get command output
+        $output = $this->commandTester->getDisplay();
+
+        // assert response
+        $this->assertStringContainsString('User status already set to: ' . $status, $output);
         $this->assertEquals(Command::INVALID, $exitCode);
     }
 
