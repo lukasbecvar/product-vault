@@ -50,23 +50,6 @@ class UserManager
     }
 
     /**
-     * Get user id by email
-     *
-     * @param string $email The email address of the user
-     *
-     * @return int|null The user id or null if user does not exist
-     */
-    public function getUserIdByEmail(string $email): ?int
-    {
-        // get user object
-        $user = $this->userRepository->findByEmail($email);
-
-        // get user id
-        $id = $user !== null ? $user->getId() : null;
-        return $id;
-    }
-
-    /**
      * Check if user email already registered in database
      *
      * @param string $email The email address of the user
@@ -76,6 +59,58 @@ class UserManager
     public function checkIfUserEmailAlreadyRegistered(string $email): bool
     {
         return $this->userRepository->findByEmail($email) !== null;
+    }
+
+    /**
+     * Get user id by email
+     *
+     * @param string $email The email address of the user
+     *
+     * @return int The user id or null if user does not exist
+     */
+    public function getUserIdByEmail(string $email): int
+    {
+        // get user object
+        $user = $this->userRepository->findByEmail($email);
+
+        // get user id
+        $id = $user !== null ? $user->getId() : null;
+
+        // check if user id found
+        if ($id === null) {
+            $this->errorManager->handleError(
+                'Error retrieving user id by email: ' . $email,
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        return $id;
+    }
+
+    /**
+     * Get user email by id
+     *
+     * @param int $id The user id
+     *
+     * @return string The user email or null if user not found
+     */
+    public function getUserEmailById(int $id): string
+    {
+        // get user object
+        $user = $this->userRepository->find($id);
+
+        // get user email
+        $email = $user !== null ? $user->getEmail() : null;
+
+        // check if user email found
+        if ($email === null) {
+            $this->errorManager->handleError(
+                'Error retrieving user email by id: ' . $id,
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        return $email;
     }
 
     /**
@@ -90,7 +125,39 @@ class UserManager
      */
     public function registerUser(string $email, string $firstName, string $lastName, string $password): void
     {
-        // check if user already exists
+        // validate input data
+        $email = trim($email);
+        $firstName = trim($firstName);
+        $lastName = trim($lastName);
+        $password = trim($password);
+
+        // validate input data length
+        if (strlen($email) < 2 || strlen($email) > 255) {
+            $this->errorManager->handleError(
+                message: 'invalid email address length (must be between 2 and 255 characters)',
+                code: JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+        if (strlen($firstName) < 2 || strlen($firstName) > 255) {
+            $this->errorManager->handleError(
+                message: 'invalid first name length (must be between 2 and 255 characters)',
+                code: JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+        if (strlen($lastName) < 2 || strlen($lastName) > 255) {
+            $this->errorManager->handleError(
+                message: 'invalid last name length (must be between 2 and 255 characters)',
+                code: JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+        if (strlen($password) < 6 || strlen($password) > 255) {
+            $this->errorManager->handleError(
+                message: 'invalid password length (must be between 6 and 255 characters)',
+                code: JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        // check if user email is already registered
         if ($this->checkIfUserEmailAlreadyRegistered($email)) {
             $this->errorManager->handleError(
                 message: 'user already exists: ' . $email,
@@ -146,14 +213,17 @@ class UserManager
     /**
      * Delete user by email
      *
-     * @param string $email The email address of the user
+     * @param int $id The user id
      *
      * @return void
      */
-    public function deleteUser(string $email): void
+    public function deleteUser(int $id): void
     {
         // get user
-        $user = $this->userRepository->findByEmail($email);
+        $user = $this->userRepository->find($id);
+
+        // get user email by id
+        $email = $this->getUserEmailById($id);
 
         // check if user exists
         if ($user === null) {
@@ -186,12 +256,12 @@ class UserManager
     /**
      * Check if user has specific role
      *
-     * @param string $email The email address of the user
+     * @param int $id The user id
      * @param string $role The role to check
      *
      * @return bool True if user has role, false otherwise
      */
-    public function checkIfUserHasRole(string $email, string $role): bool
+    public function checkIfUserHasRole(int $id, string $role): bool
     {
         // validate role format
         $role = strtoupper($role);
@@ -200,12 +270,12 @@ class UserManager
         }
 
         // get user
-        $user = $this->userRepository->findByEmail($email);
+        $user = $this->userRepository->find($id);
 
         // check if user exists
         if ($user === null) {
             $this->errorManager->handleError(
-                message: 'user not found: ' . $email,
+                message: 'user not found with id: ' . $id,
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
@@ -217,12 +287,12 @@ class UserManager
     /**
      * Add role to specific user
      *
-     * @param string $email The email address of the user
+     * @param int $id The user id
      * @param string $role The role to add
      *
      * @return void
      */
-    public function addRoleToUser(string $email, string $role): void
+    public function addRoleToUser(int $id, string $role): void
     {
         // validate role format
         $role = strtoupper($role);
@@ -231,18 +301,18 @@ class UserManager
         }
 
         // get user
-        $user = $this->userRepository->findByEmail($email);
+        $user = $this->userRepository->find($id);
 
         // check if user exists
         if ($user === null) {
             $this->errorManager->handleError(
-                message: 'user not found: ' . $email,
+                message: 'user not found with id: ' . $id,
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
 
         // check if user has role
-        if ($this->checkIfUserHasRole($email, $role)) {
+        if ($this->checkIfUserHasRole($id, $role)) {
             $this->errorManager->handleError(
                 message: 'user already has role: ' . $role,
                 code: JsonResponse::HTTP_BAD_REQUEST
@@ -254,15 +324,17 @@ class UserManager
 
         // save user to database
         try {
-            $this->entityManager->persist($user);
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error to add role to user',
+                message: 'error to flush user entity update',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
         }
+
+        // get user email by id
+        $email = $this->getUserEmailById($id);
 
         // log action to database
         $this->logManager->saveLog(
@@ -275,12 +347,12 @@ class UserManager
     /**
      * Remove role from specific user
      *
-     * @param string $email The email address of the user
+     * @param int $id The id of the user
      * @param string $role The role to remove
      *
      * @return void
      */
-    public function removeRoleFromUser(string $email, string $role): void
+    public function removeRoleFromUser(int $id, string $role): void
     {
         // validate role format
         $role = strtoupper($role);
@@ -289,18 +361,18 @@ class UserManager
         }
 
         // get user
-        $user = $this->userRepository->findByEmail($email);
+        $user = $this->userRepository->find($id);
 
         // check if user exists
         if ($user === null) {
             $this->errorManager->handleError(
-                message: 'user not found: ' . $email,
+                message: 'user not found with id: ' . $id,
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
 
         // check if user has role
-        if (!$this->checkIfUserHasRole($email, $role)) {
+        if (!$this->checkIfUserHasRole($id, $role)) {
             $this->errorManager->handleError(
                 message: 'user does not have role: ' . $role,
                 code: JsonResponse::HTTP_BAD_REQUEST
@@ -312,15 +384,17 @@ class UserManager
 
         // save user to database
         try {
-            $this->entityManager->persist($user);
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'user not found: ' . $email,
-                code: JsonResponse::HTTP_NOT_FOUND,
+                message: 'error to flush user entity update',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
         }
+
+        // get user email by id
+        $email = $this->getUserEmailById($id);
 
         // log action to database
         $this->logManager->saveLog(

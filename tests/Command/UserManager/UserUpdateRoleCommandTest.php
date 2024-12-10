@@ -107,13 +107,17 @@ class UserUpdateRoleCommandTest extends TestCase
      */
     public function testExecuteCommandWithSuccessfulRoleAddition(): void
     {
+        // mock get user id by email
+        $this->userManager->expects($this->once())->method('getUserIdByEmail')->with('test@test.com')
+            ->willReturn(1);
+
         // mock user existence check
         $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')
             ->willReturn(true);
 
         // expect add role to user call
         $this->userManager->expects($this->once())->method('addRoleToUser')->with(
-            'test@test.com',
+            1,
             'ROLE_ADMIN'
         );
 
@@ -138,13 +142,17 @@ class UserUpdateRoleCommandTest extends TestCase
      */
     public function testExecuteCommandWithSuccessfulRoleRemoval(): void
     {
+        // mock get user id by email
+        $this->userManager->expects($this->once())->method('getUserIdByEmail')->with('test@test.com')
+            ->willReturn(1);
+
         // mock user existence check
         $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')
             ->willReturn(true);
 
         // expect remove role from user call
         $this->userManager->expects($this->once())->method('removeRoleFromUser')->with(
-            'test@test.com',
+            1,
             'ROLE_ADMIN'
         );
 

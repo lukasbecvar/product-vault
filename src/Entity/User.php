@@ -204,6 +204,9 @@ class User
     {
         if (!in_array($role, $this->roles, true)) {
             $this->roles[] = $role;
+
+            // Reset array keys
+            $this->roles = array_values($this->roles);
         }
 
         return $this;
@@ -216,9 +219,11 @@ class User
      */
     public function removeRole(string $role): static
     {
-        $this->roles = array_filter(
-            $this->roles,
-            fn($r) => $r !== $role
+        $this->roles = array_values(
+            array_filter(
+                $this->roles,
+                fn($r) => $r !== $role
+            )
         );
 
         return $this;

@@ -99,16 +99,19 @@ class UserUpdateRoleCommand extends Command
             return Command::INVALID;
         }
 
+        // get user id by email
+        $id = $this->userManager->getUserIdByEmail($email);
+
         try {
             // add role to user
             if ($roleToAdd) {
-                $this->userManager->addRoleToUser($email, $roleToAdd);
+                $this->userManager->addRoleToUser($id, $roleToAdd);
                 $io->success("Role '$roleToAdd' added to user '$email'.");
             }
 
             // remove role from user
             if ($roleToRemove) {
-                $this->userManager->removeRoleFromUser($email, $roleToRemove);
+                $this->userManager->removeRoleFromUser($id, $roleToRemove);
                 $io->success("Role '$roleToRemove' removed from user '$email'.");
             }
         } catch (Exception $e) {

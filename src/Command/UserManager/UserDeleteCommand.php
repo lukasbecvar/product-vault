@@ -73,9 +73,12 @@ class UserDeleteCommand extends Command
             return Command::INVALID;
         }
 
+        // get user id by email
+        $id = $this->userManager->getUserIdByEmail($email);
+
         // delete user
         try {
-            $this->userManager->deleteUser($email);
+            $this->userManager->deleteUser($id);
             $io->success('User ' . $email . ' deleted.');
         } catch (Exception $e) {
             $io->error('Error deleting user: ' . $e->getMessage());

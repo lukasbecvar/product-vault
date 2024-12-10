@@ -97,9 +97,15 @@ class UserDeleteCommandTest extends TestCase
      */
     public function testExecuteCommandSuccess(): void
     {
+        // testing user id
+        $id = 1;
+
+        // mock user manager to return the user id
+        $this->userManager->expects($this->once())->method('getUserIdByEmail')->with('test@test.com')->willReturn($id);
+
         // expect delete user call
         $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(true);
-        $this->userManager->expects($this->once())->method('deleteUser')->with('test@test.com');
+        $this->userManager->expects($this->once())->method('deleteUser')->with($id);
 
         // execute command
         $exitCode = $this->commandTester->execute(['email' => 'test@test.com']);
@@ -119,9 +125,15 @@ class UserDeleteCommandTest extends TestCase
      */
     public function testExecuteCommandFailure(): void
     {
+        // testing user id
+        $id = 1;
+
+        // mock user manager to return the user id
+        $this->userManager->expects($this->once())->method('getUserIdByEmail')->with('test@test.com')->willReturn($id);
+
         // mock exception during user deletion throw exception
         $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(true);
-        $this->userManager->expects($this->once())->method('deleteUser')->with('test@test.com')->willThrowException(new Exception('Database error'));
+        $this->userManager->expects($this->once())->method('deleteUser')->with($id)->willThrowException(new Exception('Database error'));
 
         // execute command
         $exitCode = $this->commandTester->execute(['email' => 'test@test.com']);
