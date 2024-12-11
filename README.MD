@@ -26,7 +26,6 @@ An open-source platform API system for managing product databases, designed with
         - [X] SSL check
         - [X] Allow connection for specific ip-address or for all ip-addresses
 - [X] Protect exception error message in production mode
-- [X] Escape middleware escape server data like REMOTE_ADDR, USER_AGENT, etc. and headers
 - [ ] User system (jwt auth)
     - [X] Create user entity (id, email, firstname, lastname, roles, password, register-time, last-login, ip-address, user-agent)
     - [X] Create user manager service
