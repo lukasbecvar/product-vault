@@ -49,6 +49,10 @@ jobs:
       - name: Load db datafixtures
         run: php bin/console doctrine:fixtures:load --no-interaction --env=test
 
+      # generate jwk key
+      - name: Generate JWT keys
+        run: php bin/console lexik:jwt:generate-keypair
+
       # phpunit process
       - name: Run PHPUnit
         run: php ./bin/phpunit
