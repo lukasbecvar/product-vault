@@ -13,7 +13,7 @@
         <env name="HTTP_USER_AGENT" value="test"/>
 
         <!-- disable deprecated warnings (because lexik-jwt) -->
-        <ini name="error_reporting" value="E_ALL &amp; ~E_DEPRECATED &amp; ~E_USER_DEPRECATED"/>
+        <ini name="error_reporting" value="E_ALL & ~E_DEPRECATED"/>
     </php>
 
     <testsuites>
