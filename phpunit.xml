@@ -11,6 +11,9 @@
         <env name="KERNEL_CLASS" value="App\Kernel"/>
         <env name="REMOTE_ADDR" value="127.0.0.1"/>
         <env name="HTTP_USER_AGENT" value="test"/>
+
+        <!-- disable deprecated warnings (because lexik-jwt) -->
+        <ini name="error_reporting" value="E_ALL &amp; ~E_DEPRECATED &amp; ~E_USER_DEPRECATED"/>
     </php>
 
     <testsuites>
