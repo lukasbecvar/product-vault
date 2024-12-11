@@ -26,6 +26,7 @@ An open-source platform API system for managing product databases, designed with
         - [X] SSL check
         - [X] Allow connection for specific ip-address or for all ip-addresses
 - [X] Protect exception error message in production mode
+- [X] Escape middleware escape server data like REMOTE_ADDR, USER_AGENT, etc. and headers
 - [ ] User system (jwt auth)
     - [X] Create user entity (id, email, firstname, lastname, roles, password, register-time, last-login, ip-address, user-agent)
     - [X] Create user manager service
@@ -50,7 +51,6 @@ An open-source platform API system for managing product databases, designed with
         - [ ] Get is-active
         - [ ] Get last-login
         - [ ] Get register-time
-- [ ] Escape middleware escape server data like REMOTE_ADDR, USER_AGENT, etc. and headers
 - [ ] Get user data CLI command
 - [ ] Setup nelmio api doc
 - [ ] Setup CSRF protection
