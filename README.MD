@@ -101,6 +101,7 @@ An open-source platform API system for managing product databases, designed with
     - [ ] Get all products by category
     - [ ] Get products by attribute or multiple attributes
     - [ ] Get product by name (search by name and description pattern match)
+    - [ ] Get only new products (by time period: last hour, last day, last week, last month, last year) order by newest first
     - [ ] Sort by name, price, added-time in all get methods
     - [ ] Option to set price currency (for convert currency form default currency (EUR) to required format)
     - [ ] Pagination for products result
