@@ -161,7 +161,7 @@ class UserManager
         // check if user email is already registered
         if ($this->checkIfUserEmailAlreadyRegistered($email)) {
             $this->errorManager->handleError(
-                message: 'user already exists: ' . $email,
+                message: 'user: ' . $email . ' already exists',
                 code: JsonResponse::HTTP_BAD_REQUEST
             );
         }

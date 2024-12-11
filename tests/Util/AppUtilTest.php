@@ -143,6 +143,20 @@ class AppUtilTest extends TestCase
     }
 
     /**
+     * Test check if registration with API endpoint is enabled
+     *
+     * @return void
+     */
+    public function testCheckIsRegistrationWithApiEndpointEnabled(): void
+    {
+        $_ENV['REGISTRATION_WITH_API_ENDPOINT_ENABLED'] = 'true';
+        $this->assertTrue($this->appUtil->isRegistrationWithApiEndpointEnabled());
+
+        $_ENV['REGISTRATION_WITH_API_ENDPOINT_ENABLED'] = 'false';
+        $this->assertFalse($this->appUtil->isRegistrationWithApiEndpointEnabled());
+    }
+
+    /**
      * Test SSl only check
      *
      * @return void

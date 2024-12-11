@@ -143,6 +143,16 @@ class AppUtil
     }
 
     /**
+     * Check if the registration with API endpoint is enabled
+     *
+     * @return bool True if the registration with API endpoint is enabled, false otherwise
+     */
+    public function isRegistrationWithApiEndpointEnabled(): bool
+    {
+        return $this->getEnvValue('REGISTRATION_WITH_API_ENDPOINT_ENABLED') === 'true';
+    }
+
+    /**
      * Check if the request is SSL
      *
      * @return bool True if the request is SSL, false otherwise
