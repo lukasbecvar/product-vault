@@ -225,6 +225,43 @@ class UserManagerTest extends TestCase
     }
 
     /**
+     * Test reset user password
+     *
+     * @return void
+     */
+    public function testResetUserPassword(): void
+    {
+        // testing user data
+        $id = 1;
+        $email = 'test@test.com';
+
+        // mock existing user
+        $user = $this->createMock(User::class);
+        $user->expects($this->once())->method('getEmail')->willReturn($email);
+
+        // mock repository to return the user twice
+        $this->userRepositoryMock->expects($this->any())->method('find')->with($id)
+            ->willReturn($user);
+
+        // expect entity manager to persist and flush
+        $this->entityManagerMock->expects($this->once())->method('flush');
+
+        // expect save log call
+        $this->logManagerMock->expects($this->once())->method('saveLog')->with(
+            'user-manager',
+            'user password reset: ' . $email,
+            LogManager::LEVEL_INFO
+        );
+
+        // call tested method
+        $result = $this->userManager->resetUserPassword($id);
+
+        // assert result
+        $this->assertIsString($result);
+        $this->assertEquals(16, strlen($result));
+    }
+
+    /**
      * Test check if user has role
      *
      * @return void

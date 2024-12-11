@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Util\VisitorInfoUtil;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\String\ByteString;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -331,6 +332,57 @@ class UserManager
         }
 
         return $status;
+    }
+
+    /**
+     * Reset user password
+     *
+     * @param int $id The user id
+     *
+     * @return string
+     */
+    public function resetUserPassword(int $id): string
+    {
+        // get user
+        $user = $this->userRepository->find($id);
+
+        // check if user exists
+        if ($user === null) {
+            $this->errorManager->handleError(
+                message: 'user not found with id: ' . $id,
+                code: JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        // generate new password
+        $password = ByteString::fromRandom(16);
+
+        // update user password
+        $user->setPassword($password);
+
+        // save user to database
+        try {
+            $this->entityManager->flush();
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'error to flush user entity update',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
+
+        // get user email by id
+        $email = $this->getUserEmailById($id);
+
+        // log action to database
+        $this->logManager->saveLog(
+            name: 'user-manager',
+            message: 'user password reset: ' . $email,
+            level: LogManager::LEVEL_INFO,
+        );
+
+        // return new password
+        return $password;
     }
 
     /**

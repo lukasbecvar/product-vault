@@ -33,7 +33,7 @@ An open-source platform API system for managing product databases, designed with
     - [X] Update user role command (add, remove parameter)
     - [X] Delete user command
     - [X] Update user status command
-    - [ ] Reset user password command
+    - [X] Reset user password command
     - [ ] User registration (api endpoint)
     - [ ] User login JWT (with symfony security bundle and nelmio jwt)
         - [ ] Implement password hash to register user and user fixture
