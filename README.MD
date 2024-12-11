@@ -1,6 +1,25 @@
 # Product Vault
 An open-source platform API system for managing product databases, designed with a focus on simplicity, flexibility, and security. The system enables efficient storage organization and manipulation of product data through a RESTful API, ensuring seamless integration with your e-shop or other applications that require product lists or product details.
 
+
+## register request
+curl -X POST http://localhost/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "test@example.com",
+    "firstName": "John",
+    "lastName": "Doe",
+    "password": "securePassword123"
+  }'
+
+## login request
+curl -X POST http://localhost/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "test@test.test",
+    "password": "test"
+  }'
+
 ## Backlog
 - [X] Main index controller
 - [X] Error controller
@@ -35,8 +54,8 @@ An open-source platform API system for managing product databases, designed with
     - [X] Update user status command
     - [X] Reset user password command
     - [X] User registration (api endpoint)
-    - [ ] User login JWT (with symfony security bundle and nelmio jwt)
-        - [ ] Implement password hash to register user and user fixture
+    - [X] User login JWT (with symfony security bundle and nelmio jwt)
+        - [X] Implement password hash to register user and user fixture
     - [ ] User logout invalidate JWT token (api endpoint)
     - [ ] Get user id in save log method
     - [ ] Get logs by user email instead of user id in log reader cli command

@@ -39,7 +39,7 @@ class RegisterController extends AbstractController
      *
      * @return JsonResponse The JSON response
      */
-    #[Route('/auth/register', methods:['POST'], name: 'auth_register')]
+    #[Route('/api/auth/register', methods:['POST'], name: 'auth_register')]
     public function index(Request $request): JsonResponse
     {
         // check if registration with API endpoint is enabled

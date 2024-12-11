@@ -33,7 +33,7 @@ class RegisterControllerTest extends WebTestCase
      */
     public function testRegisterUserWhenMethodIsNotPost(): void
     {
-        $this->client->request('GET', '/auth/register');
+        $this->client->request('GET', '/api/auth/register');
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -62,7 +62,7 @@ class RegisterControllerTest extends WebTestCase
         $_ENV['REGISTRATION_WITH_API_ENDPOINT_ENABLED'] = 'false';
 
         // simulate request to register endpoint
-        $this->client->request('POST', '/auth/register');
+        $this->client->request('POST', '/api/auth/register');
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -88,7 +88,7 @@ class RegisterControllerTest extends WebTestCase
      */
     public function testRegisterUserWhenEmailIsBlank(): void
     {
-        $this->client->request('POST', '/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => '',
             'firstName' => 'Test',
             'lastName' => 'User',
@@ -119,7 +119,7 @@ class RegisterControllerTest extends WebTestCase
      */
     public function testRegisterUserWhenEmailIsNotValid(): void
     {
-        $this->client->request('POST', '/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test',
             'firstName' => 'Test',
             'lastName' => 'User',
@@ -150,7 +150,7 @@ class RegisterControllerTest extends WebTestCase
      */
     public function testRegisterUserWhenFirstNameIsBlank(): void
     {
-        $this->client->request('POST', '/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@example.com',
             'firstName' => '',
             'lastName' => 'User',
@@ -181,7 +181,7 @@ class RegisterControllerTest extends WebTestCase
      */
     public function testRegisterUserWhenFirstNameIsTooShort(): void
     {
-        $this->client->request('POST', '/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@example.com',
             'firstName' => 'T',
             'lastName' => 'User',
@@ -212,7 +212,7 @@ class RegisterControllerTest extends WebTestCase
      */
     public function testRegisterUserWhenFirstNameIsTooLong(): void
     {
-        $this->client->request('POST', '/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@test.com',
             'firstName' => str_repeat('a', 100),
             'lastName' => 'Test',
@@ -243,7 +243,7 @@ class RegisterControllerTest extends WebTestCase
      */
     public function testRegisterUserWhenLastNameIsBlank(): void
     {
-        $this->client->request('POST', '/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@test.com',
             'firstName' => 'Test',
             'lastName' => '',
@@ -274,7 +274,7 @@ class RegisterControllerTest extends WebTestCase
      */
     public function testRegisterUserWhenLastNameIsTooShort(): void
     {
-        $this->client->request('POST', '/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@test.com',
             'firstName' => 'Test',
             'lastName' => 'T',
@@ -305,7 +305,7 @@ class RegisterControllerTest extends WebTestCase
      */
     public function testRegisterUserWhenLastNameIsTooLong(): void
     {
-        $this->client->request('POST', '/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@test.com',
             'firstName' => 'Test',
             'lastName' => str_repeat('a', 100),
@@ -336,7 +336,7 @@ class RegisterControllerTest extends WebTestCase
      */
     public function testRegisterUserWhenPasswordIsBlank(): void
     {
-        $this->client->request('POST', '/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@test.com',
             'firstName' => 'Test',
             'lastName' => 'Test',
@@ -367,7 +367,7 @@ class RegisterControllerTest extends WebTestCase
      */
     public function testRegisterUserWhenPasswordIsTooShort(): void
     {
-        $this->client->request('POST', '/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@example.com',
             'firstName' => 'Test',
             'lastName' => 'User',
@@ -398,7 +398,7 @@ class RegisterControllerTest extends WebTestCase
      */
     public function testRegisterUserWhenPasswordIsTooLong(): void
     {
-        $this->client->request('POST', '/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@example.com',
             'firstName' => 'Test',
             'lastName' => 'User',
@@ -434,7 +434,7 @@ class RegisterControllerTest extends WebTestCase
         $email = $faker->email();
 
         // simulate request to register endpoint
-        $this->client->request('POST', '/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => $email,
             'firstName' => 'Test',
             'lastName' => 'Test',

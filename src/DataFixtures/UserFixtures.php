@@ -6,6 +6,7 @@ use Faker\Factory;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class UserFixtures
@@ -16,6 +17,13 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
  */
 class UserFixtures extends Fixture
 {
+    private UserPasswordHasherInterface $userPasswordHasher;
+
+    public function __construct(UserPasswordHasherInterface $userPasswordHasher)
+    {
+        $this->userPasswordHasher = $userPasswordHasher;
+    }
+
     /**
      * Load user fixtures
      *
@@ -33,7 +41,7 @@ class UserFixtures extends Fixture
             ->setFirstName('test')
             ->setLastName('User')
             ->setRoles(['ROLE_ADMIN'])
-            ->setPassword('test')
+            ->setPassword($this->userPasswordHasher->hashPassword($user, 'test'))
             ->setRegisterTime($faker->dateTimeBetween('-1 year', 'now'))
             ->setLastLoginTime($faker->dateTimeBetween('-6 months', 'now'))
             ->setIpAddress($faker->ipv4)
@@ -46,11 +54,16 @@ class UserFixtures extends Fixture
         // create testing user entities
         for ($i = 1; $i <= 10; $i++) {
             $user = new User();
+
+            // hash password
+            $passwordHash = $this->userPasswordHasher->hashPassword($user, 'password');
+
+            // set user properties
             $user->setEmail("user$i@example.com")
                 ->setFirstName($faker->firstName)
                 ->setLastName($faker->lastName)
                 ->setRoles(['ROLE_USER'])
-                ->setPassword('password')
+                ->setPassword($passwordHash)
                 ->setRegisterTime($faker->dateTimeBetween('-1 year', 'now'))
                 ->setLastLoginTime($faker->dateTimeBetween('-6 months', 'now'))
                 ->setIpAddress($faker->ipv4)

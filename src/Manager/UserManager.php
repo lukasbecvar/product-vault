@@ -10,6 +10,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\ByteString;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class UserManager
@@ -25,18 +26,21 @@ class UserManager
     private UserRepository $userRepository;
     private VisitorInfoUtil $visitorInfoUtil;
     private EntityManagerInterface $entityManager;
+    private UserPasswordHasherInterface $passwordHasher;
 
     public function __construct(
         LogManager $logManager,
         ErrorManager $errorManager,
         UserRepository $userRepository,
         VisitorInfoUtil $visitorInfoUtil,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        UserPasswordHasherInterface $passwordHasher
     ) {
         $this->logManager = $logManager;
         $this->errorManager = $errorManager;
         $this->entityManager = $entityManager;
         $this->userRepository = $userRepository;
+        $this->passwordHasher = $passwordHasher;
         $this->visitorInfoUtil = $visitorInfoUtil;
     }
 
@@ -180,11 +184,16 @@ class UserManager
 
         // create user entity
         $user = new User();
+
+        // hash password
+        $passwordHash = $this->passwordHasher->hashPassword($user, $password);
+
+        // set user properties
         $user->setEmail($email)
             ->setFirstName($firstName)
             ->setLastName($lastName)
             ->setRoles(['ROLE_USER'])
-            ->setPassword($password)
+            ->setPassword($passwordHash)
             ->setRegisterTime(new DateTime())
             ->setLastLoginTime(new DateTime())
             ->setIpAddress($ipAddress)

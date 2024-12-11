@@ -3,6 +3,9 @@
 # delete docker services data
 sudo rm -rf .docker/services/
 
+# delete jwt key
+sudo rm -rf ./config/jwt
+
 # delete UI assets
 sudo rm -rf public/bundles/
 

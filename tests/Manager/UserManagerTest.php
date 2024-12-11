@@ -11,6 +11,7 @@ use App\Manager\ErrorManager;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class UserManagerTest
@@ -27,6 +28,7 @@ class UserManagerTest extends TestCase
     private UserRepository & MockObject $userRepositoryMock;
     private VisitorInfoUtil & MockObject $visitorInfoUtilMock;
     private EntityManagerInterface & MockObject $entityManagerMock;
+    private UserPasswordHasherInterface & MockObject $passwordHasherMock;
 
     protected function setUp(): void
     {
@@ -36,6 +38,7 @@ class UserManagerTest extends TestCase
         $this->userRepositoryMock = $this->createMock(UserRepository::class);
         $this->visitorInfoUtilMock = $this->createMock(VisitorInfoUtil::class);
         $this->entityManagerMock = $this->createMock(EntityManagerInterface::class);
+        $this->passwordHasherMock = $this->createMock(UserPasswordHasherInterface::class);
 
         // create user manager instance
         $this->userManager = new UserManager(
@@ -43,7 +46,8 @@ class UserManagerTest extends TestCase
             $this->errorManagerMock,
             $this->userRepositoryMock,
             $this->visitorInfoUtilMock,
-            $this->entityManagerMock
+            $this->entityManagerMock,
+            $this->passwordHasherMock
         );
     }
 
@@ -110,6 +114,10 @@ class UserManagerTest extends TestCase
             ->willReturn($ipAddress);
         $this->visitorInfoUtilMock->expects($this->once())->method('getUserAgent')
             ->willReturn($userAgent);
+
+        // expect password hasher to hash password
+        $this->passwordHasherMock->expects($this->once())->method('hashPassword')
+            ->with($this->isInstanceOf(User::class), $password);
 
         // expect entity manager to persist and flush
         $this->entityManagerMock->expects($this->once())->method('persist')

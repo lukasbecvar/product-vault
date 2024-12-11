@@ -4,6 +4,9 @@
 # docker services data
 .docker/services
 
+# jwt key
+config/jwt
+
 # UI assets
 public/bundles/
 

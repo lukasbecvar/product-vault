@@ -6,6 +6,8 @@ use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * Class User
@@ -20,8 +22,9 @@ use App\Repository\UserRepository;
 #[ORM\Index(name: 'users_last_name_idx', columns: ['last_name'])]
 #[ORM\Index(name: 'users_first_name_idx', columns: ['first_name'])]
 #[ORM\Index(name: 'users_ip_address_idx', columns: ['ip_address'])]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\Column]
@@ -193,6 +196,25 @@ class User
         $this->status = $status;
 
         return $this;
+    }
+
+    /**
+     * Get identifier that represents this user
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        $this->email = null;
+        $this->password = null;
     }
 
     /**
