@@ -177,9 +177,9 @@ curl -X POST http://localhost/api/auth/login \
 - [ ] Simple app info in README.MD
 - [ ] Env config documentation in README.MD
 - [ ] Complete app refactoring
+- [ ] Release product-vault api docker image to github packages
 
 ## Stage 3 - Frontend app
-- [ ] Release product-vault api docker image to github packages
 - [ ] React app implementation
     - [ ] Login to app
         - [ ] Store JWT token in http-only cookie
