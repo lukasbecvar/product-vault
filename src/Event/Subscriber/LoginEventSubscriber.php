@@ -4,7 +4,9 @@ namespace App\Event\Subscriber;
 
 use App\Manager\LogManager;
 use App\Manager\UserManager;
+use App\Manager\ErrorManager;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Event\AuthenticationSuccessEvent;
 
@@ -19,12 +21,18 @@ class LoginEventSubscriber implements EventSubscriberInterface
 {
     private LogManager $logManager;
     private UserManager $userManager;
+    private ErrorManager $errorManager;
     private RequestStack $requestStack;
 
-    public function __construct(LogManager $logManager, UserManager $userManager, RequestStack $requestStack)
-    {
+    public function __construct(
+        LogManager $logManager,
+        UserManager $userManager,
+        ErrorManager $errorManager,
+        RequestStack $requestStack
+    ) {
         $this->logManager = $logManager;
         $this->userManager = $userManager;
+        $this->errorManager = $errorManager;
         $this->requestStack = $requestStack;
     }
 
@@ -53,7 +61,10 @@ class LoginEventSubscriber implements EventSubscriberInterface
 
         // check if request is valid
         if ($request === null) {
-            return;
+            $this->errorManager->handleError(
+                message: 'invalid request',
+                code: JsonResponse::HTTP_BAD_REQUEST
+            );
         }
 
         // get path info
@@ -61,10 +72,24 @@ class LoginEventSubscriber implements EventSubscriberInterface
 
         // check if request is login
         if ($pathInfo == '/api/auth/login') {
-            // get user
+            /** @var \App\Entity\User $user */
             $user = $event->getAuthenticationToken()->getUser();
             if ($user === null) {
-                return;
+                $this->errorManager->handleError(
+                    message: 'invalid user',
+                    code: JsonResponse::HTTP_BAD_REQUEST
+                );
+            }
+
+            // get user status
+            $status = $user->getStatus();
+
+            // check if user status is active
+            if ($status != 'active') {
+                $this->errorManager->handleError(
+                    message: 'account is not active, account status is: ' . $status,
+                    code: JsonResponse::HTTP_FORBIDDEN
+                );
             }
 
             // get user identifier

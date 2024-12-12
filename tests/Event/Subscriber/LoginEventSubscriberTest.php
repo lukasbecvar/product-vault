@@ -2,14 +2,16 @@
 
 namespace App\Tests\Event\Subscriber;
 
+use App\Entity\User;
 use App\Manager\LogManager;
 use App\Manager\UserManager;
+use App\Manager\ErrorManager;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\Request;
 use App\Event\Subscriber\LoginEventSubscriber;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Event\AuthenticationSuccessEvent;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -24,6 +26,7 @@ class LoginEventSubscriberTest extends TestCase
 {
     private LogManager & MockObject $logManager;
     private UserManager & MockObject $userManager;
+    private ErrorManager & MockObject $errorManager;
     private RequestStack & MockObject $requestStack;
     private LoginEventSubscriber $loginEventSubscriber;
 
@@ -32,12 +35,14 @@ class LoginEventSubscriberTest extends TestCase
         // mock dependencies
         $this->logManager = $this->createMock(LogManager::class);
         $this->userManager = $this->createMock(UserManager::class);
+        $this->errorManager = $this->createMock(ErrorManager::class);
         $this->requestStack = $this->createMock(RequestStack::class);
 
         // init login event subscriber
         $this->loginEventSubscriber = new LoginEventSubscriber(
             $this->logManager,
             $this->userManager,
+            $this->errorManager,
             $this->requestStack
         );
     }
@@ -56,23 +61,25 @@ class LoginEventSubscriberTest extends TestCase
     }
 
     /**
-     * Test handle successful login
+     * Test security authentication success
      *
      * @return void
      */
-    public function testOnSecurityAuthenticationSuccess(): void
+    public function testSecurityAuthenticationSuccess(): void
     {
-        // create request
-        $request = new Request([], [], [], [], [], ['REQUEST_URI' => '/api/auth/login']);
-        $this->requestStack->expects($this->once())->method('getCurrentRequest')->willReturn($request);
+        // create testing request
+        $request = $this->createMock(Request::class);
+        $request->method('getPathInfo')->willReturn('/api/auth/login');
+        $this->requestStack->method('getCurrentRequest')->willReturn($request);
 
-        // mock user object
-        $user = $this->createMock(UserInterface::class);
-        $user->expects($this->once())->method('getUserIdentifier')->willReturn('testuser');
+        // create testing user
+        $user = $this->createMock(User::class);
+        $user->method('getUserIdentifier')->willReturn('testuser');
+        $user->method('getStatus')->willReturn('active');
         $token = $this->createMock(TokenInterface::class);
-        $token->expects($this->once())->method('getUser')->willReturn($user);
+        $token->method('getUser')->willReturn($user);
 
-        // mock request event
+        // create testing event
         $event = new AuthenticationSuccessEvent($token);
 
         // expect update user data call
@@ -85,31 +92,39 @@ class LoginEventSubscriberTest extends TestCase
             LogManager::LEVEL_INFO
         );
 
-        // call tested method
+        // call tested event subscriber
         $this->loginEventSubscriber->onSecurityAuthenticationSuccess($event);
     }
 
     /**
-     * Test handle login with invalid request
+     * Test security authentication success with inactive user
      *
      * @return void
      */
-    public function testOnSecurityAuthenticationSuccessWithInvalidRequest(): void
+    public function testSecurityAuthenticationSuccessWithInactiveUser(): void
     {
-        // create request
-        $this->requestStack->expects($this->once())->method('getCurrentRequest')->willReturn(null);
+        // create testing request
+        $request = $this->createMock(Request::class);
+        $request->method('getPathInfo')->willReturn('/api/auth/login');
+        $this->requestStack->method('getCurrentRequest')->willReturn($request);
 
-        // mock event
+        // create testing user
+        $user = $this->createMock(User::class);
+        $user->method('getUserIdentifier')->willReturn('testuser');
+        $user->method('getStatus')->willReturn('inactive');
         $token = $this->createMock(TokenInterface::class);
+        $token->method('getUser')->willReturn($user);
+
+        // create testing event
         $event = new AuthenticationSuccessEvent($token);
 
-        // expect update user data not to be called
-        $this->userManager->expects($this->never())->method('updateUserDataOnLogin');
+        // expect error manager call
+        $this->errorManager->expects($this->once())->method('handleError')->with(
+            'account is not active, account status is: inactive',
+            JsonResponse::HTTP_FORBIDDEN
+        );
 
-        // expect save log not to be called
-        $this->logManager->expects($this->never())->method('saveLog');
-
-        // call tested method
+        // call tested event subscriber
         $this->loginEventSubscriber->onSecurityAuthenticationSuccess($event);
     }
 }
