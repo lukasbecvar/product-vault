@@ -21,6 +21,7 @@ curl -X POST http://localhost/api/auth/login \
   }'
 
 ## Backlog
+## Stage 1 - API base
 - [X] Main index controller
 - [X] Error controller
 - [X] Exception handling event subscriber
@@ -60,7 +61,6 @@ curl -X POST http://localhost/api/auth/login \
     - [X] Check if user status is active in login process (check if user is not blocked)
     - [X] Get logs by user email instead of user id in log reader cli command
     - [ ] User logout invalidate JWT token (api endpoint)
-- [ ] Revise log levels in save log method
 - [ ] User info contoller
     - [ ] User info endpoint
         - [ ] Get firstname
@@ -74,6 +74,10 @@ curl -X POST http://localhost/api/auth/login \
 - [ ] Get user id in save log method 
 - [ ] Setup nelmio api doc
 - [ ] Setup CSRF protection
+- [ ] Revise log levels in save log method
+- [ ] Complete base refactoring
+
+## Stage 2 - Product Management
 - [ ] Create product schema
     - [ ] Create product entity (id, name, description, price (default EUR), added-time, last-edit-time, is-active)
     - [ ] Create product category entity (id, name)
@@ -170,6 +174,9 @@ curl -X POST http://localhost/api/auth/login \
 - [ ] Create API documentation with postman
 - [ ] Simple app info in README.MD
 - [ ] Env config documentation in README.MD
+- [ ] Complete app refactoring
+
+## Stage 3 - Frontend app
 - [ ] Release product-vault api docker image to github packages
 - [ ] React app implementation
     - [ ] Login to app
