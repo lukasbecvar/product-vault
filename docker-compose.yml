@@ -33,6 +33,20 @@ services:
         networks:
             - main
 
+    # redis (cache) container
+    redis:
+        image: redis:latest
+        container_name: product_vault_redis
+        restart: always
+        mem_limit: 1g
+        ports:
+            - "6379:6379"
+        command: ["redis-server", "--requirepass", "redis_test_password"]
+        volumes:
+            - ./.docker/services/redis-data:/data
+        networks:
+            - main
+
     # web server container
     php:
         build:
@@ -42,8 +56,10 @@ services:
         restart: always
         depends_on:
             - mysql
+            - redis
         environment:
             - DATABASE_HOST=mysql
+            - REDIS_HOST=redis
         volumes:
             - ./.docker/config/apache.conf:/etc/apache2/sites-available/000-default.conf
             - ./.docker/config/php.ini:/usr/local/etc/php/php.ini

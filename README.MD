@@ -72,12 +72,15 @@ curl -X POST http://localhost/api/auth/login \
         - [ ] Get is-active
         - [ ] Get last-login
         - [ ] Get register-time
+- [ ] Allow get access token from http only cookie
 - [ ] Get user data CLI command
 - [ ] Get user id in save log method 
 - [ ] Setup nelmio api doc
 - [ ] Setup CSRF protection
 - [ ] Revise log levels in save log method
 - [ ] Complete base refactoring
+- [ ] Base documentation
+- [ ] Release app base to separate repo (api-base)
 
 ## Stage 2 - Product Management
 - [ ] Create product schema

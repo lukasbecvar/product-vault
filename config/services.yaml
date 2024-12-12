@@ -10,12 +10,17 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    # register predis service (redis client)
+    Predis\Client:
+        arguments:
+            $parameters: '%env(REDIS_HOST)%://%env(REDIS_USER)%:%env(REDIS_PASSWORD)%@%env(REDIS_HOST)%:%env(REDIS_PORT)%'
+
     # exception event subscriber (error handling functionality)
     App\Event\Subscriber\ExceptionEventSubscriber:
         tags:
             - { name: kernel.event_subscriber }
 
-    # handle login event (log user login)
+    # login event subscriber (log login action)
     App\Event\Subscriber\LoginEventSubscriber:
         tags:
             - { name: 'kernel.event_subscriber' }
