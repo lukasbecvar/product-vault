@@ -182,6 +182,7 @@ curl -X POST http://localhost/api/auth/login \
 - [ ] Release product-vault api docker image to github packages
 - [ ] React app implementation
     - [ ] Login to app
+        - [ ] Store JWT token in http-only cookie
     - [ ] Logout from app
     - [ ] Register new user
     - [ ] Implement product dashboard with sorting and filtering
