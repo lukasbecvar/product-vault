@@ -3,6 +3,7 @@
 namespace App\Command\LogManager;
 
 use App\Manager\LogManager;
+use App\Manager\UserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -22,10 +23,12 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
 class LogReaderCommand extends Command
 {
     private LogManager $logManager;
+    private UserManager $userManager;
 
-    public function __construct(LogManager $logManager)
+    public function __construct(LogManager $logManager, UserManager $userManager)
     {
         $this->logManager = $logManager;
+        $this->userManager = $userManager;
         parent::__construct();
     }
 
@@ -38,13 +41,13 @@ class LogReaderCommand extends Command
     {
         $this
             ->addOption('status', null, InputOption::VALUE_OPTIONAL, 'Filter by status')
-            ->addOption('user', null, InputOption::VALUE_OPTIONAL, 'Filter by user')
+            ->addOption('user', null, InputOption::VALUE_OPTIONAL, 'Filter by user email')
             ->addOption('ip', null, InputOption::VALUE_OPTIONAL, 'Filter by IP address')
             ->setHelp(<<<'HELP'
                 Usage: 
 
                 <fg=green>app:log:reader --status=<status></>  Filter by status (READED, UNREADED)
-                <fg=green>app:log:reader --user=<user></>      Filter by user (user-id)
+                <fg=green>app:log:reader --user=<user></>      Filter by user (email)
                 <fg=green>app:log:reader --ip=<ip></>          Filter by IP address (192.168.1.1)
 
                 <comment>Note:</comment> Only one of these parameters can be used at a time.
@@ -108,7 +111,17 @@ class LogReaderCommand extends Command
 
         // get logs by user
         } elseif ($user !== null) {
-            $logs = $this->logManager->getLogsByUserId($user, 1, PHP_INT_MAX);
+            // check if user found in database
+            if (!$this->userManager->checkIfUserEmailAlreadyRegistered($user)) {
+                $io->error('User not found in database.');
+                return Command::INVALID;
+            }
+
+            // get user id by email
+            $userId = $this->userManager->getUserIdByEmail($user);
+
+            // get logs by user email
+            $logs = $this->logManager->getLogsByUserId($userId, 1, PHP_INT_MAX);
 
         // get logs by ip address
         } elseif ($ip !== null) {

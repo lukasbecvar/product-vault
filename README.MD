@@ -58,9 +58,8 @@ curl -X POST http://localhost/api/auth/login \
         - [X] Implement password hash to register user and user fixture
 	- [X] Log user login event and update user data on login
     - [X] Check if user status is active in login process (check if user is not blocked)
+    - [X] Get logs by user email instead of user id in log reader cli command
     - [ ] User logout invalidate JWT token (api endpoint)
-    - [ ] Get user id in save log method
-    - [ ] Get logs by user email instead of user id in log reader cli command
 - [ ] Revise log levels in save log method
 - [ ] User info contoller
     - [ ] User info endpoint
@@ -72,6 +71,7 @@ curl -X POST http://localhost/api/auth/login \
         - [ ] Get last-login
         - [ ] Get register-time
 - [ ] Get user data CLI command
+- [ ] Get user id in save log method 
 - [ ] Setup nelmio api doc
 - [ ] Setup CSRF protection
 - [ ] Create product schema

@@ -5,6 +5,7 @@ namespace App\Tests\Command\LogManager;
 use DateTime;
 use App\Entity\Log;
 use App\Manager\LogManager;
+use App\Manager\UserManager;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use App\Command\LogManager\LogReaderCommand;
@@ -24,14 +25,16 @@ class LogReaderCommandTest extends TestCase
     private CommandTester $commandTester;
     private LogReaderCommand $logReaderCommand;
     private LogManager & MockObject $logManager;
+    private UserManager & MockObject $userManager;
 
     public function setUp(): void
     {
-        // mock log manager
+        // mock dependencies
         $this->logManager = $this->createMock(LogManager::class);
+        $this->userManager = $this->createMock(UserManager::class);
 
         // init command instance
-        $this->logReaderCommand = new LogReaderCommand($this->logManager);
+        $this->logReaderCommand = new LogReaderCommand($this->logManager, $this->userManager);
         $this->commandTester = new CommandTester($this->logReaderCommand);
     }
 
@@ -138,11 +141,15 @@ class LogReaderCommandTest extends TestCase
         $logMock->method('getIpAddress')->willReturn('192.168.1.1');
         $logMock->method('getUserId')->willReturn(123);
 
+        // mock user manager to return true for user check
+        $this->userManager->method('checkIfUserEmailAlreadyRegistered')->willReturn(true);
+        $this->userManager->method('getUserIdByEmail')->willReturn(123);
+
         // mock get log methods to return the mocked log object
         $this->logManager->method('getLogsByUserId')->willReturn([$logMock]);
 
         // execute command
-        $exitCode = $this->commandTester->execute(['--user' => '123']);
+        $exitCode = $this->commandTester->execute(['--user' => 'user@example.com']);
 
         // get command output
         $output = $this->commandTester->getDisplay();
