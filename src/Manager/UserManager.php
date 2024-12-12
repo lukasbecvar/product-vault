@@ -221,6 +221,47 @@ class UserManager
     }
 
     /**
+     * Update user data on login
+     *
+     * @param string $identifier The user identifier
+     *
+     * @return void
+     */
+    public function updateUserDataOnLogin(string $identifier): void
+    {
+        // get user by identifier
+        $user = $this->userRepository->findOneBy(['email' => $identifier]);
+
+        // check if user exists
+        if ($user === null) {
+            $this->errorManager->handleError(
+                message: 'user not found with identifier: ' . $identifier,
+                code: JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        // get visitor info
+        $ipAddress = $this->visitorInfoUtil->getIP() ?? 'Unknown';
+        $userAgent = $this->visitorInfoUtil->getUserAgent() ?? 'Unknown';
+
+        // update user data
+        $user->setLastLoginTime(new DateTime());
+        $user->setIpAddress($ipAddress);
+        $user->setUserAgent($userAgent);
+
+        // save user to database
+        try {
+            $this->entityManager->flush();
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'error to flush user entity update',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
+    }
+
+    /**
      * Delete user by email
      *
      * @param int $id The user id

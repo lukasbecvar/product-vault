@@ -15,6 +15,11 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    # handle login event (log user login)
+    App\Event\Subscriber\LoginEventSubscriber:
+        tags:
+            - { name: 'kernel.event_subscriber' }
+
     # request middlewares
     # --------------------------------------------------------------------------------- #
     # escape request data (for security)

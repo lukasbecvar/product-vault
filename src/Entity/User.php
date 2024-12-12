@@ -213,8 +213,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function eraseCredentials(): void
     {
-        $this->email = null;
-        $this->password = null;
     }
 
     /**

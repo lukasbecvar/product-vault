@@ -56,11 +56,11 @@ curl -X POST http://localhost/api/auth/login \
     - [X] User registration (api endpoint)
     - [X] User login JWT (with symfony security bundle and nelmio jwt)
         - [X] Implement password hash to register user and user fixture
+	- [X] Log user login event and update user data on login
     - [ ] User logout invalidate JWT token (api endpoint)
     - [ ] Get user id in save log method
     - [ ] Get logs by user email instead of user id in log reader cli command
     - [ ] Check if user status is active in login process (check if user is not blocked)
-	- [ ] Log user login event
 - [ ] Revise log levels in save log method
 - [ ] User info contoller
     - [ ] User info endpoint

@@ -136,6 +136,31 @@ class UserManagerTest extends TestCase
     }
 
     /**
+     * Test update user data on login
+     *
+     * @return void
+     */
+    public function testUpdateUserDataOnLogin(): void
+    {
+        // testing user email
+        $identifier = 'test@test.com';
+
+        // mock user repository
+        $this->userRepositoryMock->expects($this->once())->method('findOneBy')->with(['email' => $identifier])
+            ->willReturn(new User());
+
+        // mock visitor info util
+        $this->visitorInfoUtilMock->expects($this->once())->method('getIP')->willReturn('127.0.0.1');
+        $this->visitorInfoUtilMock->expects($this->once())->method('getUserAgent')->willReturn('TestAgent');
+
+        // expect entity manager flush call
+        $this->entityManagerMock->expects($this->once())->method('flush');
+
+        // call tested method
+        $this->userManager->updateUserDataOnLogin($identifier);
+    }
+
+    /**
      * Test delete user
      *
      * @return void
