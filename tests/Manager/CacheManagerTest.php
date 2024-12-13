@@ -32,6 +32,20 @@ class CacheManagerTest extends TestCase
     }
 
     /**
+     * Test check is redis connected
+     *
+     * @return void
+     */
+    public function testCheckIsRedisConnected(): void
+    {
+        // expect call check redis connection
+        $this->redis->expects($this->once())->method('__call')->with('ping');
+
+        // call tested method
+        $this->cacheManager->isRedisConnected();
+    }
+
+    /**
      * Test save cache value
      *
      * @return void
