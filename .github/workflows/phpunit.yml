@@ -29,7 +29,7 @@ jobs:
           REDIS_PASSWORD: redis_test_password
         ports:
           - 6379:6379
-        options: --requirepass redis_test_password
+        options: --command 'redis-server --requirepass redis_test_password'
 
     steps:
       - name: Checkout repository
