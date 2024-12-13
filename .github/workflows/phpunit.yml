@@ -12,10 +12,6 @@ jobs:
     name: Run PHPUnit
     runs-on: ubuntu-latest
 
-    # rewrite env variables
-    env:
-      REDIS_HOST: redis
-
     services:
       # mysql database service
       mysql:
