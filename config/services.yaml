@@ -13,7 +13,7 @@ services:
     # register predis service (redis client)
     Predis\Client:
         arguments:
-            $parameters: '%env(REDIS_HOST)%://%env(REDIS_USER)%:%env(REDIS_PASSWORD)%@%env(REDIS_HOST)%:%env(REDIS_PORT)%'
+            $parameters: '%env(resolve:REDIS_SCHEME)%://%env(resolve:REDIS_USER)%:%env(resolve:REDIS_PASSWORD)%@%env(resolve:REDIS_HOST)%:%env(resolve:REDIS_PORT)%'
 
     # exception event subscriber (error handling functionality)
     App\Event\Subscriber\ExceptionEventSubscriber:

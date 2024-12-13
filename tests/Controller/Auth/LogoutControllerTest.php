@@ -142,8 +142,6 @@ class LogoutControllerTest extends WebTestCase
         /** @var array<string> $responseData */
         $responseData = json_decode($responseContent, true);
 
-        dd($responseData);
-
         // assert response
         $this->assertNotEmpty($responseContent);
         $this->assertArrayHasKey('status', $responseData);
