@@ -27,7 +27,7 @@ jobs:
         image: redis:latest
         ports:
           - 6379:6379
-        options: --entrypoint "redis-server --requirepass redis_test_password"
+        options: --command "redis-server --requirepass redis_test_password"
 
     steps:
       - name: Checkout repository
