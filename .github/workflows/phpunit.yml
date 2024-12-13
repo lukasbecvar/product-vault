@@ -25,11 +25,9 @@ jobs:
       # redis cache service
       redis:
         image: redis:latest
-        env:
-          REDIS_PASSWORD: redis_test_password
         ports:
           - 6379:6379
-        options: --command 'redis-server --requirepass redis_test_password'
+        options: --entrypoint "redis-server --requirepass redis_test_password"
 
     steps:
       - name: Checkout repository
