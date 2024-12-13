@@ -50,7 +50,7 @@ curl -X POST http://localhost/api/auth/logout \
         - [X] SSL check
         - [X] Allow connection for specific ip-address or for all ip-addresses
 - [X] Protect exception error message in production mode
-- [ ] User system (jwt auth)
+- [X] User system (jwt auth)
     - [X] Create user entity (id, email, firstname, lastname, roles, password, register-time, last-login, ip-address, user-agent)
     - [X] Create user manager service
     - [X] User registration command
