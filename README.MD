@@ -77,8 +77,9 @@ curl -X POST http://localhost/api/auth/login \
 - [ ] Setup CSRF protection
 - [ ] Revise log levels in save log method
 - [ ] Email manager
-    - [ ] Send email in password reset
-    - [ ] Send email in user status change
+    - [ ] Send email - password reset
+    - [ ] Send email - user status change
+    - [ ] Send email - user registration
 - [ ] Complete base refactoring
 - [ ] Base documentation
 - [ ] Release app base to separate repo (api-base)
