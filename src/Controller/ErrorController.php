@@ -84,10 +84,16 @@ class ErrorController extends AbstractController
         $statusCode = $exception instanceof HttpException
             ? $exception->getStatusCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR;
 
-        // handle error exception trace
-        return $this->json([
+        // build error response
+        $response = [
             'status' => 'error',
             'message' => $exception->getMessage(),
-        ], $statusCode);
+        ];
+
+        // encode response to json
+        $jsonResponse = json_encode($response, JSON_UNESCAPED_UNICODE);
+
+        // return json response
+        return new JsonResponse($jsonResponse, $statusCode, [], true);
     }
 }

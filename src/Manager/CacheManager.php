@@ -25,6 +25,27 @@ class CacheManager
     }
 
     /**
+     * Check if redis connection is ok
+     *
+     * @return bool True if redis connection is ok, false otherwise
+     */
+    public function isRedisConnected(): bool
+    {
+        try {
+            $status = $this->redis->ping();
+        } catch (Exception $e) {
+            return false;
+        }
+
+        // check if redis connection is ok
+        if ($status == 'PONG') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Save value to cache storage
      *
      * @param string $key The cache key
