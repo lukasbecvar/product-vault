@@ -37,9 +37,8 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.4
+          php-version: 8.3
           extensions: intl, pdo_mysql, pdo
-          ini-values: "error_reporting=E_ALL & ~E_DEPRECATED"
 
       # composer install
       - name: Install dependencies
