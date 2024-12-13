@@ -1,7 +1,6 @@
 # Product Vault
 An open-source platform API system for managing product databases, designed with a focus on simplicity, flexibility, and security. The system enables efficient storage organization and manipulation of product data through a RESTful API, ensuring seamless integration with your e-shop or other applications that require product lists or product details.
 
-
 ## register request
 curl -X POST http://localhost/auth/register \
   -H "Content-Type: application/json" \
@@ -19,7 +18,6 @@ curl -X POST http://localhost/api/auth/login \
     "email": "test@test.test",
     "password": "test"
   }'
-
 
 ## Backlog
 ## Stage 1 - API base
@@ -78,6 +76,9 @@ curl -X POST http://localhost/api/auth/login \
 - [ ] Setup nelmio api doc
 - [ ] Setup CSRF protection
 - [ ] Revise log levels in save log method
+- [ ] Email manager
+    - [ ] Send email in password reset
+    - [ ] Send email in user status change
 - [ ] Complete base refactoring
 - [ ] Base documentation
 - [ ] Release app base to separate repo (api-base)
