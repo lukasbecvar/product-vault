@@ -26,7 +26,6 @@ jobs:
       redis:
         image: redis:latest
         options: >-
-          --requirepass redis_test_password
           --health-cmd "redis-cli ping"
           --health-interval 10s
           --health-timeout 5s
