@@ -19,6 +19,11 @@ curl -X POST http://localhost/api/auth/login \
     "password": "test"
   }'
 
+## logout request
+curl -X POST http://localhost/api/auth/logout \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer <token>"
+
 ## Backlog
 ## Stage 1 - API base
 - [X] Main index controller
@@ -59,8 +64,8 @@ curl -X POST http://localhost/api/auth/login \
 	- [X] Log user login event and update user data on login
     - [X] Check if user status is active in login process (check if user is not blocked)
     - [X] Get logs by user email instead of user id in log reader cli command
-    - [ ] User logout invalidate JWT token (api endpoint)
-        - [ ] JWT token blacklist (redis)
+    - [X] User logout invalidate JWT token (api endpoint)
+        - [X] JWT token blacklist (redis)
 - [ ] User info contoller
     - [ ] User info endpoint
         - [ ] Get firstname

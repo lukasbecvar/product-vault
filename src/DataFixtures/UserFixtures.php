@@ -40,7 +40,7 @@ class UserFixtures extends Fixture
         $user->setEmail('test@test.test')
             ->setFirstName('test')
             ->setLastName('User')
-            ->setRoles(['ROLE_ADMIN'])
+            ->setRoles(['ROLE_USER', 'ROLE_ADMIN'])
             ->setPassword($this->userPasswordHasher->hashPassword($user, 'test'))
             ->setRegisterTime($faker->dateTimeBetween('-1 year', 'now'))
             ->setLastLoginTime($faker->dateTimeBetween('-6 months', 'now'))
