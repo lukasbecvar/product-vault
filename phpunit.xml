@@ -16,6 +16,7 @@
     <testsuites>
         <testsuite name="Project Test Suite">
             <directory suffix=".php">./tests</directory>
+            <exclude>./tests/CustomTestCase.php</exclude>
             <exclude>./tests/bootstrap.php</exclude>
         </testsuite>
     </testsuites>    
