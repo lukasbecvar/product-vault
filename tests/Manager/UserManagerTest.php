@@ -177,22 +177,22 @@ class UserManagerTest extends TestCase
         // assert result
         $this->assertIsArray($result);
         $this->assertArrayHasKey('email', $result);
-        $this->assertArrayHasKey('firstName', $result);
-        $this->assertArrayHasKey('lastName', $result);
+        $this->assertArrayHasKey('first-name', $result);
+        $this->assertArrayHasKey('last-name', $result);
         $this->assertArrayHasKey('roles', $result);
-        $this->assertArrayHasKey('registerTime', $result);
-        $this->assertArrayHasKey('lastLoginTime', $result);
-        $this->assertArrayHasKey('ipAddress', $result);
-        $this->assertArrayHasKey('userAgent', $result);
+        $this->assertArrayHasKey('register-time', $result);
+        $this->assertArrayHasKey('last-login-time', $result);
+        $this->assertArrayHasKey('ip-address', $result);
+        $this->assertArrayHasKey('user-agent', $result);
         $this->assertArrayHasKey('status', $result);
         $this->assertSame($email, $result['email']);
-        $this->assertSame($firstName, $result['firstName']);
-        $this->assertSame($lastName, $result['lastName']);
+        $this->assertSame($firstName, $result['first-name']);
+        $this->assertSame($lastName, $result['last-name']);
         $this->assertSame($roles, $result['roles']);
-        $this->assertSame($registerTime->format('Y-m-d H:i:s'), $result['registerTime']);
-        $this->assertSame($lastLoginTime->format('Y-m-d H:i:s'), $result['lastLoginTime']);
-        $this->assertSame($ipAddress, $result['ipAddress']);
-        $this->assertSame($userAgent, $result['userAgent']);
+        $this->assertSame($registerTime->format('Y-m-d H:i:s'), $result['register-time']);
+        $this->assertSame($lastLoginTime->format('Y-m-d H:i:s'), $result['last-login-time']);
+        $this->assertSame($ipAddress, $result['ip-address']);
+        $this->assertSame($userAgent, $result['user-agent']);
         $this->assertSame($status, $result['status']);
     }
 

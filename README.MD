@@ -66,15 +66,16 @@ curl -X POST http://localhost/api/auth/logout \
     - [X] Get logs by user email instead of user id in log reader cli command
     - [X] User logout invalidate JWT token (api endpoint)
         - [X] JWT token blacklist (redis)
-- [ ] User info contoller
-    - [ ] User info endpoint
-        - [ ] Get firstname
-        - [ ] Get lastname
-        - [ ] Get email
-        - [ ] Get roles
-        - [ ] Get is-active
-        - [ ] Get last-login
-        - [ ] Get register-time
+- [X] User info contoller
+    - [X] User info endpoint
+        - [X] Get firstname
+        - [X] Get lastname
+        - [X] Get email
+        - [X] Get roles
+        - [X] Get is-active
+        - [X] Get last-login
+        - [X] Get register-time
+- [ ] Get user data CLI command
 - [ ] Update user data
     - [ ] Change email
     - [ ] Change password
@@ -83,7 +84,6 @@ curl -X POST http://localhost/api/auth/logout \
     - [ ] Change roles
     - [ ] Change status
 - [ ] Allow get access token from http only cookie
-- [ ] Get user data CLI command
 - [ ] Get user id in save log method 
 - [ ] Setup nelmio api doc
 - [ ] Setup CSRF protection
@@ -191,6 +191,7 @@ curl -X POST http://localhost/api/auth/logout \
         - [ ] When preload process is not finished use mysql database for getting products
 - [ ] Create postman collection
 - [ ] Create API documentation with postman
+    - [ ] Create tests in postman
 - [ ] Simple app info in README.MD
 - [ ] Env config documentation in README.MD
 - [ ] Complete app refactoring

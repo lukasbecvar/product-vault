@@ -225,7 +225,7 @@ class UserManager
      *
      * @param int $id The user id
      *
-     * @return array<string, array<int, string>|string> The user info
+     * @return array<string, array<int, string>|string|bool> The user info
      */
     public function getUserInfo(int $id): array
     {
@@ -266,14 +266,15 @@ class UserManager
         // return user status
         return [
             'email' => $email,
-            'firstName' => $firstName,
-            'lastName' => $lastName,
+            'first-name' => $firstName,
+            'last-name' => $lastName,
             'roles' => $roles,
-            'registerTime' => $registerTime->format('Y-m-d H:i:s'),
-            'lastLoginTime' => $lastLoginTime->format('Y-m-d H:i:s'),
-            'ipAddress' => $ipAddress,
-            'userAgent' => $userAgent,
+            'register-time' => $registerTime->format('Y-m-d H:i:s'),
+            'last-login-time' => $lastLoginTime->format('Y-m-d H:i:s'),
+            'ip-address' => $ipAddress,
+            'user-agent' => $userAgent,
             'status' => $status,
+            'is-active' => $status === 'active',
         ];
     }
 
