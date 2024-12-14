@@ -14,6 +14,7 @@ use App\Manager\DatabaseManager;
 use App\Repository\LogRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -28,6 +29,7 @@ class LogManagerTest extends TestCase
 {
     private LogManager $logManager;
     private AppUtil & MockObject $appUtilMock;
+    private Security & MockObject $securityMock;
     private SecurityUtil & MockObject $securityUtilMock;
     private ErrorManager & MockObject $errorManagerMock;
     private LogRepository & MockObject $logRepositoryMock;
@@ -38,6 +40,7 @@ class LogManagerTest extends TestCase
     protected function setUp(): void
     {
         $this->appUtilMock = $this->createMock(AppUtil::class);
+        $this->securityMock = $this->createMock(Security::class);
         $this->securityUtilMock = $this->createMock(SecurityUtil::class);
         $this->errorManagerMock = $this->createMock(ErrorManager::class);
         $this->logRepositoryMock = $this->createMock(LogRepository::class);
@@ -48,6 +51,7 @@ class LogManagerTest extends TestCase
         // create log manager instance
         $this->logManager = new LogManager(
             $this->appUtilMock,
+            $this->securityMock,
             $this->securityUtilMock,
             $this->errorManagerMock,
             $this->logRepositoryMock,

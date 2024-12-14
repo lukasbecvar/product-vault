@@ -10,6 +10,7 @@ use App\Util\SecurityUtil;
 use App\Util\VisitorInfoUtil;
 use App\Repository\LogRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -29,6 +30,7 @@ class LogManager
     public const LEVEL_INFO = 4;
 
     private AppUtil $appUtil;
+    private Security $security;
     private SecurityUtil $securityUtil;
     private ErrorManager $errorManager;
     private LogRepository $logRepository;
@@ -38,6 +40,7 @@ class LogManager
 
     public function __construct(
         AppUtil $appUtil,
+        Security $security,
         SecurityUtil $securityUtil,
         ErrorManager $errorManager,
         LogRepository $logRepository,
@@ -46,6 +49,7 @@ class LogManager
         EntityManagerInterface $entityManager
     ) {
         $this->appUtil = $appUtil;
+        $this->security = $security;
         $this->securityUtil = $securityUtil;
         $this->errorManager = $errorManager;
         $this->logRepository = $logRepository;
@@ -104,7 +108,16 @@ class LogManager
         // get user info of current user
         $userAgent = $this->visitorInfoUtil->getUserAgent() ?? 'Unknown';
         $userIp = $this->visitorInfoUtil->getIP() ?? 'Unknown';
-        $userId = 0;
+
+        /** @var \App\Entity\User $user */
+        $user = $this->security->getUser();
+
+        // get user id
+        if ($user === null) {
+            $userId = 0;
+        } else {
+            $userId = $user->getId() ?? 0;
+        }
 
         // create log entity
         $log = new Log();

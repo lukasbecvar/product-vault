@@ -229,6 +229,12 @@ class UserManager
      */
     public function getUserInfo(int $id): array
     {
+        $this->logManager->saveLog(
+            name: 'user-manager',
+            message: 'get user info with id: ' . $id,
+            level: LogManager::LEVEL_INFO
+        );
+
         // get user
         $user = $this->userRepository->find($id);
 

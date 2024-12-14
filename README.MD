@@ -2,7 +2,7 @@
 An open-source platform API system for managing product databases, designed with a focus on simplicity, flexibility, and security. The system enables efficient storage organization and manipulation of product data through a RESTful API, ensuring seamless integration with your e-shop or other applications that require product lists or product details.
 
 ## register request
-curl -X POST http://localhost/auth/register \
+curl -X POST http://localhost/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "test@example.com",
@@ -21,6 +21,11 @@ curl -X POST http://localhost/api/auth/login \
 
 ## logout request
 curl -X POST http://localhost/api/auth/logout \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer <token>"
+
+## user info request
+curl -X POST http://localhost/api/user/info \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer <token>"
 
@@ -76,7 +81,7 @@ curl -X POST http://localhost/api/auth/logout \
         - [X] Get last-login
         - [X] Get register-time
 - [X] Get user data CLI command
-- [ ] Get user id in save log method 
+- [X] Get user id in save log method 
 - [ ] Setup CSRF protection
 - [ ] Email manager
     - [ ] Send email - password reset
