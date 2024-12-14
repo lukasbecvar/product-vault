@@ -76,6 +76,12 @@ curl -X POST http://localhost/api/auth/logout \
         - [X] Get last-login
         - [X] Get register-time
 - [X] Get user data CLI command
+- [ ] Get user id in save log method 
+- [ ] Setup CSRF protection
+- [ ] Email manager
+    - [ ] Send email - password reset
+    - [ ] Send email - user status change
+    - [ ] Send email - user registration
 - [ ] Update user data
     - [ ] Change email
     - [ ] Change password
@@ -84,14 +90,8 @@ curl -X POST http://localhost/api/auth/logout \
     - [ ] Change roles
     - [ ] Change status
 - [ ] Allow get access token from http only cookie
-- [ ] Get user id in save log method 
 - [ ] Setup nelmio api doc
-- [ ] Setup CSRF protection
 - [ ] Revise log levels in save log method
-- [ ] Email manager
-    - [ ] Send email - password reset
-    - [ ] Send email - user status change
-    - [ ] Send email - user registration
 - [ ] Complete base refactoring
 - [ ] Base documentation
 - [ ] Release app base to separate repo (api-base)
