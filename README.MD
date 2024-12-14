@@ -75,7 +75,7 @@ curl -X POST http://localhost/api/auth/logout \
         - [X] Get is-active
         - [X] Get last-login
         - [X] Get register-time
-- [ ] Get user data CLI command
+- [X] Get user data CLI command
 - [ ] Update user data
     - [ ] Change email
     - [ ] Change password
