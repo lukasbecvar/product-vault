@@ -75,6 +75,13 @@ curl -X POST http://localhost/api/auth/logout \
         - [ ] Get is-active
         - [ ] Get last-login
         - [ ] Get register-time
+- [ ] Update user data
+    - [ ] Change email
+    - [ ] Change password
+    - [ ] Change first name
+    - [ ] Change last name
+    - [ ] Change roles
+    - [ ] Change status
 - [ ] Allow get access token from http only cookie
 - [ ] Get user data CLI command
 - [ ] Get user id in save log method 
