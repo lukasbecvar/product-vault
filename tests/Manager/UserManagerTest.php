@@ -268,11 +268,13 @@ class UserManagerTest extends TestCase
     {
         $userId = 1;
         $email = 'test@test.test';
+        $oldStatus = 'active';
         $newStatus = 'inactive';
 
         // mock user retrieval
         $user = $this->createMock(User::class);
         $user->expects($this->once())->method('getEmail')->willReturn($email);
+        $user->expects($this->once())->method('getStatus')->willReturn($oldStatus);
 
         // expect set status call
         $user->expects($this->once())->method('setStatus')->with($newStatus);
@@ -288,7 +290,7 @@ class UserManagerTest extends TestCase
         // expect save log call
         $this->logManagerMock->expects($this->once())->method('saveLog')->with(
             name: 'user-manager',
-            message: 'user: ' . $email . ' updated status to: ' . $newStatus,
+            message: 'user: ' . $email . ' updated status to: ' . $newStatus . ' old status was: ' . $oldStatus,
             level: LogManager::LEVEL_INFO
         );
 

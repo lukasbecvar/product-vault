@@ -382,6 +382,9 @@ class UserManager
             );
         }
 
+        // get old user status
+        $oldStatus = $user->getStatus();
+
         // update user status
         $user->setStatus($status);
 
@@ -402,7 +405,7 @@ class UserManager
         // log action
         $this->logManager->saveLog(
             name: 'user-manager',
-            message: 'user: ' . $email . ' updated status to: ' . $status,
+            message: 'user: ' . $email . ' updated status to: ' . $status . ' old status was: ' . $oldStatus,
             level: LogManager::LEVEL_INFO
         );
     }
