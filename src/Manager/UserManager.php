@@ -221,6 +221,63 @@ class UserManager
     }
 
     /**
+     * Get user info
+     *
+     * @param int $id The user id
+     *
+     * @return array<string, array<int, string>|string> The user info
+     */
+    public function getUserInfo(int $id): array
+    {
+        // get user
+        $user = $this->userRepository->find($id);
+
+        // check if user exists
+        if ($user === null) {
+            $this->errorManager->handleError(
+                message: 'user not found with id: ' . $id,
+                code: JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        // get user info
+        $email = $user->getEmail();
+        $firstName = $user->getFirstName();
+        $lastName = $user->getLastName();
+        $roles = $user->getRoles();
+        $registerTime = $user->getRegisterTime();
+        $lastLoginTime = $user->getLastLoginTime();
+        $ipAddress = $user->getIpAddress();
+        $userAgent = $user->getUserAgent();
+        $status = $user->getStatus();
+
+        // check if user info found
+        if (
+            $email === null || $firstName === null || $lastName === null || $roles === null
+            || $registerTime === null || $lastLoginTime === null || $ipAddress === null
+            || $userAgent === null || $status === null
+        ) {
+            $this->errorManager->handleError(
+                message: 'user id: ' . $id . ' info not found',
+                code: JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        // return user status
+        return [
+            'email' => $email,
+            'firstName' => $firstName,
+            'lastName' => $lastName,
+            'roles' => $roles,
+            'registerTime' => $registerTime->format('Y-m-d H:i:s'),
+            'lastLoginTime' => $lastLoginTime->format('Y-m-d H:i:s'),
+            'ipAddress' => $ipAddress,
+            'userAgent' => $userAgent,
+            'status' => $status,
+        ];
+    }
+
+    /**
      * Update user data on login
      *
      * @param string $identifier The user identifier

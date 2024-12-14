@@ -2,6 +2,7 @@
 
 namespace App\Tests\Manager;
 
+use DateTime;
 use App\Entity\User;
 use Monolog\Test\TestCase;
 use App\Manager\LogManager;
@@ -133,6 +134,66 @@ class UserManagerTest extends TestCase
 
         // call tested method
         $this->userManager->registerUser($email, $firstName, $lastName, $password);
+    }
+
+    /**
+     * Test get user info
+     *
+     * @return void
+     */
+    public function testGetUserInfo(): void
+    {
+        // testing user data
+        $id = 1;
+        $email = 'test@test.com';
+        $firstName = 'John';
+        $lastName = 'Doe';
+        $roles = ['ROLE_ADMIN'];
+        $registerTime = new DateTime();
+        $lastLoginTime = new DateTime();
+        $ipAddress = '127.0.0.1';
+        $userAgent = 'TestAgent';
+        $status = 'active';
+
+        // mock user entity
+        $user = $this->createMock(User::class);
+        $user->expects($this->once())->method('getEmail')->willReturn($email);
+        $user->expects($this->once())->method('getFirstName')->willReturn($firstName);
+        $user->expects($this->once())->method('getLastName')->willReturn($lastName);
+        $user->expects($this->once())->method('getRoles')->willReturn($roles);
+        $user->expects($this->once())->method('getRegisterTime')->willReturn($registerTime);
+        $user->expects($this->once())->method('getLastLoginTime')->willReturn($lastLoginTime);
+        $user->expects($this->once())->method('getIpAddress')->willReturn($ipAddress);
+        $user->expects($this->once())->method('getUserAgent')->willReturn($userAgent);
+        $user->expects($this->once())->method('getStatus')->willReturn($status);
+
+        // mock repository to return user
+        $this->userRepositoryMock->expects($this->any())->method('find')->with($id)
+            ->willReturn($user);
+
+        // call tested method
+        $result = $this->userManager->getUserInfo($id);
+
+        // assert result
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('email', $result);
+        $this->assertArrayHasKey('firstName', $result);
+        $this->assertArrayHasKey('lastName', $result);
+        $this->assertArrayHasKey('roles', $result);
+        $this->assertArrayHasKey('registerTime', $result);
+        $this->assertArrayHasKey('lastLoginTime', $result);
+        $this->assertArrayHasKey('ipAddress', $result);
+        $this->assertArrayHasKey('userAgent', $result);
+        $this->assertArrayHasKey('status', $result);
+        $this->assertSame($email, $result['email']);
+        $this->assertSame($firstName, $result['firstName']);
+        $this->assertSame($lastName, $result['lastName']);
+        $this->assertSame($roles, $result['roles']);
+        $this->assertSame($registerTime->format('Y-m-d H:i:s'), $result['registerTime']);
+        $this->assertSame($lastLoginTime->format('Y-m-d H:i:s'), $result['lastLoginTime']);
+        $this->assertSame($ipAddress, $result['ipAddress']);
+        $this->assertSame($userAgent, $result['userAgent']);
+        $this->assertSame($status, $result['status']);
     }
 
     /**
