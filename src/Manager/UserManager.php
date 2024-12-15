@@ -22,6 +22,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserManager
 {
     private LogManager $logManager;
+    private EmailManager $emailManager;
     private ErrorManager $errorManager;
     private UserRepository $userRepository;
     private VisitorInfoUtil $visitorInfoUtil;
@@ -30,6 +31,7 @@ class UserManager
 
     public function __construct(
         LogManager $logManager,
+        EmailManager $emailManager,
         ErrorManager $errorManager,
         UserRepository $userRepository,
         VisitorInfoUtil $visitorInfoUtil,
@@ -37,6 +39,7 @@ class UserManager
         UserPasswordHasherInterface $passwordHasher
     ) {
         $this->logManager = $logManager;
+        $this->emailManager = $emailManager;
         $this->errorManager = $errorManager;
         $this->entityManager = $entityManager;
         $this->userRepository = $userRepository;
@@ -211,6 +214,12 @@ class UserManager
                 exceptionMessage: $e->getMessage()
             );
         }
+
+        // send email to user
+        $this->emailManager->sendEmail($email, 'User registration', [
+            'subject' => 'User registration',
+            'message' => 'Your user account has been created. First name: ' . $firstName . ', last name: ' . $lastName,
+        ]);
 
         // log action to database
         $this->logManager->saveLog(
@@ -409,6 +418,12 @@ class UserManager
         // get user email by id
         $email = $this->getUserEmailById($id);
 
+        // send email to user
+        $this->emailManager->sendEmail($email, 'User status change', [
+            'subject' => 'User status change',
+            'message' => 'Your user status has been changed to: ' . $status,
+        ]);
+
         // log action
         $this->logManager->saveLog(
             name: 'user-manager',
@@ -474,8 +489,11 @@ class UserManager
         // generate new password
         $password = ByteString::fromRandom(16);
 
+        // hash password
+        $passwordHash = $this->passwordHasher->hashPassword($user, $password);
+
         // update user password
-        $user->setPassword($password);
+        $user->setPassword($passwordHash);
 
         // save user to database
         try {
@@ -490,6 +508,12 @@ class UserManager
 
         // get user email by id
         $email = $this->getUserEmailById($id);
+
+        // send email to user
+        $this->emailManager->sendEmail($email, 'Password reset', [
+            'subject' => 'Password reset',
+            'message' => 'Your password has been reset. New password is: ' . $password,
+        ]);
 
         // log action to database
         $this->logManager->saveLog(

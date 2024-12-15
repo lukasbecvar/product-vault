@@ -8,6 +8,7 @@ use Monolog\Test\TestCase;
 use App\Manager\LogManager;
 use App\Manager\UserManager;
 use App\Util\VisitorInfoUtil;
+use App\Manager\EmailManager;
 use App\Manager\ErrorManager;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,6 +26,7 @@ class UserManagerTest extends TestCase
 {
     private UserManager $userManager;
     private LogManager & MockObject $logManagerMock;
+    private EmailManager & MockObject $emailManagerMock;
     private ErrorManager & MockObject $errorManagerMock;
     private UserRepository & MockObject $userRepositoryMock;
     private VisitorInfoUtil & MockObject $visitorInfoUtilMock;
@@ -35,6 +37,7 @@ class UserManagerTest extends TestCase
     {
         // mock dependencies
         $this->logManagerMock = $this->createMock(LogManager::class);
+        $this->emailManagerMock = $this->createMock(EmailManager::class);
         $this->errorManagerMock = $this->createMock(ErrorManager::class);
         $this->userRepositoryMock = $this->createMock(UserRepository::class);
         $this->visitorInfoUtilMock = $this->createMock(VisitorInfoUtil::class);
@@ -44,6 +47,7 @@ class UserManagerTest extends TestCase
         // create user manager instance
         $this->userManager = new UserManager(
             $this->logManagerMock,
+            $this->emailManagerMock,
             $this->errorManagerMock,
             $this->userRepositoryMock,
             $this->visitorInfoUtilMock,

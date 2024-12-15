@@ -83,10 +83,10 @@ curl -X POST http://localhost/api/user/info \
 - [X] Get user data CLI command
 - [X] Get user id in save log method 
 - [X] Setup CSRF protection
-- [ ] Email manager
-    - [ ] Send email - password reset
-    - [ ] Send email - user status change
-    - [ ] Send email - user registration
+- [X] Email manager
+    - [X] Send email - password reset
+    - [X] Send email - user registration
+    - [X] Send email - user status change
 - [ ] Update user data
     - [ ] Change email
     - [ ] Change password
@@ -94,7 +94,6 @@ curl -X POST http://localhost/api/user/info \
     - [ ] Change last name
     - [ ] Change roles
     - [ ] Change status
-- [ ] Allow get access token from http only cookie
 - [ ] Setup nelmio api doc
 - [ ] Revise log levels in save log method
 - [ ] Complete base refactoring
@@ -205,7 +204,6 @@ curl -X POST http://localhost/api/user/info \
 ## Stage 3 - Frontend app
 - [ ] React app implementation
     - [ ] Login to app
-        - [ ] Store JWT token in http-only cookie
     - [ ] Logout from app
     - [ ] Register new user
     - [ ] Implement product dashboard with sorting and filtering
