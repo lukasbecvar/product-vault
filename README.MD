@@ -82,7 +82,7 @@ curl -X POST http://localhost/api/user/info \
         - [X] Get register-time
 - [X] Get user data CLI command
 - [X] Get user id in save log method 
-- [ ] Setup CSRF protection
+- [X] Setup CSRF protection
 - [ ] Email manager
     - [ ] Send email - password reset
     - [ ] Send email - user status change
