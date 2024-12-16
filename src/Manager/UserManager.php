@@ -627,7 +627,7 @@ class UserManager
         // check if user exists
         if ($user === null) {
             $this->errorManager->handleError(
-                message: 'user not found with id: ' . $id,
+                message: 'User not found with id: ' . $id,
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
@@ -635,7 +635,7 @@ class UserManager
         // check if user has role
         if ($this->checkIfUserHasRole($id, $role)) {
             $this->errorManager->handleError(
-                message: 'user already has role: ' . $role,
+                message: 'User already has role: ' . $role,
                 code: JsonResponse::HTTP_BAD_REQUEST
             );
         }

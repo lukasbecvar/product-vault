@@ -8,6 +8,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -37,7 +38,7 @@ class UserDataUpdateController extends AbstractController
      * @return JsonResponse The update status response
      */
     #[Route('/api/user/data/update/password', methods:['PATCH'], name: 'user_data_update_password')]
-    public function userInfo(Security $security, Request $request): JsonResponse
+    public function updateUserPassword(Security $security, Request $request): JsonResponse
     {
         /** @var \App\Entity\User $user */
         $user = $security->getUser();
@@ -89,5 +90,72 @@ class UserDataUpdateController extends AbstractController
             'status' => 'success',
             'message' => 'Password updated successfully!'
         ], JsonResponse::HTTP_OK);
+    }
+
+    /**
+     * Update user role
+     *
+     * @param Request $request The request object
+     *
+     * @return JsonResponse The update status response
+     */
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/api/user/data/update/role', methods:['PATCH'], name: 'user_data_update_role')]
+    public function updateUserRole(Request $request): JsonResponse
+    {
+        // get request data
+        $requestData = $request->toArray();
+        $userId = $requestData['user-id'] ?? null;
+        $task = $requestData['task'] ?? null;
+        $role = $requestData['role'] ?? null;
+
+        // check if request data is valid
+        if ($userId === null || $task === null || $role === null || empty($userId) || empty($task) || empty($role)) {
+            $this->errorManager->handleError(
+                message: 'Parameters: user-id, task(add, remove), role are required!',
+                code: JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        // check if user id is valid
+        if (!is_numeric($userId)) {
+            $this->errorManager->handleError(
+                message: 'User id is not valid!',
+                code: JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        // check if task is valid
+        if (!in_array($task, ['add', 'remove'])) {
+            $this->errorManager->handleError(
+                message: 'Task is not valid!',
+                code: JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        if ($task === 'add') {
+            // add role to user
+            $this->userManager->addRoleToUser((int) $userId, $role);
+
+            // return success message
+            return $this->json([
+                'status' => 'success',
+                'message' => 'Role added successfully!'
+            ], JsonResponse::HTTP_OK);
+        } elseif ($task === 'remove') {
+            // remove role from user
+            $this->userManager->removeRoleFromUser((int) $userId, $role);
+
+            // return success message
+            return $this->json([
+                'status' => 'success',
+                'message' => 'Role removed successfully!'
+            ], JsonResponse::HTTP_OK);
+        } else {
+            $this->errorManager->handleError(
+                message: 'Task is not valid!',
+                code: JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
     }
 }

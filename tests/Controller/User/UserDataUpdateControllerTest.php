@@ -245,4 +245,239 @@ class UserDataUpdateControllerTest extends CustomTestCase
         $this->assertSame('Password updated successfully!', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
     }
+
+    /**
+     * Test update user role when request method is not valid
+     *
+     * @return void
+     */
+    public function testUpdateUserRoleWhenRequestMethodIsNotValid(): void
+    {
+        $this->client->request('GET', '/api/user/data/update/role');
+
+        // get response content
+        $responseContent = $this->client->getResponse()->getContent();
+
+        // check if response content is empty
+        if (!$responseContent) {
+            $this->fail('Response content is empty');
+        }
+
+        /** @var array<string> $responseData */
+        $responseData = json_decode($responseContent, true);
+
+        // assert response
+        $this->assertSame('error', $responseData['status']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * Test update user role when auth token is not provided
+     *
+     * @return void
+     */
+    public function testUpdateUserRoleWhenAuthTokenIsNotProvided(): void
+    {
+        $this->client->request('PATCH', '/api/user/data/update/role');
+
+        // get response content
+        $responseContent = $this->client->getResponse()->getContent();
+
+        // check if response content is empty
+        if (!$responseContent) {
+            $this->fail('Response content is empty');
+        }
+
+        /** @var array<string> $responseData */
+        $responseData = json_decode($responseContent, true);
+
+        // assert response
+        $this->assertSame('JWT Token not found', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * Test update user role when auth token is invalid
+     *
+     * @return void
+     */
+    public function testUpdateUserRoleWhenAuthTokenIsInvalid(): void
+    {
+        $this->client->request('PATCH', '/api/user/data/update/role', [], [], ['HTTP_AUTHORIZATION' => 'Bearer invalid-token']);
+
+        // get response content
+        $responseContent = $this->client->getResponse()->getContent();
+
+        // check if response content is empty
+        if (!$responseContent) {
+            $this->fail('Response content is empty');
+        }
+
+        /** @var array<string> $responseData */
+        $responseData = json_decode($responseContent, true);
+
+        // assert response
+        $this->assertSame('Invalid JWT Token', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * Test update user role when user id is not valid
+     *
+     * @return void
+     */
+    public function testUpdateUserRoleWhenUserIdIsNotValid(): void
+    {
+        $this->client->request('PATCH', '/api/user/data/update/role', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+        ], json_encode([
+            'user-id' => 'invalid-user-id',
+            'task' => 'add',
+            'role' => 'ROLE_ADMIN'
+        ]) ?: null);
+
+        // get response content
+        $responseContent = $this->client->getResponse()->getContent();
+
+        // check if response content is empty
+        if (!$responseContent) {
+            $this->fail('Response content is empty');
+        }
+
+        /** @var array<string> $responseData */
+        $responseData = json_decode($responseContent, true);
+
+        // assert response
+        $this->assertSame('User id is not valid!', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * Test update user role when task is not valid
+     *
+     * @return void
+     */
+    public function testUpdateUserRoleWhenTaskIsNotValid(): void
+    {
+        $this->client->request('PATCH', '/api/user/data/update/role', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+        ], json_encode([
+            'user-id' => 1,
+            'task' => 'invalid-task',
+            'role' => 'ROLE_ADMIN'
+        ]) ?: null);
+
+        // get response content
+        $responseContent = $this->client->getResponse()->getContent();
+
+        // check if response content is empty
+        if (!$responseContent) {
+            $this->fail('Response content is empty');
+        }
+
+        /** @var array<string> $responseData */
+        $responseData = json_decode($responseContent, true);
+
+        // assert response
+        $this->assertSame('Task is not valid!', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * Test update user role when role is not valid
+     *
+     * @return void
+     */
+    public function testUpdateUserRoleWhenRoleIsNotValid(): void
+    {
+        $this->client->request('PATCH', '/api/user/data/update/role', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+        ], json_encode([
+            'user-id' => 1,
+            'task' => 'add',
+            'role' => null
+        ]) ?: null);
+
+        // get response content
+        $responseContent = $this->client->getResponse()->getContent();
+
+        // check if response content is empty
+        if (!$responseContent) {
+            $this->fail('Response content is empty');
+        }
+
+        /** @var array<string> $responseData */
+        $responseData = json_decode($responseContent, true);
+
+        // assert response
+        $this->assertSame('Parameters: user-id, task(add, remove), role are required!', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * Test update user role when user role is already set
+     *
+     * @return void
+     */
+    public function testUpdateUserRoleWhenUserRoleIsAlreadySet(): void
+    {
+        $this->client->request('PATCH', '/api/user/data/update/role', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+        ], json_encode([
+            'user-id' => 1,
+            'task' => 'add',
+            'role' => 'ROLE_ADMIN'
+        ]) ?: null);
+
+        // get response content
+        $responseContent = $this->client->getResponse()->getContent();
+
+        // check if response content is empty
+        if (!$responseContent) {
+            $this->fail('Response content is empty');
+        }
+
+        /** @var array<string> $responseData */
+        $responseData = json_decode($responseContent, true);
+
+        // assert response
+        $this->assertSame('User already has role: ROLE_ADMIN', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * Test update user role when successful
+     *
+     * @return void
+     */
+    public function testUpdateUserRoleWhenSuccessful(): void
+    {
+        $this->client->request('PATCH', '/api/user/data/update/role', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+        ], json_encode([
+            'user-id' => 1,
+            'task' => 'add',
+            'role' => 'ROLE_TEST'
+        ]) ?: null);
+
+        // get response content
+        $responseContent = $this->client->getResponse()->getContent();
+
+        // check if response content is empty
+        if (!$responseContent) {
+            $this->fail('Response content is empty');
+        }
+
+        /** @var array<string> $responseData */
+        $responseData = json_decode($responseContent, true);
+
+        // assert response
+        $this->assertSame('Role added successfully!', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
+    }
 }
