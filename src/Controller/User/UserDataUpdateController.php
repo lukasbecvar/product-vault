@@ -158,4 +158,46 @@ class UserDataUpdateController extends AbstractController
             );
         }
     }
+
+    /**
+     * Update user status
+     *
+     * @param Request $request The request object
+     *
+     * @return JsonResponse The update status response
+     */
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/api/user/data/update/status', methods: ['PATCH'], name: 'update_user_status')]
+    public function updateUserStatus(Request $request): JsonResponse
+    {
+        // get request data
+        $requestData = $request->toArray();
+        $userId = $requestData['user-id'];
+        $status = $requestData['status'];
+
+        // check if parameters are valid
+        if (empty($userId) || empty($status)) {
+            $this->errorManager->handleError(
+                message: 'Parameters user-id and status are required!',
+                code: JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        // check if user status already associated with user
+        if ($this->userManager->getUserStatus($userId) === $status) {
+            $this->errorManager->handleError(
+                message: 'User status already set to: ' . $status,
+                code: JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        // update user status
+        $this->userManager->updateUserStatus($userId, $status);
+
+        // return success response
+        return $this->json([
+            'status' => 'success',
+            'message' => 'User status updated successfully!',
+        ], JsonResponse::HTTP_OK);
+    }
 }

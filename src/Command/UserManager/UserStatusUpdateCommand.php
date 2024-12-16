@@ -75,7 +75,7 @@ class UserStatusUpdateCommand extends Command
         // get user id by email
         $id = $this->userManager->getUserIdByEmail($email);
 
-        // check if user status is save in database
+        // check if user status already associated with user
         if ($this->userManager->getUserStatus($id) === $status) {
             $io->error('User status already set to: ' . $status);
             return Command::INVALID;

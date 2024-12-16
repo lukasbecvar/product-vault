@@ -47,6 +47,15 @@ curl -X PATCH http://localhost/api/user/data/update/role\
         "role": "ROLE_PICA"
     }'
 
+## update user status request
+curl -X PATCH http://localhost/api/user/data/update/status\
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer <token>" \
+    -d '{
+        "user-id": 2,
+        "status": "idk"
+    }'
+
 ## Backlog
 ## Stage 1 - API base
 - [X] Main index controller
@@ -108,7 +117,7 @@ curl -X PATCH http://localhost/api/user/data/update/role\
 - [ ] Update user data
     - [X] Change password
     - [X] Change roles (only for admin users)
-    - [ ] Change status (only for admin users)
+    - [X] Change status (only for admin users)
     - [ ] Delete user API endpoint
 - [ ] Get user list (with pagination) API endpoint for admin role
 - [ ] Setup nelmio api doc
