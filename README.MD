@@ -99,6 +99,7 @@ curl -X PATCH http://localhost/api/user/data/update/password\
     - [X] Change password
     - [ ] Change roles (only for admin users)
     - [ ] Change status (only for admin users)
+    - [ ] Delete user API endpoint
 - [ ] Setup nelmio api doc
 - [ ] Revise log levels in save log method
 - [ ] Complete base refactoring
@@ -211,6 +212,13 @@ curl -X PATCH http://localhost/api/user/data/update/password\
     - [ ] Login to app
     - [ ] Logout from app
     - [ ] Register new user
+    - [ ] User system
+        - [ ] Self update password (change password)
+        - [ ] Admin panel
+            - [ ] User list
+            - [ ] Update user status
+            - [ ] Update user roles
+            - [ ] Delete user
     - [ ] Implement product dashboard with sorting and filtering
     - [ ] Implement product search
     - [ ] Implement producit detail view
