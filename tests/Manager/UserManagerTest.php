@@ -201,6 +201,40 @@ class UserManagerTest extends TestCase
     }
 
     /**
+     * Test update user password
+     *
+     * @return void
+     */
+    public function testUpdateUserPassword(): void
+    {
+        $id = 1;
+        $email = 'test@test.com';
+        $newPassword = 'newPassword';
+
+        // mock user
+        $user = $this->createMock(User::class);
+        $user->expects($this->once())->method('getEmail')->willReturn($email);
+
+        // mock repository to return user
+        $this->userRepositoryMock->expects($this->any())->method('find')->with($id)
+            ->willReturn($user);
+
+        // mock entity manager to persist changes
+        $this->entityManagerMock->expects($this->once())
+            ->method('flush');
+
+        // expect save log call
+        $this->logManagerMock->expects($this->once())->method('saveLog')->with(
+            name: 'user-manager',
+            message: 'User: ' . $email . ' password changed',
+            level: LogManager::LEVEL_INFO
+        );
+
+        // call tested method
+        $this->userManager->updateUserPassword($id, $newPassword);
+    }
+
+    /**
      * Test update user data on login
      *
      * @return void

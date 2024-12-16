@@ -294,6 +294,54 @@ class UserManager
     }
 
     /**
+     * Update user password
+     *
+     * @param int $id User id to password update
+     * @param string $newPassword New password
+     *
+     * @return void
+     */
+    public function updateUserPassword(int $id, string $newPassword): void
+    {
+        // get user by id
+        $user = $this->userRepository->find($id);
+
+        // check if user found
+        if ($user === null) {
+            $this->errorManager->handleError(
+                message: 'User not found!',
+                code: JsonResponse::HTTP_UNAUTHORIZED
+            );
+        }
+
+        // hash password
+        $newPassword = $this->passwordHasher->hashPassword($user, $newPassword);
+
+        // update user password
+        $user->setPassword($newPassword);
+
+        try {
+            $this->entityManager->flush();
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'Error while updating user password!',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
+
+        // get email by user id
+        $email = $this->getUserEmailById($id);
+
+        // log event
+        $this->logManager->saveLog(
+            name: 'user-manager',
+            message: 'User: ' . $email . ' password changed',
+            level: LogManager::LEVEL_INFO
+        );
+    }
+
+    /**
      * Update user data on login
      *
      * @param string $identifier The user identifier

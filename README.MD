@@ -29,6 +29,14 @@ curl -X POST http://localhost/api/user/info \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer <token>"
 
+## update user password request
+curl -X PATCH http://localhost/api/user/data/update/password\
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer <token>" \
+    -d '{
+        "new_password": "asdfghjkoiuzrewq"
+    }'
+
 ## Backlog
 ## Stage 1 - API base
 - [X] Main index controller
@@ -88,12 +96,9 @@ curl -X POST http://localhost/api/user/info \
     - [X] Send email - user registration
     - [X] Send email - user status change
 - [ ] Update user data
-    - [ ] Change email
-    - [ ] Change password
-    - [ ] Change first name
-    - [ ] Change last name
-    - [ ] Change roles
-    - [ ] Change status
+    - [X] Change password
+    - [ ] Change roles (only for admin users)
+    - [ ] Change status (only for admin users)
 - [ ] Setup nelmio api doc
 - [ ] Revise log levels in save log method
 - [ ] Complete base refactoring

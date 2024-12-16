@@ -23,13 +23,13 @@ class UserInfoControllerTest extends CustomTestCase
     }
 
     /**
-     * Test user info when method is not POST
+     * Test user info when method is not GET
      *
      * @return void
      */
-    public function testUserInfoWhenMethodIsNotPost(): void
+    public function testUserInfoWhenRequestMethodIsNotValid(): void
     {
-        $this->client->request('GET', '/api/user/info');
+        $this->client->request('POST', '/api/user/info');
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -54,7 +54,7 @@ class UserInfoControllerTest extends CustomTestCase
      */
     public function testUserInfoWhenAuthTokenIsNotProvided(): void
     {
-        $this->client->request('POST', '/api/user/info');
+        $this->client->request('GET', '/api/user/info');
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -79,7 +79,7 @@ class UserInfoControllerTest extends CustomTestCase
      */
     public function testUserInfoWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/user/info', [], [], ['HTTP_AUTHORIZATION' => 'Bearer invalid-token']);
+        $this->client->request('GET', '/api/user/info', [], [], ['HTTP_AUTHORIZATION' => 'Bearer invalid-token']);
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -104,8 +104,7 @@ class UserInfoControllerTest extends CustomTestCase
      */
     public function testUserInfoGetSuccess(): void
     {
-        // send request to get user info
-        $this->client->request('POST', '/api/user/info', [], [], [
+        $this->client->request('GET', '/api/user/info', [], [], [
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 

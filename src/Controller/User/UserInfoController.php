@@ -31,7 +31,7 @@ class UserInfoController extends AbstractController
      *
      * @return JsonResponse The user info response
      */
-    #[Route('/api/user/info', methods:['POST'], name: 'user_info')]
+    #[Route('/api/user/info', methods:['GET'], name: 'user_info')]
     public function userInfo(Security $security): JsonResponse
     {
         /** @var \App\Entity\User $user */

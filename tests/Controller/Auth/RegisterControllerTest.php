@@ -31,7 +31,7 @@ class RegisterControllerTest extends WebTestCase
      *
      * @return void
      */
-    public function testRegisterUserWhenMethodIsNotPost(): void
+    public function testRegisterUserWhenRequestMethodIsNotValid(): void
     {
         $this->client->request('GET', '/api/auth/register');
 

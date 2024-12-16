@@ -27,7 +27,7 @@ class LogoutControllerTest extends WebTestCase
      *
      * @return void
      */
-    public function testLogoutWhenMethodIsNotPost(): void
+    public function testLogoutWhenRequestMethodIsNotValid(): void
     {
         $this->client->request('GET', '/api/auth/logout');
 

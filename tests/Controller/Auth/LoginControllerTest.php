@@ -29,7 +29,7 @@ class LoginControllerTest extends WebTestCase
      *
      * @return void
      */
-    public function testUserLoginWhenMethodIsNotPost(): void
+    public function testUserLoginWhenRequestMethodIsNotValid(): void
     {
         $this->client->request('GET', '/api/auth/login');
 
