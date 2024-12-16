@@ -110,6 +110,7 @@ curl -X PATCH http://localhost/api/user/data/update/role\
     - [X] Change roles (only for admin users)
     - [ ] Change status (only for admin users)
     - [ ] Delete user API endpoint
+- [ ] Get user list (with pagination) API endpoint for admin role
 - [ ] Setup nelmio api doc
 - [ ] Revise log levels in save log method
 - [ ] Complete base refactoring
