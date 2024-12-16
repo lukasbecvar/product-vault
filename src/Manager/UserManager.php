@@ -58,6 +58,18 @@ class UserManager
     }
 
     /**
+     * Check if user id exist in database
+     *
+     * @param int $id The id of the user
+     *
+     * @return bool True if user exists, false otherwise
+     */
+    public function checkIfUserIdExistInDatabase(int $id): bool
+    {
+        return $this->userRepository->find($id) !== null;
+    }
+
+    /**
      * Check if user email already registered in database
      *
      * @param string $email The email address of the user

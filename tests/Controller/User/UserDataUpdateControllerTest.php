@@ -647,11 +647,11 @@ class UserDataUpdateControllerTest extends CustomTestCase
     }
 
     /**
-     * Test update user status when successful
+     * Test update user status successful
      *
      * @return void
      */
-    public function testUpdateUserStatusWhenSuccessful(): void
+    public function testUpdateUserStatusSuccessful(): void
     {
         $this->client->request('PATCH', '/api/user/data/update/status', [], [], [
             'CONTENT_TYPE' => 'application/json',

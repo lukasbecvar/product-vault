@@ -56,6 +56,14 @@ curl -X PATCH http://localhost/api/user/data/update/status\
         "status": "idk"
     }'
 
+## delete user request
+curl -X PATCH http://localhost/api/user/delete\
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer <token>" \
+    -d '{
+        "user-id": 3
+    }'
+
 ## Backlog
 ## Stage 1 - API base
 - [X] Main index controller
@@ -114,11 +122,11 @@ curl -X PATCH http://localhost/api/user/data/update/status\
     - [X] Send email - password reset
     - [X] Send email - user registration
     - [X] Send email - user status change
-- [ ] Update user data
+- [X] Update user data
     - [X] Change password
     - [X] Change roles (only for admin users)
     - [X] Change status (only for admin users)
-    - [ ] Delete user API endpoint
+- [X] Delete user API endpoint
 - [ ] Get user list (with pagination) API endpoint for admin role
 - [ ] Setup nelmio api doc
 - [ ] Revise log levels in save log method
