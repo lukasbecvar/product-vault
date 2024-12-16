@@ -134,6 +134,48 @@ class UserManager
     }
 
     /**
+     * Get users list
+     *
+     * @return array<array<string, array<string>|int|string|null>> The users list
+     */
+    public function getUsersList(): array
+    {
+        $list = [];
+
+        // get users
+        $users = $this->userRepository->findAll();
+
+        // add all users to list
+        foreach ($users as $user) {
+            $registerTime = $user->getRegisterTime();
+            $lastLoginTime = $user->getLastLoginTime();
+
+            // format time values
+            if ($registerTime != null) {
+                $registerTime = $registerTime->format('Y-m-d H:i:s');
+            }
+            if ($lastLoginTime != null) {
+                $lastLoginTime = $lastLoginTime->format('Y-m-d H:i:s');
+            }
+
+            $list[] = [
+                'id' => $user->getId(),
+                'email' => $user->getEmail(),
+                'first-name' => $user->getFirstName(),
+                'last-name' => $user->getLastName(),
+                'roles' => $user->getRoles(),
+                'register-time' => $registerTime ?? 'Never',
+                'last-login-time' => $lastLoginTime ?? 'Never',
+                'ip-address' => $user->getIpAddress(),
+                'browser' => $this->visitorInfoUtil->getBrowserShortify($user->getUserAgent() ?? 'Unknown'),
+                'status' => $user->getStatus()
+            ];
+        }
+
+        return $list;
+    }
+
+    /**
      * Register new user to database
      *
      * @param string $email The email address of the user

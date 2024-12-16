@@ -96,6 +96,20 @@ class UserManagerTest extends TestCase
     }
 
     /**
+     * Test get users list
+     *
+     * @return void
+     */
+    public function testGetUsersList(): void
+    {
+        // call tested method
+        $usersList = $this->userManager->getUsersList();
+
+        // assert result
+        $this->assertIsArray($usersList);
+    }
+
+    /**
      * Test register user
      *
      * @return void

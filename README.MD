@@ -64,6 +64,11 @@ curl -X PATCH http://localhost/api/user/delete\
         "user-id": 3
     }'
 
+## get users list request
+curl -X GET http://localhost/api/user/list\
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer <token>"
+
 ## Backlog
 ## Stage 1 - API base
 - [X] Main index controller
@@ -127,7 +132,7 @@ curl -X PATCH http://localhost/api/user/delete\
     - [X] Change roles (only for admin users)
     - [X] Change status (only for admin users)
 - [X] Delete user API endpoint
-- [ ] Get user list (with pagination) API endpoint for admin role
+- [X] Get user list (with pagination) API endpoint for admin role
 - [ ] Setup nelmio api doc
 - [ ] Revise log levels in save log method
 - [ ] Complete base refactoring
