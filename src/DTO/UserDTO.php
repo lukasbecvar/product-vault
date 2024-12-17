@@ -17,21 +17,21 @@ class UserDTO
     #[Assert\Email(message: "email value is not a valid email address.")]
     public string $email;
 
-    #[Assert\NotBlank(message: "firstName value should not be blank.")]
+    #[Assert\NotBlank(message: "first-name value should not be blank.")]
     #[Assert\Length(
         min: 2,
         max: 80,
-        minMessage: "firstName value should have at least {{ limit }} characters.",
-        maxMessage: "firstName value should have at most {{ limit }} characters."
+        minMessage: "first-name value should have at least {{ limit }} characters.",
+        maxMessage: "first-name value should have at most {{ limit }} characters."
     )]
     public string $firstName;
 
-    #[Assert\NotBlank(message: "lastName value should not be blank.")]
+    #[Assert\NotBlank(message: "last-name value should not be blank.")]
     #[Assert\Length(
         min: 2,
         max: 80,
-        minMessage: "lastName value should have at least {{ limit }} characters.",
-        maxMessage: "lastName value should have at most {{ limit }} characters."
+        minMessage: "last-name value should have at least {{ limit }} characters.",
+        maxMessage: "last-name value should have at most {{ limit }} characters."
     )]
     public string $lastName;
 

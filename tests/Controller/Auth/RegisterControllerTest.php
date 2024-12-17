@@ -90,8 +90,8 @@ class RegisterControllerTest extends WebTestCase
     {
         $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => '',
-            'firstName' => 'Test',
-            'lastName' => 'User',
+            'first-name' => 'Test',
+            'last-name' => 'User',
             'password' => 'test123',
         ]) ?: null);
 
@@ -121,8 +121,8 @@ class RegisterControllerTest extends WebTestCase
     {
         $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test',
-            'firstName' => 'Test',
-            'lastName' => 'User',
+            'first-name' => 'Test',
+            'last-name' => 'User',
             'password' => 'test123',
         ]) ?: null);
 
@@ -152,8 +152,8 @@ class RegisterControllerTest extends WebTestCase
     {
         $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@example.com',
-            'firstName' => '',
-            'lastName' => 'User',
+            'first-name' => '',
+            'last-name' => 'User',
             'password' => 'test123',
         ]) ?: null);
 
@@ -170,7 +170,7 @@ class RegisterControllerTest extends WebTestCase
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
-        $this->assertEquals('firstName value should not be blank., firstName value should have at least 2 characters.', $responseData['message']);
+        $this->assertEquals('first-name value should not be blank., first-name value should have at least 2 characters.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -183,8 +183,8 @@ class RegisterControllerTest extends WebTestCase
     {
         $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@example.com',
-            'firstName' => 'T',
-            'lastName' => 'User',
+            'first-name' => 'T',
+            'last-name' => 'User',
             'password' => 'test123',
         ]) ?: null);
 
@@ -201,7 +201,7 @@ class RegisterControllerTest extends WebTestCase
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
-        $this->assertEquals('firstName value should have at least 2 characters.', $responseData['message']);
+        $this->assertEquals('first-name value should have at least 2 characters.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -214,8 +214,8 @@ class RegisterControllerTest extends WebTestCase
     {
         $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@test.com',
-            'firstName' => str_repeat('a', 100),
-            'lastName' => 'Test',
+            'first-name' => str_repeat('a', 100),
+            'last-name' => 'Test',
             'password' => 'test123',
         ]) ?: null);
 
@@ -232,7 +232,7 @@ class RegisterControllerTest extends WebTestCase
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
-        $this->assertEquals('firstName value should have at most 80 characters.', $responseData['message']);
+        $this->assertEquals('first-name value should have at most 80 characters.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -245,8 +245,8 @@ class RegisterControllerTest extends WebTestCase
     {
         $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@test.com',
-            'firstName' => 'Test',
-            'lastName' => '',
+            'first-name' => 'Test',
+            'last-name' => '',
             'password' => 'test123',
         ]) ?: null);
 
@@ -263,7 +263,7 @@ class RegisterControllerTest extends WebTestCase
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
-        $this->assertEquals('lastName value should not be blank., lastName value should have at least 2 characters.', $responseData['message']);
+        $this->assertEquals('last-name value should not be blank., last-name value should have at least 2 characters.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -276,8 +276,8 @@ class RegisterControllerTest extends WebTestCase
     {
         $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@test.com',
-            'firstName' => 'Test',
-            'lastName' => 'T',
+            'first-name' => 'Test',
+            'last-name' => 'T',
             'password' => 'test123',
         ]) ?: null);
 
@@ -294,7 +294,7 @@ class RegisterControllerTest extends WebTestCase
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
-        $this->assertEquals('lastName value should have at least 2 characters.', $responseData['message']);
+        $this->assertEquals('last-name value should have at least 2 characters.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -307,8 +307,8 @@ class RegisterControllerTest extends WebTestCase
     {
         $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@test.com',
-            'firstName' => 'Test',
-            'lastName' => str_repeat('a', 100),
+            'first-name' => 'Test',
+            'last-name' => str_repeat('a', 100),
             'password' => 'test123',
         ]) ?: null);
 
@@ -325,7 +325,7 @@ class RegisterControllerTest extends WebTestCase
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
-        $this->assertEquals('lastName value should have at most 80 characters.', $responseData['message']);
+        $this->assertEquals('last-name value should have at most 80 characters.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -338,8 +338,8 @@ class RegisterControllerTest extends WebTestCase
     {
         $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@test.com',
-            'firstName' => 'Test',
-            'lastName' => 'Test',
+            'first-name' => 'Test',
+            'last-name' => 'Test',
             'password' => '',
         ]) ?: null);
 
@@ -369,8 +369,8 @@ class RegisterControllerTest extends WebTestCase
     {
         $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@example.com',
-            'firstName' => 'Test',
-            'lastName' => 'User',
+            'first-name' => 'Test',
+            'last-name' => 'User',
             'password' => 't',
         ]) ?: null);
 
@@ -400,8 +400,8 @@ class RegisterControllerTest extends WebTestCase
     {
         $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => 'test@example.com',
-            'firstName' => 'Test',
-            'lastName' => 'User',
+            'first-name' => 'Test',
+            'last-name' => 'User',
             'password' => str_repeat('a', 129),
         ]) ?: null);
 
@@ -436,8 +436,8 @@ class RegisterControllerTest extends WebTestCase
         // simulate request to register endpoint
         $this->client->request('POST', '/api/auth/register', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'email' => $email,
-            'firstName' => 'Test',
-            'lastName' => 'Test',
+            'first-name' => 'Test',
+            'last-name' => 'Test',
             'password' => 'test123',
         ]) ?: null);
 

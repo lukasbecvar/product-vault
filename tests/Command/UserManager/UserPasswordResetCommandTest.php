@@ -99,7 +99,7 @@ class UserPasswordResetCommandTest extends TestCase
     public function testExecuteCommandSuccess(): void
     {
         $id = 1;
-        $newPassword = 'new_password';
+        $newPassword = 'new-password';
 
         // simulate user found
         $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')

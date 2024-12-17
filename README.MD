@@ -6,8 +6,8 @@ curl -X POST http://localhost/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "test@example.com",
-    "firstName": "John",
-    "lastName": "Doe",
+    "first-name": "John",
+    "last-name": "Doe",
     "password": "securePassword123"
   }'
 
@@ -34,7 +34,7 @@ curl -X PATCH http://localhost/api/user/data/update/password\
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer <token>" \
     -d '{
-        "new_password": "asdfghjkoiuzrewq"
+        "new-password": "asdfghjkoiuzrewq"
     }'
 
 ## update user role request
@@ -133,7 +133,8 @@ curl -X GET http://localhost/api/user/list\
     - [X] Change status (only for admin users)
 - [X] Delete user API endpoint
 - [X] Get user list (with pagination) API endpoint for admin role
-- [ ] Setup nelmio api doc
+- [X] Setup nelmio api doc
+- [ ] Validate all user data with User DTO
 - [ ] Revise log levels in save log method
 - [ ] Complete base refactoring
 - [ ] Base documentation

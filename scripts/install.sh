@@ -9,7 +9,6 @@ fi
 # generate jwk key
 if [ ! -d 'config/jwt/' ]
 then
-    yellow_echo "[Install]: generating new jwt keypair"
     docker-compose run php ./bin/console lexik:jwt:generate-keypair
 fi
 

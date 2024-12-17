@@ -17,3 +17,17 @@ when@prod:
         methods: ['GET']
         requirements:
             any: .*
+
+# api doc route
+when@dev:
+    # api doc in swagger ui
+    app.doc_swagger_ui:
+        path: /api/doc
+        methods: GET
+        defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+
+    # api doc in json format
+    app.doc_json:
+        path: /api/doc.json
+        methods: GET
+        defaults: { _controller: nelmio_api_doc.controller.swagger }

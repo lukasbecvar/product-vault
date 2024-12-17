@@ -223,7 +223,7 @@ class UserManager
         if ($this->checkIfUserEmailAlreadyRegistered($email)) {
             $this->errorManager->handleError(
                 message: 'user: ' . $email . ' already exists',
-                code: JsonResponse::HTTP_BAD_REQUEST
+                code: JsonResponse::HTTP_CONFLICT
             );
         }
 

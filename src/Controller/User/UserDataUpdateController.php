@@ -4,6 +4,7 @@ namespace App\Controller\User;
 
 use App\Manager\UserManager;
 use App\Manager\ErrorManager;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -37,6 +38,38 @@ class UserDataUpdateController extends AbstractController
      *
      * @return JsonResponse The update status response
      */
+    #[OA\Patch(
+        summary: 'User password update action (self user update)',
+        description: 'Update user password and return status',
+        tags: ['User'],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                type: 'object',
+                properties: [
+                    new OA\Property(property: 'new-password', type: 'string', description: 'New user password', example: 'securePassword123'),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'The success user password update message'
+            ),
+            new OA\Response(
+                response: 400,
+                description: 'Invalid request data message'
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'User not found message'
+            ),
+            new OA\Response(
+                response: 500,
+                description: 'The update error message'
+            ),
+        ]
+    )]
     #[Route('/api/user/data/update/password', methods:['PATCH'], name: 'user_data_update_password')]
     public function updateUserPassword(Security $security, Request $request): JsonResponse
     {
@@ -53,12 +86,12 @@ class UserDataUpdateController extends AbstractController
 
         // get new password from request
         $data = $request->toArray();
-        $newPassword = $data['new_password'] ?? null;
+        $newPassword = $data['new-password'] ?? null;
 
         // check if new password is set
         if ($newPassword === null || empty($newPassword)) {
             $this->errorManager->handleError(
-                message: 'Parameter "new_password" is required!',
+                message: 'Parameter "new-password" is required!',
                 code: JsonResponse::HTTP_BAD_REQUEST
             );
         }
@@ -66,7 +99,7 @@ class UserDataUpdateController extends AbstractController
         // check if new password is valid
         if (strlen($newPassword) < 8 || strlen($newPassword) > 128) {
             $this->errorManager->handleError(
-                message: 'Parameter "new_password" must be between 8 and 128 characters long!',
+                message: 'Parameter "new-password" must be between 8 and 128 characters long!',
                 code: JsonResponse::HTTP_BAD_REQUEST
             );
         }
@@ -99,6 +132,40 @@ class UserDataUpdateController extends AbstractController
      *
      * @return JsonResponse The update status response
      */
+    #[OA\Patch(
+        summary: 'User role update action',
+        description: 'Update user role and return status',
+        tags: ['User'],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                type: 'object',
+                properties: [
+                    new OA\Property(property: 'user-id', type: 'int', description: 'User id', example: 1),
+                    new OA\Property(property: 'task', type: 'string', description: 'Task (add, remove)', example: 'add'),
+                    new OA\Property(property: 'role', type: 'string', description: 'Role', example: 'ADMIN'),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'The success user role update message'
+            ),
+            new OA\Response(
+                response: 400,
+                description: 'Invalid request data message'
+            ),
+            new OA\Response(
+                response: 404,
+                description: 'User not found message'
+            ),
+            new OA\Response(
+                response: 500,
+                description: 'The update error message'
+            ),
+        ]
+    )]
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/user/data/update/role', methods:['PATCH'], name: 'user_data_update_role')]
     public function updateUserRole(Request $request): JsonResponse
@@ -166,6 +233,39 @@ class UserDataUpdateController extends AbstractController
      *
      * @return JsonResponse The update status response
      */
+    #[OA\Patch(
+        summary: 'User status update action',
+        description: 'Update user status and return status',
+        tags: ['User'],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                type: 'object',
+                properties: [
+                    new OA\Property(property: 'user-id', type: 'int', description: 'User id', example: 1),
+                    new OA\Property(property: 'status', type: 'string', description: 'Status', example: 'active'),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'The success user status update message'
+            ),
+            new OA\Response(
+                response: 400,
+                description: 'Invalid request data message'
+            ),
+            new OA\Response(
+                response: 404,
+                description: 'User not found message'
+            ),
+            new OA\Response(
+                response: 500,
+                description: 'The update error message'
+            ),
+        ]
+    )]
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/user/data/update/status', methods: ['PATCH'], name: 'update_user_status')]
     public function updateUserStatus(Request $request): JsonResponse

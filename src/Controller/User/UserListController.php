@@ -2,7 +2,9 @@
 
 namespace App\Controller\User;
 
+use OpenApi\Attributes\Tag;
 use App\Manager\UserManager;
+use OpenApi\Attributes\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -29,6 +31,10 @@ class UserListController extends AbstractController
      *
      * @return JsonResponse The users list
      */
+    #[Tag(name: "User")]
+    #[Response(response: 200, description: 'The users list')]
+    #[Response(response: 401, description: 'The unauthorized message')]
+    #[Response(response: 500, description: 'The error to get user list')]
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/user/list', methods:['GET'], name: 'user_list')]
     public function updateUserPassword(): JsonResponse

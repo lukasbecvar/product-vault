@@ -3,8 +3,10 @@
 namespace App\Controller\Auth;
 
 use Exception;
+use OpenApi\Attributes\Tag;
 use App\Manager\AuthManager;
 use App\Manager\ErrorManager;
+use OpenApi\Attributes\Response;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -37,6 +39,10 @@ class SecurityController extends AbstractController
      *
      * @return JsonResponse The logout status response
      */
+    #[Tag(name: "Auth")]
+    #[Response(response: 200, description: 'The logout successful message')]
+    #[Response(response: 401, description: 'The JWT token Invalid message')]
+    #[Response(response: 500, description: 'The logout error message')]
     #[Route('/api/auth/logout', methods:['POST'], name: 'auth_logout')]
     public function index(Request $request, Security $security): JsonResponse
     {

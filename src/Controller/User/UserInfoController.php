@@ -2,7 +2,9 @@
 
 namespace App\Controller\User;
 
+use OpenApi\Attributes\Tag;
 use App\Manager\UserManager;
+use OpenApi\Attributes\Response;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,6 +33,11 @@ class UserInfoController extends AbstractController
      *
      * @return JsonResponse The user info response
      */
+    #[Tag(name: "User")]
+    #[Response(response: 200, description: 'The user information')]
+    #[Response(response: 401, description: 'The unauthorized message')]
+    #[Response(response: 404, description: 'The user not found message')]
+    #[Response(response: 500, description: 'The error to get user information')]
     #[Route('/api/user/info', methods:['GET'], name: 'user_info')]
     public function userInfo(Security $security): JsonResponse
     {
@@ -53,7 +60,7 @@ class UserInfoController extends AbstractController
             return $this->json([
                 'status' => 'error',
                 'message' => 'user id not found',
-            ], JsonResponse::HTTP_UNAUTHORIZED);
+            ], JsonResponse::HTTP_NOT_FOUND);
         }
 
         // get user info

@@ -137,7 +137,7 @@ class UserDataUpdateControllerTest extends CustomTestCase
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ], json_encode([
-            'new_password' => ''
+            'new-password' => ''
         ]) ?: null);
 
         // get response content
@@ -152,7 +152,7 @@ class UserDataUpdateControllerTest extends CustomTestCase
         $responseData = json_decode($responseContent, true);
 
         // assert response
-        $this->assertSame('Parameter "new_password" is required!', $responseData['message']);
+        $this->assertSame('Parameter "new-password" is required!', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -167,7 +167,7 @@ class UserDataUpdateControllerTest extends CustomTestCase
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ], json_encode([
-            'new_password' => '1'
+            'new-password' => '1'
         ]) ?: null);
 
         // get response content
@@ -182,7 +182,7 @@ class UserDataUpdateControllerTest extends CustomTestCase
         $responseData = json_decode($responseContent, true);
 
         // assert response
-        $this->assertSame('Parameter "new_password" must be between 8 and 128 characters long!', $responseData['message']);
+        $this->assertSame('Parameter "new-password" must be between 8 and 128 characters long!', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -197,7 +197,7 @@ class UserDataUpdateControllerTest extends CustomTestCase
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ], json_encode([
-            'new_password' => ByteString::fromRandom(130)
+            'new-password' => ByteString::fromRandom(130)
         ]) ?: null);
 
         // get response content
@@ -212,7 +212,7 @@ class UserDataUpdateControllerTest extends CustomTestCase
         $responseData = json_decode($responseContent, true);
 
         // assert response
-        $this->assertSame('Parameter "new_password" must be between 8 and 128 characters long!', $responseData['message']);
+        $this->assertSame('Parameter "new-password" must be between 8 and 128 characters long!', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -227,7 +227,7 @@ class UserDataUpdateControllerTest extends CustomTestCase
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ], json_encode([
-            'new_password' => 'testtest'
+            'new-password' => 'testtest'
         ]) ?: null);
 
         // get response content

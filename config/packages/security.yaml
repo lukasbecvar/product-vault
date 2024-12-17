@@ -37,7 +37,7 @@ security:
         # public access routes
         - { path: ^/api/auth/register,      roles: PUBLIC_ACCESS }
         - { path: ^/api/auth/login,         roles: PUBLIC_ACCESS }
-        - { path: ^/api/auth/doc,           roles: PUBLIC_ACCESS }
+        - { path: ^/api/doc,                roles: PUBLIC_ACCESS }
 
         # user access routes
         - { path: ^/api,                    roles: ROLE_USER }   

@@ -5,8 +5,9 @@ namespace App\Controller\Auth;
 use App\DTO\UserDTO;
 use App\Util\AppUtil;
 use App\Manager\UserManager;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Validator\ConstraintViolationInterface;
@@ -39,6 +40,37 @@ class RegisterController extends AbstractController
      *
      * @return JsonResponse The JSON response
      */
+    #[OA\Post(
+        summary: 'User registration action',
+        description: 'Register a new user and return status',
+        tags: ['Auth'],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                type: 'object',
+                properties: [
+                    new OA\Property(property: 'email', type: 'string', description: 'New user email', example: 'test@testing.test'),
+                    new OA\Property(property: 'first-name', type: 'string', description: 'User first name', example: 'John'),
+                    new OA\Property(property: 'last-name', type: 'string', description: 'User last name', example: 'Doe'),
+                    new OA\Property(property: 'password', type: 'string', description: 'User password', example: 'securePassword123'),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'The success user register message'
+            ),
+            new OA\Response(
+                response: 400,
+                description: 'Invalid request data message'
+            ),
+            new OA\Response(
+                response: 409,
+                description: 'Email already exists error'
+            )
+        ]
+    )]
     #[Route('/api/auth/register', methods:['POST'], name: 'auth_register')]
     public function register(Request $request): JsonResponse
     {
@@ -56,8 +88,8 @@ class RegisterController extends AbstractController
         // set data to DTO object
         $userDTO = new UserDTO();
         $userDTO->email = trim($data['email'] ?? '');
-        $userDTO->firstName = trim($data['firstName'] ?? '');
-        $userDTO->lastName = trim($data['lastName'] ?? '');
+        $userDTO->firstName = trim($data['first-name'] ?? '');
+        $userDTO->lastName = trim($data['last-name'] ?? '');
         $userDTO->password = trim($data['password'] ?? '');
 
         // validate data using DTO properties
