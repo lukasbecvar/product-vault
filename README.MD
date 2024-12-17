@@ -134,8 +134,6 @@ curl -X GET http://localhost/api/user/list\
 - [X] Delete user API endpoint
 - [X] Get user list (with pagination) API endpoint for admin role
 - [X] Setup nelmio api doc
-- [ ] Validate all user data with User DTO
-- [ ] Revise log levels in save log method
 - [ ] Complete base refactoring
 - [ ] Base documentation
 - [ ] Release app base to separate repo (api-base)

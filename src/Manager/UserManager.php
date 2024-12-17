@@ -187,38 +187,6 @@ class UserManager
      */
     public function registerUser(string $email, string $firstName, string $lastName, string $password): void
     {
-        // validate input data
-        $email = trim($email);
-        $firstName = trim($firstName);
-        $lastName = trim($lastName);
-        $password = trim($password);
-
-        // validate input data length
-        if (strlen($email) < 2 || strlen($email) > 255) {
-            $this->errorManager->handleError(
-                message: 'invalid email address length (must be between 2 and 255 characters)',
-                code: JsonResponse::HTTP_BAD_REQUEST
-            );
-        }
-        if (strlen($firstName) < 2 || strlen($firstName) > 255) {
-            $this->errorManager->handleError(
-                message: 'invalid first name length (must be between 2 and 255 characters)',
-                code: JsonResponse::HTTP_BAD_REQUEST
-            );
-        }
-        if (strlen($lastName) < 2 || strlen($lastName) > 255) {
-            $this->errorManager->handleError(
-                message: 'invalid last name length (must be between 2 and 255 characters)',
-                code: JsonResponse::HTTP_BAD_REQUEST
-            );
-        }
-        if (strlen($password) < 6 || strlen($password) > 255) {
-            $this->errorManager->handleError(
-                message: 'invalid password length (must be between 6 and 255 characters)',
-                code: JsonResponse::HTTP_BAD_REQUEST
-            );
-        }
-
         // check if user email is already registered
         if ($this->checkIfUserEmailAlreadyRegistered($email)) {
             $this->errorManager->handleError(

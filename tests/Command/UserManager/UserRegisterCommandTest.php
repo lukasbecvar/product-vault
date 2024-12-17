@@ -9,6 +9,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Command\Command;
 use App\Command\UserManager\UserRegisterCommand;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class UserRegisterCommandTest
@@ -22,14 +23,16 @@ class UserRegisterCommandTest extends TestCase
     private CommandTester $commandTester;
     private UserManager & MockObject $userManager;
     private UserRegisterCommand $userRegisterCommand;
+    private ValidatorInterface & MockObject $validator;
 
     public function setUp(): void
     {
         // mock dependencies
         $this->userManager = $this->createMock(UserManager::class);
+        $this->validator = $this->createMock(ValidatorInterface::class);
 
         // init command instance
-        $this->userRegisterCommand = new UserRegisterCommand($this->userManager);
+        $this->userRegisterCommand = new UserRegisterCommand($this->userManager, $this->validator);
         $this->commandTester = new CommandTester($this->userRegisterCommand);
     }
 

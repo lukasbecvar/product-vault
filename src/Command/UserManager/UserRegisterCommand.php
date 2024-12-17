@@ -3,12 +3,14 @@
 namespace App\Command\UserManager;
 
 use Exception;
+use App\DTO\UserDTO;
 use App\Manager\UserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class UserRegisterCommand
@@ -21,9 +23,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 class UserRegisterCommand extends Command
 {
     private UserManager $userManager;
+    private ValidatorInterface $validator;
 
-    public function __construct(UserManager $userManager)
+    public function __construct(UserManager $userManager, ValidatorInterface $validator)
     {
+        $this->validator = $validator;
         $this->userManager = $userManager;
         parent::__construct();
     }
@@ -76,6 +80,22 @@ class UserRegisterCommand extends Command
             return Command::INVALID;
         }
 
+        // create user dto
+        $userDTO = new UserDTO();
+        $userDTO->email = $email;
+        $userDTO->firstName = $firstName;
+        $userDTO->lastName = $lastName;
+        $userDTO->password = $password;
+
+        // validate input data
+        $errors = $this->validator->validate($userDTO);
+        if (count($errors) > 0) {
+            foreach ($errors as $error) {
+                $io->error($error->getPropertyPath() . ': ' . $error->getMessage());
+            }
+            return Command::INVALID;
+        }
+
         // check if user already exists
         if ($this->userManager->checkIfUserEmailAlreadyRegistered($email)) {
             $io->error('User already exists: ' . $email);
@@ -84,7 +104,12 @@ class UserRegisterCommand extends Command
 
         // register user
         try {
-            $this->userManager->registerUser($email, $firstName, $lastName, $password);
+            $this->userManager->registerUser(
+                $userDTO->email,
+                $userDTO->firstName,
+                $userDTO->lastName,
+                $userDTO->password
+            );
             $io->success("User registered: $email ($firstName $lastName)");
         } catch (Exception $e) {
             $io->error('Error registering user: ' . $e->getMessage());

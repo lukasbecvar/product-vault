@@ -58,6 +58,7 @@ class UserDeleteCommand extends Command
         // get email argument
         $email = $input->getArgument('email');
 
+        // validate email input
         if ($email == null) {
             $io->error('Email cannot be empty.');
             return Command::INVALID;
