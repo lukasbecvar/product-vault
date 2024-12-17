@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 /**
  * Class UserRegisterCommand
  *
- * Command to register new user
+ * Command for registering new user
  *
  * @package App\Command\UserManager
  */

@@ -23,7 +23,7 @@ class LogoutControllerTest extends WebTestCase
     }
 
     /**
-     * Test logout when method is not POST
+     * Test logout when request method is invalid
      *
      * @return void
      */

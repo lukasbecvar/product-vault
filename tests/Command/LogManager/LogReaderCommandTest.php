@@ -16,7 +16,7 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
 /**
  * Class LogReaderCommandTest
  *
- * Test cases for the log reader command
+ * Test cases for log reader command
  *
  * @package App\Tests\Command\LogManager
  */

@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * Class LogManager
  *
- * The manager for log system functionality
+ * Manager for log system functionality (logging to database)
  *
  * @package App\Manager
  */
@@ -59,7 +59,7 @@ class LogManager
     }
 
     /**
-     * Save log message to database
+     * Save log to database
      *
      * @param string $name The log name
      * @param string $message The log message
@@ -71,13 +71,13 @@ class LogManager
      */
     public function saveLog(string $name, string $message, int $level = self::LEVEL_INFO): void
     {
-        // check if log can be saved
-        if (str_contains($message, 'Connection refused')) {
+        // check if database logging is enabled
+        if (!$this->appUtil->isDatabaseLoggingEnabled()) {
             return;
         }
 
-        // check if database logging is enabled
-        if (!$this->appUtil->isDatabaseLoggingEnabled()) {
+        // check if log can be saved in database
+        if (str_contains($message, 'Connection refused')) {
             return;
         }
 
@@ -93,7 +93,7 @@ class LogManager
         // check if name or message is null
         if ($name == null || $message == null) {
             $this->errorManager->handleError(
-                message: 'error to get or escape log name or message',
+                message: 'Error to get or escape log name or message',
                 code: JsonResponse::HTTP_BAD_REQUEST,
             );
         }
@@ -105,7 +105,7 @@ class LogManager
         $requestUri = $this->appUtil->getRequestUri() ?? 'Unknown';
         $requestMethod = $this->appUtil->getRequestMethod() ?? 'Unknown';
 
-        // get user info of current user
+        // get info of current user
         $userAgent = $this->visitorInfoUtil->getUserAgent() ?? 'Unknown';
         $userIp = $this->visitorInfoUtil->getIP() ?? 'Unknown';
 
@@ -138,7 +138,7 @@ class LogManager
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error save log to database',
+                message: 'Error save log to database',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
@@ -226,7 +226,7 @@ class LogManager
         // check if log is found
         if ($log === null) {
             $this->errorManager->handleError(
-                message: 'error to get log by id: ' . $id,
+                message: 'Error to get log by id: ' . $id,
                 code: Response::HTTP_NOT_FOUND
             );
         }
@@ -239,7 +239,7 @@ class LogManager
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error to update log status',
+                message: 'Error to update log status',
                 code: Response::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
@@ -273,7 +273,7 @@ class LogManager
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error to set all logs status to "READED"',
+                message: 'Error to set all logs status to "READED"',
                 code: Response::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
@@ -304,7 +304,7 @@ class LogManager
         // log truncate success
         $this->saveLog(
             name: 'log-manager',
-            message: 'logs table truncated in database: ' . $dbName,
+            message: 'Logs table truncated in database: ' . $dbName,
             level: self::LEVEL_CRITICAL
         );
     }

@@ -12,7 +12,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 /**
  * Class LogStatusUpdateCommandTest
  *
- * Test cases for the log status update command
+ * Test cases for log status update command
  *
  * @package App\Tests\Command\LogManager
  */
@@ -130,7 +130,7 @@ class LogStatusUpdateCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString("Log with ID 123 has been updated to status 'processed'.", $output);
+        $this->assertStringContainsString('Log with ID 123 has been updated to status "processed"', $output);
         $this->assertEquals(Command::SUCCESS, $exitCode);
     }
 }

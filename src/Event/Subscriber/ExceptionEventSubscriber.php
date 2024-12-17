@@ -32,7 +32,7 @@ class ExceptionEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Return array of event names subscriber
+     * Return array of event names subscribed by this event
      *
      * @return array<string> The event names to listen to
      */

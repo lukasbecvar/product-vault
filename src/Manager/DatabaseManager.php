@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class DatabaseManager
  *
- * The manager for database operations
+ * Manager for manimulating with relational database
  *
  * @package App\Manager
  */
@@ -25,7 +25,7 @@ class DatabaseManager
     }
 
     /**
-     * Truncate table in a specific database
+     * Truncate table in specific database
      *
      * @param string $dbName The name of the database
      * @param string $tableName The name of the table
@@ -44,7 +44,7 @@ class DatabaseManager
             $this->connection->executeStatement($sql);
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error truncating table: ' . $tableName . ' in database: ' . $dbName,
+                message: 'Error truncating table: ' . $tableName . ' in database: ' . $dbName,
                 code: Response::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );

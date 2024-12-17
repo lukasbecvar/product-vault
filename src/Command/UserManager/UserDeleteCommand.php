@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class UserDeleteCommand
  *
- * Command to delete user by email
+ * Command for deleting user from database
  *
  * @package App\Command\UserManager
  */
@@ -30,7 +30,7 @@ class UserDeleteCommand extends Command
     }
 
     /**
-     * Configure the command arguments
+     * Configure command arguments and options
      *
      * @return void
      */

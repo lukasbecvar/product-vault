@@ -15,7 +15,7 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
 /**
  * Class LogReaderCommand
  *
- * Command to read logs based on the specified filter
+ * Command for reading logs based on the specified filter
  *
  * @package App\Command\LogManager
  */

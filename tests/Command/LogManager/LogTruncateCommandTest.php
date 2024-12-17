@@ -13,7 +13,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 /**
  * Class LogTruncateCommandTest
  *
- * Test cases for the log truncate command
+ * Test cases for logs table truncate command
  *
  * @package App\Tests\Command\LogManager
  */

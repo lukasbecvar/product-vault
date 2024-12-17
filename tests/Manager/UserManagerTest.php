@@ -146,8 +146,8 @@ class UserManagerTest extends TestCase
         // expect save log call
         $this->logManagerMock->expects($this->once())->method('saveLog')->with(
             'user-manager',
-            'new user registered: ' . $email,
-            LogManager::LEVEL_INFO
+            'New user registered: ' . $email,
+            LogManager::LEVEL_NOTICE
         );
 
         // call tested method
@@ -303,8 +303,8 @@ class UserManagerTest extends TestCase
         // expect log manager to save the log
         $this->logManagerMock->expects($this->once())->method('saveLog')->with(
             'user-manager',
-            'user deleted: ' . $email,
-            LogManager::LEVEL_INFO
+            'User deleted: ' . $email,
+            LogManager::LEVEL_NOTICE
         );
 
         // call the tested method
@@ -342,8 +342,8 @@ class UserManagerTest extends TestCase
         // expect save log call
         $this->logManagerMock->expects($this->once())->method('saveLog')->with(
             name: 'user-manager',
-            message: 'user: ' . $email . ' updated status to: ' . $newStatus . ' old status was: ' . $oldStatus,
-            level: LogManager::LEVEL_INFO
+            message: 'User: ' . $email . ' updated status to: ' . $newStatus . ' old status was: ' . $oldStatus,
+            level: LogManager::LEVEL_NOTICE
         );
 
         // call the updateUserStatus method
@@ -397,7 +397,7 @@ class UserManagerTest extends TestCase
         // expect save log call
         $this->logManagerMock->expects($this->once())->method('saveLog')->with(
             'user-manager',
-            'user password reset: ' . $email,
+            'User password reset: ' . $email,
             LogManager::LEVEL_INFO
         );
 
@@ -457,8 +457,8 @@ class UserManagerTest extends TestCase
         // expect save log call
         $this->logManagerMock->expects($this->once())->method('saveLog')->with(
             'user-manager',
-            'user role added: ' . $email . ' - ' . $role,
-            LogManager::LEVEL_INFO
+            'User role added: ' . $email . ' - ' . $role,
+            LogManager::LEVEL_WARNING
         );
 
         // call tested method
@@ -492,8 +492,8 @@ class UserManagerTest extends TestCase
         // expect save log call
         $this->logManagerMock->expects($this->once())->method('saveLog')->with(
             'user-manager',
-            'user role removed: ' . $email . ' - ' . $role,
-            LogManager::LEVEL_INFO
+            'User role removed: ' . $email . ' - ' . $role,
+            LogManager::LEVEL_WARNING
         );
 
         // call tested method

@@ -37,6 +37,7 @@ class IndexControllerTest extends WebTestCase
         // assert response
         $this->assertSame('success', $response['status']);
         $this->assertSame('product-vault is running!', $response['message']);
+        $this->assertSame($_ENV['APP_VERSION'], $response['version']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
     }
 }

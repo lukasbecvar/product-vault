@@ -117,8 +117,8 @@ class UserUpdateRoleCommandTest extends TestCase
 
         // expect add role to user call
         $this->userManager->expects($this->once())->method('addRoleToUser')->with(
-            1,
-            'ROLE_ADMIN'
+            id: 1,
+            role: 'ROLE_ADMIN'
         );
 
         // execute command
@@ -131,7 +131,7 @@ class UserUpdateRoleCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString("Role 'ROLE_ADMIN' added to user 'test@test.com'.", $output);
+        $this->assertStringContainsString("Role: ROLE_ADMIN added to user: test@test.com.", $output);
         $this->assertEquals(Command::SUCCESS, $exitCode);
     }
 
@@ -152,8 +152,8 @@ class UserUpdateRoleCommandTest extends TestCase
 
         // expect remove role from user call
         $this->userManager->expects($this->once())->method('removeRoleFromUser')->with(
-            1,
-            'ROLE_ADMIN'
+            id: 1,
+            role: 'ROLE_ADMIN'
         );
 
         // execute command
@@ -166,7 +166,7 @@ class UserUpdateRoleCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString("Role 'ROLE_ADMIN' removed from user 'test@test.com'.", $output);
+        $this->assertStringContainsString("Role: ROLE_ADMIN removed from user: test@test.com.", $output);
         $this->assertEquals(Command::SUCCESS, $exitCode);
     }
 

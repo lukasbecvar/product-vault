@@ -39,8 +39,8 @@ class UserDataUpdateController extends AbstractController
      * @return JsonResponse The update status response
      */
     #[OA\Patch(
-        summary: 'User password update action (self user update)',
-        description: 'Update user password and return status',
+        summary: 'User password update action (self password update)',
+        description: 'Update password and return status',
         tags: ['User'],
         requestBody: new OA\RequestBody(
             required: true,
@@ -53,19 +53,19 @@ class UserDataUpdateController extends AbstractController
         ),
         responses: [
             new OA\Response(
-                response: 200,
-                description: 'The success user password update message'
+                response: JsonResponse::HTTP_OK,
+                description: 'The success password update message'
             ),
             new OA\Response(
-                response: 400,
+                response: JsonResponse::HTTP_BAD_REQUEST,
                 description: 'Invalid request data message'
             ),
             new OA\Response(
-                response: 401,
+                response: JsonResponse::HTTP_UNAUTHORIZED,
                 description: 'User not found message'
             ),
             new OA\Response(
-                response: 500,
+                response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 description: 'The update error message'
             ),
         ]
@@ -133,7 +133,7 @@ class UserDataUpdateController extends AbstractController
      * @return JsonResponse The update status response
      */
     #[OA\Patch(
-        summary: 'User role update action',
+        summary: 'User role update action (update by user id for admin)',
         description: 'Update user role and return status',
         tags: ['User'],
         requestBody: new OA\RequestBody(
@@ -149,19 +149,19 @@ class UserDataUpdateController extends AbstractController
         ),
         responses: [
             new OA\Response(
-                response: 200,
+                response: JsonResponse::HTTP_OK,
                 description: 'The success user role update message'
             ),
             new OA\Response(
-                response: 400,
+                response: JsonResponse::HTTP_BAD_REQUEST,
                 description: 'Invalid request data message'
             ),
             new OA\Response(
-                response: 404,
+                response: JsonResponse::HTTP_NOT_FOUND,
                 description: 'User not found message'
             ),
             new OA\Response(
-                response: 500,
+                response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 description: 'The update error message'
             ),
         ]
@@ -234,7 +234,7 @@ class UserDataUpdateController extends AbstractController
      * @return JsonResponse The update status response
      */
     #[OA\Patch(
-        summary: 'User status update action',
+        summary: 'User status update action (update by user id for admin)',
         description: 'Update user status and return status',
         tags: ['User'],
         requestBody: new OA\RequestBody(
@@ -249,19 +249,19 @@ class UserDataUpdateController extends AbstractController
         ),
         responses: [
             new OA\Response(
-                response: 200,
+                response: JsonResponse::HTTP_OK,
                 description: 'The success user status update message'
             ),
             new OA\Response(
-                response: 400,
+                response: JsonResponse::HTTP_BAD_REQUEST,
                 description: 'Invalid request data message'
             ),
             new OA\Response(
-                response: 404,
+                response: JsonResponse::HTTP_NOT_FOUND,
                 description: 'User not found message'
             ),
             new OA\Response(
-                response: 500,
+                response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 description: 'The update error message'
             ),
         ]

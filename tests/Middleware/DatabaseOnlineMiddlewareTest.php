@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * Class DatabaseOnlineMiddlewareTest
  *
- * Test the database online middleware
+ * Test cases for database online check middleware
  *
  * @package App\Tests\Middleware
  */
@@ -71,7 +71,7 @@ class DatabaseOnlineMiddlewareTest extends TestCase
 
         // mock the error manager
         $this->errorManagerMock->expects($this->once())->method('handleError')->with(
-            'redis connection error',
+            'Redis connection error',
             JsonResponse::HTTP_INTERNAL_SERVER_ERROR
         );
 
@@ -96,7 +96,7 @@ class DatabaseOnlineMiddlewareTest extends TestCase
 
         // expect handle error method call
         $this->errorManagerMock->expects($this->once())->method('handleError')->with(
-            'database connection error',
+            'Database connection error',
             JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
             'Database connection failed'
         );

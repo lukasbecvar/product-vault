@@ -144,7 +144,7 @@ class AuthManagerTest extends TestCase
         // expect save log call
         $this->logManager->expects($this->once())->method('saveLog')->with(
             $this->equalTo('authenticator'),
-            $this->equalTo('user: mocked_user logged out'),
+            $this->equalTo('User: mocked_user logged out'),
             $this->equalTo(LogManager::LEVEL_INFO)
         );
 

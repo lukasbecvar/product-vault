@@ -2,8 +2,8 @@ nelmio_api_doc:
     documentation:
         # doc header title
         info:
-            title: 'Product vault API'
-            description: Product vault REST-API documentation
+            title: 'API Base'
+            description: 'REST-API documentation'
             version: '%env(APP_VERSION)%'
 
         # doc schemes components
@@ -27,7 +27,7 @@ nelmio_api_doc:
 
         # static docs
         paths:
-            # JWT login endpoint
+            # JWT login api endpoint documentation
             /api/auth/login:
                 post:
                     tags: ['Auth']

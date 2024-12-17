@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class DatabaseOnlineMiddleware
  *
- * Middleware for checking the database connection
+ * Middleware for checking database connection
  *
  * @package App\Middleware
  */
@@ -40,7 +40,7 @@ class DatabaseOnlineMiddleware
         // check if redis connection is ok
         if (!$this->cacheManager->isRedisConnected()) {
             $this->errorManager->handleError(
-                message: 'redis connection error',
+                message: 'Redis connection error',
                 code: Response::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: 'redis connection error'
             );
@@ -51,7 +51,7 @@ class DatabaseOnlineMiddleware
             $this->connection->executeQuery('SELECT 1');
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'database connection error',
+                message: 'Database connection error',
                 code: Response::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );

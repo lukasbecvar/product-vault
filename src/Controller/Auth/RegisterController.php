@@ -26,15 +26,18 @@ class RegisterController extends AbstractController
     private UserManager $userManager;
     private ValidatorInterface $validator;
 
-    public function __construct(AppUtil $appUtil, UserManager $userManager, ValidatorInterface $validator)
-    {
+    public function __construct(
+        AppUtil $appUtil,
+        UserManager $userManager,
+        ValidatorInterface $validator
+    ) {
         $this->appUtil = $appUtil;
         $this->validator = $validator;
         $this->userManager = $userManager;
     }
 
     /**
-     * Register a new user
+     * Register new user
      *
      * @param Request $request The request object
      *
@@ -58,15 +61,15 @@ class RegisterController extends AbstractController
         ),
         responses: [
             new OA\Response(
-                response: 200,
+                response: JsonResponse::HTTP_CREATED,
                 description: 'The success user register message'
             ),
             new OA\Response(
-                response: 400,
+                response: JsonResponse::HTTP_BAD_REQUEST,
                 description: 'Invalid request data message'
             ),
             new OA\Response(
-                response: 409,
+                response: JsonResponse::HTTP_CONFLICT,
                 description: 'Email already exists error'
             )
         ]
@@ -95,7 +98,7 @@ class RegisterController extends AbstractController
         // validate data using DTO properties
         $violations = $this->validator->validate($userDTO);
 
-        // build validation errors array (if any errors found)
+        // get validation errors
         $errors = [];
         foreach ($violations as $violation) {
             /** @var ConstraintViolationInterface $violation */

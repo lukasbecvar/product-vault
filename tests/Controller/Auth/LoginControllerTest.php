@@ -25,7 +25,7 @@ class LoginControllerTest extends WebTestCase
     }
 
     /**
-     * Test user login when method is not POST
+     * Test user login when request method is invalid
      *
      * @return void
      */

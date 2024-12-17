@@ -12,7 +12,7 @@ namespace App\Util;
 class SecurityUtil
 {
     /**
-     * Escape string
+     * Escape string to secure string format
      *
      * @param string $string The string to escape
      *

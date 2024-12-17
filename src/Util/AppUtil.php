@@ -133,16 +133,6 @@ class AppUtil
     }
 
     /**
-     * Check if the SSL only is enabled
-     *
-     * @return bool True if the SSL only is enabled, false otherwise
-     */
-    public function isSSLOnly(): bool
-    {
-        return $this->getEnvValue('SSL_ONLY') === 'true';
-    }
-
-    /**
      * Check if the registration with API endpoint is enabled
      *
      * @return bool True if the registration with API endpoint is enabled, false otherwise
@@ -150,6 +140,16 @@ class AppUtil
     public function isRegistrationWithApiEndpointEnabled(): bool
     {
         return $this->getEnvValue('REGISTRATION_WITH_API_ENDPOINT_ENABLED') === 'true';
+    }
+
+    /**
+     * Check if the SSL only is enabled
+     *
+     * @return bool True if the SSL only is enabled, false otherwise
+     */
+    public function isSSLOnly(): bool
+    {
+        return $this->getEnvValue('SSL_ONLY') === 'true';
     }
 
     /**

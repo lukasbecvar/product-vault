@@ -11,7 +11,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 /**
  * Class CustomTestCase
  *
- * Custom test case for extending web test case
+ * Custom test case for testing controllers
  *
  * @package App\Tests
  */

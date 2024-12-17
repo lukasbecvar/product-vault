@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Class UserDTO
  *
- * Data transfer object for user registration validation
+ * Data transfer object for user properties validation
  *
  * @package App\DTO
  */

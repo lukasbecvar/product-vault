@@ -15,7 +15,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 /**
  * Class UserManager
  *
- * The manager for user related functionality
+ * Manager for manipulating with users database system
  *
  * @package App\Manager
  */
@@ -99,8 +99,8 @@ class UserManager
         // check if user id found
         if ($id === null) {
             $this->errorManager->handleError(
-                'Error retrieving user id by email: ' . $email,
-                JsonResponse::HTTP_NOT_FOUND
+                message: 'Error retrieving user id by email: ' . $email,
+                code: JsonResponse::HTTP_NOT_FOUND
             );
         }
 
@@ -125,8 +125,8 @@ class UserManager
         // check if user email found
         if ($email === null) {
             $this->errorManager->handleError(
-                'Error retrieving user email by id: ' . $id,
-                JsonResponse::HTTP_NOT_FOUND
+                message: 'Error retrieving user email by id: ' . $id,
+                code: JsonResponse::HTTP_NOT_FOUND
             );
         }
 
@@ -190,7 +190,7 @@ class UserManager
         // check if user email is already registered
         if ($this->checkIfUserEmailAlreadyRegistered($email)) {
             $this->errorManager->handleError(
-                message: 'user: ' . $email . ' already exists',
+                message: 'User: ' . $email . ' already exists',
                 code: JsonResponse::HTTP_CONFLICT
             );
         }
@@ -202,7 +202,7 @@ class UserManager
         // check if user info is valid
         if ($ipAddress == null || $userAgent == null) {
             $this->errorManager->handleError(
-                message: 'invalid user info: ip address or user agent is null',
+                message: 'Invalid user info: ip address or user agent is null',
                 code: JsonResponse::HTTP_BAD_REQUEST
             );
         }
@@ -231,7 +231,7 @@ class UserManager
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error to register user',
+                message: 'Error to register user',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
@@ -246,8 +246,8 @@ class UserManager
         // log action to database
         $this->logManager->saveLog(
             name: 'user-manager',
-            message: 'new user registered: ' . $email,
-            level: LogManager::LEVEL_INFO,
+            message: 'New user registered: ' . $email,
+            level: LogManager::LEVEL_NOTICE,
         );
     }
 
@@ -260,19 +260,13 @@ class UserManager
      */
     public function getUserInfo(int $id): array
     {
-        $this->logManager->saveLog(
-            name: 'user-manager',
-            message: 'get user info with id: ' . $id,
-            level: LogManager::LEVEL_INFO
-        );
-
         // get user
         $user = $this->userRepository->find($id);
 
         // check if user exists
         if ($user === null) {
             $this->errorManager->handleError(
-                message: 'user not found with id: ' . $id,
+                message: 'User not found with id: ' . $id,
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
@@ -295,7 +289,7 @@ class UserManager
             || $userAgent === null || $status === null
         ) {
             $this->errorManager->handleError(
-                message: 'user id: ' . $id . ' info not found',
+                message: 'User id: ' . $id . ' info not found',
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
@@ -378,7 +372,7 @@ class UserManager
         // check if user exists
         if ($user === null) {
             $this->errorManager->handleError(
-                message: 'user not found with identifier: ' . $identifier,
+                message: 'User not found with identifier: ' . $identifier,
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
@@ -397,7 +391,7 @@ class UserManager
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error to flush user entity update',
+                message: 'Error to flush user entity update',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
@@ -422,7 +416,7 @@ class UserManager
         // check if user exists
         if ($user === null) {
             $this->errorManager->handleError(
-                message: 'user not found: ' . $email,
+                message: 'User not found: ' . $email,
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
@@ -433,7 +427,7 @@ class UserManager
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error to delete user: ' . $email,
+                message: 'Error to delete user: ' . $email,
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
@@ -442,8 +436,8 @@ class UserManager
         // log action to database
         $this->logManager->saveLog(
             name: 'user-manager',
-            message: 'user deleted: ' . $email,
-            level: LogManager::LEVEL_INFO,
+            message: 'User deleted: ' . $email,
+            level: LogManager::LEVEL_NOTICE,
         );
     }
 
@@ -463,7 +457,7 @@ class UserManager
         // check if user found
         if ($user === null) {
             $this->errorManager->handleError(
-                message: 'user id: ' . $id . ' not found',
+                message: 'User id: ' . $id . ' not found',
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
@@ -479,7 +473,7 @@ class UserManager
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'user id: ' . $id . ' could not be updated',
+                message: 'User id: ' . $id . ' could not be updated',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
@@ -497,8 +491,8 @@ class UserManager
         // log action
         $this->logManager->saveLog(
             name: 'user-manager',
-            message: 'user: ' . $email . ' updated status to: ' . $status . ' old status was: ' . $oldStatus,
-            level: LogManager::LEVEL_INFO
+            message: 'User: ' . $email . ' updated status to: ' . $status . ' old status was: ' . $oldStatus,
+            level: LogManager::LEVEL_NOTICE
         );
     }
 
@@ -517,7 +511,7 @@ class UserManager
         // check if user exists
         if ($user === null) {
             $this->errorManager->handleError(
-                message: 'user id: ' . $id . ' not found',
+                message: 'User id: ' . $id . ' not found',
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
@@ -528,7 +522,7 @@ class UserManager
         // check if user status found
         if ($status === null) {
             $this->errorManager->handleError(
-                message: 'user id: ' . $id . ' status not found',
+                message: 'User id: ' . $id . ' status not found',
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
@@ -551,7 +545,7 @@ class UserManager
         // check if user exists
         if ($user === null) {
             $this->errorManager->handleError(
-                message: 'user not found with id: ' . $id,
+                message: 'User not found with id: ' . $id,
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
@@ -570,7 +564,7 @@ class UserManager
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error to flush user entity update',
+                message: 'Error to flush user entity update',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
@@ -588,7 +582,7 @@ class UserManager
         // log action to database
         $this->logManager->saveLog(
             name: 'user-manager',
-            message: 'user password reset: ' . $email,
+            message: 'User password reset: ' . $email,
             level: LogManager::LEVEL_INFO,
         );
 
@@ -618,7 +612,7 @@ class UserManager
         // check if user exists
         if ($user === null) {
             $this->errorManager->handleError(
-                message: 'user not found with id: ' . $id,
+                message: 'User not found with id: ' . $id,
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
@@ -670,7 +664,7 @@ class UserManager
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error to flush user entity update',
+                message: 'Error to flush user entity update',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
@@ -682,8 +676,8 @@ class UserManager
         // log action to database
         $this->logManager->saveLog(
             name: 'user-manager',
-            message: 'user role added: ' . $email . ' - ' . $role,
-            level: LogManager::LEVEL_INFO,
+            message: 'User role added: ' . $email . ' - ' . $role,
+            level: LogManager::LEVEL_WARNING,
         );
     }
 
@@ -709,7 +703,7 @@ class UserManager
         // check if user exists
         if ($user === null) {
             $this->errorManager->handleError(
-                message: 'user not found with id: ' . $id,
+                message: 'User not found with id: ' . $id,
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
@@ -717,7 +711,7 @@ class UserManager
         // check if user has role
         if (!$this->checkIfUserHasRole($id, $role)) {
             $this->errorManager->handleError(
-                message: 'user does not have role: ' . $role,
+                message: 'User does not have role: ' . $role,
                 code: JsonResponse::HTTP_BAD_REQUEST
             );
         }
@@ -730,7 +724,7 @@ class UserManager
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error to flush user entity update',
+                message: 'Error to flush user entity update',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
@@ -742,8 +736,8 @@ class UserManager
         // log action to database
         $this->logManager->saveLog(
             name: 'user-manager',
-            message: 'user role removed: ' . $email . ' - ' . $role,
-            level: LogManager::LEVEL_INFO,
+            message: 'User role removed: ' . $email . ' - ' . $role,
+            level: LogManager::LEVEL_WARNING,
         );
     }
 }

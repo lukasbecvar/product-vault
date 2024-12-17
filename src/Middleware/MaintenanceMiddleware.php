@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class MaintenanceMiddleware
  *
- * Middleware for handle the maintenance mode
+ * Middleware for handle maintenance mode
  *
  * @package App\Middleware
  */
@@ -25,7 +25,7 @@ class MaintenanceMiddleware
     }
 
     /**
-     * Handle the maintenance mode page
+     * Handle maintenance mode
      *
      * @return void
      */
@@ -34,7 +34,7 @@ class MaintenanceMiddleware
         // check if maintenance mode is enabled
         if ($this->appUtil->isMaintenance()) {
             $this->errorManager->handleError(
-                message: 'application is under maintenance mode',
+                message: 'Application is under maintenance mode',
                 code: Response::HTTP_SERVICE_UNAVAILABLE
             );
         }

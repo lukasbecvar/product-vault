@@ -37,7 +37,7 @@ class LoginEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Return array of event names subscriber
+     * Return array of event names subscribed by this event
      *
      * @return array<string> The event names to listen to
      */
@@ -62,7 +62,7 @@ class LoginEventSubscriber implements EventSubscriberInterface
         // check if request is valid
         if ($request === null) {
             $this->errorManager->handleError(
-                message: 'invalid request',
+                message: 'Invalid request',
                 code: JsonResponse::HTTP_BAD_REQUEST
             );
         }
@@ -76,7 +76,7 @@ class LoginEventSubscriber implements EventSubscriberInterface
             $user = $event->getAuthenticationToken()->getUser();
             if ($user === null) {
                 $this->errorManager->handleError(
-                    message: 'invalid user',
+                    message: 'Invalid user',
                     code: JsonResponse::HTTP_BAD_REQUEST
                 );
             }
@@ -87,7 +87,7 @@ class LoginEventSubscriber implements EventSubscriberInterface
             // check if user status is active
             if ($status != 'active') {
                 $this->errorManager->handleError(
-                    message: 'account is not active, account status is: ' . $status,
+                    message: 'Account is not active, account status is: ' . $status,
                     code: JsonResponse::HTTP_FORBIDDEN
                 );
             }
@@ -101,7 +101,7 @@ class LoginEventSubscriber implements EventSubscriberInterface
             // log user auth
             $this->logManager->saveLog(
                 name: 'authentication',
-                message: 'user: ' . $identifier . ' successfully authenticated',
+                message: 'User: ' . $identifier . ' successfully authenticated',
                 level: LogManager::LEVEL_INFO
             );
         }

@@ -88,7 +88,7 @@ class LoginEventSubscriberTest extends TestCase
         // expect save log call
         $this->logManager->expects($this->once())->method('saveLog')->with(
             'authentication',
-            'user: testuser successfully authenticated',
+            'User: testuser successfully authenticated',
             LogManager::LEVEL_INFO
         );
 
@@ -120,7 +120,7 @@ class LoginEventSubscriberTest extends TestCase
 
         // expect error manager call
         $this->errorManager->expects($this->once())->method('handleError')->with(
-            'account is not active, account status is: inactive',
+            'Account is not active, account status is: inactive',
             JsonResponse::HTTP_FORBIDDEN
         );
 

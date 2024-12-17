@@ -23,7 +23,7 @@ class UserInfoControllerTest extends CustomTestCase
     }
 
     /**
-     * Test user info when method is not GET
+     * Test user info when request method is invalid
      *
      * @return void
      */

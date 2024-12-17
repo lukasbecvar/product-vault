@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class UserPasswordResetCommand
  *
- * Command to reset user password
+ * Command for reset user password
  *
  * @package App\Command\UserManager
  */
@@ -30,7 +30,7 @@ class UserPasswordResetCommand extends Command
     }
 
     /**
-     * Configure command arguments
+     * Configure command arguments and options
      *
      * @return void
      */
@@ -58,6 +58,7 @@ class UserPasswordResetCommand extends Command
         // get email argument
         $email = $input->getArgument('email');
 
+        // validate email input
         if ($email == null) {
             $io->error('Email cannot be empty.');
             return Command::INVALID;

@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class UserInfoCommand
  *
- * Command to get user info
+ * Command for getting user info
  *
  * @package App\Command\UserManager
  */
@@ -32,7 +32,7 @@ class UserInfoCommand extends Command
     }
 
     /**
-     * Configure command arguments
+     * Configure command arguments and options
      *
      * @return void
      */
@@ -60,6 +60,7 @@ class UserInfoCommand extends Command
         // get email argument
         $email = $input->getArgument('email');
 
+        // validate email input
         if ($email == null) {
             $io->error('Email cannot be empty.');
             return Command::INVALID;

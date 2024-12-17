@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class LogTruncateCommand
  *
- * Command to truncate logs table
+ * Command for truncating logs table
  *
  * @package App\Command\LogManager
  */

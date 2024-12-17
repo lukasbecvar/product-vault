@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * Class CacheManager
  *
- * The manager for get and manage cache storage
+ * Manager for manipulating with cache storage
  *
  * @package App\Manager
  */
@@ -46,7 +46,7 @@ class CacheManager
     }
 
     /**
-     * Save value to cache storage
+     * Store value in cache storage
      *
      * @param string $key The cache key
      * @param string $value The cache value
@@ -60,7 +60,7 @@ class CacheManager
             $this->redis->set($key, $value, 'EX', $expirationTTL);
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error to save cache value',
+                message: 'Error to save cache value',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
@@ -68,7 +68,7 @@ class CacheManager
     }
 
     /**
-     * Check if cache value exists in storage
+     * Check if key exists in cache storage
      *
      * @param string $key The cache key
      *
@@ -80,7 +80,7 @@ class CacheManager
             $status = $this->redis->exists($key);
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error to check cache value exists',
+                message: 'Error to check cache value exists',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
@@ -95,7 +95,7 @@ class CacheManager
     }
 
     /**
-     * Get cache value from storage
+     * Get cached value from storage
      *
      * @param string $key The cache key
      *
@@ -107,7 +107,7 @@ class CacheManager
             return $this->redis->get($key);
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error to get cache value',
+                message: 'Error to get cache value',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
@@ -115,7 +115,7 @@ class CacheManager
     }
 
     /**
-     * Delete cache value from storage
+     * Delete cached item from storage
      *
      * @param string $key The cache key
      *
@@ -127,7 +127,7 @@ class CacheManager
             $this->redis->del($key);
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error to delete cache value',
+                message: 'Error to delete cache value',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );

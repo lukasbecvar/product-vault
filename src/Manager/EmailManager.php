@@ -50,8 +50,8 @@ class EmailManager
             ->htmlTemplate('email/' . $template . '.twig')
             ->context($context);
 
+        // send email
         try {
-            // send email
             $this->mailer->send($email);
         } catch (TransportExceptionInterface $e) {
             $this->errorManager->handleError(

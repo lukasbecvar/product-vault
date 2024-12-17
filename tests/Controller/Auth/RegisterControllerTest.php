@@ -27,7 +27,7 @@ class RegisterControllerTest extends WebTestCase
     }
 
     /**
-     * Test register user when method is not POST
+     * Test register user when request method is invalid
      *
      * @return void
      */

@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class UserUpdateRoleCommand
  *
- * Command to update user role
+ * Command for updating user role
  *
  * @package App\Command\UserManager
  */
@@ -30,7 +30,7 @@ class UserUpdateRoleCommand extends Command
     }
 
     /**
-     * Configure the command arguments
+     * Configure command arguments and options
      *
      * @return void
      */
@@ -106,13 +106,13 @@ class UserUpdateRoleCommand extends Command
             // add role to user
             if ($roleToAdd) {
                 $this->userManager->addRoleToUser($id, $roleToAdd);
-                $io->success("Role '$roleToAdd' added to user '$email'.");
+                $io->success('Role: ' . $roleToAdd . ' added to user: ' . $email . '.');
             }
 
             // remove role from user
             if ($roleToRemove) {
                 $this->userManager->removeRoleFromUser($id, $roleToRemove);
-                $io->success("Role '$roleToRemove' removed from user '$email'.");
+                $io->success('Role: ' . $roleToRemove . ' removed from user: ' . $email . '.');
             }
         } catch (Exception $e) {
             $io->error('Error updating user role: ' . $e->getMessage());

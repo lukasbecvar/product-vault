@@ -11,7 +11,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 /**
  * Class UserFixtures
  *
- * The testing user data fixtures
+ * Testing data fixtures for user entity
  *
  * @package App\DataFixtures
  */

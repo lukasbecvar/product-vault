@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * Class AuthManager
  *
- * The manager for user authentication and authorization system
+ * Manager for user authentication and authorization system
  *
  * @package App\Manager
  */
@@ -61,7 +61,7 @@ class AuthManager
         // check if user is set
         if ($user == null) {
             $this->errorManager->handleError(
-                message: 'error to get user by auth token',
+                message: 'Error to get user by auth token',
                 code: JsonResponse::HTTP_UNAUTHORIZED
             );
         }
@@ -75,7 +75,7 @@ class AuthManager
         // log event logout
         $this->logManager->saveLog(
             name: 'authenticator',
-            message: 'user: ' . $userIdentifier . ' logged out',
+            message: 'User: ' . $userIdentifier . ' logged out',
             level: LogManager::LEVEL_INFO
         );
     }

@@ -27,17 +27,17 @@ class UserInfoController extends AbstractController
     }
 
     /**
-     * Get user info
+     * Get user info (get self user info)
      *
      * @param Security $security The security object (for get user)
      *
      * @return JsonResponse The user info response
      */
     #[Tag(name: "User")]
-    #[Response(response: 200, description: 'The user information')]
-    #[Response(response: 401, description: 'The unauthorized message')]
-    #[Response(response: 404, description: 'The user not found message')]
-    #[Response(response: 500, description: 'The error to get user information')]
+    #[Response(response: JsonResponse::HTTP_OK, description: 'The user information')]
+    #[Response(response: JsonResponse::HTTP_UNAUTHORIZED, description: 'The unauthorized message')]
+    #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: 'The user not found message')]
+    #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: 'The error to get user information')]
     #[Route('/api/user/info', methods:['GET'], name: 'user_info')]
     public function userInfo(Security $security): JsonResponse
     {

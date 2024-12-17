@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class SecurityCheckMiddleware
  *
- * Middleware for checking the security rules
+ * Middleware for checking security rules
  *
  * @package App\Middleware
  */
@@ -28,7 +28,7 @@ class SecurityCheckMiddleware
     }
 
     /**
-     * Handle the security rules check
+     * Handle security rules check
      *
      * @return void
      */
@@ -37,7 +37,7 @@ class SecurityCheckMiddleware
         // check if SSL only enabled
         if ($this->appUtil->isSSLOnly() && !$this->appUtil->isSsl()) {
             $this->errorManager->handleError(
-                message: 'ssl is required to access this site',
+                message: 'SSL is required to access this site',
                 code: Response::HTTP_UPGRADE_REQUIRED
             );
         }
@@ -51,7 +51,7 @@ class SecurityCheckMiddleware
             // check if visitor ip is allowed
             if (!in_array($this->visitorInfoUtil->getIP(), $alloedIpAddresses)) {
                 $this->errorManager->handleError(
-                    message: 'your ip address is not allowed to access this system',
+                    message: 'Your ip address is not allowed to access this system',
                     code: Response::HTTP_FORBIDDEN
                 );
             }

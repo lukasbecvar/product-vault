@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class UserStatusUpdateCommand
  *
- * Command to update user status
+ * Command for updating user status
  *
  * @package App\Command\UserManager
  */
@@ -30,7 +30,7 @@ class UserStatusUpdateCommand extends Command
     }
 
     /**
-     * Configure the command arguments
+     * Configure command arguments and options
      *
      * @return void
      */

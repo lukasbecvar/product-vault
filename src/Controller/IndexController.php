@@ -23,13 +23,14 @@ class IndexController extends AbstractController
      * @return JsonResponse Return backend status as json response
      */
     #[Tag(name: "Index")]
-    #[Response(response: 200, description: 'The api status')]
+    #[Response(response: JsonResponse::HTTP_OK, description: 'The api status')]
     #[Route('/', methods:['GET'], name: 'main_index')]
     public function index(): JsonResponse
     {
         return $this->json([
             'status' => 'success',
             'message' => 'product-vault is running!',
+            'version' => $_ENV['APP_VERSION'],
         ], JsonResponse::HTTP_OK);
     }
 }

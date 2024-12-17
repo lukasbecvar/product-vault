@@ -37,7 +37,7 @@ class UserDeleteController extends AbstractController
      * @return JsonResponse The status response
      */
     #[OA\Post(
-        summary: 'Delete user action',
+        summary: 'Delete user action (delete by user id for admin)',
         description: 'Delete user from database by user id and return status',
         tags: ['User'],
         requestBody: new OA\RequestBody(
@@ -51,26 +51,26 @@ class UserDeleteController extends AbstractController
         ),
         responses: [
             new OA\Response(
-                response: 200,
+                response: JsonResponse::HTTP_OK,
                 description: 'The success user delete message'
             ),
             new OA\Response(
-                response: 400,
+                response: JsonResponse::HTTP_BAD_REQUEST,
                 description: 'Invalid request data message'
             ),
             new OA\Response(
-                response: 404,
+                response: JsonResponse::HTTP_NOT_FOUND,
                 description: 'User not found message'
             ),
             new OA\Response(
-                response: 500,
+                response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 description: 'The delete error message'
             ),
         ]
     )]
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/user/delete', methods:['POST'], name: 'user_delete')]
-    public function updateUserPassword(Request $request): JsonResponse
+    public function deleteUser(Request $request): JsonResponse
     {
         // get request data
         $requestData = $request->toArray();

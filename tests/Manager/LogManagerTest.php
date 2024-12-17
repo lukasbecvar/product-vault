@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * Class LogManagerTest
  *
- * Test cases for log manager functionality
+ * Test cases for log manager
  *
  * @package App\Test\Manager
  */
@@ -155,7 +155,7 @@ class LogManagerTest extends TestCase
 
         // expect error handler call
         $this->errorManagerMock->expects($this->once())->method('handleError')->with(
-            $this->equalTo('error save log to database'),
+            $this->equalTo('Error save log to database'),
             $this->equalTo(JsonResponse::HTTP_INTERNAL_SERVER_ERROR),
             $this->equalTo('Database error')
         );
@@ -294,7 +294,7 @@ class LogManagerTest extends TestCase
         // mock saveLog to ensure it's called correctly
         $this->logManager->saveLog(
             name: 'log-manager',
-            message: 'logs table truncated in database: test_db',
+            message: 'Logs table truncated in database: test_db',
             level: LogManager::LEVEL_CRITICAL
         );
 

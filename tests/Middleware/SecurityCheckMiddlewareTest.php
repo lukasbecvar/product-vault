@@ -12,7 +12,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class SecurityCheckMiddlewareTest
  *
- * Test the security check middleware
+ * Test cases for security check middleware
  *
  * @package App\Tests\Middleware
  */

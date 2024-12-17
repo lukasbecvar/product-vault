@@ -23,7 +23,7 @@ class UserListControllerTest extends CustomTestCase
     }
 
     /**
-     * Test get users list when request method is not GET
+     * Test get users list when request method is invalid
      *
      * @return void
      */

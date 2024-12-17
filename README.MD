@@ -70,75 +70,7 @@ curl -X GET http://localhost/api/user/list\
     -H "Authorization: Bearer <token>"
 
 ## Backlog
-## Stage 1 - API base
-- [X] Main index controller
-- [X] Error controller
-- [X] Exception handling event subscriber
-- [X] Log system
-    - [X] Create log entity (id, message, level, time, user-id, ip-address, user-agent, request-uri, request-method, status)
-    - [X] Log manager
-        - [X] Save log
-        - [X] Get logs by status
-        - [X] Get logs by user-id
-        - [X] Get logs by ip-address
-        - [X] Set all logs to readed
-        - [X] Truncate logs table
-        - [X] All logs get methods with pagination and sorting
-    - [X] CLI command to get logs
-    - [X] CLI command to set all logs to readed
-    - [X] CLI command to truncate logs
-- [X] App middleware
-    - [X] Database online check middleware
-    - [X] Escape request data middleware
-    - [X] Maintenance mode middleware
-    - [X] Security check middleware
-        - [X] SSL check
-        - [X] Allow connection for specific ip-address or for all ip-addresses
-- [X] Protect exception error message in production mode
-- [X] User system (jwt auth)
-    - [X] Create user entity (id, email, firstname, lastname, roles, password, register-time, last-login, ip-address, user-agent)
-    - [X] Create user manager service
-    - [X] User registration command
-    - [X] Update user role command (add, remove parameter)
-    - [X] Delete user command
-    - [X] Update user status command
-    - [X] Reset user password command
-    - [X] User registration (api endpoint)
-    - [X] User login JWT (with symfony security bundle and nelmio jwt)
-        - [X] Implement password hash to register user and user fixture
-	- [X] Log user login event and update user data on login
-    - [X] Check if user status is active in login process (check if user is not blocked)
-    - [X] Get logs by user email instead of user id in log reader cli command
-    - [X] User logout invalidate JWT token (api endpoint)
-        - [X] JWT token blacklist (redis)
-- [X] User info contoller
-    - [X] User info endpoint
-        - [X] Get firstname
-        - [X] Get lastname
-        - [X] Get email
-        - [X] Get roles
-        - [X] Get is-active
-        - [X] Get last-login
-        - [X] Get register-time
-- [X] Get user data CLI command
-- [X] Get user id in save log method 
-- [X] Setup CSRF protection
-- [X] Email manager
-    - [X] Send email - password reset
-    - [X] Send email - user registration
-    - [X] Send email - user status change
-- [X] Update user data
-    - [X] Change password
-    - [X] Change roles (only for admin users)
-    - [X] Change status (only for admin users)
-- [X] Delete user API endpoint
-- [X] Get user list (with pagination) API endpoint for admin role
-- [X] Setup nelmio api doc
-- [ ] Complete base refactoring
-- [ ] Base documentation
-- [ ] Release app base to separate repo (api-base)
-
-## Stage 2 - Product Management
+## Product Management system
 - [ ] Create product schema
     - [ ] Create product entity (id, name, description, price (default EUR), added-time, last-edit-time, is-active)
     - [ ] Create product category entity (id, name)
@@ -220,6 +152,8 @@ curl -X GET http://localhost/api/user/list\
     - [ ] Access log entity (id, access-type, time, ip-address, user-agent request-uri)
     - [ ] Access log method in log manager (log access to product by id or access to product list)
     - [ ] Controller for get access log data per concrete period (hour, day, week, month, year, alltime)
+
+## Cache system
 - [ ] Cache system
     - [ ] Cache product by id when product is requested
     - [ ] Get product by id from cache or mysql database if not in cache
@@ -231,6 +165,8 @@ curl -X GET http://localhost/api/user/list\
         - [ ] Preload cache for all products
         - [ ] Preload cache for most used products list filtering
         - [ ] When preload process is not finished use mysql database for getting products
+
+## Code base
 - [ ] Create postman collection
 - [ ] Create API documentation with postman
     - [ ] Create tests in postman
@@ -239,7 +175,7 @@ curl -X GET http://localhost/api/user/list\
 - [ ] Complete app refactoring
 - [ ] Release product-vault api docker image to github packages
 
-## Stage 3 - Frontend app
+## Frontend app
 - [ ] React app implementation
     - [ ] Login to app
     - [ ] Logout from app

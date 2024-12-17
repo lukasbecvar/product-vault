@@ -27,14 +27,14 @@ class UserListController extends AbstractController
     }
 
     /**
-     * Get users list
+     * Get users list (for admin users)
      *
      * @return JsonResponse The users list
      */
     #[Tag(name: "User")]
-    #[Response(response: 200, description: 'The users list')]
-    #[Response(response: 401, description: 'The unauthorized message')]
-    #[Response(response: 500, description: 'The error to get user list')]
+    #[Response(response: JsonResponse::HTTP_OK, description: 'The users list')]
+    #[Response(response: JsonResponse::HTTP_UNAUTHORIZED, description: 'The unauthorized message')]
+    #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: 'The error to get user list')]
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/user/list', methods:['GET'], name: 'user_list')]
     public function updateUserPassword(): JsonResponse

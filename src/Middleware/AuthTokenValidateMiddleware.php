@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 /**
  * Class AuthTokenValidateMiddleware
  *
- * The middleware for validate auth token and check if token is blacklisted
+ * Middleware for validate auth token and check if token is blacklisted
  *
  * @package App\Middleware
  */
@@ -35,6 +35,8 @@ class AuthTokenValidateMiddleware
     public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
+
+        // get auth token from request
         $token = $this->authManager->getAuthTokenFromRequest($request);
 
         // check if token set in request

@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 /**
  * Class ExceptionEventSubscriberTest
  *
- * Test cases for the exception event subscriber
+ * Test cases for exception event subscriber
  *
  * @package App\Tests\Event\Subscriber
  */

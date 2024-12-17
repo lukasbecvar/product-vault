@@ -11,7 +11,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class MaintenanceMiddlewareTest
  *
- * Test the maintenance middleware
+ * Test cases for maintenance mode middleware
  *
  * @package App\Tests\Middleware
  */
