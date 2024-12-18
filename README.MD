@@ -1,8 +1,7 @@
 # Product Vault
 An open-source platform API system for managing product databases, designed with a focus on simplicity, flexibility, and security. The system enables efficient storage organization and manipulation of product data through a RESTful API, ensuring seamless integration with your e-shop or other applications that require product lists or product details.
 
-## Backlog
-## Product Management system
+## Product Management system backlog
 - [ ] Create product schema
     - [ ] Create product entity (id, name, description, price (default EUR), added-time, last-edit-time, is-active)
     - [ ] Create product category entity (id, name)
@@ -85,7 +84,7 @@ An open-source platform API system for managing product databases, designed with
     - [ ] Access log method in log manager (log access to product by id or access to product list)
     - [ ] Controller for get access log data per concrete period (hour, day, week, month, year, alltime)
 
-## Cache system
+## Cache system backlog
 - [ ] Cache system
     - [ ] Cache product by id when product is requested
     - [ ] Get product by id from cache or mysql database if not in cache
@@ -98,7 +97,7 @@ An open-source platform API system for managing product databases, designed with
         - [ ] Preload cache for most used products list filtering
         - [ ] When preload process is not finished use mysql database for getting products
 
-## Code base
+## Code base backlog
 - [ ] Create postman collection
 - [ ] Create API documentation with postman
     - [ ] Create tests in postman
@@ -107,7 +106,7 @@ An open-source platform API system for managing product databases, designed with
 - [ ] Complete app refactoring
 - [ ] Release product-vault api docker image to github packages
 
-## Frontend app
+## Frontend app backlog
 - [ ] React app implementation
     - [ ] Login to app
     - [ ] Logout from app
