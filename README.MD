@@ -3,20 +3,27 @@ An open-source platform API system for managing product databases, designed with
 
 ## Product Management system backlog
 - [ ] Create product schema
-    - [ ] Create product entity (id, name, description, price, price_currency, added-time, last-edit-time, is-active)
-    - [ ] Create category entity (id, name)
-    - [ ] Create product_category entity (id, product-id, category-id)
-    - [ ] Create attribute entity (id, name)
-    - [ ] Create product_attribute entity (id, product-id, attribute-id, attribute-value, attribute-type)
-    - [ ] Create product_icon entity (id, product-id, icon-file) (one icon per product)
-    - [ ] Create product_image entity (id, product-id, image-file) (multiple images per product)
+    - [X] Create product entity (id, name, description, price, price-currency, added-time, last-edit-time, is-active)
+    - [X] Create category entity (id, name)
+    - [X] Create product_category entity (id, product-id, category-id)
+    - [X] Create attribute entity (id, name)
+    - [X] Create product_attribute entity (id, product-id, attribute-id, attribute-value, attribute-type)
+    - [X] Create product_icon entity (id, product-id, icon-file) (one icon per product)
+    - [X] Create product_image entity (id, product-id, image-file) (multiple images per product)
     - [ ] Create storage folder for product icons and images
+    - [ ] Create products database fixtures
+    - [ ] Test entity relations
+- [ ] Better relation between user and log entity (get user by log and get logs by user)
 - [ ] Product manager
     - [ ] Create product - create new product
     - [ ] Edit product - edit product by id
     - [ ] Delete product - delete product by id
     - [ ] Create new attribute - create new attribute
     - [ ] Add attribute to product - add new attribute to product by id (add one attribute or multiple attributes)
+    - [ ] Add icon to product method
+    - [ ] Change product icon method
+    - [ ] Add images to product method
+    - [ ] Remove product image method
     - [ ] Delete attribute from product - delete attribute from product by id (delete one attribute or multiple attributes)
     - [ ] Get product by id - get product details by id
     - [ ] Get products by category - get products list by category
