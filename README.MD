@@ -3,13 +3,13 @@ An open-source platform API system for managing product databases, designed with
 
 ## Product Management system backlog
 - [ ] Create product schema
-    - [ ] Create product entity (id, name, description, price (default EUR), added-time, last-edit-time, is-active)
-    - [ ] Create product category entity (id, name)
-    - [ ] Create product category value entity (id, product-id, category-id)
-    - [ ] Create product attribute entity (id, name)
-    - [ ] Create product attribute value entity (id, product-id, attribute-id, attribute-value)
-    - [ ] Create product icon entity (id, product-id, icon-file) (one icon per product)
-    - [ ] Create product image entity (id, product-id, image-file) (multiple images per product)
+    - [ ] Create product entity (id, name, description, price, price_currency, added-time, last-edit-time, is-active)
+    - [ ] Create category entity (id, name)
+    - [ ] Create product_category entity (id, product-id, category-id)
+    - [ ] Create attribute entity (id, name)
+    - [ ] Create product_attribute entity (id, product-id, attribute-id, attribute-value, attribute-type)
+    - [ ] Create product_icon entity (id, product-id, icon-file) (one icon per product)
+    - [ ] Create product_image entity (id, product-id, image-file) (multiple images per product)
     - [ ] Create storage folder for product icons and images
 - [ ] Product manager
     - [ ] Create product - create new product
