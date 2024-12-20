@@ -22,6 +22,13 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
  */
 class ProductFixtures extends Fixture
 {
+    /**
+     * Load product fixtures
+     *
+     * @param ObjectManager $manager The entity manager
+     *
+     * @return void
+     */
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
