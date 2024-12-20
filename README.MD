@@ -12,7 +12,7 @@ An open-source platform API system for managing product databases, designed with
     - [X] Create product_image entity (id, product-id, image-file) (multiple images per product)
     - [X] Create products database fixtures
         - [X] Create testing images and icons
-    - [ ] Create storage folder for product icons and images
+    - [X] Create storage folder for product icons and images
         - [X] Create storage directory in install script
         - [X] Create separated storage for env named storage
         - [X] Create StorageUtil for manage storage resources
