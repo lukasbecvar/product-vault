@@ -77,14 +77,14 @@ class ProductFixtures extends Fixture
 
             // assign icon
             $icon = new ProductIcon();
-            $icon->setIconFile('/storage/icons/testing-icon.png');
+            $icon->setIconFile('testing-icon.png');
             $icon->setProduct($product);
             $manager->persist($icon);
 
             // assign images
             foreach (['test-image-1.jpg', 'test-image-2.jpg', 'test-image-3.jpg'] as $imageFile) {
                 $image = new ProductImage();
-                $image->setImageFile("/storage/images/$imageFile");
+                $image->setImageFile($imageFile);
                 $image->setProduct($product);
                 $manager->persist($image);
             }
@@ -96,9 +96,19 @@ class ProductFixtures extends Fixture
         // flush products data to database
         $manager->flush();
 
+        // prepare storage directories
+        $basePath = __DIR__ . '/../../storage/' . $_ENV['APP_ENV'];
+        $fileTypes = ['icons', 'images'];
+        foreach ($fileTypes as $fileType) {
+            $storagePath = $basePath . '/' . $fileType;
+            if (!file_exists($storagePath)) {
+                mkdir($storagePath, recursive: true);
+            }
+        }
+
         // put testing icon to storage
         $testingIcon = file_get_contents(__DIR__ . '/assets/icons/testing-icon.png');
-        file_put_contents(__DIR__ . '/../../storage/icons/testing-icon.png', $testingIcon);
+        file_put_contents(__DIR__ . '/../../storage/' . $_ENV['APP_ENV'] . '/icons/testing-icon.png', $testingIcon);
 
         // put testing images to storage
         $testingImages = [
@@ -107,7 +117,7 @@ class ProductFixtures extends Fixture
             'test-image-3.jpg' => file_get_contents(__DIR__ . '/assets/images/test-image-3.jpg'),
         ];
         foreach ($testingImages as $imageFile => $imageData) {
-            file_put_contents(__DIR__ . '/../../storage/images/' . $imageFile, $imageData);
+            file_put_contents(__DIR__ . '/../../storage/' . $_ENV['APP_ENV'] . '/images/' . $imageFile, $imageData);
         }
     }
 }

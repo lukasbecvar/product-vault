@@ -14,8 +14,7 @@ An open-source platform API system for managing product databases, designed with
         - [X] Create testing images and icons with product create
     - [ ] Create storage folder for product icons and images
         - [X] Create storage directory in install script
-        - [ ] Define storage path in .env
-        - [ ] Create separated storage for env named storage
+        - [X] Create separated storage for env named storage
         - [ ] Create StorageUtil for manager storage resources
     - [ ] Advanced repository methods
         - [ ] Category repository

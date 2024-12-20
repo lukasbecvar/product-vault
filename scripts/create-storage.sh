@@ -4,8 +4,6 @@
 if [ ! -d 'storage' ]
 then
     mkdir ./storage
-    mkdir ./storage/icons
-    mkdir ./storage/images
 fi
 
 # set storage dir permissions
