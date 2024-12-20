@@ -9,3 +9,6 @@ docker-compose run php bash -c "
     php bin/console doctrine:database:drop --if-exists --force &&
     php bin/console doctrine:database:drop --if-exists --force --env=test 
 "
+
+# delete resources storage
+sudo rm -rf storage/

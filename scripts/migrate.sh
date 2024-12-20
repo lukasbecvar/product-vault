@@ -7,3 +7,6 @@ docker-compose run php bash -c "
     php bin/console doctrine:migrations:migrate --no-interaction &&
     php bin/console doctrine:migrations:migrate --no-interaction --env=test
 "
+
+# create storage directory
+sh scripts/create-storage.sh

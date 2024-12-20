@@ -15,3 +15,6 @@ sudo rm -rf var/
 # delete composer packages
 sudo rm -rf vendor/
 sudo rm -rf composer.lock
+
+# delete resources storage
+sudo rm -rf storage/

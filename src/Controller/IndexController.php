@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\ProductImage;
+use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use OpenApi\Attributes\Tag;
 use OpenApi\Attributes\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -33,4 +36,22 @@ class IndexController extends AbstractController
             'version' => $_ENV['APP_VERSION'],
         ], JsonResponse::HTTP_OK);
     }
+
+    // #[Route('/test', methods:['GET'], name: 'test')]
+    // public function test(ProductRepository $repo, EntityManagerInterface $em): JsonResponse
+    // {
+    //     $products = $repo->findAll();
+
+    //     $test = $repo->find(1);
+
+    //     $image = new ProductImage();
+    //     $image->setImageFile('/storage/images/test-fewewfewefw-1.jpg');
+    //     $image->setProduct($test);
+
+    //     $em->persist($image);
+
+    //     $em->flush();
+
+    //     dd($products[3]->getProductAttributesRaw());
+    // }
 }

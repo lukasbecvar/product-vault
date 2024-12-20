@@ -19,3 +19,6 @@ var/
 
 # php code sniffer cache
 .phpcs-cache
+
+# resources storage
+storage/

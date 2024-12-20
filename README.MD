@@ -10,8 +10,25 @@ An open-source platform API system for managing product databases, designed with
     - [X] Create product_attribute entity (id, product-id, attribute-id, attribute-value, attribute-type)
     - [X] Create product_icon entity (id, product-id, icon-file) (one icon per product)
     - [X] Create product_image entity (id, product-id, image-file) (multiple images per product)
+    - [X] Create products database fixtures
+        - [X] Create testing images and icons with product create
     - [ ] Create storage folder for product icons and images
-    - [ ] Create products database fixtures
+        - [X] Create storage directory in install script
+        - [ ] Define storage path in .env
+        - [ ] Create separated storage for env named storage
+        - [ ] Create StorageUtil for manager storage resources
+    - [ ] Advanced repository methods
+        - [ ] Category repository
+            - [ ] Get all products by category (one or multiple categories)
+            - [ ] Get all categories
+        - [ ] Attribute repository
+            - [ ] Get all products by attribute (one or multiple attributes)
+            - [ ] Get all attributes
+        - [ ] Product repository
+            - [ ] Get all products
+            - [ ] Get product by id
+            - [ ] Get products by category (one or multiple categories)
+            - [ ] Get products by attribute (one or multiple attributes)
     - [ ] Test entity relations
 - [ ] Better relation between user and log entity (get user by log and get logs by user)
 - [ ] Product manager

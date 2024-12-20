@@ -174,11 +174,35 @@ class Product
     }
 
     /**
+     * @return array<int, string|null>
+     */
+    public function getCategoriesRaw(): array
+    {
+        return $this->product_categories->filter(
+            fn(ProductCategory $pc) => $pc->getCategory() !== null
+        )->map(
+            fn(ProductCategory $pc) => $pc->getCategory() ? $pc->getCategory()->getName() : null
+        )->toArray();
+    }
+
+    /**
      * @return Collection<int, ProductAttribute>
      */
     public function getProductAttributes(): Collection
     {
         return $this->product_attributes;
+    }
+
+    /**
+     * @return array<int, string|null>
+     */
+    public function getProductAttributesRaw(): array
+    {
+        return $this->product_attributes->filter(
+            fn(ProductAttribute $pa) => $pa->getAttribute() !== null
+        )->map(
+            fn(ProductAttribute $pa) => $pa->getAttribute() ? $pa->getAttribute()->getName() : null
+        )->toArray();
     }
 
     public function getIcon(): ?ProductIcon
@@ -198,6 +222,16 @@ class Product
     public function getImages(): Collection
     {
         return $this->images;
+    }
+
+    /**
+     * @return array<int, string|null>
+     */
+    public function getImagesRaw(): array
+    {
+        return $this->images->map(
+            fn(ProductImage $pi) => $pi->getImageFile()
+        )->toArray();
     }
 
     public function addImage(ProductImage $image): self
