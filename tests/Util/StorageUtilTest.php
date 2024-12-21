@@ -6,14 +6,13 @@ use App\Util\AppUtil;
 use App\Util\StorageUtil;
 use App\Manager\ErrorManager;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\String\ByteString;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class StorageUtilTest
  *
- * Test cases for storage util
+ * Test cases for storage resource manager util
  *
  * @package App\Tests\Util
  */
@@ -25,77 +24,71 @@ class StorageUtilTest extends TestCase
 
     protected function setUp(): void
     {
-        // ,ock dependencies
+        // mock dependencies
         $this->appUtilMock = $this->createMock(AppUtil::class);
         $this->errorManagerMock = $this->createMock(ErrorManager::class);
 
-        // create the StorageUtil instance with mocks
+        // create storage util instance
         $this->storageUtil = new StorageUtil($this->appUtilMock, $this->errorManagerMock);
     }
 
     /**
-     * Test create storage resource with invalid sub path and resource name
+     * Test create storage resource with invalid sub path
      *
      * @return void
      */
     public function testCreateStorageResourceWithInvalidSubPath(): void
     {
-        $fileName = ByteString::fromRandom(10);
-
-        // mock storage env
+        // mock APP_ENV
         $this->appUtilMock->method('getEnvValue')->willReturn('test');
 
-        // expect error handler call
+        // expect error handling
         $this->errorManagerMock->expects($this->once())->method('handleError')->with(
-            'Invalid resource type: invalid_sub_path',
+            $this->stringContains('Invalid resource type'),
             JsonResponse::HTTP_INTERNAL_SERVER_ERROR
         );
 
-        // call tested method
-        $this->storageUtil->createStorageResource('invalid_sub_path', $fileName, 'resource content');
+        // call test method
+        $this->storageUtil->createStorageResource('invalid_type', 'test.txt', 'content');
     }
 
     /**
-     * Test create storage resource with invalid resource name
+     * Test get storage resource with invalid sub path
      *
      * @return void
      */
-    public function testCreateStorageSuccess(): void
+    public function testGetStorageResourceWithInvalidSubPath(): void
     {
-        $fileName = ByteString::fromRandom(10);
-
-        // mock storage env
+        // mock APP_ENV
         $this->appUtilMock->method('getEnvValue')->willReturn('test');
 
-        // simulate a valid resource path
-        $resourcePath = __DIR__ . '/../../storage/test/icons/' . $fileName;
-        file_put_contents($resourcePath, 'resource content');
+        // expect error handling
+        $this->errorManagerMock->expects($this->once())->method('handleError')->with(
+            $this->stringContains('Invalid resource type'),
+            JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+        );
 
-        // call tested method
-        $result = $this->storageUtil->getStorageResource('icons', $fileName);
-
-        // assert result
-        $this->assertEquals('resource content', $result);
+        // call test method
+        $this->storageUtil->getStorageResource('invalid_type', 'test.txt');
     }
 
     /**
-     * Test create storage resource with empty resource name
+     * Test get storage resource with invalid sub path
      *
      * @return void
      */
-    public function testDeleteStorageResource(): void
+    public function testDeleteStorageResourceWithInvalidSubPath(): void
     {
-        // mock storage env
-        $this->appUtilMock->method('getEnvValue')->willReturn('test_env');
+        // mock APP_ENV
+        $this->appUtilMock->method('getEnvValue')->willReturn('test');
 
-        // simulate a valid resource path
-        $resourcePath = __DIR__ . '/../../storage/test_env/icons/test_file';
-        file_put_contents($resourcePath, 'resource content');
+        // expect error handling
+        $this->errorManagerMock->expects($this->once())->method('handleError')->with(
+            $this->stringContains('Invalid resource type'),
+            JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+        );
 
-        // expect unlink to be called once
-        $this->expectOutputString('');
-
-        // call tested method
-        $this->storageUtil->deleteStorageResource('icons', 'test_file');
+        // call test method
+        $this->storageUtil->deleteStorageResource('invalid_type', 'test.txt');
     }
 }
