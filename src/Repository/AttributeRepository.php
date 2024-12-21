@@ -21,4 +21,23 @@ class AttributeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Attribute::class);
     }
+
+    /**
+     * Find attributes list
+     * 
+     * @return string[] List of attributes
+     */
+    public function findByAttributeNames(): array
+    {
+        // query for get names
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->select('a.name')
+            ->getQuery();
+
+        // execute query
+        $result = $queryBuilder->getResult();
+
+        // build result array
+        return array_map(fn($attribute) => $attribute['name'], $result);
+    }
 }

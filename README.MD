@@ -16,19 +16,17 @@ An open-source platform API system for managing product databases, designed with
         - [X] Create storage directory in install script
         - [X] Create separated storage for env named storage
         - [X] Create StorageUtil for manage storage resources
-    - [ ] Advanced repository methods
-        - [ ] Category repository
-            - [ ] Get all products by category (one or multiple categories)
-            - [ ] Get all categories
-        - [ ] Attribute repository
-            - [ ] Get all products by attribute (one or multiple attributes)
-            - [ ] Get all attributes
-        - [ ] Product repository
-            - [ ] Get all products
-            - [ ] Get product by id
-            - [ ] Get products by category (one or multiple categories)
-            - [ ] Get products by attribute (one or multiple attributes)
+    - [X] Advanced repository methods
+        - [X] Category repository
+            - [X] Get all products by category (one or multiple categories)
+            - [X] Get all categories
+        - [X] Attribute repository
+            - [X] Get all products by attribute (one or multiple attributes)
+            - [X] Get all attributes
+    - [X] Category fixtures (custom category names) better naming for product naming
+    - [ ] Fix findByAttributesValues method (fix get products with multiple atributes values)
     - [ ] Test entity relations
+        - [ ] Create repository unit tests
 - [ ] Better relation between user and log entity (get user by log and get logs by user)
 - [ ] Product manager
     - [ ] Create product - create new product

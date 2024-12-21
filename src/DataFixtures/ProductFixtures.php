@@ -16,7 +16,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 /**
  * Class ProductFixtures
  *
- * Testing data fixtures for product entities and relations (categories, attributes, images, icons)
+ * Testing data fixtures for product entity
  *
  * @package App\DataFixtures
  */
@@ -36,27 +36,37 @@ class ProductFixtures extends Fixture
         $categories = [];
         $attributes = [];
 
-        // create testing categories
-        for ($i = 1; $i <= 10; $i++) {
+        // testing categories
+        $categoryNames = ['Electronics', 'Home Appliances', 'Fashion', 'Sports & Outdoors', 'Health & Beauty', 'Toys & Games', 'Books', 'Automotive', 'Groceries', 'Furniture'];
+
+        // testing attributes
+        $attributeNames = [
+            'Color' => ['Red', 'Blue', 'Green', 'Black', 'White'],
+            'Size' => [5, 10, 30, 55],
+            'Material' => ['Cotton', 'Leather', 'Polyester', 'Silk'],
+            'Brand' => ['Nike', 'Adidas', 'Puma', 'Reebok']
+        ];
+
+        // create categories
+        for ($i = 1; $i <= 5; $i++) {
             $category = new Category();
-            $category->setName($faker->word);
+            $category->setName($faker->randomElement($categoryNames));
             $manager->persist($category);
             $categories[] = $category;
         }
 
-        // create testing attributes
-        $attributeNames = ['Color', 'Size', 'Material', 'Brand'];
-        foreach ($attributeNames as $name) {
+        // create attributes with sample values
+        foreach ($attributeNames as $name => $values) {
             $attribute = new Attribute();
             $attribute->setName($name);
             $manager->persist($attribute);
-            $attributes[] = $attribute;
+            $attributes[$name] = $values;
         }
 
-        // create testing products
+        // create products
         for ($i = 1; $i <= 1000; $i++) {
             $product = new Product();
-            $product->setName($faker->word);
+            $product->setName($faker->word . ' ' . $faker->randomElement($attributes['Material']) . ' ' . $faker->randomElement($attributes['Color']));
             $product->setDescription($faker->sentence);
             $product->setAddedTime($faker->dateTimeThisYear);
             $product->setLastEditTime($faker->dateTimeThisMonth);
@@ -72,23 +82,22 @@ class ProductFixtures extends Fixture
                 $manager->persist($productCategory);
             }
 
-            // assign attributes
-            foreach ($attributes as $attribute) {
+            // assign attributes with random values
+            foreach ($attributes as $attributeName => $values) {
                 $productAttribute = new ProductAttribute();
                 $productAttribute->setAttribute($attribute);
                 $productAttribute->setProduct($product);
-                $productAttribute->setValue($faker->word);
-                $productAttribute->setType('string');
+                $productAttribute->setValue($faker->randomElement($values));
+                $productAttribute->setType(in_array($attributeName, ['Size', 'Price']) ? 'int' : 'string');
                 $manager->persist($productAttribute);
             }
 
-            // assign icon
+            // assign icon and images
             $icon = new ProductIcon();
             $icon->setIconFile('testing-icon.png');
             $icon->setProduct($product);
             $manager->persist($icon);
 
-            // assign images
             foreach (['test-image-1.jpg', 'test-image-2.jpg', 'test-image-3.jpg'] as $imageFile) {
                 $image = new ProductImage();
                 $image->setImageFile($imageFile);
@@ -100,10 +109,20 @@ class ProductFixtures extends Fixture
             $manager->persist($product);
         }
 
-        // flush products data to database
+        // flush data to database
         $manager->flush();
 
-        // prepare storage directories
+        // prepare storage directories and files (icons, images)
+        $this->prepareStorage();
+    }
+
+    /**
+     * Prepare storage directories and files (icons, images)
+     *
+     * @return void
+     */
+    private function prepareStorage(): void
+    {
         $basePath = __DIR__ . '/../../storage/' . $_ENV['APP_ENV'];
         $fileTypes = ['icons', 'images'];
         foreach ($fileTypes as $fileType) {
