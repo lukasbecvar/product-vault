@@ -24,7 +24,7 @@ class AttributeRepository extends ServiceEntityRepository
 
     /**
      * Find attributes list
-     * 
+     *
      * @return string[] List of attributes
      */
     public function findByAttributeNames(): array

@@ -24,7 +24,7 @@ class CategoryRepository extends ServiceEntityRepository
 
     /**
      * Find categories list
-     * 
+     *
      * @return string[] List of categories
      */
     public function findByCategoryNames(): array
