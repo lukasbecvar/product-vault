@@ -16,6 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 #[ORM\Table(name: 'categories')]
 #[ORM\Index(name: 'categories_name_idx', columns: ['name'])]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_NAME', fields: ['name'])]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
 {

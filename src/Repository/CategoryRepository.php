@@ -27,7 +27,7 @@ class CategoryRepository extends ServiceEntityRepository
      *
      * @return string[] List of categories
      */
-    public function findByCategoryNames(): array
+    public function findCategoryNames(): array
     {
         // query for get names
         $queryBuilder = $this->createQueryBuilder('c')

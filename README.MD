@@ -25,9 +25,8 @@ An open-source platform API system for managing product databases, designed with
             - [X] Get all attributes
     - [X] Category fixtures (custom category names) better naming for product naming
     - [X] Fix findByAttributesValues method (fix get products with multiple atributes values)
-    - [ ] Test entity relations
-        - [ ] Create repository unit tests
-- [ ] Better relation between user and log entity (get user by log and get logs by user)
+    - [X] Test entity relations
+        - [X] Create repository unit tests
 - [ ] Product manager
     - [ ] Create product - create new product
     - [ ] Edit product - edit product by id

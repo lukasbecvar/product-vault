@@ -27,7 +27,7 @@ class AttributeRepository extends ServiceEntityRepository
      *
      * @return string[] List of attributes
      */
-    public function findByAttributeNames(): array
+    public function findAttributeNames(): array
     {
         // query for get names
         $queryBuilder = $this->createQueryBuilder('a')

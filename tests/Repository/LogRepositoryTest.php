@@ -4,6 +4,7 @@ namespace App\Tests\Repository;
 
 use App\Entity\Log;
 use Doctrine\ORM\EntityManager;
+use App\Repository\LogRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -16,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class LogRepositoryTest extends KernelTestCase
 {
     private EntityManager $entityManager;
+    private LogRepository $logRepository;
 
     protected function setUp(): void
     {
@@ -23,6 +25,9 @@ class LogRepositoryTest extends KernelTestCase
 
         /** @phpstan-ignore-next-line */
         $this->entityManager = $kernel->getContainer()->get('doctrine')->getManager();
+
+        // create log repository instance
+        $this->logRepository = $this->entityManager->getRepository(Log::class);
     }
 
     /**
@@ -32,11 +37,8 @@ class LogRepositoryTest extends KernelTestCase
      */
     public function testGetLogsByStatus(): void
     {
-        /** @var \App\Repository\LogRepository $logRepository */
-        $logRepository = $this->entityManager->getRepository(Log::class);
-
         $status = 'UNREADED';
-        $logs = $logRepository->findByStatus($status, 1);
+        $logs = $this->logRepository->findByStatus($status, 1);
 
         // assert result
         $this->assertIsArray($logs, 'Logs should be returned as an array');
@@ -51,11 +53,8 @@ class LogRepositoryTest extends KernelTestCase
      */
     public function testGetLogsByUserId(): void
     {
-        /** @var \App\Repository\LogRepository $logRepository */
-        $logRepository = $this->entityManager->getRepository(Log::class);
-
         $userId = 1;
-        $logs = $logRepository->findByUserId($userId, 1);
+        $logs = $this->logRepository->findByUserId($userId, 1);
 
         // assert result
         $this->assertIsArray($logs, 'Logs should be returned as an array');
@@ -70,11 +69,8 @@ class LogRepositoryTest extends KernelTestCase
      */
     public function testGetLogsByIpAddress(): void
     {
-        /** @var \App\Repository\LogRepository $logRepository */
-        $logRepository = $this->entityManager->getRepository(Log::class);
-
         $ipAddress = '127.0.0.1';
-        $logs = $logRepository->findByIpAddress($ipAddress, 1);
+        $logs = $this->logRepository->findByIpAddress($ipAddress, 1);
 
         // assert result
         $this->assertIsArray($logs, 'Logs should be returned as an array');

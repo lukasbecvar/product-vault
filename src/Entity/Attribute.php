@@ -16,6 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 #[ORM\Table(name: 'attributes')]
 #[ORM\Index(name: 'attributes_name_idx', columns: ['name'])]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_NAME', fields: ['name'])]
 #[ORM\Entity(repositoryClass: AttributeRepository::class)]
 class Attribute
 {

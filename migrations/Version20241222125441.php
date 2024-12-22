@@ -8,13 +8,13 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
 /**
- * Class Version20241219150034
+ * Class Version20241222125441
  *
  * The database migration for create products management tables
  *
  * @package DoctrineMigrations
  */
-final class Version20241219150034 extends AbstractMigration
+final class Version20241222125441 extends AbstractMigration
 {
     /**
      * Get migration description
@@ -35,8 +35,8 @@ final class Version20241219150034 extends AbstractMigration
      */
     public function up(Schema $schema): void
     {
-        $this->addSql('CREATE TABLE attributes (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, INDEX attributes_name_idx (name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE categories (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, INDEX categories_name_idx (name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE attributes (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_IDENTIFIER_NAME (name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE categories (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_IDENTIFIER_NAME (name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE product_attributes (id INT AUTO_INCREMENT NOT NULL, value VARCHAR(255) NOT NULL, type VARCHAR(255) NOT NULL, attribute_id INT NOT NULL, product_id INT NOT NULL, INDEX IDX_A2FCC15BB6E62EFA (attribute_id), INDEX IDX_A2FCC15B4584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE product_categories (id INT AUTO_INCREMENT NOT NULL, product_id INT NOT NULL, category_id INT NOT NULL, INDEX IDX_A99419434584665A (product_id), INDEX IDX_A994194312469DE2 (category_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE product_icons (id INT AUTO_INCREMENT NOT NULL, icon_file VARCHAR(255) NOT NULL, product_id INT NOT NULL, UNIQUE INDEX UNIQ_AB362B224584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4');
