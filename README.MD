@@ -2,48 +2,36 @@
 An open-source platform API system for managing product databases, designed with a focus on simplicity, flexibility, and security. The system enables efficient storage organization and manipulation of product data through a RESTful API, ensuring seamless integration with your e-shop or other applications that require product lists or product details. This system is based on [api-base](https://github.com/lukasbecvar/api-base)
 
 ## Product Management system backlog
-- [ ] Create product schema
-    - [X] Create product entity (id, name, description, price, price-currency, added-time, last-edit-time, is-active)
-    - [X] Create category entity (id, name)
-    - [X] Create product_category entity (id, product-id, category-id)
-    - [X] Create attribute entity (id, name)
-    - [X] Create product_attribute entity (id, product-id, attribute-id, attribute-value, attribute-type)
-    - [X] Create product_icon entity (id, product-id, icon-file) (one icon per product)
-    - [X] Create product_image entity (id, product-id, image-file) (multiple images per product)
-    - [X] Create products database fixtures
-        - [X] Create testing images and icons
-    - [X] Create storage folder for product icons and images
-        - [X] Create storage directory in install script
-        - [X] Create separated storage for env named storage
-        - [X] Create StorageUtil for manage storage resources
-    - [X] Advanced repository methods
-        - [X] Category repository
-            - [X] Get all products by category (one or multiple categories)
-            - [X] Get all categories
-        - [X] Attribute repository
-            - [X] Get all products by attribute (one or multiple attributes)
-            - [X] Get all attributes
-    - [X] Category fixtures (custom category names) better naming for product naming
-    - [X] Fix findByAttributesValues method (fix get products with multiple atributes values)
-    - [X] Test entity relations
-        - [X] Create repository unit tests
 - [ ] Product manager
-    - [ ] Create product - create new product
-    - [ ] Edit product - edit product by id
-    - [ ] Delete product - delete product by id
-    - [ ] Create new attribute - create new attribute
-    - [ ] Add attribute to product - add new attribute to product by id (add one attribute or multiple attributes)
-    - [ ] Add icon to product method
-    - [ ] Change product icon method
-    - [ ] Add images to product method
-    - [ ] Remove product image method
-    - [ ] Delete attribute from product - delete attribute from product by id (delete one attribute or multiple attributes)
-    - [ ] Get product by id - get product details by id
-    - [ ] Get products by category - get products list by category
-    - [ ] Get products by attributes - get products list by attributes (one or multiple attributes)
-    - [ ] Get products list by search - get all products with matched search criteria (name, description, category)
-    - [ ] All get methods pagination parameter - get products list with pagination (page parameter is optional)
-    - [ ] All get methods sorting parameter - get products list with sorting (by: name, price, added-time) (sort parameter is optional)
+    - [ ] Create category
+    - [ ] Delete category
+    - [ ] Create attribute
+    - [ ] Delete attribute
+    - [ ] Create product image
+    - [ ] Delete product image
+    - [ ] Create product icon
+    - [ ] Delete product icon
+    - [ ] Assing category to product
+    - [ ] Remove category from product
+    - [ ] Assing attribute to product
+    - [ ] Remove attribute from product
+    - [ ] Create product (parameters: name, description, price, price-currency, category(list), atributes(list), icon(file), images(files list))
+    - [ ] Edit product (parameters: name, description, price, price-currency)
+    - [ ] Edit product assigned attributes parameters (example color: red to color blue)
+    - [ ] Delete product
+    - [ ] Add product icon to product
+    - [ ] Change product icon
+    - [ ] Add product images to product
+    - [ ] Remove product image
+    - [ ] Get products
+        - [ ] Get product by id - get product details by id
+        - [ ] Get products by category - get products list by category
+        - [ ] Get products by attributes - get products list by attributes (one or multiple attributes)
+        - [ ] Get products list by search - get all products with matched search criteria (name, description, category)
+        - [ ] All get methods pagination parameter - get products list with pagination (page parameter is optional)
+        - [ ] All get methods sorting parameter - get products list with sorting (by: name, price, added-time) (sort parameter is optional)
+
+## Product manager controllers backlog
 - [ ] Create product controller
     - [ ] Create product with attributes
         - [ ] name is required
@@ -89,16 +77,22 @@ An open-source platform API system for managing product databases, designed with
     - [ ] Get product icon by id
     - [ ] Get list product images by id
     - [ ] Get product image by product-id and image-file-name
+
+## Product data translation backlog
 - [ ] Product data translation
     - [ ] Product name
     - [ ] Product description
     - [ ] Category name
     - [ ] Attribute name
+
+## Products export backlog
 - [ ] Products export
     - [ ] Export products to excel file
     - [ ] Export products to pdf file 
     - [ ] Export products to xml file
     - [ ] Export products to json file
+
+## Access control system backlog
 - [ ] Access control system
     - [ ] Access log entity (id, access-type, time, ip-address, user-agent request-uri)
     - [ ] Access log method in log manager (log access to product by id or access to product list)
