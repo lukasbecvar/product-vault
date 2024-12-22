@@ -68,37 +68,45 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find products by attributes values
+     * Find products by attributes values and optionally filter by categories
      *
-     * @param array<string, string> $attributeValues Single attribute name and value or array of attribute names and values
+     * @param array<string, string> $attributeValues Attribute name and value pairs
+     * @param array<string>|null $categories List of category names (optional)
      *
      * @return Product[] List of products
      */
-    public function findByAttributesValues(array $attributeValues): array
+    public function findByAttributesValues(array $attributeValues, ?array $categories = null): array
     {
-        // prepare query builder
         $queryBuilder = $this->createQueryBuilder('p')
             ->innerJoin('p.product_attributes', 'pa')
             ->innerJoin('pa.attribute', 'a')
-            ->where('a.name IN (:attributeNames)')  // filter by attribute names
+            ->where('a.name IN (:attributeNames)')
             ->setParameter('attributeNames', array_keys($attributeValues));
 
-        // add condition for attribute values
+        // add attribute filtering conditions
+        $orX = $queryBuilder->expr()->orX();
         foreach ($attributeValues as $attributeName => $attributeValue) {
-            $queryBuilder->andWhere('pa.value = :value_' . $attributeName)
+            $orX->add($queryBuilder->expr()->andX(
+                $queryBuilder->expr()->eq('a.name', ':name_' . $attributeName),
+                $queryBuilder->expr()->eq('pa.value', ':value_' . $attributeName)
+            ));
+            $queryBuilder->setParameter('name_' . $attributeName, $attributeName)
                 ->setParameter('value_' . $attributeName, $attributeValue);
         }
+        $queryBuilder->andWhere($orX);
 
-        // group by product to avoid duplicates
-        $queryBuilder->groupBy('p.id');
+        // optionally filter by categories
+        if (!empty($categories)) {
+            $queryBuilder->innerJoin('p.product_categories', 'pc')
+                ->innerJoin('pc.category', 'c')
+                ->andWhere('c.name IN (:categories)')
+                ->setParameter('categories', $categories);
+        }
 
-        // make sure product has all the requested attributes
-        $queryBuilder->having('COUNT(DISTINCT a.name) = :attributeCount')->setParameter(
-            'attributeCount',
-            count($attributeValues)
-        );
+        // group by product ID and ensure all attributes match
+        $queryBuilder->groupBy('p.id')->having('COUNT(DISTINCT a.name) = :attributeCount')
+            ->setParameter('attributeCount', count($attributeValues));
 
-        // execute query
         return $queryBuilder->getQuery()->getResult();
     }
 }

@@ -201,7 +201,7 @@ class Product
         return $this->product_attributes->filter(
             fn(ProductAttribute $pa) => $pa->getAttribute() !== null
         )->map(
-            fn(ProductAttribute $pa) => $pa->getAttribute() ? $pa->getAttribute()->getName() : null
+            fn(ProductAttribute $pa) => $pa->getAttribute() ? $pa->getAttribute()->getName() . ': ' . $pa->getValue() : null
         )->toArray();
     }
 
