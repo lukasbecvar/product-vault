@@ -1,7 +1,7 @@
 # Product Vault
 An open-source platform API system for managing product databases, designed with a focus on simplicity, flexibility, and security. The system enables efficient storage organization and manipulation of product data through a RESTful API, ensuring seamless integration with your e-shop or other applications that require product lists or product details. This system is based on [api-base](https://github.com/lukasbecvar/api-base)
 
-## Product Management system backlog
+## Product relation managers
 - [ ] Product manager
     - [X] Create category
     - [X] Rename category
@@ -13,13 +13,18 @@ An open-source platform API system for managing product databases, designed with
     - [ ] Delete product image
     - [ ] Create product icon
     - [ ] Delete product icon
+
+## Product manager
+    - [ ] Create product (parameters: name, description, price, price-currency)
+    - [ ] Edit product
+        - [ ] Edit product name
+        - [ ] Edit product description
+        - [ ] Edit product price
+        - [ ] Edit product price-currency
     - [ ] Assing category to product
     - [ ] Remove category from product
     - [ ] Assing attribute to product
     - [ ] Remove attribute from product
-    - [ ] Create product (parameters: name, description, price, price-currency, category(list), atributes(list), icon(file), images(files list))
-    - [ ] Edit product (parameters: name, description, price, price-currency)
-    - [ ] Edit product assigned attributes parameters (example color: red to color blue)
     - [ ] Delete product
     - [ ] Add product icon to product
     - [ ] Change product icon
