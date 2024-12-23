@@ -4,8 +4,10 @@ An open-source platform API system for managing product databases, designed with
 ## Product Management system backlog
 - [ ] Product manager
     - [ ] Create category
+    - [ ] Rename category
     - [ ] Delete category
     - [ ] Create attribute
+    - [ ] Rename attribute
     - [ ] Delete attribute
     - [ ] Create product image
     - [ ] Delete product image
