@@ -6,9 +6,9 @@ An open-source platform API system for managing product databases, designed with
     - [X] Create category
     - [X] Rename category
     - [X] Delete category
-    - [ ] Create attribute
-    - [ ] Rename attribute
-    - [ ] Delete attribute
+    - [X] Create attribute
+    - [X] Rename attribute
+    - [X] Delete attribute
     - [ ] Create product image
     - [ ] Delete product image
     - [ ] Create product icon
