@@ -278,6 +278,13 @@ class LogManager
                 exceptionMessage: $e->getMessage()
             );
         }
+
+        // log action
+        $this->saveLog(
+            name: 'log-manager',
+            message: 'All logs status set to READED',
+            level: self::LEVEL_NOTICE
+        );
     }
 
     /**

@@ -95,7 +95,7 @@ class LogManagerTest extends TestCase
         $this->entityManagerMock->expects($this->never())->method('flush');
 
         // call tested method
-        $this->logManager->saveLog('Test', 'Test message', LogManager::LEVEL_INFO); // LEVEL_INFO
+        $this->logManager->saveLog('Test', 'Test message', LogManager::LEVEL_INFO);
     }
 
     /**
