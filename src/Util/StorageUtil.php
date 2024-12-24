@@ -41,6 +41,35 @@ class StorageUtil
     }
 
     /**
+     * Check if assets exist
+     *
+     * @param string $subPath The sub path (icons, images)
+     * @param string $resourceName The resource name
+     *
+     * @return bool True if assets exist, false otherwise
+     */
+    public function checkIfAssetsExist(string $subPath, string $resourceName): bool
+    {
+        // check if resource type is valid
+        if (!in_array($subPath, ['icons', 'images'])) {
+            $this->errorManager->handleError(
+                message: 'Invalid resource type: ' . $subPath,
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+
+        // build storage resource path
+        $resourcePath = __DIR__ . '/../../storage/' . $this->appUtil->getEnvValue('APP_ENV') . '/' . $subPath;
+
+        // check if storage resource exists
+        if (file_exists($resourcePath . '/' . $resourceName)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Create storage resource
      *
      * @param string $subPath The sub path (icons, images)

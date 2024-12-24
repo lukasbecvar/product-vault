@@ -33,6 +33,25 @@ class StorageUtilTest extends TestCase
     }
 
     /**
+     * Test prepare storage directories
+     *
+     * @return void
+     */
+    public function testPrepareStorageDirectories(): void
+    {
+        // mock APP_ENV
+        $this->appUtilMock->method('getEnvValue')->willReturn('test');
+
+        // call test method
+        $this->storageUtil->prepereStorageDirectories();
+
+        // check if directories exist
+        $this->assertTrue(file_exists(__DIR__ . '/../../storage/test'));
+        $this->assertTrue(file_exists(__DIR__ . '/../../storage/test/icons'));
+        $this->assertTrue(file_exists(__DIR__ . '/../../storage/test/images'));
+    }
+
+    /**
      * Test create storage resource with invalid sub path
      *
      * @return void
