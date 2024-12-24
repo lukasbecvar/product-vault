@@ -8,13 +8,13 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
 /**
- * Class Version20241222125441
+ * Class Version20241224132712
  *
  * The database migration for create products management tables
  *
  * @package DoctrineMigrations
  */
-final class Version20241222125441 extends AbstractMigration
+final class Version20241224132712 extends AbstractMigration
 {
     /**
      * Get migration description
@@ -41,7 +41,7 @@ final class Version20241222125441 extends AbstractMigration
         $this->addSql('CREATE TABLE product_categories (id INT AUTO_INCREMENT NOT NULL, product_id INT NOT NULL, category_id INT NOT NULL, INDEX IDX_A99419434584665A (product_id), INDEX IDX_A994194312469DE2 (category_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE product_icons (id INT AUTO_INCREMENT NOT NULL, icon_file VARCHAR(255) NOT NULL, product_id INT NOT NULL, UNIQUE INDEX UNIQ_AB362B224584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE product_images (id INT AUTO_INCREMENT NOT NULL, image_file VARCHAR(255) NOT NULL, product_id INT NOT NULL, INDEX IDX_8263FFCE4584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE products (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, added_time DATETIME NOT NULL, last_edit_time DATETIME NOT NULL, price NUMERIC(10, 2) NOT NULL, price_currency VARCHAR(255) NOT NULL, is_active TINYINT(1) NOT NULL, INDEX products_name_idx (name), INDEX products_price_idx (price), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE products (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, description LONGTEXT NOT NULL, price NUMERIC(10, 2) NOT NULL, price_currency VARCHAR(255) NOT NULL, added_time DATETIME NOT NULL, last_edit_time DATETIME NOT NULL, is_active TINYINT(1) NOT NULL, INDEX products_name_idx (name), INDEX products_price_idx (price), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('ALTER TABLE product_attributes ADD CONSTRAINT FK_A2FCC15BB6E62EFA FOREIGN KEY (attribute_id) REFERENCES attributes (id)');
         $this->addSql('ALTER TABLE product_attributes ADD CONSTRAINT FK_A2FCC15B4584665A FOREIGN KEY (product_id) REFERENCES products (id)');
         $this->addSql('ALTER TABLE product_categories ADD CONSTRAINT FK_A99419434584665A FOREIGN KEY (product_id) REFERENCES products (id)');

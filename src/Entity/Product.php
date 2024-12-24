@@ -30,20 +30,20 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $added_time = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $last_edit_time = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $price = null;
 
     #[ORM\Column(length: 255)]
     private ?string $price_currency = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $added_time = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $last_edit_time = null;
 
     #[ORM\Column]
     private ?bool $is_active = null;
@@ -105,30 +105,6 @@ class Product
         return $this;
     }
 
-    public function getAddedTime(): ?DateTimeInterface
-    {
-        return $this->added_time;
-    }
-
-    public function setAddedTime(DateTimeInterface $added_time): static
-    {
-        $this->added_time = $added_time;
-
-        return $this;
-    }
-
-    public function getLastEditTime(): ?DateTimeInterface
-    {
-        return $this->last_edit_time;
-    }
-
-    public function setLastEditTime(DateTimeInterface $last_edit_time): static
-    {
-        $this->last_edit_time = $last_edit_time;
-
-        return $this;
-    }
-
     public function getPrice(): ?string
     {
         return $this->price;
@@ -149,6 +125,30 @@ class Product
     public function setPriceCurrency(string $price_currency): static
     {
         $this->price_currency = $price_currency;
+
+        return $this;
+    }
+
+    public function getAddedTime(): ?DateTimeInterface
+    {
+        return $this->added_time;
+    }
+
+    public function setAddedTime(DateTimeInterface $added_time): static
+    {
+        $this->added_time = $added_time;
+
+        return $this;
+    }
+
+    public function getLastEditTime(): ?DateTimeInterface
+    {
+        return $this->last_edit_time;
+    }
+
+    public function setLastEditTime(DateTimeInterface $last_edit_time): static
+    {
+        $this->last_edit_time = $last_edit_time;
 
         return $this;
     }
@@ -210,12 +210,6 @@ class Product
         return $this->icon;
     }
 
-    public function setIcon(?ProductIcon $icon): self
-    {
-        $this->icon = $icon;
-        return $this;
-    }
-
     /**
      * @return Collection<int, ProductImage>
      */
@@ -232,14 +226,5 @@ class Product
         return $this->images->map(
             fn(ProductImage $pi) => $pi->getImageFile()
         )->toArray();
-    }
-
-    public function addImage(ProductImage $image): self
-    {
-        if (!$this->images->contains($image)) {
-            $this->images->add($image);
-            $image->setProduct($this);
-        }
-        return $this;
     }
 }
