@@ -56,7 +56,7 @@ class UserUpdateRoleCommandTest extends TestCase
      *
      * @return void
      */
-    public function testExecuteMissingRoleAction(): void
+    public function testExecuteCommandWhenRoleActionIsMissing(): void
     {
         // mock user existence check
         $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')

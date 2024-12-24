@@ -4,10 +4,10 @@ An open-source platform API system for managing product databases, designed with
 ## Product manager
 - [X] Create product (parameters: name, description, price, price-currency (default: EUR))
 - [ ] Edit product
-    - [ ] Edit product name
-    - [ ] Edit product description
-    - [ ] Edit product price
-    - [ ] Edit product price-currency
+    - [X] Edit product name
+    - [X] Edit product description
+    - [X] Edit product price
+    - [X] Edit product price-currency
     - [ ] Deactivate product
     - [ ] Activate product
     - [ ] Disable non-active products in get methods
