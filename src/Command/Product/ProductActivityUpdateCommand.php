@@ -12,14 +12,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class EditProductCommand
+ * Class ProductActivityUpdateCommand
  *
- * Command for editing product
+ * Command for updating product activity
  *
  * @package App\Command\Product
  */
-#[AsCommand(name: 'app:product:edit', description: 'Edit product')]
-class EditProductCommand extends Command
+#[AsCommand(name: 'app:product:activity:update', description: 'Update product activity')]
+class ProductActivityUpdateCommand extends Command
 {
     private ProductManager $productManager;
 
@@ -37,10 +37,11 @@ class EditProductCommand extends Command
     protected function configure(): void
     {
         $this->addArgument('id', InputArgument::REQUIRED, 'Product id');
+        $this->addArgument('activity', InputArgument::REQUIRED, 'New product activity status');
     }
 
     /**
-     * Execute product edit command
+     * Execute product activity update command
      *
      * @param InputInterface $input The input interface
      * @param OutputInterface $output The output interface
@@ -58,12 +59,6 @@ class EditProductCommand extends Command
         // get product id from cli input
         $id = $input->getArgument('id');
 
-        // check if product id is set
-        if ($id == null) {
-            $io->error('Product id cannot be empty.');
-            return Command::INVALID;
-        }
-
         // validate product id input
         if (!is_numeric($id)) {
             $io->error('Invalid product id format.');
@@ -73,7 +68,16 @@ class EditProductCommand extends Command
         // cast product id to integer
         $id = (int) $id;
 
-        // get product by id
+        // get product activity status from cli input
+        $activity = $input->getArgument('activity');
+
+        // validate product activity status input
+        if ($activity != 'active' && $activity != 'inactive') {
+            $io->error('Invalid product activity status format (allowed: active, inactive).');
+            return Command::INVALID;
+        }
+
+        // get product to update by id
         $productToEdit = $this->productManager->getProductById($id);
 
         // check if product id exists
@@ -82,18 +86,16 @@ class EditProductCommand extends Command
             return Command::INVALID;
         }
 
-        // get new data from cli input
-        $name = $io->ask('Enter product name (if you want to keep the same, press enter)');
-        $description = $io->ask('Enter product description (if you want to keep the same, press enter)');
-        $price = $io->ask('Enter product price (if you want to keep the same, press enter)');
-        $priceCurrency = $io->ask('Enter product price currency (if you want to keep the same, press enter)');
-
-        // edit product
+        // update product activity
         try {
-            $this->productManager->editProduct($id, $name, $description, $price, $priceCurrency);
-            $io->success('Product: ' . $productToEdit->getName() . ' edited');
+            if ($activity == 'active') {
+                $this->productManager->activateProduct($id);
+            } else {
+                $this->productManager->deactivateProduct($id);
+            }
+            $io->success('Product: ' . $productToEdit->getName() . ' activity updated');
         } catch (Exception $e) {
-            $io->error('Error to edit product: ' . $e->getMessage());
+            $io->error('Error to update product activity: ' . $e->getMessage());
             return Command::FAILURE;
         }
 

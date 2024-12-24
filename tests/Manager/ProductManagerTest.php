@@ -194,4 +194,134 @@ class ProductManagerTest extends TestCase
         // call tested method
         $this->productManager->editProduct(1, 'New Product Name', 'New product description', '15.00', 'USD');
     }
+
+    /**
+     * Test activate product with success result
+     *
+     * @return void
+     */
+    public function testActivateProductSuccess(): void
+    {
+        // create a product mock to return from repository
+        $product = $this->createMock(Product::class);
+        $product->method('getName')->willReturn('Test Product');
+        $product->method('getDescription')->willReturn('Old description');
+        $product->method('getPrice')->willReturn('19.99');
+        $product->method('getPriceCurrency')->willReturn('EUR');
+        $product->method('setName')->willReturnSelf();
+        $product->method('setDescription')->willReturnSelf();
+        $product->method('setPrice')->willReturnSelf();
+        $product->method('setPriceCurrency')->willReturnSelf();
+        $product->method('isActive')->willReturn(false);
+
+        // mock product find method
+        $this->productRepository->method('find')->willReturn($product);
+
+        // expect entity manager to persist and flush
+        $this->entityManager->expects($this->once())->method('persist')
+            ->with($this->isInstanceOf(Product::class));
+        $this->entityManager->expects($this->once())->method('flush');
+
+        // expect save log call
+        $this->logManager->expects($this->once())->method('saveLog')->with(
+            'product-manager',
+            'Product: Test Product activated',
+            LogManager::LEVEL_INFO
+        );
+
+        // call tested method
+        $this->productManager->activateProduct(1);
+    }
+
+    /**
+     * Test activate product when product is already active
+     *
+     * @return void
+     */
+    public function testActivateProductAlreadyActive(): void
+    {
+        // create a product mock to return from repository
+        $product = $this->createMock(Product::class);
+        $product->method('getName')->willReturn('Test Product');
+        $product->method('getDescription')->willReturn('Old description');
+        $product->method('getPrice')->willReturn('19.99');
+        $product->method('getPriceCurrency')->willReturn('EUR');
+        $product->method('setName')->willReturnSelf();
+        $product->method('setDescription')->willReturnSelf();
+        $product->method('setPrice')->willReturnSelf();
+        $product->method('setPriceCurrency')->willReturnSelf();
+        $product->method('isActive')->willReturn(true);
+
+        // mock product find method
+        $this->productRepository->method('find')->willReturn($product);
+
+        // expect error handling
+        $this->errorManager->expects($this->once())->method('handleError')->with(
+            'Product id: 1 is already active',
+            JsonResponse::HTTP_BAD_REQUEST
+        );
+
+        // call tested method
+        $this->productManager->activateProduct(1);
+    }
+
+    /**
+     * Test deactivate product with success result
+     *
+     * @return void
+     */
+    public function testDeactivateProductSuccess(): void
+    {
+        // create a product mock to return from repository
+        $product = $this->createMock(Product::class);
+        $product->method('getName')->willReturn('Test Product');
+        $product->method('getDescription')->willReturn('Old description');
+        $product->method('getPrice')->willReturn('19.99');
+        $product->method('getPriceCurrency')->willReturn('EUR');
+        $product->method('setName')->willReturnSelf();
+        $product->method('setDescription')->willReturnSelf();
+        $product->method('setPrice')->willReturnSelf();
+        $product->method('setPriceCurrency')->willReturnSelf();
+        $product->method('isActive')->willReturn(true);
+
+        // mock product find method
+        $this->productRepository->method('find')->willReturn($product);
+
+        // expect entity manager to persist and flush
+        $this->entityManager->expects($this->once())->method('persist')
+            ->with($this->isInstanceOf(Product::class));
+        $this->entityManager->expects($this->once())->method('flush');
+
+        // expect save log call
+        $this->logManager->expects($this->once())->method('saveLog')->with(
+            'product-manager',
+            'Product: Test Product deactivated',
+            LogManager::LEVEL_INFO
+        );
+
+        // call tested method
+        $this->productManager->deactivateProduct(1);
+    }
+
+    /**
+     * Test deactivate product when product is already inactive
+     *
+     * @return void
+     */
+    public function testDeactivateProductAlreadyInactive(): void
+    {
+        // testing product data
+        $product = new Product();
+        $product->setActive(false);
+        $this->productRepository->method('find')->willReturn($product);
+
+        // expect error handling
+        $this->errorManager->expects($this->once())->method('handleError')->with(
+            'Product id: 1 is already inactive',
+            JsonResponse::HTTP_BAD_REQUEST
+        );
+
+        // call tested method
+        $this->productManager->deactivateProduct(1);
+    }
 }

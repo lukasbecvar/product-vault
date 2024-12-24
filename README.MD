@@ -3,19 +3,20 @@ An open-source platform API system for managing product databases, designed with
 
 ## Product manager
 - [X] Create product (parameters: name, description, price, price-currency (default: EUR))
-- [ ] Edit product
+- [X] Edit product
     - [X] Edit product name
     - [X] Edit product description
     - [X] Edit product price
     - [X] Edit product price-currency
-    - [ ] Deactivate product
-    - [ ] Activate product
-    - [ ] Disable non-active products in get methods
+    - [X] Deactivate product
+    - [X] Activate product
+    - [X] Disable non-active products in get methods
+- [ ] Delete product
 - [ ] Assing category to product
 - [ ] Remove category from product
 - [ ] Assing attribute to product
 - [ ] Remove attribute from product
-- [ ] Delete product
+- [ ] Remove all product attributes and categories when product is deleted
 - [ ] Add product icon to product (use product asset manager)
 - [ ] Change product icon (use product asset manager)
 - [ ] Add product images to product (use product asset manager)

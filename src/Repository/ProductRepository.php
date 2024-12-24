@@ -39,6 +39,7 @@ class ProductRepository extends ServiceEntityRepository
             ->innerJoin('pc.category', 'c')
             ->where('c.name IN (:categoryNames)')
             ->setParameter('categoryNames', $categoryNames)
+            ->andWhere('p.is_active = 1')
             ->groupBy('p.id')
             ->having('COUNT(DISTINCT c.id) = :categoryCount')
             ->setParameter('categoryCount', count($categoryNames))
@@ -60,6 +61,7 @@ class ProductRepository extends ServiceEntityRepository
             ->innerJoin('pa.attribute', 'a')
             ->where('a.name IN (:attributeNames)')
             ->setParameter('attributeNames', $attributeNames)
+            ->andWhere('p.is_active = 1')
             ->groupBy('p.id')
             ->having('COUNT(DISTINCT a.name) = :attributeCount')
             ->setParameter('attributeCount', count($attributeNames))
@@ -81,6 +83,7 @@ class ProductRepository extends ServiceEntityRepository
             ->innerJoin('p.product_attributes', 'pa')
             ->innerJoin('pa.attribute', 'a')
             ->where('a.name IN (:attributeNames)')
+            ->andWhere('p.is_active = 1')
             ->setParameter('attributeNames', array_keys($attributeValues));
 
         // add attribute filtering conditions
