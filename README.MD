@@ -16,12 +16,11 @@ An open-source platform API system for managing product databases, designed with
 - [ ] Remove category from product
 - [ ] Assing attribute to product
 - [ ] Remove attribute from product
-- [ ] Remove all product attributes and categories when product is deleted
 - [ ] Add product icon to product (use product asset manager)
 - [ ] Change product icon (use product asset manager)
-- [ ] Add product images to product (use product asset manager)
-- [ ] Remove product image (use product asset manager)
-- [ ] Delete all product assets, attributes and categories when product is deleted if not used by other products
+- [ ] Add image to product
+- [ ] Delete product image
+- [ ] Delete all product assets (icon and images), when product is deleted
 - [ ] Get products
     - [ ] Get product by id - get product details by id
     - [ ] Get products by category - get products list by category
