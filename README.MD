@@ -12,8 +12,8 @@ An open-source platform API system for managing product databases, designed with
     - [X] Activate product
     - [X] Disable non-active products in get methods
 - [X] Delete product
-- [ ] Assing category to product
-- [ ] Remove category from product
+- [X] Assing category to product
+- [X] Remove category from product
 - [ ] Assing attribute to product
 - [ ] Remove attribute from product
 - [ ] Add product icon to product (use product asset manager)

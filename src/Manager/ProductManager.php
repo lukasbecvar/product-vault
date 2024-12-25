@@ -5,6 +5,8 @@ namespace App\Manager;
 use DateTime;
 use Exception;
 use App\Entity\Product;
+use App\Entity\Category;
+use App\Entity\ProductCategory;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -302,6 +304,92 @@ class ProductManager
         $this->logManager->saveLog(
             name: 'product-manager',
             message: 'Product: ' . $product->getName() . ' deactivated',
+            level: LogManager::LEVEL_INFO,
+        );
+    }
+
+    /**
+     * Assing category to product
+     *
+     * @param Product $product The product entity
+     * @param Category $category The category entity
+     *
+     * @return void
+     */
+    public function assingCategoryToProduct(Product $product, Category $category): void
+    {
+        // check if product already has category
+        if (in_array($category->getName(), $product->getCategoriesRaw())) {
+            $this->errorManager->handleError(
+                message: 'Product id: ' . $product->getName() . ' already has category',
+                code: JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        // assing category to product
+        $productCategory = new ProductCategory();
+        $productCategory->setProduct($product);
+        $productCategory->setCategory($category);
+
+        try {
+            // save product entity to database
+            $this->entityManager->persist($productCategory);
+            $this->entityManager->flush();
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'Error to assing category to product',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
+
+        // log action
+        $this->logManager->saveLog(
+            name: 'product-manager',
+            message: 'Product: ' . $product->getName() . ' assinged to category: ' . $category->getName(),
+            level: LogManager::LEVEL_INFO,
+        );
+    }
+
+    /**
+     * Remove category from product
+     *
+     * @param Product $product The product entity
+     * @param Category $category The category entity
+     *
+     * @return void
+     */
+    public function removeCategoryFromProduct(Product $product, Category $category): void
+    {
+        // get category by id
+        $productCategory = $this->entityManager->getRepository(ProductCategory::class)->findOneBy([
+            'product' => $product,
+            'category' => $category,
+        ]);
+
+        // check if category exists
+        if ($productCategory == null) {
+            $this->errorManager->handleError(
+                message: 'Category id: ' . $category->getId() . ' not found',
+                code: JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        try {
+            $this->entityManager->remove($productCategory);
+            $this->entityManager->flush();
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'Error to remove category from product',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
+
+        // log action
+        $this->logManager->saveLog(
+            name: 'product-manager',
+            message: 'Product: ' . $product->getName() . ' removed from category: ' . $category->getName(),
             level: LogManager::LEVEL_INFO,
         );
     }
