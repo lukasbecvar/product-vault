@@ -74,13 +74,45 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
     }
 
     /**
+     * Test update user password when api access token is not provided
+     *
+     * @return void
+     */
+    public function testUpdateUserPasswordWhenApiAccessTokenIsNotProvided(): void
+    {
+        $this->client->request('PATCH', '/api/user/data/update/password', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
+        ]);
+
+        // get response content
+        $responseContent = $this->client->getResponse()->getContent();
+
+        // check if response content is empty
+        if (!$responseContent) {
+            $this->fail('Response content is empty');
+        }
+
+        /** @var array<string> $responseData */
+        $responseData = json_decode($responseContent, true);
+
+        // assert response
+        $this->assertSame('Invalid access token', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
+    }
+
+    /**
      * Test update user password when auth token is invalid
      *
      * @return void
      */
     public function testUpdateUserPasswordWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('PATCH', '/api/user/data/update/password', [], [], ['HTTP_AUTHORIZATION' => 'Bearer invalid-token']);
+        $this->client->request('PATCH', '/api/user/data/update/password', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
+            'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
+        ]);
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -107,6 +139,7 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
     {
         $this->client->request('PATCH', '/api/user/data/update/password', [], [], [
             'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ]);
 
@@ -135,6 +168,7 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
     {
         $this->client->request('PATCH', '/api/user/data/update/password', [], [], [
             'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ], json_encode([
             'new-password' => ''
@@ -165,6 +199,7 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
     {
         $this->client->request('PATCH', '/api/user/data/update/password', [], [], [
             'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ], json_encode([
             'new-password' => '1'
@@ -195,6 +230,7 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
     {
         $this->client->request('PATCH', '/api/user/data/update/password', [], [], [
             'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ], json_encode([
             'new-password' => ByteString::fromRandom(130)
@@ -225,6 +261,7 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
     {
         $this->client->request('PATCH', '/api/user/data/update/password', [], [], [
             'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ], json_encode([
             'new-password' => 'testtest'

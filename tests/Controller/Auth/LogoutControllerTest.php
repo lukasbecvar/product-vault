@@ -2,9 +2,9 @@
 
 namespace App\Tests\Controller\Auth;
 
+use App\Tests\CustomTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Class LogoutControllerTest
@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  *
  * @package App\Tests\Controller\Auth
  */
-class LogoutControllerTest extends WebTestCase
+class LogoutControllerTest extends CustomTestCase
 {
     private KernelBrowser $client;
 
@@ -48,13 +48,44 @@ class LogoutControllerTest extends WebTestCase
     }
 
     /**
+     * Test logout when api access token is not provided
+     *
+     * @return void
+     */
+    public function testLogoutWhenApiAccessTokenIsNotProvided(): void
+    {
+        $this->client->request('POST', '/api/auth/logout', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
+        ]);
+
+        // get response content
+        $responseContent = $this->client->getResponse()->getContent();
+
+        // check if response content is empty
+        if (!$responseContent) {
+            $this->fail('Response content is empty');
+        }
+
+        /** @var array<string> $responseData */
+        $responseData = json_decode($responseContent, true);
+
+        // assert response
+        $this->assertSame('Invalid access token', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
+    }
+
+    /**
      * Test logout when token is blank
      *
      * @return void
      */
     public function testLogoutWhenTokenIsBlank(): void
     {
-        $this->client->request('POST', '/api/auth/logout', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/logout', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
+        ], json_encode([
             'token' => ''
         ]) ?: null);
 
@@ -81,7 +112,10 @@ class LogoutControllerTest extends WebTestCase
      */
     public function testLogoutWhenTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/auth/logout', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/logout', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
+        ], json_encode([
             'token' => 'invalid-token'
         ]) ?: null);
 
@@ -109,7 +143,10 @@ class LogoutControllerTest extends WebTestCase
     public function testLogoutWhenTokenIsValid(): void
     {
         // make request to login endpoint (to get auth token)
-        $this->client->request('POST', '/api/auth/login', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/login', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
+        ], json_encode([
             'email' => 'test@test.test',
             'password' => 'test'
         ]) ?: null);
@@ -129,7 +166,11 @@ class LogoutControllerTest extends WebTestCase
         $authToken = $loginResponseData['token'];
 
         // make request to logout endpoint
-        $this->client->request('POST', '/api/auth/logout', [], [], ['HTTP_AUTHORIZATION' => 'Bearer ' . $authToken]);
+        $this->client->request('POST', '/api/auth/logout', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $authToken
+        ]);
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();

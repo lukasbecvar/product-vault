@@ -73,13 +73,45 @@ class UserInfoControllerTest extends CustomTestCase
     }
 
     /**
+     * Test user info when api access token is not provided
+     *
+     * @return void
+     */
+    public function testUserInfoWhenApiAccessTokenIsNotProvided(): void
+    {
+        $this->client->request('GET', '/api/user/info', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
+        ]);
+
+        // get response content
+        $responseContent = $this->client->getResponse()->getContent();
+
+        // check if response content is empty
+        if (!$responseContent) {
+            $this->fail('Response content is empty');
+        }
+
+        /** @var array<string> $responseData */
+        $responseData = json_decode($responseContent, true);
+
+        // assert response
+        $this->assertSame('Invalid access token', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
+    }
+
+    /**
      * Test user info when auth token is invalid
      *
      * @return void
      */
     public function testUserInfoWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('GET', '/api/user/info', [], [], ['HTTP_AUTHORIZATION' => 'Bearer invalid-token']);
+        $this->client->request('GET', '/api/user/info', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
+            'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
+        ]);
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -105,6 +137,8 @@ class UserInfoControllerTest extends CustomTestCase
     public function testUserInfoGetSuccess(): void
     {
         $this->client->request('GET', '/api/user/info', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
