@@ -4,6 +4,7 @@ namespace App\Manager;
 
 use Exception;
 use App\Entity\Attribute;
+use App\Entity\ProductAttribute;
 use App\Repository\AttributeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -210,5 +211,31 @@ class AttributeManager
             message: 'Attribute deleted: ' . $attribute->getName(),
             level: LogManager::LEVEL_INFO
         );
+    }
+
+    /**
+     * Delete attributes by product id
+     *
+     * @param int $productId The product id
+     *
+     * @return void
+     */
+    public function deleteAttributesByProductId(int $productId): void
+    {
+        try {
+            // delete related attributes
+            $this->entityManager->createQueryBuilder()
+                ->delete(ProductAttribute::class, 'pa')
+                ->where('pa.product = :product_id')
+                ->setParameter('product_id', $productId)
+                ->getQuery()
+                ->execute();
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'Error to delete attributes by product id: ' . $productId,
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
     }
 }

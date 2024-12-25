@@ -8,6 +8,8 @@ use App\Manager\LogManager;
 use App\Manager\ErrorManager;
 use App\Manager\ProductManager;
 use PHPUnit\Framework\TestCase;
+use App\Manager\CategoryManager;
+use App\Manager\AttributeManager;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -25,6 +27,8 @@ class ProductManagerTest extends TestCase
     private ProductManager $productManager;
     private LogManager & MockObject $logManager;
     private ErrorManager & MockObject $errorManager;
+    private CategoryManager & MockObject $categoryManager;
+    private AttributeManager & MockObject $attributeManager;
     private ProductRepository & MockObject $productRepository;
     private EntityManagerInterface & MockObject $entityManager;
 
@@ -33,6 +37,8 @@ class ProductManagerTest extends TestCase
         // mock dependencies
         $this->logManager = $this->createMock(LogManager::class);
         $this->errorManager = $this->createMock(ErrorManager::class);
+        $this->categoryManager = $this->createMock(CategoryManager::class);
+        $this->attributeManager = $this->createMock(AttributeManager::class);
         $this->productRepository = $this->createMock(ProductRepository::class);
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
 
@@ -40,6 +46,8 @@ class ProductManagerTest extends TestCase
         $this->productManager = new ProductManager(
             $this->logManager,
             $this->errorManager,
+            $this->categoryManager,
+            $this->attributeManager,
             $this->productRepository,
             $this->entityManager
         );
@@ -193,6 +201,80 @@ class ProductManagerTest extends TestCase
 
         // call tested method
         $this->productManager->editProduct(1, 'New Product Name', 'New product description', '15.00', 'USD');
+    }
+
+    /**
+     * Test delete product with success result
+     *
+     * @return void
+     */
+    public function testDeleteProductSuccess(): void
+    {
+        // create a product mock to return from repository
+        $product = $this->createMock(Product::class);
+        $product->method('getName')->willReturn('Test Product');
+        $product->method('getDescription')->willReturn('Old description');
+        $product->method('getPrice')->willReturn('19.99');
+        $product->method('getPriceCurrency')->willReturn('EUR');
+        $product->method('setName')->willReturnSelf();
+        $product->method('setDescription')->willReturnSelf();
+        $product->method('setPrice')->willReturnSelf();
+        $product->method('setPriceCurrency')->willReturnSelf();
+        $product->method('isActive')->willReturn(true);
+
+        // mock product find method
+        $this->productRepository->method('find')->willReturn($product);
+
+        // expect entity manager to persist and flush
+        $this->entityManager->expects($this->once())->method('remove')->with($product);
+        $this->entityManager->expects($this->once())->method('flush');
+
+        // expect save log call
+        $this->logManager->expects($this->once())->method('saveLog')->with(
+            'product-manager',
+            'Product: Test Product with id: 1 deleted',
+            LogManager::LEVEL_INFO
+        );
+
+        // call tested method
+        $this->productManager->deleteProduct(1);
+    }
+
+    /**
+     * Test delete product with exception during remove
+     *
+     * @return void
+     */
+    public function testDeleteProductFailure(): void
+    {
+        // create a product mock to return from repository
+        $product = $this->createMock(Product::class);
+        $product->method('getName')->willReturn('Test Product');
+        $product->method('getDescription')->willReturn('Old description');
+        $product->method('getPrice')->willReturn('19.99');
+        $product->method('getPriceCurrency')->willReturn('EUR');
+        $product->method('setName')->willReturnSelf();
+        $product->method('setDescription')->willReturnSelf();
+        $product->method('setPrice')->willReturnSelf();
+        $product->method('setPriceCurrency')->willReturnSelf();
+        $product->method('isActive')->willReturn(true);
+
+        // mock product find method
+        $this->productRepository->method('find')->willReturn($product);
+
+        // simulate exception during persist
+        $this->entityManager->expects($this->once())->method('remove')->with($product)
+            ->willThrowException(new Exception('Database error'));
+
+        // expect error handling
+        $this->errorManager->expects($this->once())->method('handleError')->with(
+            'Product delete error id: 1',
+            JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+            'Database error'
+        );
+
+        // call tested method
+        $this->productManager->deleteProduct(1);
     }
 
     /**

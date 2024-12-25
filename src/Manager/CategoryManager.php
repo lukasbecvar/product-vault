@@ -4,6 +4,7 @@ namespace App\Manager;
 
 use Exception;
 use App\Entity\Category;
+use App\Entity\ProductCategory;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -210,5 +211,30 @@ class CategoryManager
             message: 'Category deleted: ' . $category->getName(),
             level: LogManager::LEVEL_INFO
         );
+    }
+
+    /**
+     * Delete categories by product id
+     *
+     * @param int $productId The product id
+     *
+     * @return void
+     */
+    public function deleteCategoriesByProductId(int $productId): void
+    {
+        try {
+            $this->entityManager->createQueryBuilder()
+                ->delete(ProductCategory::class, 'pc')
+                ->where('pc.product = :product_id')
+                ->setParameter('product_id', $productId)
+                ->getQuery()
+                ->execute();
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'Error to delete categories by product id: ' . $productId,
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
     }
 }

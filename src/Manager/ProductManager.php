@@ -20,18 +20,24 @@ class ProductManager
 {
     private LogManager $logManager;
     private ErrorManager $errorManager;
+    private CategoryManager $categoryManager;
+    private AttributeManager $attributeManager;
     private ProductRepository $productRepository;
     private EntityManagerInterface $entityManager;
 
     public function __construct(
         LogManager $logManager,
         ErrorManager $errorManager,
+        CategoryManager $categoryManager,
+        AttributeManager $attributeManager,
         ProductRepository $productRepository,
         EntityManagerInterface $entityManager
     ) {
         $this->logManager = $logManager;
         $this->errorManager = $errorManager;
         $this->entityManager = $entityManager;
+        $this->categoryManager = $categoryManager;
+        $this->attributeManager = $attributeManager;
         $this->productRepository = $productRepository;
     }
 
@@ -148,6 +154,52 @@ class ProductManager
         $this->logManager->saveLog(
             name: 'product-manager',
             message: 'Product: ' . $product->getName() . ' edited',
+            level: LogManager::LEVEL_INFO,
+        );
+    }
+
+    /**
+     * Delete product from database
+     *
+     * @param int $productId The product id to delete
+     *
+     * @return void
+     */
+    public function deleteProduct(int $productId): void
+    {
+        // get product by id
+        $product = $this->getProductById($productId);
+
+        // check if product exists
+        if ($product == null) {
+            $this->errorManager->handleError(
+                message: 'Product id: ' . $productId . ' not found',
+                code: JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        try {
+            // delete related attributes
+            $this->attributeManager->deleteAttributesByProductId($productId);
+
+            // delete related categories
+            $this->categoryManager->deleteCategoriesByProductId($productId);
+
+            // delete product
+            $this->entityManager->remove($product);
+            $this->entityManager->flush();
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'Product delete error id: ' . $productId,
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
+
+        // log action
+        $this->logManager->saveLog(
+            name: 'product-manager',
+            message: 'Product: ' . $product->getName() . ' with id: ' . $productId . ' deleted',
             level: LogManager::LEVEL_INFO,
         );
     }
