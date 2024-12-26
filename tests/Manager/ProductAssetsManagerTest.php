@@ -194,7 +194,7 @@ class ProductAssetsManagerTest extends TestCase
      */
     public function testCreateProductImage(): void
     {
-        $imagePath = '/path/to/image.jpg';
+        $imagePath = 'src/DataFixtures/assets/images/test-image-1.jpg';
         $product = new Product();
 
         // expect create storage resource call

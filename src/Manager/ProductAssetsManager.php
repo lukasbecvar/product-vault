@@ -274,6 +274,15 @@ class ProductAssetsManager
         // generate unique image file name
         $fileName = $this->generateAssetName('images', $fileName);
 
+        // get image file content
+        $resourceContent = file_get_contents($imagePath);
+        if ($resourceContent === false) {
+            $this->errorManager->handleError(
+                message: 'Error to create product image',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+
         // create image entity
         $image = new ProductImage();
         $image->setImageFile($fileName);
@@ -285,7 +294,7 @@ class ProductAssetsManager
             $this->entityManager->flush();
 
             // create image file
-            $this->storageUtil->createStorageResource('images', $fileName, $imagePath);
+            $this->storageUtil->createStorageResource('images', $fileName, $resourceContent);
         } catch (Exception $e) {
             $this->errorManager->handleError(
                 message: 'Error to create product image',
