@@ -12,10 +12,11 @@ An open-source platform API system for managing product databases, designed with
     - [X] Activate product
     - [X] Disable non-active products in get methods
 - [X] Delete product
-- [X] Assing category to product
+- [X] Assign category to product
 - [X] Remove category from product
-- [ ] Assing attribute to product
-- [ ] Remove attribute from product
+- [X] Assign attribute to product
+- [X] Update attribute value
+- [X] Remove attribute from product
 - [ ] Add product icon to product (use product asset manager)
 - [ ] Change product icon (use product asset manager)
 - [ ] Add image to product

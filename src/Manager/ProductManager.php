@@ -6,7 +6,9 @@ use DateTime;
 use Exception;
 use App\Entity\Product;
 use App\Entity\Category;
+use App\Entity\Attribute;
 use App\Entity\ProductCategory;
+use App\Entity\ProductAttribute;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -309,24 +311,24 @@ class ProductManager
     }
 
     /**
-     * Assing category to product
+     * Assign category to product
      *
      * @param Product $product The product entity
      * @param Category $category The category entity
      *
      * @return void
      */
-    public function assingCategoryToProduct(Product $product, Category $category): void
+    public function assignCategoryToProduct(Product $product, Category $category): void
     {
         // check if product already has category
         if (in_array($category->getName(), $product->getCategoriesRaw())) {
             $this->errorManager->handleError(
-                message: 'Product id: ' . $product->getName() . ' already has category',
+                message: 'Product: ' . $product->getName() . ' already has category',
                 code: JsonResponse::HTTP_BAD_REQUEST
             );
         }
 
-        // assing category to product
+        // assign category to product
         $productCategory = new ProductCategory();
         $productCategory->setProduct($product);
         $productCategory->setCategory($category);
@@ -337,7 +339,7 @@ class ProductManager
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'Error to assing category to product',
+                message: 'Error to assign category to product',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
@@ -346,7 +348,7 @@ class ProductManager
         // log action
         $this->logManager->saveLog(
             name: 'product-manager',
-            message: 'Product: ' . $product->getName() . ' assinged to category: ' . $category->getName(),
+            message: 'Product: ' . $product->getName() . ' assigned to category: ' . $category->getName(),
             level: LogManager::LEVEL_INFO,
         );
     }
@@ -390,6 +392,143 @@ class ProductManager
         $this->logManager->saveLog(
             name: 'product-manager',
             message: 'Product: ' . $product->getName() . ' removed from category: ' . $category->getName(),
+            level: LogManager::LEVEL_INFO,
+        );
+    }
+
+    /**
+     * Assign attribute to product
+     *
+     * @param Product $product The product entity
+     * @param Attribute $attribute The attribute entity
+     * @param mixed $value The attribute value
+     *
+     * @return void
+     */
+    public function assignAttributeToProduct(Product $product, Attribute $attribute, mixed $value): void
+    {
+        // check if product already has attribute
+        if (in_array($attribute->getName(), $product->getProductAttributesList())) {
+            $this->updateAttributeValue($product, $attribute, $value);
+            return;
+        }
+
+        // get value type
+        $valueType = gettype($value);
+
+        // assign attribute to product
+        $productAttribute = new ProductAttribute();
+        $productAttribute->setProduct($product);
+        $productAttribute->setType($valueType);
+        $productAttribute->setAttribute($attribute);
+        $productAttribute->setValue($value);
+
+        try {
+            // save product attribute to database
+            $this->entityManager->persist($productAttribute);
+            $this->entityManager->flush();
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'Error to assign attribute to product',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
+
+        // log action
+        $this->logManager->saveLog(
+            name: 'product-manager',
+            message: 'Product: ' . $product->getName() . ' assigned to attribute: ' . $attribute->getName(),
+            level: LogManager::LEVEL_INFO,
+        );
+    }
+
+    /**
+     * Update attribute value
+     *
+     * @param Product $product The product entity
+     * @param Attribute $attribute The attribute entity
+     * @param mixed $value The attribute value
+     *
+     * @return void
+     */
+    public function updateAttributeValue(Product $product, Attribute $attribute, mixed $value): void
+    {
+        // get attribute by id
+        $productAttribute = $this->entityManager->getRepository(ProductAttribute::class)->findOneBy([
+            'product' => $product,
+            'attribute' => $attribute,
+        ]);
+
+        // check if attribute exists
+        if ($productAttribute == null) {
+            $this->errorManager->handleError(
+                message: 'Attribute id: ' . $attribute->getId() . ' not found',
+                code: JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        // update attribute value
+        $productAttribute->setValue($value);
+
+        try {
+            // save product attribute to database
+            $this->entityManager->flush();
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'Error to update attribute value',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
+
+        // log action
+        $this->logManager->saveLog(
+            name: 'product-manager',
+            message: 'Product: ' . $product->getName() . ' attribute value updated',
+            level: LogManager::LEVEL_INFO,
+        );
+    }
+
+    /**
+     * Remove attribute from product
+     *
+     * @param Product $product The product entity
+     * @param Attribute $attribute The attribute entity
+     *
+     * @return void
+     */
+    public function removeAttributeFromProduct(Product $product, Attribute $attribute): void
+    {
+        // get product attribute by id
+        $productAttribute = $this->entityManager->getRepository(ProductAttribute::class)->findOneBy([
+            'product' => $product,
+            'attribute' => $attribute,
+        ]);
+
+        // check if attribute exists
+        if ($productAttribute == null) {
+            $this->errorManager->handleError(
+                message: 'Attribute id: ' . $attribute->getId() . ' not found',
+                code: JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        try {
+            $this->entityManager->remove($productAttribute);
+            $this->entityManager->flush();
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'Error to remove attribute from product',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
+
+        // log action
+        $this->logManager->saveLog(
+            name: 'product-manager',
+            message: 'Product: ' . $product->getName() . ' removed from attribute: ' . $attribute->getName(),
             level: LogManager::LEVEL_INFO,
         );
     }

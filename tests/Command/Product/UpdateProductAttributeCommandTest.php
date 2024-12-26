@@ -4,37 +4,37 @@ namespace App\Tests\Command\Product;
 
 use Exception;
 use App\Entity\Product;
-use App\Entity\Category;
+use App\Entity\Attribute;
 use PHPUnit\Framework\TestCase;
 use App\Manager\ProductManager;
-use App\Manager\CategoryManager;
+use App\Manager\AttributeManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
-use App\Command\Product\UpdateProductCategoryCommand;
+use App\Command\Product\UpdateProductAttributeCommand;
 
 /**
- * Class UpdateProductCategoryCommandTest
+ * Class UpdateProductAttributeCommandTest
  *
- * Test cases for updating product category command
+ * Test cases for updating product attribute command
  *
  * @package App\Tests\Command\Product
  */
-class UpdateProductCategoryCommandTest extends TestCase
+class UpdateProductAttributeCommandTest extends TestCase
 {
     private CommandTester $commandTester;
-    private UpdateProductCategoryCommand $command;
+    private UpdateProductAttributeCommand $command;
     private ProductManager & MockObject $productManager;
-    private CategoryManager & MockObject $categoryManager;
+    private AttributeManager & MockObject $attributeManager;
 
     public function setUp(): void
     {
         // mock dependencies
         $this->productManager = $this->createMock(ProductManager::class);
-        $this->categoryManager = $this->createMock(CategoryManager::class);
+        $this->attributeManager = $this->createMock(AttributeManager::class);
 
         // init command instance
-        $this->command = new UpdateProductCategoryCommand($this->productManager, $this->categoryManager);
+        $this->command = new UpdateProductAttributeCommand($this->productManager, $this->attributeManager);
         $this->commandTester = new CommandTester($this->command);
     }
 
@@ -57,11 +57,11 @@ class UpdateProductCategoryCommandTest extends TestCase
     }
 
     /**
-     * Test execute command when no category action is provided
+     * Test execute command when no attribute action is provided
      *
      * @return void
      */
-    public function testExecuteCommandWhenCategoryActionIsMissing(): void
+    public function testExecuteCommandWhenNoActionProvided(): void
     {
         // execute command
         $exitCode = $this->commandTester->execute([
@@ -72,77 +72,81 @@ class UpdateProductCategoryCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('No category action provided. Use --add or --remove.', $output);
+        $this->assertStringContainsString('No attribute action provided. Use --add or --remove.', $output);
         $this->assertEquals(Command::INVALID, $exitCode);
     }
 
     /**
-     * Test execute command with non-existing product
+     * Test execute command with non-existing attribute
      *
      * @return void
      */
-    public function testExecuteCommandWithProductNotFound(): void
+    public function testExecuteCommandWithNonExistingAttribute(): void
     {
-        // mock category action and product check
-        $this->categoryManager->expects($this->once())->method('getCategoryById')->with('2')->willReturn(null);
+        // simulate attribute not found
+        $this->attributeManager->expects($this->once())->method('getAttributeById')->with('2')->willReturn(null);
 
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
             '--add' => '2',
+            '--value' => 'some-value',
         ]);
 
         // get command output
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('Category not found: 2', $output);
+        $this->assertStringContainsString('Attribute not found: 2', $output);
         $this->assertEquals(Command::INVALID, $exitCode);
     }
 
     /**
-     * Test execute command with successful category addition
+     * Test execute command with successful attribute addition
      *
      * @return void
      */
-    public function testExecuteCommandWithSuccessfulCategoryAddition(): void
+    public function testExecuteCommandWithSuccessfulAttributeAddition(): void
     {
-        // mock get product and category
+        // mock get product and attribute
         $product = $this->createMock(Product::class);
-        $category = $this->createMock(Category::class);
-
-        $this->categoryManager->expects($this->once())->method('getCategoryById')->with('2')->willReturn($category);
+        $attribute = $this->createMock(Attribute::class);
+        $this->attributeManager->expects($this->once())->method('getAttributeById')->with('2')->willReturn($attribute);
         $this->productManager->expects($this->once())->method('getProductById')->with('1')->willReturn($product);
-        $this->productManager->expects($this->once())->method('assignCategoryToProduct')->with($product, $category);
+
+        // expect attribute assignment
+        $this->productManager->expects($this->once())->method('assignAttributeToProduct')->with($product, $attribute, 'some-value');
 
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
             '--add' => '2',
+            '--value' => 'some-value',
         ]);
 
         // get command output
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('Category: ' . $category->getName() . ' added to product: ' . $product->getName() . '.', $output);
+        $this->assertStringContainsString('Attribute: ' . $attribute->getName() . ' added to product: ' . $product->getName() . '.', $output);
         $this->assertEquals(Command::SUCCESS, $exitCode);
     }
 
     /**
-     * Test execute command with successful category removal
+     * Test execute command with successful attribute removal
      *
      * @return void
      */
-    public function testExecuteCommandWithSuccessfulCategoryRemoval(): void
+    public function testExecuteCommandWithSuccessfulAttributeRemoval(): void
     {
-        // mock get product and category
+        // mock get product and attribute
         $product = $this->createMock(Product::class);
-        $category = $this->createMock(Category::class);
-
-        $this->categoryManager->expects($this->once())->method('getCategoryById')->with('2')->willReturn($category);
+        $attribute = $this->createMock(Attribute::class);
+        $this->attributeManager->expects($this->once())->method('getAttributeById')->with('2')->willReturn($attribute);
         $this->productManager->expects($this->once())->method('getProductById')->with('1')->willReturn($product);
-        $this->productManager->expects($this->once())->method('removeCategoryFromProduct')->with($product, $category);
+
+        // expect attribute removal
+        $this->productManager->expects($this->once())->method('removeAttributeFromProduct')->with($product, $attribute);
 
         // execute command
         $exitCode = $this->commandTester->execute([
@@ -154,7 +158,7 @@ class UpdateProductCategoryCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('Category: ' . $category->getName() . ' removed from product: ' . $product->getName() . '.', $output);
+        $this->assertStringContainsString('Attribute: ' . $attribute->getName() . ' removed from product: ' . $product->getName() . '.', $output);
         $this->assertEquals(Command::SUCCESS, $exitCode);
     }
 
@@ -163,28 +167,29 @@ class UpdateProductCategoryCommandTest extends TestCase
      *
      * @return void
      */
-    public function testExecuteCommandWithExceptionResponse(): void
+    public function testExecuteCommandWithException(): void
     {
-        // mock category and product
-        $category = $this->createMock(Category::class);
+        // mock get product and attribute
         $product = $this->createMock(Product::class);
-
-        // mock methods and throw exception
-        $this->categoryManager->expects($this->once())->method('getCategoryById')->with('2')->willReturn($category);
+        $attribute = $this->createMock(Attribute::class);
+        $this->attributeManager->expects($this->once())->method('getAttributeById')->with('2')->willReturn($attribute);
         $this->productManager->expects($this->once())->method('getProductById')->with('1')->willReturn($product);
-        $this->productManager->expects($this->once())->method('assignCategoryToProduct')->willThrowException(new Exception('Database error'));
+
+        // mock throw exception
+        $this->productManager->expects($this->once())->method('assignAttributeToProduct')->willThrowException(new Exception('Database error'));
 
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
             '--add' => '2',
+            '--value' => 'some-value',
         ]);
 
         // get command output
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('Error adding category to product: Database error', $output);
+        $this->assertStringContainsString('Error adding attribute to product: Database error', $output);
         $this->assertEquals(Command::FAILURE, $exitCode);
     }
 }

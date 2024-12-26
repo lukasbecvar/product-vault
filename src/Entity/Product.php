@@ -196,6 +196,18 @@ class Product
     /**
      * @return array<int, string|null>
      */
+    public function getProductAttributesList(): array
+    {
+        return $this->product_attributes->filter(
+            fn(ProductAttribute $pa) => $pa->getAttribute() !== null
+        )->map(
+            fn(ProductAttribute $pa) => $pa->getAttribute() ? $pa->getAttribute()->getName() : null
+        )->toArray();
+    }
+
+    /**
+     * @return array<int, string|null>
+     */
     public function getProductAttributesRaw(): array
     {
         return $this->product_attributes->filter(

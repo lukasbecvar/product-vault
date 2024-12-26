@@ -112,7 +112,7 @@ class UpdateProductCategoryCommand extends Command
             }
 
             try {
-                $this->productManager->assingCategoryToProduct($product, $category);
+                $this->productManager->assignCategoryToProduct($product, $category);
                 $io->success('Category: ' . $category->getName() . ' added to product: ' . $product->getName() . '.');
             } catch (Exception $e) {
                 $io->error('Error adding category to product: ' . $e->getMessage());
