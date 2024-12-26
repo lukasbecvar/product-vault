@@ -24,24 +24,18 @@ class ProductManager
 {
     private LogManager $logManager;
     private ErrorManager $errorManager;
-    private CategoryManager $categoryManager;
-    private AttributeManager $attributeManager;
     private ProductRepository $productRepository;
     private EntityManagerInterface $entityManager;
 
     public function __construct(
         LogManager $logManager,
         ErrorManager $errorManager,
-        CategoryManager $categoryManager,
-        AttributeManager $attributeManager,
         ProductRepository $productRepository,
         EntityManagerInterface $entityManager
     ) {
         $this->logManager = $logManager;
         $this->errorManager = $errorManager;
         $this->entityManager = $entityManager;
-        $this->categoryManager = $categoryManager;
-        $this->attributeManager = $attributeManager;
         $this->productRepository = $productRepository;
     }
 
@@ -182,14 +176,8 @@ class ProductManager
             );
         }
 
+        // delete product
         try {
-            // delete related attributes
-            $this->attributeManager->deleteAttributesByProductId($productId);
-
-            // delete related categories
-            $this->categoryManager->deleteCategoriesByProductId($productId);
-
-            // delete product
             $this->entityManager->remove($product);
             $this->entityManager->flush();
         } catch (Exception $e) {

@@ -51,13 +51,13 @@ class Product
     /**
      * @var Collection<int, ProductCategory>
      */
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductCategory::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductCategory::class, cascade: ['persist', 'remove'])]
     private Collection $product_categories;
 
     /**
      * @var Collection<int, ProductAttribute>
      */
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductAttribute::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductAttribute::class, cascade: ['persist', 'remove'])]
     private Collection $product_attributes;
 
     #[ORM\OneToOne(mappedBy: 'product', targetEntity: ProductIcon::class, cascade: ['persist', 'remove'])]
