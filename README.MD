@@ -17,8 +17,8 @@ An open-source platform API system for managing product databases, designed with
 - [X] Assign attribute to product
 - [X] Update attribute value
 - [X] Remove attribute from product
-- [ ] Add product icon to product (use product asset manager)
-- [ ] Change product icon (use product asset manager)
+- [X] Add product icon to product (use product asset manager)
+- [X] Change product icon (use product asset manager)
 - [ ] Add image to product
 - [ ] Delete product image
 - [ ] Delete all product assets (icon and images), when product is deleted

@@ -116,7 +116,7 @@ class ProductAssetsManagerTest extends TestCase
      */
     public function testCreateProductIcon(): void
     {
-        $iconPath = '/path/to/icon.png';
+        $iconPath = 'src/DataFixtures/assets/icons/testing-icon.png';
         $product = new Product();
 
         // expect create storage resource call
@@ -129,29 +129,6 @@ class ProductAssetsManagerTest extends TestCase
 
         // call tested method
         $this->productAssetsManager->createProductIcon($iconPath, $product);
-    }
-
-    /**
-     * Test delete product icon
-     *
-     * @return void
-     */
-    public function testDeleteProductIcon(): void
-    {
-        // mock product icon
-        $icon = new ProductIcon();
-        $icon->setIconFile('icon_123.png');
-        $this->productIconRepository->expects($this->once())->method('find')->with(1)->willReturn($icon);
-
-        // expect delete storage resource call
-        $this->storageUtil->expects($this->once())->method('deleteStorageResource')->with('icons', 'icon_123.png');
-
-        // expect entity remove and flush
-        $this->entityManager->expects($this->once())->method('remove')->with($icon);
-        $this->entityManager->expects($this->once())->method('flush');
-
-        // call tested method
-        $this->productAssetsManager->deleteProductIcon(1);
     }
 
     /**

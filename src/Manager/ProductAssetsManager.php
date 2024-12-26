@@ -89,11 +89,26 @@ class ProductAssetsManager
      */
     public function createProductIcon(string $iconPath, Product $product): void
     {
+        // check if product already has icon (update icon)
+        if ($product->getIcon() !== null) {
+            $this->updateProductIcon($iconPath, $product);
+            return;
+        }
+
         // icon file data
         $fileName = basename($iconPath);
 
         // generate unique icon file name
         $fileName = $this->generateAssetName('icons', $fileName);
+
+        // get icon file content
+        $resourceContent = file_get_contents($iconPath);
+        if ($resourceContent === false) {
+            $this->errorManager->handleError(
+                message: 'Error to create product icon',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
 
         // create icon entity
         $icon = new ProductIcon();
@@ -106,7 +121,7 @@ class ProductAssetsManager
             $this->entityManager->flush();
 
             // create icon file
-            $this->storageUtil->createStorageResource('icons', $fileName, $iconPath);
+            $this->storageUtil->createStorageResource('icons', $fileName, $resourceContent);
         } catch (Exception $e) {
             $this->errorManager->handleError(
                 message: 'Error to create product icon',
@@ -124,46 +139,78 @@ class ProductAssetsManager
     }
 
     /**
-     * Delete product icon
+     * Update product icon
      *
-     * @param int $id The product icon id
+     * @param string $iconPath The product icon file path
+     * @param Product $product The product entity associated with icon
      *
      * @return void
      */
-    public function deleteProductIcon(int $id): void
+    public function updateProductIcon(string $iconPath, Product $product): void
     {
-        // get icon by id
-        $icon = $this->productIconRepository->find($id);
+        // icon file data
+        $fileName = basename($iconPath);
 
-        // check if icon found
-        if ($icon === null) {
+        // generate unique icon file name
+        $fileName = $this->generateAssetName('icons', $fileName);
+
+        // get icon file content
+        $resourceContent = file_get_contents($iconPath);
+        if ($resourceContent === false) {
             $this->errorManager->handleError(
-                message: 'Product icon not found with id: ' . $id,
+                message: 'Error to update product icon',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+
+        // get old icon file
+        $oldIcon = $product->getIcon();
+        if ($oldIcon === null) {
+            $this->errorManager->handleError(
+                message: 'Product: ' . $product->getName() . ' does not have icon',
+                code: JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+        $oldIconFile = $oldIcon->getIconFile();
+        if ($oldIconFile === null) {
+            $this->errorManager->handleError(
+                message: 'Product: ' . $product->getName() . ' icon file not found',
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
 
-        // get icon file
-        $iconFile = $icon->getIconFile();
-
-        // check if icon file exists
-        if ($iconFile === null) {
+        // get product icon id
+        $productIcon = $product->getIcon();
+        if ($productIcon === null) {
             $this->errorManager->handleError(
-                message: 'Product icon file not found with id: ' . $id,
+                message: 'Product: ' . $product->getName() . ' does not have icon',
+                code: JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+        $productIconId = $productIcon->getId();
+        if ($productIconId === null) {
+            $this->errorManager->handleError(
+                message: 'Product: ' . $product->getName() . ' does not have icon',
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
 
-        // delete icon
+        /** @var ProductIcon $icon */
+        $icon = $this->productIconRepository->find($productIconId);
+
+        // update icon entity
+        $icon->setIconFile($fileName);
+
         try {
-            $this->entityManager->remove($icon);
+            // save icon entity to database
             $this->entityManager->flush();
 
-            // delete icon file
-            $this->storageUtil->deleteStorageResource('icons', $iconFile);
+            // update icon file
+            $this->storageUtil->createStorageResource('icons', $fileName, $resourceContent);
+            $this->storageUtil->deleteStorageResource('icons', $oldIconFile);
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'Error to delete product icon',
+                message: 'Error to update product icon',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
@@ -172,7 +219,7 @@ class ProductAssetsManager
         // log action
         $this->logManager->saveLog(
             name: 'product-manager',
-            message: 'Product icon deleted: ' . $icon->getIconFile(),
+            message: 'Product: ' . $product->getName() . ' icon updated: ' . $fileName,
             level: LogManager::LEVEL_INFO
         );
     }
