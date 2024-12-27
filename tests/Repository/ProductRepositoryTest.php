@@ -31,6 +31,20 @@ class ProductRepositoryTest extends KernelTestCase
     }
 
     /**
+     * Test find products by search criteria
+     *
+     * @return void
+     */
+    public function testFindBySearchCriteria(): void
+    {
+        // call test method
+        $products = $this->productRepository->findBySearchCriteria('Testing product');
+
+        // assert result
+        $this->assertIsArray($products);
+    }
+
+    /**
      * Test find products by categories
      *
      * @return void

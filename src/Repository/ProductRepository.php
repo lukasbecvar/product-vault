@@ -23,6 +23,23 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     /**
+     * Find products by search criteria (name or description)
+     *
+     * @param string $search The search string
+     *
+     * @return Product[] The list of products
+     */
+    public function findBySearchCriteria(string $search): array
+    {
+        $queryBuilder = $this->createQueryBuilder('p');
+
+        return $queryBuilder->where($queryBuilder->expr()->orX(
+            $queryBuilder->expr()->like('p.name', ':search'),
+            $queryBuilder->expr()->like('p.description', ':search')
+        ))->setParameter('search', '%' . $search . '%')->getQuery()->getResult();
+    }
+
+    /**
      * Find products by categories list
      *
      * @param array<string> $categoryNames Single category name or array of category names
