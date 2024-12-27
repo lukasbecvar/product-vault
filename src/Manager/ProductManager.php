@@ -4,6 +4,7 @@ namespace App\Manager;
 
 use DateTime;
 use Exception;
+use App\Util\AppUtil;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Entity\Attribute;
@@ -22,17 +23,20 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class ProductManager
 {
+    private AppUtil $appUtil;
     private LogManager $logManager;
     private ErrorManager $errorManager;
     private ProductRepository $productRepository;
     private EntityManagerInterface $entityManager;
 
     public function __construct(
+        AppUtil $appUtil,
         LogManager $logManager,
         ErrorManager $errorManager,
         ProductRepository $productRepository,
         EntityManagerInterface $entityManager
     ) {
+        $this->appUtil = $appUtil;
         $this->logManager = $logManager;
         $this->errorManager = $errorManager;
         $this->entityManager = $entityManager;
@@ -49,6 +53,55 @@ class ProductManager
     public function getProductById(int $productId): ?Product
     {
         return $this->productRepository->find($productId);
+    }
+
+    /**
+     * Get products list (wrapper for product repository)
+     *
+     * @param string|null $search Search text for name or description (optional)
+     * @param array<string, string>|null $attributeValues Attribute name-value pairs (optional)
+     * @param array<string>|null $categories List of category names (optional)
+     * @param int $page Page number for pagination (1-based)
+     * @param int $limit Number of products per page (default: 100)
+     * @param string|null $sort Sort by field: 'name', 'price', or 'added_time' (default: null)
+     *
+     * @return array{
+     *     products: array<Product>,
+     *     pagination_info: array{
+     *         total_pages: int,
+     *         current_page_number: int,
+     *         total_items: int,
+     *         items_per_actual_page: int,
+     *         last_page_number: int,
+     *         is_next_page_exists: bool,
+     *         is_previous_page_exists: bool
+     *     }
+     * }
+     */
+    public function getProductsList(
+        ?string $search = null,
+        ?array $attributeValues = null,
+        ?array $categories = null,
+        int $page = 1,
+        int $limit = 0,
+        ?string $sort = null
+    ) {
+        // set default limit
+        if ($limit === 0) {
+            $limit = (int) $this->appUtil->getEnvValue('LIMIT_CONTENT_PER_PAGE');
+        }
+
+        // get products list
+        $products = $this->productRepository->findByFilterCriteria($search, $attributeValues, $categories, $page, $limit, $sort);
+
+        // get pagination info
+        $paginationInfo = $this->productRepository->getPaginationInfo($search, $attributeValues, $categories, $page, $limit);
+
+        // return products list and pagination info
+        return [
+            'products' => $products,
+            'pagination_info' => $paginationInfo,
+        ];
     }
 
     /**

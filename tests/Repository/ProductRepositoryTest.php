@@ -31,6 +31,48 @@ class ProductRepositoryTest extends KernelTestCase
     }
 
     /**
+     * Test find products by filter criteria
+     *
+     * @return void
+     */
+    public function testFindByFilterCriteria(): void
+    {
+        // call test method
+        $products = $this->productRepository->findByFilterCriteria('Testing product');
+
+        // assert result
+        $this->assertIsArray($products);
+    }
+
+    /**
+     * Test get pagination info
+     *
+     * @return void
+     */
+    public function testGetPaginationInfo(): void
+    {
+        // call test method
+        $paginationInfo = $this->productRepository->getPaginationInfo('Testing product');
+
+        // assert result
+        $this->assertIsArray($paginationInfo);
+        $this->assertArrayHasKey('total_pages', $paginationInfo);
+        $this->assertArrayHasKey('current_page_number', $paginationInfo);
+        $this->assertArrayHasKey('total_items', $paginationInfo);
+        $this->assertArrayHasKey('items_per_actual_page', $paginationInfo);
+        $this->assertArrayHasKey('last_page_number', $paginationInfo);
+        $this->assertIsInt($paginationInfo['total_pages']);
+        $this->assertIsInt($paginationInfo['current_page_number']);
+        $this->assertIsInt($paginationInfo['total_items']);
+        $this->assertIsInt($paginationInfo['items_per_actual_page']);
+        $this->assertIsInt($paginationInfo['last_page_number']);
+        $this->assertArrayHasKey('is_next_page_exists', $paginationInfo);
+        $this->assertArrayHasKey('is_previous_page_exists', $paginationInfo);
+        $this->assertIsBool($paginationInfo['is_next_page_exists']);
+        $this->assertIsBool($paginationInfo['is_previous_page_exists']);
+    }
+
+    /**
      * Test find products by search criteria
      *
      * @return void

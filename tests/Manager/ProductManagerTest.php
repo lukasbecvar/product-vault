@@ -3,6 +3,7 @@
 namespace App\Tests\Manager;
 
 use Exception;
+use App\Util\AppUtil;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Entity\Attribute;
@@ -27,6 +28,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class ProductManagerTest extends TestCase
 {
+    private AppUtil & MockObject $appUtil;
     private ProductManager $productManager;
     private LogManager & MockObject $logManager;
     private ErrorManager & MockObject $errorManager;
@@ -36,6 +38,7 @@ class ProductManagerTest extends TestCase
     public function setUp(): void
     {
         // mock dependencies
+        $this->appUtil = $this->createMock(AppUtil::class);
         $this->logManager = $this->createMock(LogManager::class);
         $this->errorManager = $this->createMock(ErrorManager::class);
         $this->productRepository = $this->createMock(ProductRepository::class);
@@ -43,11 +46,28 @@ class ProductManagerTest extends TestCase
 
         // create product manager instance
         $this->productManager = new ProductManager(
+            $this->appUtil,
             $this->logManager,
             $this->errorManager,
             $this->productRepository,
             $this->entityManager
         );
+    }
+
+    /**
+     * Test get products list
+     *
+     * @return void
+     */
+    public function testGetProductsList(): void
+    {
+        // call tested method
+        $products = $this->productManager->getProductsList();
+
+        // assert result
+        $this->assertIsArray($products);
+        $this->assertArrayHasKey('products', $products);
+        $this->assertArrayHasKey('pagination_info', $products);
     }
 
     /**

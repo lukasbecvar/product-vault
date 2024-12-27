@@ -1,29 +1,6 @@
 # Product Vault
 An open-source platform API system for managing product databases, designed with a focus on simplicity, flexibility, and security. The system enables efficient storage organization and manipulation of product data through a RESTful API, ensuring seamless integration with your e-shop or other applications that require product lists or product details. This system is based on [api-base](https://github.com/lukasbecvar/api-base)
 
-## Product manager
-- [ ] Get products method (in product manager)
-    - [ ] Get one product by id
-    - [ ] Get products list by search criteria (name, description)
-    - [ ] Get products list by category and attribute values
-        - [ ] Accept filter by category name
-            - [ ] If category name is not provided, return all products
-        - [ ] Accept filter by attribute name
-            - [ ] If attribute name is not provided, return all products
-    - [ ] Include pagination to all get methods (optional - default: 50 items per page)
-    - [ ] Include sorting to all get methods (optional)
-        - [ ] Sort by name
-        - [ ] Sort by price
-        - [ ] Sort by added-time
-    - [ ] Get pagination info (return array with pagination info)
-        - [ ] total pages
-        - [ ] current page number
-        - [ ] total items
-        - [ ] items per actual page
-        - [ ] last page number
-        - [ ] boolean flag is next page exists
-        - [ ] boolean flag is previous page exists
-
 ## Product manager controllers backlog
 - [ ] Create product controller
     - [ ] Create product with attributes
