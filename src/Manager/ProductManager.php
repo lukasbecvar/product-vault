@@ -10,6 +10,7 @@ use App\Entity\Category;
 use App\Entity\Attribute;
 use App\Entity\ProductCategory;
 use App\Entity\ProductAttribute;
+use App\Util\CurrencyConvertorUtil;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,19 +29,22 @@ class ProductManager
     private ErrorManager $errorManager;
     private ProductRepository $productRepository;
     private EntityManagerInterface $entityManager;
+    private CurrencyConvertorUtil $currencyConvertorUtil;
 
     public function __construct(
         AppUtil $appUtil,
         LogManager $logManager,
         ErrorManager $errorManager,
         ProductRepository $productRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        CurrencyConvertorUtil $currencyConvertorUtil
     ) {
         $this->appUtil = $appUtil;
         $this->logManager = $logManager;
         $this->errorManager = $errorManager;
         $this->entityManager = $entityManager;
         $this->productRepository = $productRepository;
+        $this->currencyConvertorUtil = $currencyConvertorUtil;
     }
 
     /**
@@ -53,6 +57,57 @@ class ProductManager
     public function getProductById(int $productId): ?Product
     {
         return $this->productRepository->find($productId);
+    }
+
+    /**
+     * Format product data
+     *
+     * @param Product $product The product entity
+     * @param string|null $requestedCurrency The product price currency for currency coversion (default: EUR)
+     *
+     * @return array<mixed> The formatted product data
+     */
+    public function formatProductData(Product $product, ?string $requestedCurrency = null): array
+    {
+        // get product data
+        $id = $product->getId();
+        $name = $product->getName();
+        $description = $product->getDescription();
+        $price = (float) $product->getPrice();
+        $priceCurrency = $product->getPriceCurrency();
+        $active = $product->isActive();
+        $categories = $product->getCategoriesRaw();
+        $attributes = $product->getProductAttributesRaw();
+        $icon = $product->getIcon();
+        $images = $product->getImagesRaw();
+
+        // check if price currency is valid
+        if ($priceCurrency === null) {
+            $this->errorManager->handleError(
+                message: 'Product price currency is not set',
+                code: JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        // convert price from default currency to required currency
+        if ($requestedCurrency !== null && $priceCurrency !== strtoupper($requestedCurrency)) {
+            $price = $this->currencyConvertorUtil->convertCurrency($priceCurrency, $price, $requestedCurrency);
+            $priceCurrency = strtoupper($requestedCurrency);
+        }
+
+        // return formatted product data
+        return [
+            'id' => $id,
+            'name' => $name,
+            'description' => $description,
+            'price' => $price,
+            'priceCurrency' => $priceCurrency,
+            'active' => $active,
+            'categories' => $categories,
+            'attributes' => $attributes,
+            'icon' => $icon,
+            'images' => $images,
+        ];
     }
 
     /**

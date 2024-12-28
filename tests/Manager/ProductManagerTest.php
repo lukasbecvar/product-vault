@@ -14,6 +14,7 @@ use App\Entity\ProductCategory;
 use PHPUnit\Framework\TestCase;
 use App\Entity\ProductAttribute;
 use Doctrine\ORM\EntityRepository;
+use App\Util\CurrencyConvertorUtil;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -34,6 +35,7 @@ class ProductManagerTest extends TestCase
     private ErrorManager & MockObject $errorManager;
     private ProductRepository & MockObject $productRepository;
     private EntityManagerInterface & MockObject $entityManager;
+    private CurrencyConvertorUtil & MockObject $currencyConvertorUtil;
 
     public function setUp(): void
     {
@@ -43,6 +45,7 @@ class ProductManagerTest extends TestCase
         $this->errorManager = $this->createMock(ErrorManager::class);
         $this->productRepository = $this->createMock(ProductRepository::class);
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
+        $this->currencyConvertorUtil = $this->createMock(CurrencyConvertorUtil::class);
 
         // create product manager instance
         $this->productManager = new ProductManager(
@@ -50,8 +53,36 @@ class ProductManagerTest extends TestCase
             $this->logManager,
             $this->errorManager,
             $this->productRepository,
-            $this->entityManager
+            $this->entityManager,
+            $this->currencyConvertorUtil
         );
+    }
+
+    /**
+     * Test format product data
+     *
+     * @return void
+     */
+    public function testFormatProductData(): void
+    {
+        // create product entity
+        $product = new Product();
+
+        // call tested method
+        $productData = $this->productManager->formatProductData($product);
+
+        // assert result
+        $this->assertIsArray($productData);
+        $this->assertArrayHasKey('id', $productData);
+        $this->assertArrayHasKey('name', $productData);
+        $this->assertArrayHasKey('description', $productData);
+        $this->assertArrayHasKey('price', $productData);
+        $this->assertArrayHasKey('priceCurrency', $productData);
+        $this->assertArrayHasKey('active', $productData);
+        $this->assertArrayHasKey('categories', $productData);
+        $this->assertArrayHasKey('attributes', $productData);
+        $this->assertArrayHasKey('icon', $productData);
+        $this->assertArrayHasKey('images', $productData);
     }
 
     /**

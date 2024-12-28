@@ -3,7 +3,7 @@ Open-source platform API system for managing product databases, designed with a 
 
 ## Get products list controller
 - [ ] Get product controller
-    - [ ] Get product by id
+    - [X] Get product by id
     - [ ] Get all products
     - [ ] Get products filtered by name, category, attributes (sort by name, price, added-time)
     - [ ] Get only new products (by time period: last hour, last day, last week, last month, last year) order by newest first
