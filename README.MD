@@ -1,5 +1,17 @@
 # Product Vault
-An open-source platform API system for managing product databases, designed with a focus on simplicity, flexibility, and security. The system enables efficient storage organization and manipulation of product data through a RESTful API, ensuring seamless integration with your e-shop or other applications that require product lists or product details. This system is based on [api-base](https://github.com/lukasbecvar/api-base)
+Open-source platform API system for managing product databases, designed with a focus on simplicity, flexibility, and security. The system enables efficient storage organization and manipulation of product data through a RESTful API, ensuring seamless integration with your e-shop or other applications that require product lists or product details. This system is based on [api-base](https://github.com/lukasbecvar/api-base)
+
+## Get products list controller
+- [ ] Get product controller
+    - [ ] Get product by id
+    - [ ] Get all products
+    - [ ] Get products filtered by name, category, attributes (sort by name, price, added-time)
+    - [ ] Get only new products (by time period: last hour, last day, last week, last month, last year) order by newest first
+    - [ ] Option to set price currency (for convert currency form default currency (EUR) to required format)
+- [ ] Get product assets controller
+    - [ ] Get product icon by product id
+    - [ ] Get list product images by product id
+    - [ ] Get product image by image file id
 
 ## Product manager controllers backlog
 - [ ] Create product controller
@@ -22,31 +34,6 @@ An open-source platform API system for managing product databases, designed with
 - [ ] Delete product controller
     - [ ] Delete product
     - [ ] Delete product attributes and attribute values of deleted product (if attribute is not used by other products)
-- [ ] Get product controller (allow access with api token from .env)
-    - [ ] Get all products
-    - [ ] Get product by id
-    - [ ] Get all products by category
-    - [ ] Get products by attribute or multiple attributes
-    - [ ] Get product by name (search by name and description pattern match)
-    - [ ] Get only new products (by time period: last hour, last day, last week, last month, last year) order by newest first
-    - [ ] Sort by name, price, added-time in all get methods
-    - [ ] Option to set price currency (for convert currency form default currency (EUR) to required format)
-    - [ ] Pagination for products result
-        - [ ] Limit items per page
-        - [ ] Endpoint for getting pages count
-        - [ ] Implement pagination info to all get results
-            - [ ] First page
-            - [ ] Last page
-            - [ ] Next page
-            - [ ] Previous page
-            - [ ] Current page
-            - [ ] Total pages
-            - [ ] Total items
-            - [ ] Items per page
-- [ ] Get product assets controller
-    - [ ] Get product icon by id
-    - [ ] Get list product images by id
-    - [ ] Get product image by product-id and image-file-name
 
 ## Product data translation backlog
 - [ ] Product data translation
