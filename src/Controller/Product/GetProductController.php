@@ -2,7 +2,9 @@
 
 namespace App\Controller\Product;
 
+use App\Util\AppUtil;
 use OpenApi\Attributes\Tag;
+use OpenApi\Attributes as OA;
 use App\Manager\ProductManager;
 use OpenApi\Attributes\Response;
 use OpenApi\Attributes\Parameter;
@@ -20,10 +22,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class GetProductController extends AbstractController
 {
+    private AppUtil $appUtil;
     private ProductManager $productManager;
 
-    public function __construct(ProductManager $productManager)
+    public function __construct(AppUtil $appUtil, ProductManager $productManager)
     {
+        $this->appUtil = $appUtil;
         $this->productManager = $productManager;
     }
 
@@ -66,11 +70,113 @@ class GetProductController extends AbstractController
         }
 
         // format product data
-        $product = $this->productManager->formatProductData($product, $requestedCurrency);
+        $data = $this->productManager->formatProductData($product, $requestedCurrency);
 
+        // return product data
         return $this->json([
             'status' => 'success',
-            'product' => $product,
+            'data' => $data,
+        ], JsonResponse::HTTP_OK);
+    }
+
+    /**
+     * Get products list by filter
+     *
+     * @param Request $request Request object
+     *
+     * @return JsonResponse Return products list as json response
+     */
+    #[OA\Post(
+        summary: 'Get a list of products with filters',
+        description: 'Retrieve a filtered list of products based on provided criteria',
+        tags: ['Product'],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(property: 'search', type: 'string', description: 'Search text', example: 'Coffee maker'),
+                    new OA\Property(
+                        property: 'attributes',
+                        type: 'array',
+                        description: 'Filter products by attributes (array of attribute objects)',
+                        items: new OA\Items(
+                            properties: [
+                                new OA\Property(property: 'name', type: 'string', description: 'Attribute name', example: 'color'),
+                                new OA\Property(property: 'value', type: 'string', description: 'Attribute value', example: 'red'),
+                            ]
+                        ),
+                        example: [
+                            'Power' => '1000W'
+                        ]
+                    ),
+                    new OA\Property(
+                        property: 'categories',
+                        type: 'array',
+                        description: 'Filter products by categories (array of category names)',
+                        items: new OA\Items(type: 'integer'),
+                        example: [
+                            'Electronics'
+                        ]
+                    ),
+                    new OA\Property(property: 'page', type: 'int', description: 'Page number', example: 1),
+                    new OA\Property(property: 'limit', type: 'int', description: 'Number of products per page', example: 100),
+                    new OA\Property(property: 'sort', type: 'string', description: 'Sort by field', example: 'name'),
+                    new OA\Property(property: 'currency', type: 'string', description: 'Product price currency', example: 'USD')
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: JsonResponse::HTTP_OK,
+                description: 'The list of filtered products'
+            ),
+            new OA\Response(
+                response: JsonResponse::HTTP_BAD_REQUEST,
+                description: 'Invalid request data message'
+            ),
+            new OA\Response(
+                response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                description: 'Server error'
+            ),
+        ]
+    )]
+    #[Route('/api/product/list', methods:['POST'], name: 'get_product_list')]
+    public function getProductListByFilter(Request $request): JsonResponse
+    {
+        // decode json request body
+        $content = json_decode($request->getContent(), true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Invalid JSON payload',
+            ], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        // extract request parameters
+        $search = $content['search'] ?? null;
+        $attributes = $content['attributes'] ?? [];
+        $categories = $content['categories'] ?? [];
+        $page = $content['page'] ?? 1;
+        $limit = $content['limit'] ?? $this->appUtil->getEnvValue('LIMIT_CONTENT_PER_PAGE');
+        $sort = $content['sort'] ?? null;
+        $currency = $content['currency'] ?? null;
+
+        // get filtered product list
+        $data = $this->productManager->getProductsList(
+            search: $search,
+            attributeValues: $attributes,
+            categories: $categories,
+            page: $page,
+            limit: $limit,
+            sort: $sort,
+            currency: $currency,
+        );
+
+        // return products list
+        return $this->json([
+            'status' => 'success',
+            'products_data' => $data['products'],
+            'pagination_info' => $data['pagination_info'],
         ], JsonResponse::HTTP_OK);
     }
 }

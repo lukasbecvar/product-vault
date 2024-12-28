@@ -119,9 +119,10 @@ class ProductManager
      * @param int $page Page number for pagination (1-based)
      * @param int $limit Number of products per page (default: 100)
      * @param string|null $sort Sort by field: 'name', 'price', or 'added_time' (default: null)
+     * @param string|null $currency The product price currency for currency coversion (default: EUR)
      *
      * @return array{
-     *     products: array<Product>,
+     *     products: array<mixed>,
      *     pagination_info: array{
      *         total_pages: int,
      *         current_page_number: int,
@@ -139,7 +140,8 @@ class ProductManager
         ?array $categories = null,
         int $page = 1,
         int $limit = 0,
-        ?string $sort = null
+        ?string $sort = null,
+        ?string $currency = null
     ) {
         // set default limit
         if ($limit === 0) {
@@ -149,12 +151,18 @@ class ProductManager
         // get products list
         $products = $this->productRepository->findByFilterCriteria($search, $attributeValues, $categories, $page, $limit, $sort);
 
+        // format products data
+        $products_data = [];
+        foreach ($products as $product) {
+            $products_data[] = $this->formatProductData($product, $currency);
+        }
+
         // get pagination info
         $paginationInfo = $this->productRepository->getPaginationInfo($search, $attributeValues, $categories, $page, $limit);
 
         // return products list and pagination info
         return [
-            'products' => $products,
+            'products' => $products_data,
             'pagination_info' => $paginationInfo,
         ];
     }

@@ -2,16 +2,20 @@
 Open-source platform API system for managing product databases, designed with a focus on simplicity, flexibility, and security. The system enables efficient storage organization and manipulation of product data through a RESTful API, ensuring seamless integration with your e-shop or other applications that require product lists or product details. This system is based on [api-base](https://github.com/lukasbecvar/api-base)
 
 ## Get products list controller
-- [ ] Get product controller
-    - [X] Get product by id
-    - [ ] Get all products
-    - [ ] Get products filtered by name, category, attributes (sort by name, price, added-time)
-    - [ ] Get only new products (by time period: last hour, last day, last week, last month, last year) order by newest first
-    - [ ] Option to set price currency (for convert currency form default currency (EUR) to required format)
 - [ ] Get product assets controller
     - [ ] Get product icon by product id
     - [ ] Get list product images by product id
     - [ ] Get product image by image file id
+- [ ] Get product stats
+    - [ ] Total product count
+    - [ ] Total active product count
+    - [ ] Total inactive product count
+    - [ ] Category count
+    - [ ] Attribute count
+
+## Others 
+- [ ] Command for clear product data
+    - [ ] Delete categories and attributes from database if they are not used by any product
 
 ## Product manager controllers backlog
 - [ ] Create product controller

@@ -41,6 +41,7 @@ security:
 
         # product get endpoints
         - { path: ^/api/product/get,        roles: PUBLIC_ACCESS }
+        - { path: ^/api/product/list,        roles: PUBLIC_ACCESS }
         
         # user access routes
         - { path: ^/api,                    roles: ROLE_USER }
