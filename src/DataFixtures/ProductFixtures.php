@@ -110,11 +110,11 @@ class ProductFixtures extends Fixture
 
             // assign icon and images
             $icon = new ProductIcon();
-            $icon->setIconFile('icon-' . $i . '.png');
+            $icon->setIconFile('testing-icon.png');
             $icon->setProduct($product);
             $manager->persist($icon);
 
-            foreach (['image1.jpg', 'image2.jpg', 'image3.jpg'] as $imageFile) {
+            foreach (['test-image-1.jpg', 'test-image-2.jpg', 'test-image-3.jpg'] as $imageFile) {
                 $image = new ProductImage();
                 $image->setImageFile($imageFile);
                 $image->setProduct($product);

@@ -80,6 +80,28 @@ class ProductAssetsManager
     }
 
     /**
+     * Get product icon
+     *
+     * @param string $iconFile The product icon file name
+     *
+     * @return string The product icon content
+     */
+    public function getProductIcon(string $iconFile): string
+    {
+        $icon = $this->storageUtil->getStorageResource('icons', $iconFile);
+
+        // check if icon exists
+        if ($icon === null) {
+            $this->errorManager->handleError(
+                message: 'Product icon not found: ' . $iconFile,
+                code: JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        return $icon;
+    }
+
+    /**
      * Create product icon
      *
      * @param string $iconPath The product icon file path
@@ -256,6 +278,28 @@ class ProductAssetsManager
     public function getProductImageByFileName(string $fileName): ?ProductImage
     {
         return $this->productImageRepository->findOneBy(['image_file' => $fileName]);
+    }
+
+    /**
+     * Get product image
+     *
+     * @param string $imageFile The product image file name
+     *
+     * @return string The product image content
+     */
+    public function getProductImage(string $imageFile): string
+    {
+        $image = $this->storageUtil->getStorageResource('images', $imageFile);
+
+        // check if image exists
+        if ($image === null) {
+            $this->errorManager->handleError(
+                message: 'Product image not found: ' . $imageFile,
+                code: JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        return $image;
     }
 
     /**

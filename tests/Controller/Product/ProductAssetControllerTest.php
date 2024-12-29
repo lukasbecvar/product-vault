@@ -7,13 +7,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * Class ProductStatsControllerTest
+ * Class ProductAssetControllerTest
  *
- * Test cases for product stats API endpoint
+ * Test cases for product asset get API endpoints
  *
  * @package App\Tests\Controller\Product
  */
-class ProductStatsControllerTest extends WebTestCase
+class ProductAssetControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
 
@@ -23,13 +23,13 @@ class ProductStatsControllerTest extends WebTestCase
     }
 
     /**
-     * Test get product stats when request method is invalid
+     * Test get product icon when request method is invalid
      *
      * @return void
      */
-    public function testGetProductStatsWhenRequestMethodIsInvalid(): void
+    public function testGetProductIconWhenRequestMethodIsInvalid(): void
     {
-        $this->client->request('POST', '/api/product/stats');
+        $this->client->request('POST', '/api/product/asset/icon');
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -48,13 +48,13 @@ class ProductStatsControllerTest extends WebTestCase
     }
 
     /**
-     * Test get product stats when api access token is not provided
+     * Test get product icon when api access token is not provided
      *
      * @return void
      */
-    public function testGetProductStatsWhenApiAccessTokenIsNotProvided(): void
+    public function testGetProductIconWhenApiAccessTokenIsNotProvided(): void
     {
-        $this->client->request('GET', '/api/product/stats');
+        $this->client->request('GET', '/api/product/asset/icon?icon_file=testing-icon.png');
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -74,13 +74,13 @@ class ProductStatsControllerTest extends WebTestCase
     }
 
     /**
-     * Test get product stats when api access token is invalid
+     * Test get product icon when api access token is invalid
      *
      * @return void
      */
-    public function testGetProductStatsWhenApiAccessTokenIsInvalid(): void
+    public function testGetProductIconWhenApiAccessTokenIsInvalid(): void
     {
-        $this->client->request('GET', '/api/product/stats', [], [], [
+        $this->client->request('GET', '/api/product/asset/icon?icon_file=testing-icon.png', [], [], [
             'HTTP_X_API_TOKEN' => 'invalid-token'
         ]);
 
@@ -102,13 +102,13 @@ class ProductStatsControllerTest extends WebTestCase
     }
 
     /**
-     * Test get product stats when response is success
+     * Test get product icon when icon file is not set
      *
      * @return void
      */
-    public function testGetProductStatsWhenResponseIsSuccess(): void
+    public function testGetProductIconWhenIconFileIsNotSet(): void
     {
-        $this->client->request('GET', '/api/product/stats', [], [], [
+        $this->client->request('GET', '/api/product/asset/icon', [], [], [
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
         ]);
 
@@ -120,26 +120,74 @@ class ProductStatsControllerTest extends WebTestCase
             $this->fail('Response content is empty');
         }
 
-        /** @var array<mixed> $responseData */
+        /** @var array<string> $responseData */
         $responseData = json_decode($responseContent, true);
 
         // assert response
-        $this->assertSame('success', $responseData['status']);
-        $this->assertArrayHasKey('data', $responseData);
-        $this->assertArrayHasKey('total', $responseData['data']);
-        $this->assertArrayHasKey('active', $responseData['data']);
-        $this->assertArrayHasKey('inactive', $responseData['data']);
-        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
+        $this->assertSame('error', $responseData['status']);
+        $this->assertEquals('Icon file not set', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
     /**
-     * Test get product categories list when request method is invalid
+     * Test get product icon when icon file not found
      *
      * @return void
      */
-    public function testGetProductCategoriesListWhenRequestMethodIsInvalid(): void
+    public function testGetProductIconWhenIconFileNotFound(): void
     {
-        $this->client->request('POST', '/api/product/categories');
+        $this->client->request('GET', '/api/product/asset/icon?icon_file=not-found-icon.png', [], [], [
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
+        ]);
+
+        // get response content
+        $responseContent = $this->client->getResponse()->getContent();
+
+        // check if response content is empty
+        if (!$responseContent) {
+            $this->fail('Response content is empty');
+        }
+
+        /** @var array<string> $responseData */
+        $responseData = json_decode($responseContent, true);
+
+        // assert response
+        $this->assertSame('error', $responseData['status']);
+        $this->assertEquals('Product icon not found: not-found-icon.png', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * Test get product icon when response is success
+     *
+     * @return void
+     */
+    public function testGetProductIconWhenResponseIsSuccess(): void
+    {
+        $this->client->request('GET', '/api/product/asset/icon?icon_file=testing-icon.png', [], [], [
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
+        ]);
+
+        // get response
+        $response = $this->client->getResponse();
+        $contentLength = $response->headers->get('Content-Length');
+
+        // assert response
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
+        $this->assertTrue($response->headers->contains('Content-Type', 'image/png'));
+        $this->assertTrue($response->headers->has('Content-Disposition'));
+        $this->assertNotNull($contentLength);
+        $this->assertGreaterThan(0, (int) $contentLength);
+    }
+
+    /**
+     * Test get product image when request method is invalid
+     *
+     * @return void
+     */
+    public function testGetProductImageWhenRequestMethodIsInvalid(): void
+    {
+        $this->client->request('POST', '/api/product/asset/image');
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -158,13 +206,13 @@ class ProductStatsControllerTest extends WebTestCase
     }
 
     /**
-     * Test get product categories list when api access token is not provided
+     * Test get product image when api access token is not provided
      *
      * @return void
      */
-    public function testGetProductCategoriesListWhenApiAccessTokenIsNotProvided(): void
+    public function testGetProductImageWhenApiAccessTokenIsNotProvided(): void
     {
-        $this->client->request('GET', '/api/product/categories');
+        $this->client->request('GET', '/api/product/asset/image?image_file=test-image-1.jpg');
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -184,13 +232,13 @@ class ProductStatsControllerTest extends WebTestCase
     }
 
     /**
-     * Test get product categories list when api access token is invalid
+     * Test get product image when api access token is invalid
      *
      * @return void
      */
-    public function testGetProductCategoriesListWhenApiAccessTokenIsInvalid(): void
+    public function testGetProductImageWhenApiAccessTokenIsInvalid(): void
     {
-        $this->client->request('GET', '/api/product/categories', [], [], [
+        $this->client->request('GET', '/api/product/asset/image?image_file=test-image-1.jpg', [], [], [
             'HTTP_X_API_TOKEN' => 'invalid-token'
         ]);
 
@@ -212,13 +260,13 @@ class ProductStatsControllerTest extends WebTestCase
     }
 
     /**
-     * Test get product categories list when response is success
+     * Test get product image when image file is not set
      *
      * @return void
      */
-    public function testGetProductCategoriesListWhenResponseIsSuccess(): void
+    public function testGetProductImageWhenImageFileIsNotSet(): void
     {
-        $this->client->request('GET', '/api/product/categories', [], [], [
+        $this->client->request('GET', '/api/product/asset/image', [], [], [
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
         ]);
 
@@ -230,103 +278,23 @@ class ProductStatsControllerTest extends WebTestCase
             $this->fail('Response content is empty');
         }
 
-        /** @var array<mixed> $responseData */
-        $responseData = json_decode($responseContent, true);
-
-        // assert response
-        $this->assertSame('success', $responseData['status']);
-        $this->assertArrayHasKey('data', $responseData);
-        $this->assertIsArray($responseData['data']);
-        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
-    }
-
-    /**
-     * Test get product attributes list when request method is invalid
-     *
-     * @return void
-     */
-    public function testGetProductAttributesListWhenRequestMethodIsInvalid(): void
-    {
-        $this->client->request('POST', '/api/product/attributes');
-
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
         $responseData = json_decode($responseContent, true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_METHOD_NOT_ALLOWED);
+        $this->assertEquals('Image file not set', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
     /**
-     * Test get product attributes list when api access token is not provided
+     * Test get product image when image file not found
      *
      * @return void
      */
-    public function testGetProductAttributesListWhenApiAccessTokenIsNotProvided(): void
+    public function testGetProductImageWhenImageFileNotFound(): void
     {
-        $this->client->request('GET', '/api/product/attributes');
-
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
-
-        // assert response
-        $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
-        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
-    }
-
-    /**
-     * Test get product attributes list when api access token is invalid
-     *
-     * @return void
-     */
-    public function testGetProductAttributesListWhenApiAccessTokenIsInvalid(): void
-    {
-        $this->client->request('GET', '/api/product/attributes', [], [], [
-            'HTTP_X_API_TOKEN' => 'invalid-token'
-        ]);
-
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
-
-        // assert response
-        $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
-        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
-    }
-
-    /**
-     * Test get product attributes list when response is success
-     *
-     * @return void
-     */
-    public function testGetProductAttributesListWhenResponseIsSuccess(): void
-    {
-        $this->client->request('GET', '/api/product/attributes', [], [], [
+        $this->client->request('GET', '/api/product/asset/image?image_file=not-found-image.jpg', [], [], [
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
         ]);
 
@@ -338,13 +306,35 @@ class ProductStatsControllerTest extends WebTestCase
             $this->fail('Response content is empty');
         }
 
-        /** @var array<mixed> $responseData */
+        /** @var array<string> $responseData */
         $responseData = json_decode($responseContent, true);
 
         // assert response
-        $this->assertSame('success', $responseData['status']);
-        $this->assertArrayHasKey('data', $responseData);
-        $this->assertIsArray($responseData['data']);
+        $this->assertSame('error', $responseData['status']);
+        $this->assertEquals('Product image not found: not-found-image.jpg', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * Test get product image when response is success
+     *
+     * @return void
+     */
+    public function testGetProductImageWhenResponseIsSuccess(): void
+    {
+        $this->client->request('GET', '/api/product/asset/image?image_file=test-image-1.jpg', [], [], [
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
+        ]);
+
+        // get response
+        $response = $this->client->getResponse();
+        $contentLength = $response->headers->get('Content-Length');
+
+        // assert response
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
+        $this->assertTrue($response->headers->contains('Content-Type', 'image/jpg'));
+        $this->assertTrue($response->headers->has('Content-Disposition'));
+        $this->assertNotNull($contentLength);
+        $this->assertGreaterThan(0, (int) $contentLength);
     }
 }

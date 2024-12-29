@@ -34,17 +34,21 @@ security:
 
     # app access manager 
     access_control:
-        # public access routes
-        - { path: ^/api/auth/register,      roles: PUBLIC_ACCESS }
-        - { path: ^/api/auth/login,         roles: PUBLIC_ACCESS }
-        - { path: ^/api/doc,                roles: PUBLIC_ACCESS }
-
-        # product get endpoints
-        - { path: ^/api/product/get,        roles: PUBLIC_ACCESS }
-        - { path: ^/api/product/list,       roles: PUBLIC_ACCESS }
-        - { path: ^/api/product/stats,      roles: PUBLIC_ACCESS }
-        - { path: ^/api/product/categories, roles: PUBLIC_ACCESS }
-        - { path: ^/api/product/attributes, roles: PUBLIC_ACCESS }
+        # nelmio api doc (allow for public access)
+        - { path: ^/api/doc,                    roles: PUBLIC_ACCESS }
         
-        # user access routes
-        - { path: ^/api,                    roles: ROLE_USER }
+        # auth system endpoints (allow for public access)
+        - { path: ^/api/auth/register,          roles: PUBLIC_ACCESS }
+        - { path: ^/api/auth/login,             roles: PUBLIC_ACCESS }
+
+        # product data get endpoints (allow for public access)
+        - { path: ^/api/product/get,            roles: PUBLIC_ACCESS }
+        - { path: ^/api/product/list,           roles: PUBLIC_ACCESS }
+        - { path: ^/api/product/stats,          roles: PUBLIC_ACCESS }
+        - { path: ^/api/product/categories,     roles: PUBLIC_ACCESS }
+        - { path: ^/api/product/attributes,     roles: PUBLIC_ACCESS }
+        - { path: ^/api/product/asset/icon,     roles: PUBLIC_ACCESS }
+        - { path: ^/api/product/asset/image,    roles: PUBLIC_ACCESS }
+        
+        # define required role for api routes access
+        - { path: ^/api,                        roles: ROLE_USER }
