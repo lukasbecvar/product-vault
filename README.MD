@@ -6,6 +6,7 @@ Open-source platform API system for managing product databases, designed with a 
     - [ ] Get product icon by product id
     - [ ] Get list product images by product id
     - [ ] Get product image by image file id
+- [ ] Get attributes & categories list
 - [ ] Get product stats
     - [ ] Total product count
     - [ ] Total active product count
