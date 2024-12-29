@@ -14,13 +14,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * Class GetProductController
+ * Class ProductGetController
  *
  * Controller for getting products data
  *
  * @package App\Controller\Product
  */
-class GetProductController extends AbstractController
+class ProductGetController extends AbstractController
 {
     private AppUtil $appUtil;
     private ProductManager $productManager;

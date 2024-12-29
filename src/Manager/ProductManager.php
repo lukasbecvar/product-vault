@@ -168,6 +168,17 @@ class ProductManager
     }
 
     /**
+     * Get product stats
+     *
+     * @return array<int> The product stats
+     */
+    public function getProductStats(): array
+    {
+        // get product stats
+        return $this->productRepository->getProductStats();
+    }
+
+    /**
      * Create new product
      *
      * @param string $name The product name

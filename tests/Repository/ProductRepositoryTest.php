@@ -145,4 +145,24 @@ class ProductRepositoryTest extends KernelTestCase
         $this->assertInstanceOf(Product::class, $products[0]);
         $this->assertIsArray($products);
     }
+
+    /**
+     * Test get product stats
+     *
+     * @return void
+     */
+    public function testGetProductStats(): void
+    {
+        // call test method
+        $productStats = $this->productRepository->getProductStats();
+
+        // assert result
+        $this->assertIsArray($productStats);
+        $this->assertArrayHasKey('total', $productStats);
+        $this->assertArrayHasKey('active', $productStats);
+        $this->assertArrayHasKey('inactive', $productStats);
+        $this->assertIsInt($productStats['total']);
+        $this->assertIsInt($productStats['active']);
+        $this->assertIsInt($productStats['inactive']);
+    }
 }

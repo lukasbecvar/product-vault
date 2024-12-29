@@ -301,4 +301,40 @@ class ProductRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
+    /**
+     * Get statistics for products
+     *
+     * @return array<int> The product stats
+     */
+    public function getProductStats(): array
+    {
+        // get total products count
+        $total = (int) $this->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        // get active products count
+        $active = (int) $this->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->where('p.is_active = :active')
+            ->setParameter('active', true)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        // get inactive products count
+        $inactive = (int) $this->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->where('p.is_active = :inactive')
+            ->setParameter('inactive', false)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return [
+            'total' => $total,
+            'active' => $active,
+            'inactive' => $inactive,
+        ];
+    }
 }

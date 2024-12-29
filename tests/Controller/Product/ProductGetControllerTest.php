@@ -7,13 +7,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * Class GetProductControllerTest
+ * Class ProductGetControllerTest
  *
  * Test cases for get product API endpoint
  *
  * @package App\Tests\Controller\Product
  */
-class GetProductControllerTest extends WebTestCase
+class ProductGetControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
 
