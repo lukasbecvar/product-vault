@@ -84,7 +84,7 @@ class CurrencyConvertorUtil
 
         // get api endpoint url from .env
         $apiUrl = $this->appUtil->getEnvValue('EXCHANGE_RATE_API_ENDPOINT') . '/' . $fromCurrency;
-        $cacheExpirationTTL = (int) $this->appUtil->getEnvValue('EXCHAENGE_DATA_CACHE_TTL');
+        $cacheExpirationTTL = (int) $this->appUtil->getEnvValue('EXCHANGE_DATA_CACHE_TTL');
 
         try {
             // get exchange rates from api
