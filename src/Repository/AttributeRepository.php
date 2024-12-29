@@ -40,4 +40,24 @@ class AttributeRepository extends ServiceEntityRepository
         // build result array
         return array_map(fn($attribute) => $attribute['name'], $result);
     }
+
+    /**
+     * Remove unused attributes
+     *
+     * @return int The number of removed attributes
+     */
+    public function removeUnusedAttributes(): int
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery(
+            'DELETE FROM App\Entity\Attribute a
+             WHERE a.id NOT IN (
+                 SELECT DISTINCT IDENTITY(pa.attribute)
+                 FROM App\Entity\ProductAttribute pa
+             )'
+        );
+
+        return $query->execute();
+    }
 }

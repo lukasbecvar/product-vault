@@ -40,4 +40,24 @@ class CategoryRepository extends ServiceEntityRepository
         // build result array
         return array_map(fn($category) => $category['name'], $result);
     }
+
+    /**
+     * Remove unused categories
+     *
+     * @return int The number of removed categories
+     */
+    public function removeUnusedCategories(): int
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery(
+            'DELETE FROM App\Entity\Category c
+             WHERE c.id NOT IN (
+                 SELECT DISTINCT IDENTITY(pc.category)
+                 FROM App\Entity\ProductCategory pc
+             )'
+        );
+
+        return $query->execute();
+    }
 }

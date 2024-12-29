@@ -1,11 +1,7 @@
 # Product Vault
 Open-source platform API system for managing product databases, designed with a focus on simplicity, flexibility, and security. The system enables efficient storage organization and manipulation of product data through a RESTful API, ensuring seamless integration with your e-shop or other applications that require product lists or product details. This system is based on [api-base](https://github.com/lukasbecvar/api-base)
 
-## Others 
-- [ ] Command for clear product data
-    - [ ] Delete categories and attributes from database if they are not used by any product
-
-## Product manager controllers backlog
+## Product manager controllers
 - [ ] Create product controller
     - [ ] Create product with attributes
         - [ ] name is required
@@ -27,27 +23,27 @@ Open-source platform API system for managing product databases, designed with a 
     - [ ] Delete product
     - [ ] Delete product attributes and attribute values of deleted product (if attribute is not used by other products)
 
-## Product data translation backlog
+## Product data translation
 - [ ] Product data translation
     - [ ] Product name
     - [ ] Product description
     - [ ] Category name
     - [ ] Attribute name
 
-## Products export backlog
+## Products export
 - [ ] Products export
     - [ ] Export products to excel file
     - [ ] Export products to pdf file 
     - [ ] Export products to xml file
     - [ ] Export products to json file
 
-## Access control system backlog
+## Access control system
 - [ ] Access control system
     - [ ] Access log entity (id, access-type, time, ip-address, user-agent request-uri)
     - [ ] Access log method in log manager (log access to product by id or access to product list)
     - [ ] Controller for get access log data per concrete period (hour, day, week, month, year, alltime)
 
-## Cache system backlog
+## Cache system
 - [ ] Cache system
     - [ ] Cache product by id when product is requested
     - [ ] Get product by id from cache or mysql database if not in cache
@@ -60,7 +56,7 @@ Open-source platform API system for managing product databases, designed with a 
         - [ ] Preload cache for most used products list filtering
         - [ ] When preload process is not finished use mysql database for getting products
 
-## Code base backlog
+## Others
 - [ ] Create postman collection
 - [ ] Create API documentation with postman
     - [ ] Create tests in postman
@@ -69,7 +65,7 @@ Open-source platform API system for managing product databases, designed with a 
 - [ ] Complete app refactoring
 - [ ] Release product-vault api docker image to github packages
 
-## Frontend app backlog
+## Frontend app
 - [ ] React app implementation
     - [ ] Login to app
     - [ ] Logout from app
