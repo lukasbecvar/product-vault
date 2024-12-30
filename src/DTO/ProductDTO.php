@@ -13,38 +13,39 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ProductDTO
 {
-    #[Assert\NotBlank(message: "value should not be blank.")]
+    #[Assert\NotBlank(message: "name: should not be blank.")]
     #[Assert\Length(
         min: 2,
         max: 80,
-        minMessage: "value should have at least {{ limit }} characters.",
-        maxMessage: "value should have at most {{ limit }} characters."
+        minMessage: "name: should have at least {{ limit }} characters.",
+        maxMessage: "name: should have at most {{ limit }} characters."
     )]
     public string $name;
 
-    #[Assert\NotBlank(message: "value should not be blank.")]
+    #[Assert\NotBlank(message: "description: should not be blank.")]
     #[Assert\Length(
         min: 2,
         max: 10240,
-        minMessage: "value should have at least {{ limit }} characters.",
-        maxMessage: "value should have at most {{ limit }} characters."
+        minMessage: "description: should have at least {{ limit }} characters.",
+        maxMessage: "description: should have at most {{ limit }} characters."
     )]
     public string $description;
 
-    #[Assert\NotBlank(message: "value should not be blank.")]
+    #[Assert\NotBlank(message: "price: should not be blank.")]
     #[Assert\Length(
         min: 1,
         max: 80,
-        minMessage: "value should have at least {{ limit }} characters.",
-        maxMessage: "value should have at most {{ limit }} characters."
+        minMessage: "price: should have at least {{ limit }} characters.",
+        maxMessage: "price: should have at most {{ limit }} characters."
     )]
+    #[Assert\Type(type: 'numeric')]
     public string $price;
 
     #[Assert\Length(
         min: 1,
         max: 6,
-        minMessage: "value should have at least {{ limit }} characters.",
-        maxMessage: "value should have at most {{ limit }} characters."
+        minMessage: "price-currency: should have at least {{ limit }} characters.",
+        maxMessage: "price-currency: should have at most {{ limit }} characters."
     )]
     public string $priceCurrency;
 }

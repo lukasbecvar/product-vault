@@ -2,26 +2,18 @@
 Open-source platform API system for managing product databases, designed with a focus on simplicity, flexibility, and security. The system enables efficient storage organization and manipulation of product data through a RESTful API, ensuring seamless integration with your e-shop or other applications that require product lists or product details. This system is based on [api-base](https://github.com/lukasbecvar/api-base)
 
 ## Product manager controllers
-- [ ] Create product controller
-    - [ ] Create product with attributes
-        - [ ] name is required
-        - [ ] description is optional
-        - [ ] price is required
-        - [ ] category is required
-        - [ ] attributes is optional
-        - [ ] icon is required
-        - [ ] images is optional
 - [ ] Edit product controller
     - [ ] Rename product
     - [ ] Update price
     - [ ] Update product description
     - [ ] Update product attributes
     - [ ] Disable product visibility (edit is-active)
-    - [ ] Edit product icon
-    - [ ] Edit product images
 - [ ] Delete product controller
-    - [ ] Delete product
-    - [ ] Delete product attributes and attribute values of deleted product (if attribute is not used by other products)
+- [ ] Create product assets controller
+    - [ ] Add product icon
+    - [ ] Add product image
+    - [ ] Change product icon
+    - [ ] Delete product image
 
 ## Product data translation
 - [ ] Product data translation

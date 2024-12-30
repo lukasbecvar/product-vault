@@ -13,6 +13,8 @@ use App\Manager\ProductManager;
 use App\Entity\ProductCategory;
 use PHPUnit\Framework\TestCase;
 use App\Entity\ProductAttribute;
+use App\Manager\CategoryManager;
+use App\Manager\AttributeManager;
 use Doctrine\ORM\EntityRepository;
 use App\Util\CurrencyConvertorUtil;
 use App\Repository\ProductRepository;
@@ -33,6 +35,8 @@ class ProductManagerTest extends TestCase
     private ProductManager $productManager;
     private LogManager & MockObject $logManager;
     private ErrorManager & MockObject $errorManager;
+    private CategoryManager & MockObject $categoryManager;
+    private AttributeManager & MockObject $attributeManager;
     private ProductRepository & MockObject $productRepository;
     private EntityManagerInterface & MockObject $entityManager;
     private CurrencyConvertorUtil & MockObject $currencyConvertorUtil;
@@ -43,6 +47,8 @@ class ProductManagerTest extends TestCase
         $this->appUtil = $this->createMock(AppUtil::class);
         $this->logManager = $this->createMock(LogManager::class);
         $this->errorManager = $this->createMock(ErrorManager::class);
+        $this->categoryManager = $this->createMock(CategoryManager::class);
+        $this->attributeManager = $this->createMock(AttributeManager::class);
         $this->productRepository = $this->createMock(ProductRepository::class);
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->currencyConvertorUtil = $this->createMock(CurrencyConvertorUtil::class);
@@ -52,6 +58,8 @@ class ProductManagerTest extends TestCase
             $this->appUtil,
             $this->logManager,
             $this->errorManager,
+            $this->categoryManager,
+            $this->attributeManager,
             $this->productRepository,
             $this->entityManager,
             $this->currencyConvertorUtil

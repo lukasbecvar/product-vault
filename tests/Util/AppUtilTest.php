@@ -33,6 +33,29 @@ class AppUtilTest extends TestCase
     }
 
     /**
+     * Test validate attributes
+     *
+     * @return void
+     */
+    public function testValidateAttributes(): void
+    {
+        // test valid attributes
+        $attributes = [
+            ['name' => 'color', 'attribute-value' => 'red'],
+            ['name' => 'size', 'attribute-value' => 'XXL'],
+        ];
+        $this->assertTrue($this->appUtil->validateAttributes($attributes));
+
+        // test invalid attributes
+        $attributes = [
+            ['name' => 'color', 'attribute-value' => 'red'],
+            ['name' => 'size', 'attribute-value' => 'XXL'],
+            ['name' => 'color'],
+        ];
+        $this->assertFalse($this->appUtil->validateAttributes($attributes));
+    }
+
+    /**
      * Test get request uri
      *
      * @return void

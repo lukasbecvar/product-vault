@@ -27,6 +27,8 @@ class ProductManager
     private AppUtil $appUtil;
     private LogManager $logManager;
     private ErrorManager $errorManager;
+    private CategoryManager $categoryManager;
+    private AttributeManager $attributeManager;
     private ProductRepository $productRepository;
     private EntityManagerInterface $entityManager;
     private CurrencyConvertorUtil $currencyConvertorUtil;
@@ -35,6 +37,8 @@ class ProductManager
         AppUtil $appUtil,
         LogManager $logManager,
         ErrorManager $errorManager,
+        CategoryManager $categoryManager,
+        AttributeManager $attributeManager,
         ProductRepository $productRepository,
         EntityManagerInterface $entityManager,
         CurrencyConvertorUtil $currencyConvertorUtil
@@ -43,6 +47,8 @@ class ProductManager
         $this->logManager = $logManager;
         $this->errorManager = $errorManager;
         $this->entityManager = $entityManager;
+        $this->categoryManager = $categoryManager;
+        $this->attributeManager = $attributeManager;
         $this->productRepository = $productRepository;
         $this->currencyConvertorUtil = $currencyConvertorUtil;
     }
@@ -185,10 +191,12 @@ class ProductManager
      * @param string $description The product description
      * @param string $price The product price
      * @param string $priceCurrency The product price currency (default: EUR)
+     * @param array<string>|null $categories The product categories
+     * @param array<array<mixed>>|null $attributes The product attributes
      *
      * @return Product The created product entity object
      */
-    public function createProduct(string $name, string $description, string $price, string $priceCurrency = 'EUR'): Product
+    public function createProduct(string $name, string $description, string $price, string $priceCurrency = 'EUR', ?array $categories = null, ?array $attributes = null): Product
     {
         // get current time
         $currentTime = new DateTime();
@@ -213,6 +221,44 @@ class ProductManager
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
+        }
+
+        // assign categories to product
+        if ($categories !== null) {
+            foreach ($categories as $categoryName) {
+                // get category
+                $category = $this->categoryManager->getCategoryByName($categoryName);
+
+                // check if category exists
+                if ($category === null) {
+                    $this->errorManager->handleError(
+                        message: 'Category: ' . $categoryName . ' not found',
+                        code: JsonResponse::HTTP_NOT_FOUND
+                    );
+                }
+
+                // assign category to product
+                $this->assignCategoryToProduct($product, $category);
+            }
+        }
+
+        // assign attributes to product
+        if ($attributes !== null) {
+            foreach ($attributes as $attributeItem) {
+                // get attribute
+                $attribute = $this->attributeManager->getAttributeByName($attributeItem['name']);
+
+                // check if attribute exists
+                if ($attribute === null) {
+                    $this->errorManager->handleError(
+                        message: 'Attribute: ' . $attributeItem['name'] . ' not found',
+                        code: JsonResponse::HTTP_NOT_FOUND
+                    );
+                }
+
+                // assign attribute to product
+                $this->assignAttributeToProduct($product, $attribute, $attributeItem['attribute-value']);
+            }
         }
 
         // log action

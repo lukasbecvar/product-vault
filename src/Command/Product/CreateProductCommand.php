@@ -90,7 +90,7 @@ class CreateProductCommand extends Command
         $errors = $this->validator->validate($productDTO);
         if (count($errors) > 0) {
             foreach ($errors as $error) {
-                $io->error($error->getPropertyPath() . ': ' . $error->getMessage());
+                $io->error($error->getMessage());
             }
             return Command::INVALID;
         }

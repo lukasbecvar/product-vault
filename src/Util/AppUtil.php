@@ -25,6 +25,35 @@ class AppUtil
     }
 
     /**
+     * Validate attributes
+     *
+     * @param array<mixed> $attributes The attributes to validate
+     *
+     * @return bool True if the attributes are valid, false otherwise
+     */
+    public function validateAttributes(array $attributes): bool
+    {
+        foreach ($attributes as $attribute) {
+            // check if attribute is array
+            if (!is_array($attribute)) {
+                return false;
+            }
+
+            // check if attribute has name and attribute-value keys
+            if (!isset($attribute['name']) || !isset($attribute['attribute-value'])) {
+                return false;
+            }
+
+            // check if attribute name is string
+            if (!is_string($attribute['name'])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Get the request uri
      *
      * @return string|null The request uri
