@@ -102,7 +102,7 @@ class ProductCreateController extends AbstractController
         ]
     )]
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/product/create', methods:['POST'], name: 'create_product')]
+    #[Route('/api/product/admin/create', methods:['POST'], name: 'create_product')]
     public function createProduct(Request $request): JsonResponse
     {
         // get data from request

@@ -14,13 +14,13 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * Class ProductAssetController
+ * Class ProductAssetGetController
  *
  * Controller for getting product assets resources
  *
  * @package App\Controller\Product
  */
-class ProductAssetController extends AbstractController
+class ProductAssetGetController extends AbstractController
 {
     private ErrorManager $errorManager;
     private ProductAssetsManager $productAssetsManager;
