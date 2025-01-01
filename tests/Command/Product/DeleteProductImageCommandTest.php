@@ -45,7 +45,7 @@ class DeleteProductImageCommandTest extends TestCase
     public function testExecuteCommandWithoutProductId(): void
     {
         // execute command
-        $exitCode = $this->commandTester->execute(['--image' => '123']);
+        $exitCode = $this->commandTester->execute(['--image' => '1']);
 
         // get command output
         $output = $this->commandTester->getDisplay();
@@ -87,7 +87,7 @@ class DeleteProductImageCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
-            '--image' => '123',
+            '--image' => '1',
         ]);
 
         // get command output
@@ -110,20 +110,24 @@ class DeleteProductImageCommandTest extends TestCase
         $this->productManager->expects($this->once())->method('getProductById')->with('1')
             ->willReturn($product);
 
+        // mock product have image
+        $this->productAssetsManager->expects($this->once())->method('checkIfProductHaveImage')->with($product, '1')
+            ->willReturn(true);
+
         // expect delete product image call
-        $this->productAssetsManager->expects($this->once())->method('deleteProductImage')->with('123');
+        $this->productAssetsManager->expects($this->once())->method('deleteProductImage')->with('1');
 
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
-            '--image' => '123',
+            '--image' => '1',
         ]);
 
         // get command output
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('Product image deleted: 123', $output);
+        $this->assertStringContainsString('Product image deleted: 1', $output);
         $this->assertEquals(Command::SUCCESS, $exitCode);
     }
 
@@ -139,14 +143,18 @@ class DeleteProductImageCommandTest extends TestCase
         $this->productManager->expects($this->once())->method('getProductById')->with('1')
             ->willReturn($product);
 
+        // mock product have image
+        $this->productAssetsManager->expects($this->once())->method('checkIfProductHaveImage')->with($product, '1')
+            ->willReturn(true);
+
         // mock throw exception
         $this->productAssetsManager->expects($this->once())->method('deleteProductImage')
-            ->with('123')->willThrowException(new Exception('Failed to delete image'));
+            ->with('1')->willThrowException(new Exception('Failed to delete image'));
 
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
-            '--image' => '123',
+            '--image' => '1',
         ]);
 
         // get command output

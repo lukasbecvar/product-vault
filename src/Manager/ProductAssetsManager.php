@@ -102,14 +102,27 @@ class ProductAssetsManager
     }
 
     /**
+     * Check if product have icon
+     *
+     * @param Product $product The product entity
+     *
+     * @return bool True if product have icon, false otherwise
+     */
+    public function checkIfProductHaveIcon(Product $product): bool
+    {
+        return $product->getIcon() !== null;
+    }
+
+    /**
      * Create product icon
      *
      * @param string $iconPath The product icon file path
      * @param Product $product The product entity associated with icon
+     * @param string|null $iconExtension The icon file extension (use for files without extension)
      *
      * @return void
      */
-    public function createProductIcon(string $iconPath, Product $product): void
+    public function createProductIcon(string $iconPath, Product $product, ?string $iconExtension = null): void
     {
         // check if product already has icon (update icon)
         if ($product->getIcon() !== null) {
@@ -130,6 +143,11 @@ class ProductAssetsManager
                 message: 'Error to create product icon',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR
             );
+        }
+
+        // apped icon extension if exists
+        if ($iconExtension != null) {
+            $fileName .= '.' . $iconExtension;
         }
 
         // create icon entity
@@ -165,10 +183,11 @@ class ProductAssetsManager
      *
      * @param string $iconPath The product icon file path
      * @param Product $product The product entity associated with icon
+     * @param string|null $iconExtension The icon file extension (use for files without extension)
      *
      * @return void
      */
-    public function updateProductIcon(string $iconPath, Product $product): void
+    public function updateProductIcon(string $iconPath, Product $product, ?string $iconExtension = null): void
     {
         // icon file data
         $fileName = basename($iconPath);
@@ -183,6 +202,11 @@ class ProductAssetsManager
                 message: 'Error to update product icon',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR
             );
+        }
+
+        // apped icon extension if exists
+        if ($iconExtension != null) {
+            $fileName .= '.' . $iconExtension;
         }
 
         // get old icon file
@@ -281,6 +305,30 @@ class ProductAssetsManager
     }
 
     /**
+     * Check if product have image
+     *
+     * @param Product $product The product entity
+     * @param int $imageId The product image id
+     *
+     * @return bool True if product have image, false otherwise
+     */
+    public function checkIfProductHaveImage(Product $product, int $imageId): bool
+    {
+        // get product image by id
+        $image = $this->getProductImageById($imageId);
+
+        // check if product image exists
+        if ($image == null) {
+            return false;
+        }
+
+        // get image file
+        $imageFile = $image->getImageFile();
+
+        return in_array($imageFile, $product->getImagesRaw());
+    }
+
+    /**
      * Get product image
      *
      * @param string $imageFile The product image file name
@@ -307,10 +355,11 @@ class ProductAssetsManager
      *
      * @param string $imagePath The product image file path
      * @param Product $product The product entity associated with image
+     * @param string|null $imageExtension The image file extension (use for files without extension)
      *
      * @return void
      */
-    public function createProductImage(string $imagePath, Product $product): void
+    public function createProductImage(string $imagePath, Product $product, ?string $imageExtension = null): void
     {
         // image file data
         $fileName = basename($imagePath);
@@ -325,6 +374,11 @@ class ProductAssetsManager
                 message: 'Error to create product image',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR
             );
+        }
+
+        // apped image extension if exists
+        if ($imageExtension != null) {
+            $fileName .= '.' . $imageExtension;
         }
 
         // create image entity

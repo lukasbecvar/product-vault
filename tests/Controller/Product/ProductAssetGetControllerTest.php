@@ -164,7 +164,7 @@ class ProductAssetGetControllerTest extends WebTestCase
      */
     public function testGetProductIconWhenResponseIsSuccess(): void
     {
-        $this->client->request('GET', '/api/product/asset/icon?icon_file=testing-icon.png', [], [], [
+        $this->client->request('GET', '/api/product/asset/icon?icon_file=testing-icon-static.png', [], [], [
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
         ]);
 

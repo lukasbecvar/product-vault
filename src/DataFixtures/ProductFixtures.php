@@ -151,6 +151,7 @@ class ProductFixtures extends Fixture
         // prepare testing icons
         $testingIcon = file_get_contents(__DIR__ . '/assets/icons/testing-icon.png');
         file_put_contents($basePath . '/icons/testing-icon.png', $testingIcon);
+        file_put_contents($basePath . '/icons/testing-icon-static.png', $testingIcon);
 
         // prepare testing images
         $testingImages = [

@@ -98,6 +98,12 @@ class DeleteProductImageCommand extends Command
             return Command::INVALID;
         }
 
+        // check if product have image
+        if (!$this->productAssetsManager->checkIfProductHaveImage($product, $imageId)) {
+            $io->error('Product: ' . $productId . ' does not have image: ' . $imageId);
+            return Command::INVALID;
+        }
+
         // delete product image
         try {
             $this->productAssetsManager->deleteProductImage($imageId);

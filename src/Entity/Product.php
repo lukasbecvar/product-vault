@@ -222,6 +222,11 @@ class Product
         return $this->icon;
     }
 
+    public function getIconFile(): ?string
+    {
+        return $this->icon ? $this->icon->getIconFile() : null;
+    }
+
     /**
      * @return Collection<int, ProductImage>
      */

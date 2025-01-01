@@ -84,7 +84,7 @@ class ProductManager
         $active = $product->isActive();
         $categories = $product->getCategoriesRaw();
         $attributes = $product->getProductAttributesRaw();
-        $icon = $product->getIcon();
+        $icon = $product->getIconFile();
         $images = $product->getImagesRaw();
 
         // check if price currency is valid
