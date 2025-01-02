@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\Product\Admin;
+namespace App\Tests\Controller\Admin\Product;
 
 use App\Tests\CustomTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  *
  * Test cases for product asset manager api endpoints
  *
- * @package App\Tests\Controller\Product\Admin
+ * @package App\Tests\Controller\Admin\Product
  */
 class ProductAssetManagerControllerTest extends CustomTestCase
 {
@@ -30,7 +30,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testCreateProductIconWhenRequestMethodIsInvalid(): void
     {
-        $this->client->request('GET', '/api/product/admin/asset/create/icon');
+        $this->client->request('GET', '/api/admin/product/asset/create/icon');
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -55,7 +55,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testCreateProductIconWhenApiAccessTokenIsNotProvided(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/create/icon', [], [], [
+        $this->client->request('POST', '/api/admin/product/asset/create/icon', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ]);
@@ -84,7 +84,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testCreateProductIconWhenApiAccessTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/create/icon', [], [], [
+        $this->client->request('POST', '/api/admin/product/asset/create/icon', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => 'invalud-token',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -114,7 +114,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testCreateProductIconWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/create/icon', [], [], [
+        $this->client->request('POST', '/api/admin/product/asset/create/icon', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
@@ -143,7 +143,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testCreateProductIconWhenProductIsIsNotSet(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/create/icon', [], [], [
+        $this->client->request('POST', '/api/admin/product/asset/create/icon', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -173,7 +173,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testCreateProductIconWhenIconFileIsNotSet(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/create/icon', [
+        $this->client->request('POST', '/api/admin/product/asset/create/icon', [
             'product_id' => 5,
         ], [], [
             'CONTENT_TYPE' => 'multipart/form-data',
@@ -205,7 +205,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testCreateProductIconWhenResponseIsSuccess(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/create/icon', [
+        $this->client->request('POST', '/api/admin/product/asset/create/icon', [
             'product_id' => 5,
         ], [
             'icon_file' => new UploadedFile(
@@ -244,7 +244,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testCreateProductImageWhenRequestMethodIsInvalid(): void
     {
-        $this->client->request('GET', '/api/product/admin/asset/create/image');
+        $this->client->request('GET', '/api/admin/product/asset/create/image');
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -269,7 +269,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testCreateProductImageWhenApiAccessTokenIsNotProvided(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/create/image', [], [], [
+        $this->client->request('POST', '/api/admin/product/asset/create/image', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ]);
@@ -297,7 +297,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testCreateProductImageWhenApiAccessTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/create/image', [], [], [
+        $this->client->request('POST', '/api/admin/product/asset/create/image', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => 'invalud-token',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -327,7 +327,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testCreateProductImageWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/create/image', [], [], [
+        $this->client->request('POST', '/api/admin/product/asset/create/image', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
@@ -356,7 +356,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testCreateProductImageWhenProductIsIsNotSet(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/create/image', [], [], [
+        $this->client->request('POST', '/api/admin/product/asset/create/image', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -386,7 +386,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testCreateProductImageWhenImageFileIsNotSet(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/create/image', [
+        $this->client->request('POST', '/api/admin/product/asset/create/image', [
             'product_id' => 5,
         ], [], [
             'CONTENT_TYPE' => 'multipart/form-data',
@@ -418,7 +418,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testCreateProductImageWhenResponseIsSuccess(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/create/image', [
+        $this->client->request('POST', '/api/admin/product/asset/create/image', [
             'product_id' => 5,
         ], [
             'image_file' => new UploadedFile(
@@ -457,7 +457,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testDeleteProductImageWhenRequestMethodIsInvalid(): void
     {
-        $this->client->request('GET', '/api/product/admin/asset/delete/image');
+        $this->client->request('GET', '/api/admin/product/asset/delete/image');
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -482,7 +482,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testDeleteProductImageWhenApiAccessTokenIsNotProvided(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/delete/image', [], [], [
+        $this->client->request('POST', '/api/admin/product/asset/delete/image', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ]);
@@ -510,7 +510,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testDeleteProductImageWhenApiAccessTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/delete/image', [], [], [
+        $this->client->request('POST', '/api/admin/product/asset/delete/image', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => 'invalud-token',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -540,7 +540,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testDeleteProductImageWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/delete/image', [], [], [
+        $this->client->request('POST', '/api/admin/product/asset/delete/image', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
@@ -569,7 +569,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testDeleteProductImageWhenProductIsIsNotSet(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/delete/image', [], [], [
+        $this->client->request('POST', '/api/admin/product/asset/delete/image', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -599,7 +599,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testDeleteProductImageWhenImageIdIsNotSet(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/delete/image', [
+        $this->client->request('POST', '/api/admin/product/asset/delete/image', [
             'product_id' => 5,
         ], [], [
             'CONTENT_TYPE' => 'multipart/form-data',
@@ -631,7 +631,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
      */
     public function testDeleteProductImageWhenResponseIsSuccess(): void
     {
-        $this->client->request('POST', '/api/product/admin/asset/delete/image', [
+        $this->client->request('POST', '/api/admin/product/asset/delete/image', [
             'product_id' => 2,
             'image_id' => 6,
         ], [], [

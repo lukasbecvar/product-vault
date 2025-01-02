@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Product\Admin;
+namespace App\Controller\Admin\Product;
 
 use App\Util\AppUtil;
 use App\DTO\ProductDTO;
@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  *
  * API controller for creating a new product
  *
- * @package App\Controller\Product\Admin
+ * @package App\Controller\Admin\Product
  */
 class ProductCreateController extends AbstractController
 {
@@ -44,7 +44,7 @@ class ProductCreateController extends AbstractController
     #[OA\Post(
         summary: 'Create product action',
         description: 'Create a new product in database',
-        tags: ['Product admin'],
+        tags: ['Admin (product manager)'],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
@@ -102,7 +102,7 @@ class ProductCreateController extends AbstractController
         ]
     )]
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/product/admin/create', methods:['POST'], name: 'create_product')]
+    #[Route('/api/admin/product/create', methods:['POST'], name: 'create_product')]
     public function createProduct(Request $request): JsonResponse
     {
         // get data from request

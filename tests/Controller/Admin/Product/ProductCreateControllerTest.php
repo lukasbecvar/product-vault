@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\Product\Admin;
+namespace App\Tests\Controller\Admin\Product;
 
 use App\Tests\CustomTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  *
  * Test cases for create product api endpoint
  *
- * @package App\Tests\Controller\Product\Admin
+ * @package App\Tests\Controller\Admin\Product
  */
 class ProductCreateControllerTest extends CustomTestCase
 {
@@ -29,7 +29,7 @@ class ProductCreateControllerTest extends CustomTestCase
      */
     public function testCreateProductWhenRequestMethodIsInvalid(): void
     {
-        $this->client->request('GET', '/api/product/admin/create');
+        $this->client->request('GET', '/api/admin/product/create');
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -54,7 +54,7 @@ class ProductCreateControllerTest extends CustomTestCase
      */
     public function testCreateProductWhenAuthTokenIsNotProvided(): void
     {
-        $this->client->request('POST', '/api/product/admin/create');
+        $this->client->request('POST', '/api/admin/product/create');
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -79,7 +79,7 @@ class ProductCreateControllerTest extends CustomTestCase
      */
     public function testCreateProductWhenApiAccessTokenIsNotProvided(): void
     {
-        $this->client->request('POST', '/api/product/admin/create', [], [], [
+        $this->client->request('POST', '/api/admin/product/create', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ]);
@@ -107,7 +107,7 @@ class ProductCreateControllerTest extends CustomTestCase
      */
     public function testCreateProductWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/product/admin/create', [], [], [
+        $this->client->request('POST', '/api/admin/product/create', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
@@ -136,7 +136,7 @@ class ProductCreateControllerTest extends CustomTestCase
      */
     public function testCreateProductWhenJsonInputIsNotValid(): void
     {
-        $this->client->request('POST', '/api/product/admin/create', [], [], [
+        $this->client->request('POST', '/api/admin/product/create', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -165,7 +165,7 @@ class ProductCreateControllerTest extends CustomTestCase
      */
     public function testCreateProductWhenNameIsEmpty(): void
     {
-        $this->client->request('POST', '/api/product/admin/create', [], [], [
+        $this->client->request('POST', '/api/admin/product/create', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -201,7 +201,7 @@ class ProductCreateControllerTest extends CustomTestCase
      */
     public function testCreateProductWhenDescriptionIsEmpty(): void
     {
-        $this->client->request('POST', '/api/product/admin/create', [], [], [
+        $this->client->request('POST', '/api/admin/product/create', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -237,7 +237,7 @@ class ProductCreateControllerTest extends CustomTestCase
      */
     public function testCreateProductWhenPriceIsEmpty(): void
     {
-        $this->client->request('POST', '/api/product/admin/create', [], [], [
+        $this->client->request('POST', '/api/admin/product/create', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -273,7 +273,7 @@ class ProductCreateControllerTest extends CustomTestCase
      */
     public function testCreateProductWhenPriceCurrencyIsEmpty(): void
     {
-        $this->client->request('POST', '/api/product/admin/create', [], [], [
+        $this->client->request('POST', '/api/admin/product/create', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -309,7 +309,7 @@ class ProductCreateControllerTest extends CustomTestCase
      */
     public function testCreateProductWhenCategoriesIsEmpty(): void
     {
-        $this->client->request('POST', '/api/product/admin/create', [], [], [
+        $this->client->request('POST', '/api/admin/product/create', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -345,7 +345,7 @@ class ProductCreateControllerTest extends CustomTestCase
      */
     public function testCreateProductWhenResponseIsSuccess(): void
     {
-        $this->client->request('POST', '/api/product/admin/create', [], [], [
+        $this->client->request('POST', '/api/admin/product/create', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()

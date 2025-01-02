@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Product\Admin;
+namespace App\Controller\Admin\Product;
 
 use Exception;
 use OpenApi\Attributes\Tag;
@@ -23,7 +23,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  *
  * Controller for managing product assets
  *
- * @package App\Controller\Product\Admin
+ * @package App\Controller\Admin\Product
  */
 class ProductAssetManagerController extends AbstractController
 {
@@ -48,7 +48,7 @@ class ProductAssetManagerController extends AbstractController
      *
      * @return JsonResponse The status response in JSON
      */
-    #[Tag(name: "Product admin")]
+    #[Tag(name: "Admin (product manager)")]
     #[RequestBody(
         content: [
             new MediaType(
@@ -75,7 +75,7 @@ class ProductAssetManagerController extends AbstractController
     #[Response(response: JsonResponse::HTTP_OK, description: "The icon file uploaded successfully")]
     #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: "The icon file upload failed")]
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/product/admin/asset/create/icon', methods:['POST'], name: 'create_product_icon')]
+    #[Route('/api/admin/product/asset/create/icon', methods:['POST'], name: 'create_product_icon')]
     public function createProductIcon(Request $request): JsonResponse
     {
         // get request parameters
@@ -151,7 +151,7 @@ class ProductAssetManagerController extends AbstractController
      *
      * @return JsonResponse The status response in JSON
      */
-    #[Tag(name: "Product admin")]
+    #[Tag(name: "Admin (product manager)")]
     #[RequestBody(
         content: [
             new MediaType(
@@ -178,7 +178,7 @@ class ProductAssetManagerController extends AbstractController
     #[Response(response: JsonResponse::HTTP_OK, description: "The image file uploaded successfully")]
     #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: "The image file upload failed")]
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/product/admin/asset/create/image', methods:['POST'], name: 'create_product_image')]
+    #[Route('/api/admin/product/asset/create/image', methods:['POST'], name: 'create_product_image')]
     public function createProductImage(Request $request): JsonResponse
     {
         // get request parameters
@@ -249,7 +249,7 @@ class ProductAssetManagerController extends AbstractController
      *
      * @return JsonResponse The status response in JSON
      */
-    #[Tag(name: "Product admin")]
+    #[Tag(name: "Admin (product manager)")]
     #[RequestBody(
         content: [
             new MediaType(
@@ -275,7 +275,7 @@ class ProductAssetManagerController extends AbstractController
     #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: "Product or image not found")]
     #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: "The image delete failed")]
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/product/admin/asset/delete/image', methods:['POST'], name: 'delete_product_image')]
+    #[Route('/api/admin/product/asset/delete/image', methods:['POST'], name: 'delete_product_image')]
     public function deleteProductImage(Request $request): JsonResponse
     {
         // get request parameters

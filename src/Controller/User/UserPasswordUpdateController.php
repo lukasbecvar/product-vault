@@ -69,7 +69,7 @@ class UserPasswordUpdateController extends AbstractController
             ),
         ]
     )]
-    #[Route('/api/user/data/update/password', methods:['PATCH'], name: 'user_data_update_password')]
+    #[Route('/api/user/update/password', methods:['PATCH'], name: 'user_data_update_password')]
     public function updateUserPassword(Security $security, Request $request): JsonResponse
     {
         /** @var \App\Entity\User $user */
