@@ -1,9 +1,9 @@
 # Product Vault
 Open-source API system for managing product databases, designed with a focus on simplicity, flexibility, and security with efficient storage organization and manipulation of product data through a RESTful API, ensuring seamless integration with your e-shop or other applications that require product lists or product details. This system is based on [api-base](https://github.com/lukasbecvar/api-base)
 
-## Product manager controllers
-- [ ] Delete product controller (delete product by id)
-- [ ] Refactor & v 1.0 release
+## Refactor
+- [ ] Complete project refactor
+- [ ] Simple app info in README.MD
 
 ## Product data translation
 - [ ] Product data translation
@@ -42,10 +42,7 @@ Open-source API system for managing product databases, designed with a focus on 
 - [ ] Create postman collection
 - [ ] Create API documentation with postman
     - [ ] Create tests in postman
-- [ ] Simple app info in README.MD
 - [ ] Env config documentation in README.MD
-- [ ] Complete app refactoring
-- [ ] Release product-vault api docker image to github packages
 
 ## Frontend app
 - [ ] React app implementation
