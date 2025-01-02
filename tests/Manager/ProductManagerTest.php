@@ -488,12 +488,12 @@ class ProductManagerTest extends TestCase
             ->willReturn(['Existing Category']);
 
         // mock category name
-        $category->expects($this->exactly(2))->method('getName')
+        $category->expects($this->exactly(3))->method('getName')
             ->willReturn('Existing Category');
 
         // expect error handling
         $this->errorManager->expects($this->once())->method('handleError')->with(
-            'Product: Test Product already has category',
+            'Product: Test Product already has category: Existing Category',
             JsonResponse::HTTP_BAD_REQUEST
         );
 

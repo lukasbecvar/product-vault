@@ -125,6 +125,16 @@ class ProductFixtures extends Fixture
             $manager->persist($product);
         }
 
+        // create non assigned test category
+        $testingCategory = new Category();
+        $testingCategory->setName('Non assigned test category');
+        $manager->persist($testingCategory);
+
+        // create non assigned test attribute
+        $attribute = new Attribute();
+        $attribute->setName('Non assigned test attribute');
+        $manager->persist($attribute);
+
         // flush data to the database
         $manager->flush();
 

@@ -484,7 +484,7 @@ class ProductManager
         // check if product already has category
         if (in_array($category->getName(), $product->getCategoriesRaw())) {
             $this->errorManager->handleError(
-                message: 'Product: ' . $product->getName() . ' already has category',
+                message: 'Product: ' . $product->getName() . ' already has category: ' . $category->getName(),
                 code: JsonResponse::HTTP_BAD_REQUEST
             );
         }
@@ -533,7 +533,7 @@ class ProductManager
         // check if category exists
         if ($productCategory == null) {
             $this->errorManager->handleError(
-                message: 'Category id: ' . $category->getId() . ' not found',
+                message: 'Category: ' . $category->getName() . ' is not assigned to product: ' . $product->getName(),
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
@@ -670,7 +670,7 @@ class ProductManager
         // check if attribute exists
         if ($productAttribute == null) {
             $this->errorManager->handleError(
-                message: 'Attribute id: ' . $attribute->getId() . ' not found',
+                message: 'Attribute: ' . $attribute->getName() . ' is not assigned to product: ' . $product->getName(),
                 code: JsonResponse::HTTP_NOT_FOUND
             );
         }
