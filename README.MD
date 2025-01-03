@@ -10,7 +10,7 @@ Open-source API system for managing product databases, designed with a focus on 
 ## Installation
 You can install the application on your server as a classic PHP application and manage dependencies via Composer, or you can use Docker.
 
-### Environment configuration variables
+## Environment configuration variables
 | Variable | Description | Default value |
 | --- | --- | --- |
 | `APP_SECRET` | Session & token encrypton key | `369af56dccfce490cb9325e8b4b59a90` |
