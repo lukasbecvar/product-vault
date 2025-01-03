@@ -21,6 +21,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # install composer dependencies
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --no-suggest
+
       # build and push Docker image
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
