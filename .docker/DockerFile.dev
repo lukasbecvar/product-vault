@@ -4,13 +4,6 @@ FROM php:8.3-apache
 # set container working directory
 WORKDIR /var/www
 
-# copy project files to docker image
-RUN if [ "$ENVIRONMENT" = "production" ]; then \
-    COPY . /var/www/ && \
-    COPY .docker/config/apache.conf /etc/apache2/sites-available/000-default.conf && \
-    COPY .docker/config/php.ini /usr/local/etc/php/php.ini; \
-fi
-
 # install required packages
 RUN apt-get update && apt-get install -y \
     libicu-dev \

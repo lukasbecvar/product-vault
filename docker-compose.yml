@@ -51,9 +51,7 @@ services:
     php:
         build:
             context: .
-            dockerfile: ./.docker/Dockerfile
-            args:
-                ENVIRONMENT: development
+            dockerfile: ./.docker/DockerFile.dev
         container_name: product_vault_website
         restart: always
         depends_on:
