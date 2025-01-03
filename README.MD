@@ -3,7 +3,6 @@ Open-source API system for managing product databases, designed with a focus on 
 
 ## Refactor
 - [ ] Complete project refactor
-	- [ ] Implement getResponseData from CustomTestCase (api-base)
 - [ ] Simple app info in README.MD
 
 ## Product data translation

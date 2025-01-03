@@ -31,16 +31,8 @@ class ProductAssetGetControllerTest extends WebTestCase
     {
         $this->client->request('POST', '/api/product/asset/icon');
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -56,16 +48,8 @@ class ProductAssetGetControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/api/product/asset/icon?icon_file=testing-icon.png');
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -84,16 +68,8 @@ class ProductAssetGetControllerTest extends WebTestCase
             'HTTP_X_API_TOKEN' => 'invalid-token'
         ]);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -112,16 +88,8 @@ class ProductAssetGetControllerTest extends WebTestCase
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
         ]);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -140,16 +108,8 @@ class ProductAssetGetControllerTest extends WebTestCase
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
         ]);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -189,16 +149,8 @@ class ProductAssetGetControllerTest extends WebTestCase
     {
         $this->client->request('POST', '/api/product/asset/image');
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -214,16 +166,8 @@ class ProductAssetGetControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/api/product/asset/image?image_file=test-image-1.jpg');
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -242,16 +186,8 @@ class ProductAssetGetControllerTest extends WebTestCase
             'HTTP_X_API_TOKEN' => 'invalid-token'
         ]);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -270,16 +206,8 @@ class ProductAssetGetControllerTest extends WebTestCase
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
         ]);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -298,16 +226,8 @@ class ProductAssetGetControllerTest extends WebTestCase
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
         ]);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);

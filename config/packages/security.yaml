@@ -50,5 +50,8 @@ security:
         - { path: ^/api/product/asset/icon,     roles: PUBLIC_ACCESS }
         - { path: ^/api/product/asset/image,    roles: PUBLIC_ACCESS }
         
+        # admin access routes
+        - { path: ^/api/admin,                  roles: ROLE_ADMIN }
+
         # define required role for api routes access
         - { path: ^/api,                        roles: ROLE_USER }

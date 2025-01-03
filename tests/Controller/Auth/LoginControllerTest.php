@@ -33,16 +33,8 @@ class LoginControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/api/auth/login');
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -64,16 +56,8 @@ class LoginControllerTest extends WebTestCase
             'password' => 'test'
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -96,16 +80,8 @@ class LoginControllerTest extends WebTestCase
             'password' => ''
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -128,16 +104,8 @@ class LoginControllerTest extends WebTestCase
             'password' => 'invalid-password'
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('Invalid credentials.', $responseData['message']);
@@ -159,19 +127,11 @@ class LoginControllerTest extends WebTestCase
             'password' => 'test'
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertNotEmpty($responseContent);
+        $this->assertNotEmpty($responseData);
         $this->assertArrayHasKey('token', $responseData);
         $this->assertNotEmpty($responseData['token']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);

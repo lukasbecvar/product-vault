@@ -31,16 +31,8 @@ class LogoutControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/api/auth/logout');
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -59,16 +51,8 @@ class LogoutControllerTest extends CustomTestCase
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('Invalid access token', $responseData['message']);
@@ -89,16 +73,8 @@ class LogoutControllerTest extends CustomTestCase
             'token' => ''
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('JWT Token not found', $responseData['message']);
@@ -119,16 +95,8 @@ class LogoutControllerTest extends CustomTestCase
             'token' => 'invalid-token'
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('JWT Token not found', $responseData['message']);
@@ -151,16 +119,8 @@ class LogoutControllerTest extends CustomTestCase
             'password' => 'test'
         ]) ?: null);
 
-        // get login response
-        $loginResponse = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$loginResponse) {
-            $this->fail('Login response content is empty');
-        }
-
-        /** @var array<string> $loginResponseData */
-        $loginResponseData = json_decode($loginResponse, true);
+        /** @var array<mixed> $loginResponseData */
+        $loginResponseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // get auth token
         $authToken = $loginResponseData['token'];
@@ -172,19 +132,11 @@ class LogoutControllerTest extends CustomTestCase
             'HTTP_AUTHORIZATION' => 'Bearer ' . $authToken
         ]);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
-        /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertNotEmpty($responseContent);
+        $this->assertNotEmpty($responseData);
         $this->assertArrayHasKey('status', $responseData);
         $this->assertSame('success', $responseData['status']);
         $this->assertSame('user successfully logged out', $responseData['message']);

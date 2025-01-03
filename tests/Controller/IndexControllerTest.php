@@ -31,13 +31,13 @@ class IndexControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/');
 
-        // get response data
-        $response = json_decode((string) ($this->client->getResponse()->getContent() ?: '{}'), true);
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('success', $response['status']);
-        $this->assertSame('product-vault is running!', $response['message']);
-        $this->assertSame($_ENV['APP_VERSION'], $response['version']);
+        $this->assertSame('success', $responseData['status']);
+        $this->assertSame('product-vault is running!', $responseData['message']);
+        $this->assertSame($_ENV['APP_VERSION'], $responseData['version']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
     }
 }
