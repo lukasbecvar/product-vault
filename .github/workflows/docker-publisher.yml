@@ -21,6 +21,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # setup php interpreter
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+
       # install composer dependencies
       - name: Install dependencies
         run: composer install --no-interaction --no-progress --no-suggest
