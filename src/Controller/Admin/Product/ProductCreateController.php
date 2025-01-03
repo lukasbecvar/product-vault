@@ -27,8 +27,11 @@ class ProductCreateController extends AbstractController
     private ValidatorInterface $validator;
     private ProductManager $productManager;
 
-    public function __construct(AppUtil $appUtil, ValidatorInterface $validator, ProductManager $productManager)
-    {
+    public function __construct(
+        AppUtil $appUtil,
+        ValidatorInterface $validator,
+        ProductManager $productManager
+    ) {
         $this->appUtil = $appUtil;
         $this->validator = $validator;
         $this->productManager = $productManager;

@@ -25,10 +25,8 @@ class AddProductImageCommand extends Command
     private ProductManager $productManager;
     private ProductAssetsManager $productAssetsManager;
 
-    public function __construct(
-        ProductManager $productManager,
-        ProductAssetsManager $productAssetsManager
-    ) {
+    public function __construct(ProductManager $productManager, ProductAssetsManager $productAssetsManager)
+    {
         $this->productManager = $productManager;
         $this->productAssetsManager = $productAssetsManager;
         parent::__construct();

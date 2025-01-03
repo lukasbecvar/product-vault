@@ -231,8 +231,14 @@ class ProductManager
 
                 // check if category exists
                 if ($category === null) {
+                    $this->categoryManager->createCategory($categoryName);
+                    $category = $this->categoryManager->getCategoryByName($categoryName);
+                }
+
+                // check if category exist
+                if ($category === null) {
                     $this->errorManager->handleError(
-                        message: 'Category: ' . $categoryName . ' not found',
+                        message: 'Category: ' . $categoryName . ' not found and could not be created',
                         code: JsonResponse::HTTP_NOT_FOUND
                     );
                 }
@@ -250,8 +256,14 @@ class ProductManager
 
                 // check if attribute exists
                 if ($attribute === null) {
+                    $this->attributeManager->createAttribute($attributeItem['name']);
+                    $attribute = $this->attributeManager->getAttributeByName($attributeItem['name']);
+                }
+
+                // check if attribute exist
+                if ($attribute === null) {
                     $this->errorManager->handleError(
-                        message: 'Attribute: ' . $attributeItem['name'] . ' not found',
+                        message: 'Attribute: ' . $attributeItem['name'] . ' not found and could not be created',
                         code: JsonResponse::HTTP_NOT_FOUND
                     );
                 }

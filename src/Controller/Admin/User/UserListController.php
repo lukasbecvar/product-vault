@@ -45,6 +45,7 @@ class UserListController extends AbstractController
         // return users list
         return $this->json([
             'status' => 'success',
+            'count' => count($users),
             'users' => $users,
         ], JsonResponse::HTTP_OK);
     }

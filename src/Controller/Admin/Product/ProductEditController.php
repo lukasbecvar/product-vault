@@ -441,6 +441,14 @@ class ProductEditController extends AbstractController
             if ($process === 'add') {
                 foreach ($categoryList as $categoryName) {
                     $category = $this->categoryManager->getCategoryByName($categoryName);
+
+                    // check if category exist
+                    if ($category == null) {
+                        $this->categoryManager->createCategory($categoryName);
+                        $category = $this->categoryManager->getCategoryByName($categoryName);
+                    }
+
+                    // check if category not exist
                     if ($category == null) {
                         return $this->json([
                             'status' => 'error',
@@ -591,7 +599,13 @@ class ProductEditController extends AbstractController
         // get attribute by name
         $attribute = $this->attributeManager->getAttributeByName($attributeName);
 
-        // check if attribute exists
+        // check if attribute not exist
+        if ($attribute == null) {
+            $this->attributeManager->createAttribute($attributeName);
+            $attribute = $this->attributeManager->getAttributeByName($attributeName);
+        }
+
+        // check if attribute exist
         if ($attribute == null) {
             return $this->json([
                 'status' => 'error',

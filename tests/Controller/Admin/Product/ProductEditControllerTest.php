@@ -561,32 +561,6 @@ class ProductEditControllerTest extends CustomTestCase
     }
 
     /**
-     * Test update product categories when category name is not found
-     *
-     * @return void
-     */
-    public function testUpdateProductCategoriesWhenCategoryNameIsNotFound(): void
-    {
-        $this->client->request('PATCH', '/api/admin/product/update/categories', [], [], [
-            'CONTENT_TYPE' => 'application/json',
-            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
-        ], json_encode([
-            'product-id' => 1,
-            'process' => 'add',
-            'category-list' => ['non existing category']
-        ]) ?: null);
-
-        /** @var array<mixed> $responseData */
-        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
-
-        // assert response
-        $this->assertSame('error', $responseData['status']);
-        $this->assertSame('Category: non existing category not found.', $responseData['message']);
-        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_NOT_FOUND);
-    }
-
-    /**
      * Test update product categories when update product categories is successful
      *
      * @return void
@@ -780,32 +754,6 @@ class ProductEditControllerTest extends CustomTestCase
         // assert response
         $this->assertSame('Attribute name not set.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
-    }
-
-    /**
-     * Test update product attribute when attribute name is invalid
-     *
-     * @return void
-     */
-    public function testUpdateProductAttributeWhenAttributeNameIsInvalid(): void
-    {
-        $this->client->request('PATCH', '/api/admin/product/update/attribute', [], [], [
-            'CONTENT_TYPE' => 'application/json',
-            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
-        ], json_encode([
-            'product-id' => 1,
-            'process' => 'add',
-            'attribute-name' => 'invalid-name',
-            'attribute-value' => 'test-value'
-        ]) ?: null);
-
-        /** @var array<mixed> $responseData */
-        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
-
-        // assert response
-        $this->assertSame('Attribute: invalid-name not found.', $responseData['message']);
-        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_NOT_FOUND);
     }
 
     /**

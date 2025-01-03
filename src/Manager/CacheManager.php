@@ -34,7 +34,11 @@ class CacheManager
         try {
             $status = $this->redis->ping();
         } catch (Exception $e) {
-            return false;
+            $this->errorManager->handleError(
+                message: 'Error to check redis connection',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
         }
 
         // check if redis connection is ok
