@@ -5,9 +5,11 @@ FROM php:8.3-apache
 WORKDIR /var/www
 
 # copy project files to docker image
-COPY . /var/www/
-COPY .docker/config/apache.conf /etc/apache2/sites-available/000-default.conf
-COPY .docker/config/php.ini /usr/local/etc/php/php.ini
+RUN if [ "$ENVIRONMENT" = "production" ]; then \
+    COPY . /var/www/ && \
+    COPY .docker/config/apache.conf /etc/apache2/sites-available/000-default.conf && \
+    COPY .docker/config/php.ini /usr/local/etc/php/php.ini; \
+fi
 
 # install required packages
 RUN apt-get update && apt-get install -y \

@@ -52,6 +52,8 @@ services:
         build:
             context: .
             dockerfile: ./.docker/Dockerfile
+            args:
+                ENVIRONMENT: development
         container_name: product_vault_website
         restart: always
         depends_on:

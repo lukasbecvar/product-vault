@@ -1,7 +1,7 @@
 # Product Vault
 Open-source API system for managing product databases, designed with a focus on simplicity, flexibility, and security with efficient storage organization and manipulation of product data through a RESTful API, ensuring seamless integration with your e-shop or other applications that require product lists or product details.
 
-## Features
+## Features 
 * Product data management
 * RESTful API (main interface for comunication with the system)
 * Security user authentication and authorization system (Using JWT)
