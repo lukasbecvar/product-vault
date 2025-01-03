@@ -53,7 +53,7 @@ class ProductGetControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -73,7 +73,7 @@ class ProductGetControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -93,7 +93,7 @@ class ProductGetControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Product id: 1000000 not found', $responseData['message']);
+        $this->assertEquals('Product id: 1000000 not found.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_NOT_FOUND);
     }
 
@@ -162,7 +162,7 @@ class ProductGetControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -182,7 +182,7 @@ class ProductGetControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 

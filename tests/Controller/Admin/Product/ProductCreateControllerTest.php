@@ -72,7 +72,7 @@ class ProductCreateControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Invalid access token', $responseData['message']);
+        $this->assertSame('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -114,7 +114,7 @@ class ProductCreateControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Invalid JSON payload', $responseData['message']);
+        $this->assertSame('Invalid JSON payload.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 

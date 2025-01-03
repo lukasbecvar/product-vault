@@ -110,7 +110,7 @@ class UserPasswordUpdateController extends AbstractController
         if ($userId === null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'user id not found',
+                'message' => 'User id: ' . $userId . ' not found.',
             ], JsonResponse::HTTP_UNAUTHORIZED);
         }
 

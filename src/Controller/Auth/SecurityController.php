@@ -53,7 +53,7 @@ class SecurityController extends AbstractController
         if ($authToken == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'JWT token not set in request',
+                'message' => 'JWT token not set in request!',
             ], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
@@ -64,7 +64,7 @@ class SecurityController extends AbstractController
             // return success response
             return $this->json([
                 'status' => 'success',
-                'message' => 'user successfully logged out',
+                'message' => 'User successfully logged out!',
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             $this->errorManager->handleError(

@@ -49,7 +49,7 @@ class UserRegisterCommand extends Command
         $_SERVER['HTTP_USER_AGENT'] = 'CLI-COMMAND';
 
         // get email from cli input
-        $email = $io->ask('Enter user email');
+        $email = $io->ask('Enter user email:');
         if ($email == null) {
             $io->error('Email cannot be empty.');
             return Command::INVALID;
@@ -60,21 +60,21 @@ class UserRegisterCommand extends Command
         }
 
         // get first name from cli input
-        $firstName = $io->ask('Enter first name');
+        $firstName = $io->ask('Enter first name:');
         if ($firstName == null) {
             $io->error('First name cannot be empty.');
             return Command::INVALID;
         }
 
         // get last name from cli input
-        $lastName = $io->ask('Enter last name');
+        $lastName = $io->ask('Enter last name:');
         if ($lastName == null) {
             $io->error('Last name cannot be empty.');
             return Command::INVALID;
         }
 
         // get password from cli input
-        $password = $io->askHidden('Enter password (hidden input)');
+        $password = $io->askHidden('Enter password (hidden input):');
         if ($password == null) {
             $io->error('Password cannot be empty.');
             return Command::INVALID;

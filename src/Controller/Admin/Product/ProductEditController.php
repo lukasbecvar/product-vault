@@ -96,7 +96,7 @@ class ProductEditController extends AbstractController
         if (json_last_error() !== JSON_ERROR_NONE) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Invalid JSON payload',
+                'message' => 'Invalid JSON payload.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -111,7 +111,7 @@ class ProductEditController extends AbstractController
         if ($productId == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product id is not set or invalid'
+                'message' => 'Product id is not set or invalid.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -122,7 +122,7 @@ class ProductEditController extends AbstractController
         if ($product == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product id: ' . $productId . ' not found',
+                'message' => 'Product id: ' . $productId . ' not found.'
             ], JsonResponse::HTTP_NOT_FOUND);
         }
 
@@ -144,7 +144,7 @@ class ProductEditController extends AbstractController
         if ($name == null || $description == null || $price == null || $priceCurrency == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Error to get product data from database',
+                'message' => 'Error to get product data from database.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -169,7 +169,7 @@ class ProductEditController extends AbstractController
         if (count($errors) > 0) {
             return $this->json([
                 'status' => 'error',
-                'message' => implode(', ', $errors),
+                'message' => implode(', ', $errors)
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -197,7 +197,7 @@ class ProductEditController extends AbstractController
         return $this->json([
             'status' => 'success',
             'message' => 'Product data updated successfully!',
-            'product_data' => $this->productManager->formatProductData($product),
+            'product_data' => $this->productManager->formatProductData($product)
         ], JsonResponse::HTTP_OK);
     }
 
@@ -252,7 +252,7 @@ class ProductEditController extends AbstractController
         if (json_last_error() !== JSON_ERROR_NONE) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Invalid JSON payload',
+                'message' => 'Invalid JSON payload.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -264,7 +264,7 @@ class ProductEditController extends AbstractController
         if ($productId == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product id is not set or invalid'
+                'message' => 'Product id is not set or invalid.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -272,13 +272,13 @@ class ProductEditController extends AbstractController
         if ($active == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Active status not set',
+                'message' => 'Active status not set.',
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
         if (!in_array($active, ['true', 'false'])) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Active status is not valid (allowed: true, false)',
+                'message' => 'Active status is not valid (allowed: true, false).'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -289,7 +289,7 @@ class ProductEditController extends AbstractController
         if ($product == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product id: ' . $productId . ' not found',
+                'message' => 'Product id: ' . $productId . ' not found.'
             ], JsonResponse::HTTP_NOT_FOUND);
         }
 
@@ -315,7 +315,7 @@ class ProductEditController extends AbstractController
         return $this->json([
             'status' => 'success',
             'message' => 'Product data updated successfully!',
-            'product_data' => $this->productManager->formatProductData($product),
+            'product_data' => $this->productManager->formatProductData($product)
         ], JsonResponse::HTTP_OK);
     }
 
@@ -380,7 +380,7 @@ class ProductEditController extends AbstractController
         if (json_last_error() !== JSON_ERROR_NONE) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Invalid JSON payload',
+                'message' => 'Invalid JSON payload.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -393,7 +393,7 @@ class ProductEditController extends AbstractController
         if ($productId == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product id is not set or invalid'
+                'message' => 'Product id is not set or invalid.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -401,13 +401,13 @@ class ProductEditController extends AbstractController
         if ($process == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Process not set',
+                'message' => 'Process not set.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
         if (!in_array($process, ['add', 'remove'])) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Process is not valid (allowed: add, remove)',
+                'message' => 'Process is not valid (allowed: add, remove).',
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -415,13 +415,13 @@ class ProductEditController extends AbstractController
         if ($categoryList == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Category list not set',
+                'message' => 'Category list not set.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
         if (!is_array($categoryList)) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Category list is not valid',
+                'message' => 'Category list is not valid.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -432,7 +432,7 @@ class ProductEditController extends AbstractController
         if ($product == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product id: ' . $productId . ' not found',
+                'message' => 'Product id: ' . $productId . ' not found.'
             ], JsonResponse::HTTP_NOT_FOUND);
         }
 
@@ -444,7 +444,7 @@ class ProductEditController extends AbstractController
                     if ($category == null) {
                         return $this->json([
                             'status' => 'error',
-                            'message' => 'Category: ' . $categoryName . ' not found',
+                            'message' => 'Category: ' . $categoryName . ' not found.'
                         ], JsonResponse::HTTP_NOT_FOUND);
                     }
                     $this->productManager->assignCategoryToProduct($product, $category);
@@ -455,7 +455,7 @@ class ProductEditController extends AbstractController
                     if ($category == null) {
                         return $this->json([
                             'status' => 'error',
-                            'message' => 'Category: ' . $categoryName . ' not found',
+                            'message' => 'Category: ' . $categoryName . ' not found.'
                         ], JsonResponse::HTTP_NOT_FOUND);
                     }
                     $this->productManager->removeCategoryFromProduct($product, $category);
@@ -529,7 +529,7 @@ class ProductEditController extends AbstractController
         if (json_last_error() !== JSON_ERROR_NONE) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Invalid JSON payload',
+                'message' => 'Invalid JSON payload.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -543,7 +543,7 @@ class ProductEditController extends AbstractController
         if ($productId == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product id is not set or invalid'
+                'message' => 'Product id is not set or invalid.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -551,13 +551,13 @@ class ProductEditController extends AbstractController
         if ($process == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Process not set',
+                'message' => 'Process not set'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
         if (!in_array($process, ['add', 'remove'])) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Process is not valid (allowed: add, remove)',
+                'message' => 'Process is not valid (allowed: add, remove).'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -565,7 +565,7 @@ class ProductEditController extends AbstractController
         if ($attributeName == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Attribute name not set',
+                'message' => 'Attribute name not set.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -573,7 +573,7 @@ class ProductEditController extends AbstractController
         if ($attributeValue == null && $process !== 'remove') {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Attribute value not set',
+                'message' => 'Attribute value not set.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -584,7 +584,7 @@ class ProductEditController extends AbstractController
         if ($product == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product id: ' . $productId . ' not found',
+                'message' => 'Product id: ' . $productId . ' not found.'
             ], JsonResponse::HTTP_NOT_FOUND);
         }
 
@@ -595,7 +595,7 @@ class ProductEditController extends AbstractController
         if ($attribute == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Attribute: ' . $attributeName . ' not found',
+                'message' => 'Attribute: ' . $attributeName . ' not found.'
             ], JsonResponse::HTTP_NOT_FOUND);
         }
 

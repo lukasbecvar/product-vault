@@ -94,14 +94,14 @@ class SetProductIconCommand extends Command
 
         // check if product exists
         if ($product == null) {
-            $io->error('Product not found: ' . $productId);
+            $io->error('Product not found: ' . $productId . '.');
             return Command::INVALID;
         }
 
         // set product icon
         try {
             $this->productAssetsManager->createProductIcon($iconPath, $product);
-            $io->success('Product icon set: ' . $iconPath);
+            $io->success('Product icon set: ' . $iconPath . '.');
         } catch (Exception $e) {
             $io->error('Error to set product icon: ' . $e->getMessage());
             return Command::FAILURE;

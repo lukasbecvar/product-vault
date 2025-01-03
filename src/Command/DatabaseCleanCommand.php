@@ -54,12 +54,12 @@ class DatabaseCleanCommand extends Command
 
             // log result
             if ($removedCategories <= 0) {
-                $io->warning('No unused categories found');
+                $io->warning('No unused categories found.');
             }
             if ($removedAttributes <= 0) {
-                $io->warning('No unused attributes found');
+                $io->warning('No unused attributes found.');
             }
-            $io->success('Database structure cleaned');
+            $io->success('Database structure cleaned!');
         } catch (Exception $e) {
             $io->error('Error cleaning database structure: ' . $e->getMessage());
             return Command::FAILURE;

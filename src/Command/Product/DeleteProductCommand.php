@@ -78,14 +78,14 @@ class DeleteProductCommand extends Command
 
         // check if product id exists
         if ($productToDelete == null) {
-            $io->error('Product not found: ' . $id);
+            $io->error('Product not found: ' . $id . '.');
             return Command::INVALID;
         }
 
         // delete product
         try {
             $this->productManager->deleteProduct($id);
-            $io->success('Product assets deleted for product: ' . $productToDelete->getName());
+            $io->success('Product assets deleted for product: ' . $productToDelete->getName() . '.');
         } catch (Exception $e) {
             $io->error('Error to delete product: ' . $e->getMessage());
             return Command::FAILURE;

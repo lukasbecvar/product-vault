@@ -100,14 +100,14 @@ class UpdateProductCategoryCommand extends Command
             // get category by id
             $category = $this->categoryManager->getCategoryById($categoryIdToAdd);
             if ($category == null) {
-                $io->error('Category not found: ' . $categoryIdToAdd);
+                $io->error('Category not found: ' . $categoryIdToAdd . '.');
                 return Command::INVALID;
             }
 
             // get product by id
             $product = $this->productManager->getProductById($productId);
             if ($product == null) {
-                $io->error('Product not found: ' . $productId);
+                $io->error('Product not found: ' . $productId . '.');
                 return Command::INVALID;
             }
 
@@ -124,14 +124,14 @@ class UpdateProductCategoryCommand extends Command
             // get category by id
             $category = $this->categoryManager->getCategoryById($categoryIdToRemove);
             if ($category == null) {
-                $io->error('Category not found: ' . $categoryIdToRemove);
+                $io->error('Category not found: ' . $categoryIdToRemove . '.');
                 return Command::INVALID;
             }
 
             // get product by id
             $product = $this->productManager->getProductById($productId);
             if ($product == null) {
-                $io->error('Product not found: ' . $productId);
+                $io->error('Product not found: ' . $productId . '.');
                 return Command::INVALID;
             }
 

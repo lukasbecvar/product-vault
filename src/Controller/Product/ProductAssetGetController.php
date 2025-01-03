@@ -51,7 +51,7 @@ class ProductAssetGetController extends AbstractController
         // check if icon file set
         if ($iconFile == null) {
             $this->errorManager->handleError(
-                message: 'Icon file not set',
+                message: 'Icon file not set.',
                 code: JsonResponse::HTTP_BAD_REQUEST
             );
         }
@@ -91,7 +91,7 @@ class ProductAssetGetController extends AbstractController
         // check if image file set
         if ($imageFile == null) {
             $this->errorManager->handleError(
-                message: 'Image file not set',
+                message: 'Image file not set.',
                 code: JsonResponse::HTTP_BAD_REQUEST
             );
         }

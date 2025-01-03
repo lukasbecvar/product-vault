@@ -58,7 +58,7 @@ class RegisterControllerTest extends WebTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 

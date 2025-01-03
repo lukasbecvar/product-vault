@@ -190,7 +190,7 @@ class UserManagerController extends AbstractController
         // check if user status already associated with user
         if ($this->userManager->getUserStatus($userId) === $status) {
             $this->errorManager->handleError(
-                message: 'User status already set to: ' . $status,
+                message: 'User status already set to: ' . $status . '.',
                 code: JsonResponse::HTTP_BAD_REQUEST
             );
         }

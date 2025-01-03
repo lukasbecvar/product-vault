@@ -49,21 +49,21 @@ class CreateProductCommand extends Command
         $_SERVER['HTTP_USER_AGENT'] = 'CLI-COMMAND';
 
         // get product name from cli input
-        $name = $io->ask('Enter product name');
+        $name = $io->ask('Enter product name:');
         if ($name == null) {
             $io->error('Product name cannot be empty.');
             return Command::INVALID;
         }
 
         // get product description from cli input
-        $description = $io->ask('Enter product description');
+        $description = $io->ask('Enter product description:');
         if ($description == null) {
             $io->error('Product description cannot be empty.');
             return Command::INVALID;
         }
 
         // get product price from cli input
-        $price = $io->ask('Enter product price');
+        $price = $io->ask('Enter product price:');
         if ($price == null) {
             $io->error('Product price cannot be empty.');
             return Command::INVALID;
@@ -74,7 +74,7 @@ class CreateProductCommand extends Command
         }
 
         // get product price currency from cli input
-        $priceCurrency = $io->ask('Enter product price currency (default: EUR)');
+        $priceCurrency = $io->ask('Enter product price currency (default: EUR):');
         if ($priceCurrency == null) {
             $priceCurrency = 'EUR';
         }
@@ -103,7 +103,7 @@ class CreateProductCommand extends Command
                 $productDTO->price,
                 $productDTO->priceCurrency
             );
-            $io->success('Product: ' . $name . ' created');
+            $io->success('Product: ' . $name . ' created.');
         } catch (Exception $e) {
             $io->error('Error to create product: ' . $e->getMessage());
             return Command::FAILURE;

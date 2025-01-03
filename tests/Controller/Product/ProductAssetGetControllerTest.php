@@ -53,7 +53,7 @@ class ProductAssetGetControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -73,7 +73,7 @@ class ProductAssetGetControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -93,7 +93,7 @@ class ProductAssetGetControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Icon file not set', $responseData['message']);
+        $this->assertEquals('Icon file not set.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -171,7 +171,7 @@ class ProductAssetGetControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -191,7 +191,7 @@ class ProductAssetGetControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -211,7 +211,7 @@ class ProductAssetGetControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Image file not set', $responseData['message']);
+        $this->assertEquals('Image file not set.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 

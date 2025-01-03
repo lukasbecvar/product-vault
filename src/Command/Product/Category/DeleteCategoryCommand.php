@@ -75,7 +75,7 @@ class DeleteCategoryCommand extends Command
 
         // check if category found
         if ($category === null) {
-            $io->error('Category not found: ' . $name);
+            $io->error('Category not found: ' . $name . '.');
             return Command::INVALID;
         }
 
@@ -91,7 +91,7 @@ class DeleteCategoryCommand extends Command
         // delete category
         try {
             $this->categoryManager->deleteCategory($id);
-            $io->success('Category deleted successfully');
+            $io->success('Category deleted successfully.');
         } catch (Exception $e) {
             $io->error('Error to delete category: ' . $e->getMessage());
             return Command::FAILURE;

@@ -322,7 +322,7 @@ class UserManagerControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('User status already set to: active', $responseData['message']);
+        $this->assertSame('User status already set to: active.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 

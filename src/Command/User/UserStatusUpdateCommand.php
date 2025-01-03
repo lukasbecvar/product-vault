@@ -77,7 +77,7 @@ class UserStatusUpdateCommand extends Command
 
         // check if user status already associated with user
         if ($this->userManager->getUserStatus($id) === $status) {
-            $io->error('User status already set to: ' . $status);
+            $io->error('User status already set to: ' . $status . '.');
             return Command::INVALID;
         }
 

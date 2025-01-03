@@ -86,7 +86,7 @@ class ProductAssetManagerController extends AbstractController
         if ($productId == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product id not set',
+                'message' => 'Product id not set.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -94,20 +94,20 @@ class ProductAssetManagerController extends AbstractController
         if ($iconFile == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Icon file not set',
+                'message' => 'Icon file not set.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
         if (!$iconFile->isValid()) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Invalid file',
+                'message' => 'Invalid file.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
         $allowedMimeTypes = ['image/png', 'image/jpeg', 'image/gif'];
         if (!in_array($iconFile->getMimeType(), $allowedMimeTypes)) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Invalid file type. Allowed types: ' . implode(', ', $allowedMimeTypes),
+                'message' => 'Invalid file type. Allowed types: ' . implode(', ', $allowedMimeTypes)
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -118,7 +118,7 @@ class ProductAssetManagerController extends AbstractController
         if ($product == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product: ' . $productId . ' not found',
+                'message' => 'Product: ' . $productId . ' not found.'
             ], JsonResponse::HTTP_NOT_FOUND);
         }
 
@@ -132,8 +132,8 @@ class ProductAssetManagerController extends AbstractController
 
             return $this->json([
                 'status' => 'success',
-                'message' => 'Product icon uploaded successfully',
-                'product_data' => $this->productManager->formatProductData($product),
+                'message' => 'Product icon uploaded successfully!',
+                'product_data' => $this->productManager->formatProductData($product)
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return $this->errorManager->handleError(
@@ -189,7 +189,7 @@ class ProductAssetManagerController extends AbstractController
         if ($productId == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product id not set',
+                'message' => 'Product id not set.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -197,20 +197,20 @@ class ProductAssetManagerController extends AbstractController
         if ($iconFile == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Image file not set',
+                'message' => 'Image file not set.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
         if (!$iconFile->isValid()) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Invalid file',
+                'message' => 'Invalid file'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
         $allowedMimeTypes = ['image/png', 'image/jpeg', 'image/gif'];
         if (!in_array($iconFile->getMimeType(), $allowedMimeTypes)) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Invalid file type. Allowed types: ' . implode(', ', $allowedMimeTypes),
+                'message' => 'Invalid file type. Allowed types: ' . implode(', ', $allowedMimeTypes)
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -221,7 +221,7 @@ class ProductAssetManagerController extends AbstractController
         if ($product == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product: ' . $productId . ' not found',
+                'message' => 'Product: ' . $productId . ' not found.'
             ], JsonResponse::HTTP_NOT_FOUND);
         }
 
@@ -230,8 +230,8 @@ class ProductAssetManagerController extends AbstractController
             $this->productAssetsManager->createProductImage($iconFile->getPathname(), $product, $iconFile->getClientOriginalExtension());
             return $this->json([
                 'status' => 'success',
-                'message' => 'Product image uploaded successfully',
-                'product_data' => $this->productManager->formatProductData($product),
+                'message' => 'Product image uploaded successfully!',
+                'product_data' => $this->productManager->formatProductData($product)
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return $this->errorManager->handleError(
@@ -286,7 +286,7 @@ class ProductAssetManagerController extends AbstractController
         if ($productId == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product id not set',
+                'message' => 'Product id not set.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -294,7 +294,7 @@ class ProductAssetManagerController extends AbstractController
         if ($imageId == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Image id not set',
+                'message' => 'Image id not set.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -305,7 +305,7 @@ class ProductAssetManagerController extends AbstractController
         if ($product == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product: ' . $productId . ' not found',
+                'message' => 'Product: ' . $productId . ' not found.'
             ], JsonResponse::HTTP_NOT_FOUND);
         }
 
@@ -313,7 +313,7 @@ class ProductAssetManagerController extends AbstractController
         if (!$this->productAssetsManager->checkIfProductHaveImage($product, $imageId)) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product: ' . $productId . ' does not have image: ' . $imageId,
+                'message' => 'Product: ' . $productId . ' does not have image: ' . $imageId . '.'
             ], JsonResponse::HTTP_NOT_FOUND);
         }
 
@@ -323,7 +323,7 @@ class ProductAssetManagerController extends AbstractController
             return $this->json([
                 'status' => 'success',
                 'message' => 'Product image: ' . $imageId . ' deleted successfully',
-                'product_data' => $this->productManager->formatProductData($product),
+                'product_data' => $this->productManager->formatProductData($product)
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return $this->errorManager->handleError(

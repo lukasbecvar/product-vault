@@ -67,7 +67,7 @@ class CreateCategoryCommand extends Command
         // create category
         try {
             $this->categoryManager->createCategory($name);
-            $io->success('Category created successfully');
+            $io->success('Category created successfully.');
         } catch (Exception $e) {
             $io->error('Error to create category: ' . $e->getMessage());
             return Command::FAILURE;

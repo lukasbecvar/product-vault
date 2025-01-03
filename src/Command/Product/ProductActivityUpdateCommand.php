@@ -82,7 +82,7 @@ class ProductActivityUpdateCommand extends Command
 
         // check if product id exists
         if ($productToEdit == null) {
-            $io->error('Product not found: ' . $id);
+            $io->error('Product not found: ' . $id . '.');
             return Command::INVALID;
         }
 
@@ -93,7 +93,7 @@ class ProductActivityUpdateCommand extends Command
             } else {
                 $this->productManager->deactivateProduct($id);
             }
-            $io->success('Product: ' . $productToEdit->getName() . ' activity updated');
+            $io->success('Product: ' . $productToEdit->getName() . ' activity updated.');
         } catch (Exception $e) {
             $io->error('Error to update product activity: ' . $e->getMessage());
             return Command::FAILURE;

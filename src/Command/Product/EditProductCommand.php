@@ -91,7 +91,7 @@ class EditProductCommand extends Command
         // edit product
         try {
             $this->productManager->editProduct($id, $name, $description, $price, $priceCurrency);
-            $io->success('Product: ' . $productToEdit->getName() . ' edited');
+            $io->success('Product: ' . $productToEdit->getName() . ' edited.');
         } catch (Exception $e) {
             $io->error('Error to edit product: ' . $e->getMessage());
             return Command::FAILURE;

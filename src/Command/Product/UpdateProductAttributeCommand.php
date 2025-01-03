@@ -103,14 +103,14 @@ class UpdateProductAttributeCommand extends Command
             // get attribute by id
             $attribute = $this->attributeManager->getAttributeById($attributeIdToAdd);
             if ($attribute == null) {
-                $io->error('Attribute not found: ' . $attributeIdToAdd);
+                $io->error('Attribute not found: ' . $attributeIdToAdd . '.');
                 return Command::INVALID;
             }
 
             // get product by id
             $product = $this->productManager->getProductById($productId);
             if ($product == null) {
-                $io->error('Product not found: ' . $productId);
+                $io->error('Product not found: ' . $productId . '.');
                 return Command::INVALID;
             }
 
@@ -134,14 +134,14 @@ class UpdateProductAttributeCommand extends Command
             // get attribute by id
             $attribute = $this->attributeManager->getAttributeById($attributeIdToRemove);
             if ($attribute == null) {
-                $io->error('Attribute not found: ' . $attributeIdToRemove);
+                $io->error('Attribute not found: ' . $attributeIdToRemove . '.');
                 return Command::INVALID;
             }
 
             // get product by id
             $product = $this->productManager->getProductById($productId);
             if ($product == null) {
-                $io->error('Product not found: ' . $productId);
+                $io->error('Product not found: ' . $productId . '.');
                 return Command::INVALID;
             }
 

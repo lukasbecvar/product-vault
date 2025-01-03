@@ -57,7 +57,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -79,7 +79,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -122,7 +122,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('Product id not set', $responseData['message']);
+        $this->assertSame('Product id not set.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -146,7 +146,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('Icon file not set', $responseData['message']);
+        $this->assertSame('Icon file not set.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -176,7 +176,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('success', $responseData['status']);
-        $this->assertSame('Product icon uploaded successfully', $responseData['message']);
+        $this->assertSame('Product icon uploaded successfully!', $responseData['message']);
         $this->assertArrayHasKey('product_data', $responseData);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
     }
@@ -236,7 +236,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -279,7 +279,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('Product id not set', $responseData['message']);
+        $this->assertSame('Product id not set.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -303,7 +303,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('Image file not set', $responseData['message']);
+        $this->assertSame('Image file not set.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -333,7 +333,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('success', $responseData['status']);
-        $this->assertSame('Product image uploaded successfully', $responseData['message']);
+        $this->assertSame('Product image uploaded successfully!', $responseData['message']);
         $this->assertArrayHasKey('product_data', $responseData);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
     }
@@ -393,7 +393,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -436,7 +436,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('Product id not set', $responseData['message']);
+        $this->assertSame('Product id not set.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -460,7 +460,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('Image id not set', $responseData['message']);
+        $this->assertSame('Image id not set.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 

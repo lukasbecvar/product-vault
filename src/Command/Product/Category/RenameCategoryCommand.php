@@ -79,7 +79,7 @@ class RenameCategoryCommand extends Command
 
         // check if category found
         if ($category === null) {
-            $io->error('Category not found: ' . $oldName);
+            $io->error('Category not found: ' . $oldName . '.');
             return Command::INVALID;
         }
 
@@ -95,7 +95,7 @@ class RenameCategoryCommand extends Command
         // rename category
         try {
             $this->categoryManager->renameCategory($id, $newName);
-            $io->success('Category renamed successfully');
+            $io->success('Category renamed successfully.');
         } catch (Exception $e) {
             $io->error('Error to rename category: ' . $e->getMessage());
             return Command::FAILURE;

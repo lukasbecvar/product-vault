@@ -103,7 +103,7 @@ class LogStatusUpdateCommand extends Command
             $io->success('All logs have been marked as read.');
         } else {
             $this->logManager->updateLogStatus((int)$id, $status);
-            $io->success('Log with ID ' . $id . ' has been updated to status "' . $status . '"');
+            $io->success('Log with ID ' . $id . ' has been updated to status "' . $status . '".');
         }
 
         return Command::SUCCESS;

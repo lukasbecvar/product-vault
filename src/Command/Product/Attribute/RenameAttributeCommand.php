@@ -79,7 +79,7 @@ class RenameAttributeCommand extends Command
 
         // check if attribute found
         if ($attribute === null) {
-            $io->error('Attribute not found with name: ' . $oldName);
+            $io->error('Attribute not found with name: ' . $oldName . '.');
             return Command::INVALID;
         }
 
@@ -95,7 +95,7 @@ class RenameAttributeCommand extends Command
         // rename attribute
         try {
             $this->attributeManager->renameAttribute($id, $newName);
-            $io->success('Attribute renamed successfully');
+            $io->success('Attribute renamed successfully.');
         } catch (Exception $e) {
             $io->error('Error to rename attribute: ' . $e->getMessage());
             return Command::FAILURE;

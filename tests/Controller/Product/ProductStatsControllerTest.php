@@ -53,7 +53,7 @@ class ProductStatsControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -73,7 +73,7 @@ class ProductStatsControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -131,7 +131,7 @@ class ProductStatsControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -151,7 +151,7 @@ class ProductStatsControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -207,7 +207,7 @@ class ProductStatsControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -227,7 +227,7 @@ class ProductStatsControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token', $responseData['message']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 

@@ -43,7 +43,7 @@ class AuthTokenValidateMiddleware
         if (!empty($token)) {
             if ($this->authManager->isTokenBlacklisted($token)) {
                 $this->errorManager->handleError(
-                    message: 'Invalid JWT token',
+                    message: 'Invalid JWT Token',
                     code: JsonResponse::HTTP_UNAUTHORIZED
                 );
             }

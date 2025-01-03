@@ -67,7 +67,7 @@ class CreateAttributeCommand extends Command
         // create attribute
         try {
             $this->attributeManager->createAttribute($name);
-            $io->success('Attribute created successfully');
+            $io->success('Attribute created successfully.');
         } catch (Exception $e) {
             $io->error('Error to create attribute: ' . $e->getMessage());
             return Command::FAILURE;

@@ -94,20 +94,20 @@ class DeleteProductImageCommand extends Command
 
         // check if product exists
         if ($product == null) {
-            $io->error('Product not found: ' . $productId);
+            $io->error('Product not found: ' . $productId . '.');
             return Command::INVALID;
         }
 
         // check if product have image
         if (!$this->productAssetsManager->checkIfProductHaveImage($product, $imageId)) {
-            $io->error('Product: ' . $productId . ' does not have image: ' . $imageId);
+            $io->error('Product: ' . $productId . ' does not have image: ' . $imageId . '.');
             return Command::INVALID;
         }
 
         // delete product image
         try {
             $this->productAssetsManager->deleteProductImage($imageId);
-            $io->success('Product image deleted: ' . $imageId);
+            $io->success('Product image deleted: ' . $imageId . '.');
         } catch (Exception $e) {
             $io->error('Error to delete product image: ' . $e->getMessage());
             return Command::FAILURE;

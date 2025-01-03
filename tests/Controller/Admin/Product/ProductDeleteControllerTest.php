@@ -93,7 +93,7 @@ class ProductDeleteControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('Invalid access token', $responseData['message']);
+        $this->assertSame('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -115,7 +115,7 @@ class ProductDeleteControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('Invalid access token', $responseData['message']);
+        $this->assertSame('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -139,7 +139,7 @@ class ProductDeleteControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('Product id is not set or invalid', $responseData['message']);
+        $this->assertSame('Product id is not set or invalid.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -163,7 +163,7 @@ class ProductDeleteControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('Product id: 123456789 not found', $responseData['message']);
+        $this->assertSame('Product id: 123456789 not found.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_NOT_FOUND);
     }
 

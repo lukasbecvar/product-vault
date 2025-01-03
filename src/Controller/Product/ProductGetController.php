@@ -54,7 +54,7 @@ class ProductGetController extends AbstractController
         if (!$productId) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product id parameter is required',
+                'message' => 'Product id parameter is required!',
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -65,7 +65,7 @@ class ProductGetController extends AbstractController
         if ($product == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product id: ' . $productId . ' not found',
+                'message' => 'Product id: ' . $productId . ' not found.',
             ], JsonResponse::HTTP_NOT_FOUND);
         }
 
@@ -148,7 +148,7 @@ class ProductGetController extends AbstractController
         if (json_last_error() !== JSON_ERROR_NONE) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Invalid JSON payload',
+                'message' => 'Invalid JSON payload.',
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 

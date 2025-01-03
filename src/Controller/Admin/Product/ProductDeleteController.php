@@ -80,7 +80,7 @@ class ProductDeleteController extends AbstractController
         if (json_last_error() !== JSON_ERROR_NONE) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Invalid JSON payload',
+                'message' => 'Invalid JSON payload.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -91,7 +91,7 @@ class ProductDeleteController extends AbstractController
         if ($productId == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product id is not set or invalid'
+                'message' => 'Product id is not set or invalid.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -102,7 +102,7 @@ class ProductDeleteController extends AbstractController
         if ($product == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product id: ' . $productId . ' not found',
+                'message' => 'Product id: ' . $productId . ' not found.'
             ], JsonResponse::HTTP_NOT_FOUND);
         }
 

@@ -54,7 +54,7 @@ class AuthTokenValidateMiddlewareTest extends TestCase
 
         // expect error handler call
         $this->errorManager->expects($this->once())->method('handleError')->with(
-            $this->equalTo('Invalid JWT token'),
+            $this->equalTo('Invalid JWT Token'),
             $this->equalTo(JsonResponse::HTTP_UNAUTHORIZED)
         );
 

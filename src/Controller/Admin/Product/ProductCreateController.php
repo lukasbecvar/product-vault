@@ -112,7 +112,7 @@ class ProductCreateController extends AbstractController
         if (json_last_error() !== JSON_ERROR_NONE) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Invalid JSON payload',
+                'message' => 'Invalid JSON payload.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -142,7 +142,7 @@ class ProductCreateController extends AbstractController
         if (count($errors) > 0) {
             return $this->json([
                 'status' => 'error',
-                'message' => implode(', ', $errors),
+                'message' => implode(', ', $errors)
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -150,7 +150,7 @@ class ProductCreateController extends AbstractController
         if (count($data['categories']) == 0) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product requires minimal 1 category.',
+                'message' => 'Product requires minimal 1 category.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -159,7 +159,7 @@ class ProductCreateController extends AbstractController
             if (!$this->appUtil->validateAttributes($attributes)) {
                 return $this->json([
                     'status' => 'error',
-                    'message' => 'Invalid attributes format.',
+                    'message' => 'Invalid attributes format.'
                 ], JsonResponse::HTTP_BAD_REQUEST);
             }
         }
@@ -178,7 +178,7 @@ class ProductCreateController extends AbstractController
         return $this->json([
             'status' => 'success',
             'message' => 'Product: ' . $productDTO->name . ' created successfully!',
-            'product_data' => $this->productManager->formatProductData($data),
+            'product_data' => $this->productManager->formatProductData($data)
         ], JsonResponse::HTTP_CREATED);
     }
 }

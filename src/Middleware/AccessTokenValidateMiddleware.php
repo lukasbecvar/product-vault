@@ -47,7 +47,7 @@ class AccessTokenValidateMiddleware
         // check if access token is valid
         if ($providedToken !== $this->appUtil->getEnvValue('API_TOKEN')) {
             $this->errorManager->handleError(
-                message: 'Invalid access token',
+                message: 'Invalid access token.',
                 code: 401
             );
         }

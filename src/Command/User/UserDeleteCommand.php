@@ -70,7 +70,7 @@ class UserDeleteCommand extends Command
 
         // check if user exists
         if (!$this->userManager->checkIfUserEmailAlreadyRegistered($email)) {
-            $io->error('User not found: ' . $email);
+            $io->error('User not found: ' . $email . '.');
             return Command::INVALID;
         }
 

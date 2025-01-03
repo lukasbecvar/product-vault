@@ -36,7 +36,7 @@ class ErrorControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('bad request', $responseData['message']);
+        $this->assertSame('Bad request.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse:: HTTP_BAD_REQUEST);
     }
 
@@ -54,7 +54,7 @@ class ErrorControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('unauthorized', $responseData['message']);
+        $this->assertSame('Unauthorized.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -72,7 +72,7 @@ class ErrorControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('forbidden', $responseData['message']);
+        $this->assertSame('Forbidden.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_FORBIDDEN);
     }
 
@@ -90,7 +90,7 @@ class ErrorControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('this route does not exist', $responseData['message']);
+        $this->assertSame('This route does not exist.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_NOT_FOUND);
     }
 
@@ -108,7 +108,7 @@ class ErrorControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('this request method is not allowed', $responseData['message']);
+        $this->assertSame('This request method is not allowed.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_METHOD_NOT_ALLOWED);
     }
 
@@ -126,7 +126,7 @@ class ErrorControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('upgrade required', $responseData['message']);
+        $this->assertSame('Upgrade required.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UPGRADE_REQUIRED);
     }
 
@@ -144,7 +144,7 @@ class ErrorControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('too many requests', $responseData['message']);
+        $this->assertSame('Too many requests.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_TOO_MANY_REQUESTS);
     }
 
@@ -162,7 +162,7 @@ class ErrorControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('internal server error', $responseData['message']);
+        $this->assertSame('Internal server error.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
     }
 
@@ -180,7 +180,7 @@ class ErrorControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('service currently unavailable', $responseData['message']);
+        $this->assertSame('Service currently unavailable.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_SERVICE_UNAVAILABLE);
     }
 
@@ -198,7 +198,7 @@ class ErrorControllerTest extends WebTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('this route does not exist!', $responseData['message']);
+        $this->assertSame('This route does not exist!', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_NOT_FOUND);
     }
 }

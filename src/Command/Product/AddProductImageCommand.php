@@ -101,7 +101,7 @@ class AddProductImageCommand extends Command
         // add product image
         try {
             $this->productAssetsManager->createProductImage($imagePath, $product);
-            $io->success('Product image added: ' . $imagePath);
+            $io->success('Product image added: ' . $imagePath . '.');
         } catch (Exception $e) {
             $io->error('Error to add product image: ' . $e->getMessage());
             return Command::FAILURE;

@@ -69,7 +69,7 @@ class DeleteAttributeCommand extends Command
 
         // check if attribute found
         if ($attribute === null) {
-            $io->error('Attribute not found with name: ' . $name);
+            $io->error('Attribute not found with name: ' . $name . '.');
             return Command::INVALID;
         }
 
@@ -85,7 +85,7 @@ class DeleteAttributeCommand extends Command
         // delete attribute
         try {
             $this->attributeManager->deleteAttribute($id);
-            $io->success('Attribute deleted successfully');
+            $io->success('Attribute deleted successfully.');
         } catch (Exception $e) {
             $io->error('Error to delete attribute: ' . $e->getMessage());
             return Command::FAILURE;

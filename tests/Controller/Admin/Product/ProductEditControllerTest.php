@@ -72,7 +72,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Invalid access token', $responseData['message']);
+        $this->assertSame('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -93,7 +93,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Invalid access token', $responseData['message']);
+        $this->assertSame('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -137,7 +137,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Product id is not set or invalid', $responseData['message']);
+        $this->assertSame('Product id is not set or invalid.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -161,7 +161,7 @@ class ProductEditControllerTest extends CustomTestCase
 
         // assert response data
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('Product id is not set or invalid', $responseData['message']);
+        $this->assertSame('Product id is not set or invalid.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -185,7 +185,7 @@ class ProductEditControllerTest extends CustomTestCase
 
         // assert response data
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('Product id: ' . 999999999 . ' not found', $responseData['message']);
+        $this->assertSame('Product id: 999999999 not found.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_NOT_FOUND);
     }
 
@@ -268,7 +268,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Invalid access token', $responseData['message']);
+        $this->assertSame('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -312,7 +312,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Product id is not set or invalid', $responseData['message']);
+        $this->assertSame('Product id is not set or invalid.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -335,7 +335,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Product id is not set or invalid', $responseData['message']);
+        $this->assertSame('Product id is not set or invalid.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -360,7 +360,7 @@ class ProductEditControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('Product id: ' . 999999999 . ' not found', $responseData['message']);
+        $this->assertSame('Product id: 999999999 not found.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_NOT_FOUND);
     }
 
@@ -440,7 +440,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Invalid access token', $responseData['message']);
+        $this->assertSame('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -484,7 +484,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Product id is not set or invalid', $responseData['message']);
+        $this->assertSame('Product id is not set or invalid.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -507,7 +507,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Product id is not set or invalid', $responseData['message']);
+        $this->assertSame('Product id is not set or invalid.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -531,7 +531,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Process is not valid (allowed: add, remove)', $responseData['message']);
+        $this->assertSame('Process is not valid (allowed: add, remove).', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -556,7 +556,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Category list not set', $responseData['message']);
+        $this->assertSame('Category list not set.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -582,7 +582,7 @@ class ProductEditControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('Category: non existing category not found', $responseData['message']);
+        $this->assertSame('Category: non existing category not found.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_NOT_FOUND);
     }
 
@@ -662,7 +662,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Invalid access token', $responseData['message']);
+        $this->assertSame('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -706,7 +706,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Product id is not set or invalid', $responseData['message']);
+        $this->assertSame('Product id is not set or invalid.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -729,7 +729,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Product id is not set or invalid', $responseData['message']);
+        $this->assertSame('Product id is not set or invalid.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -753,7 +753,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Process is not valid (allowed: add, remove)', $responseData['message']);
+        $this->assertSame('Process is not valid (allowed: add, remove).', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -778,7 +778,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Attribute name not set', $responseData['message']);
+        $this->assertSame('Attribute name not set.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -804,7 +804,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Attribute: invalid-name not found', $responseData['message']);
+        $this->assertSame('Attribute: invalid-name not found.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_NOT_FOUND);
     }
 
@@ -830,7 +830,7 @@ class ProductEditControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Attribute value not set', $responseData['message']);
+        $this->assertSame('Attribute value not set.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 

@@ -55,7 +55,7 @@ class LogoutControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Invalid access token', $responseData['message']);
+        $this->assertSame('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -139,7 +139,7 @@ class LogoutControllerTest extends CustomTestCase
         $this->assertNotEmpty($responseData);
         $this->assertArrayHasKey('status', $responseData);
         $this->assertSame('success', $responseData['status']);
-        $this->assertSame('user successfully logged out', $responseData['message']);
+        $this->assertSame('User successfully logged out!', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
     }
 }
