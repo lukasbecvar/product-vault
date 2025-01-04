@@ -71,6 +71,7 @@ Based on [api-base](https://github.com/lukasbecvar/api-base)
 
 ## Backlog
 - [ ] API controller for log manager
+- [ ] API controller for create category and attributes
 - [ ] Cache system
     - [ ] Cache product by id when product is requested
     - [ ] Get product by id from cache or mysql database if not in cache
