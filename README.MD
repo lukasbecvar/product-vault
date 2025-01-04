@@ -13,6 +13,7 @@ You can install the application on your server as a classic PHP application and 
 ## Environment configuration variables
 | Variable | Description | Default value |
 | --- | --- | --- |
+| `APP_ENV` | Specific enviroment name | `dev` |
 | `APP_SECRET` | Session & token encrypton key | `369af56dccfce490cb9325e8b4b59a90` |
 | `API_TOKEN` | API access token for authentication | `1234` |
 | `APP_VERSION` | App version identifier | `1.0` |
