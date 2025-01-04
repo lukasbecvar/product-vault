@@ -1,56 +1,57 @@
-nelmio_api_doc:
-    documentation:
-        info:
-            title: 'Product Vault API'
-            description: 'REST-API documentation'
-            version: '%env(APP_VERSION)%'
+when@dev:
+    nelmio_api_doc:
+        documentation:
+            info:
+                title: 'Product Vault API'
+                description: 'REST-API documentation'
+                version: '%env(APP_VERSION)%'
 
-        # security components
-        components:
-            securitySchemes:
-                JWTSecurity:
-                    type: http
-                    scheme: bearer
-                    bearerFormat: JWT
-                    description: 'JWT token for user login'
-                    required: true
-                XApiToken:
-                    type: apiKey
-                    in: header
-                    name: X-API-TOKEN
-                    description: 'API Access Token'
-                    required: true
-
-        # include security components
-        security:
-            - JWTSecurity: []   # JWT Security (user login)
-            - XApiToken: []     # API Access Token (validate request)
-
-        # static docs
-        paths:
-            # JWT login api endpoint documentation
-            /api/auth/login:
-                post:
-                    tags: ['Auth']
-                    summary: User login action
-                    description: User login for get JWT auth token
-                    responses:
-                        200: 
-                            description: Successful login (return token)
-                        401: 
-                            description: Invalid credentials
-                        400: 
-                            description: Bad request body data
-                    requestBody:
+            # security components
+            components:
+                securitySchemes:
+                    JWTSecurity:
+                        type: http
+                        scheme: bearer
+                        bearerFormat: JWT
+                        description: 'JWT token for user login'
                         required: true
-                        content:
-                            application/json:
-                                schema:
-                                    type: object
-                                    properties:
-                                        email:
-                                            type: email
-                                            default: test@test.test
-                                        password:
-                                            type: string
-                                            default: test
+                    XApiToken:
+                        type: apiKey
+                        in: header
+                        name: X-API-TOKEN
+                        description: 'API Access Token'
+                        required: true
+
+            # include security components
+            security:
+                - JWTSecurity: []   # JWT Security (user login)
+                - XApiToken: []     # API Access Token (validate request)
+
+            # static docs
+            paths:
+                # JWT login api endpoint documentation
+                /api/auth/login:
+                    post:
+                        tags: ['Auth']
+                        summary: User login action
+                        description: User login for get JWT auth token
+                        responses:
+                            200: 
+                                description: Successful login (return token)
+                            401: 
+                                description: Invalid credentials
+                            400: 
+                                description: Bad request body data
+                        requestBody:
+                            required: true
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            email:
+                                                type: email
+                                                default: test@test.test
+                                            password:
+                                                type: string
+                                                default: test
