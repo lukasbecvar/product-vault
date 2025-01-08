@@ -130,6 +130,11 @@ class ProductFixtures extends Fixture
         $testingCategory->setName('Non assigned test category');
         $manager->persist($testingCategory);
 
+        // create testing category to delete
+        $testingCategoryToDelete = new Category();
+        $testingCategoryToDelete->setName('Testing category to delete');
+        $manager->persist($testingCategoryToDelete);
+
         // create non assigned test attribute
         $attribute = new Attribute();
         $attribute->setName('Non assigned test attribute');
