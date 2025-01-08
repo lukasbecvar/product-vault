@@ -116,6 +116,20 @@ class CategoryManagerTest extends TestCase
     }
 
     /**
+     * Test get categories list (raw with database ids and names)
+     *
+     * @return void
+     */
+    public function testGetCategoriesListRaw(): void
+    {
+        // call tested method
+        $result = $this->categoryManager->getCategoriesListRaw();
+
+        // assert result
+        $this->assertIsArray($result);
+    }
+
+    /**
      * Test create category
      *
      * @return void

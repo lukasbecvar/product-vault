@@ -82,6 +82,21 @@ class CategoryManager
     }
 
     /**
+     * Get categories list (raw with database ids and names)
+     *
+     * @return list<array<string, int|string|null>> The categories list
+     */
+    public function getCategoriesListRaw(): array
+    {
+        return array_map(function ($category) {
+            return [
+                'id' => $category->getId(),
+                'name' => $category->getName()
+            ];
+        }, $this->categoryRepository->findAll());
+    }
+
+    /**
      * Create category entity in database
      *
      * @param string $name The category name

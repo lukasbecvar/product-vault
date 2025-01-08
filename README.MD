@@ -11,7 +11,7 @@ Open-source API system for managing product databases, designed with a focus on 
 You can install the application on your server as a classic PHP application and manage dependencies via Composer, or you can use Docker.
 
 ## Environment configuration variables
-| Variable | Description | Default value |
+| Variable | Description | Example value |
 | --- | --- | --- |
 | `APP_ENV` | Specific enviroment name | `dev` |
 | `APP_SECRET` | Session & token encrypton key | `369af56dccfce490cb9325e8b4b59a90` |
@@ -71,7 +71,6 @@ Based on [api-base](https://github.com/lukasbecvar/api-base)
 
 ## Backlog
 - [ ] API controller for log manager
-- [ ] API controller for create category and attributes
 - [ ] Cache system
     - [ ] Cache product by id when product is requested
     - [ ] Get product by id from cache or mysql database if not in cache
