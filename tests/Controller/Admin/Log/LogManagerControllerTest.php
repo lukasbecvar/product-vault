@@ -7,19 +7,120 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
- * Class LogManagerController
+ * Class LogManagerControllerTest
  *
  * Test cases for log manager controller
  *
  * @package App\Tests\Controller\Admin\Log
  */
-class LogManagerController extends CustomTestCase
+class LogManagerControllerTest extends CustomTestCase
 {
     private KernelBrowser $client;
 
     protected function setUp(): void
     {
         $this->client = static::createClient();
+    }
+
+    /**
+     * Test set all logs status to readed when request method is invalid
+     *
+     * @return void
+     */
+    public function testSetAllLogsStatusToReadedWhenRequestMethodIsInvalid(): void
+    {
+        $this->client->request('GET', '/api/admin/log/status/set/all/readed');
+
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
+
+        // assert response
+        $this->assertSame('error', $responseData['status']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * Test set all logs status to readed when api access token is not provided
+     *
+     * @return void
+     */
+    public function testSetAllLogsStatusToReadedWhenApiAccessTokenIsNotProvided(): void
+    {
+        $this->client->request('POST', '/api/admin/log/status/set/all/readed', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+        ]);
+
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
+
+        // assert response
+        $this->assertSame('error', $responseData['status']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * Test set all logs status to readed when api access token is invalid
+     *
+     * @return void
+     */
+    public function testSetAllLogsStatusToReadedWhenApiAccessTokenIsInvalid(): void
+    {
+        $this->client->request('POST', '/api/admin/log/status/set/all/readed', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => 'invalud-token',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
+        ]);
+
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
+
+        // assert response
+        $this->assertSame('error', $responseData['status']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * Test set all logs status to readed when auth token is invalid
+     *
+     * @return void
+     */
+    public function testSetAllLogsStatusToReadedWhenAuthTokenIsInvalid(): void
+    {
+        $this->client->request('POST', '/api/admin/log/status/set/all/readed', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
+            'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
+        ]);
+
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
+
+        // assert response
+        $this->assertEquals('Invalid JWT Token', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * Test set all logs status to readed when response is success
+     *
+     * @return void
+     */
+    public function testSetAllLogsStatusToReadedWhenResponseIsSuccess(): void
+    {
+        $this->client->request('POST', '/api/admin/log/status/set/all/readed', [], [], [
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
+        ]);
+
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
+
+        // assert response
+        $this->assertSame('success', $responseData['status']);
+        $this->assertSame('Update all logs status to READED successfully!', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
     }
 
     /**

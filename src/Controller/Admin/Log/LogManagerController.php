@@ -2,8 +2,10 @@
 
 namespace App\Controller\Admin\Log;
 
+use Exception;
 use App\Manager\LogManager;
 use OpenApi\Attributes\Tag;
+use App\Manager\ErrorManager;
 use OpenApi\Attributes\Response;
 use OpenApi\Attributes\Parameter;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,10 +24,39 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class LogManagerController extends AbstractController
 {
     private LogManager $logManager;
+    private ErrorManager $errorManager;
 
-    public function __construct(LogManager $logManager)
+    public function __construct(LogManager $logManager, ErrorManager $errorManager)
     {
         $this->logManager = $logManager;
+        $this->errorManager = $errorManager;
+    }
+
+    /**
+     * Update all logs status to READED
+     *
+     * @return JsonResponse The all logs update status response
+     */
+    #[IsGranted('ROLE_ADMIN')]
+    #[Tag(name: "Admin (log manager)")]
+    #[Route('/api/admin/log/status/set/all/readed', methods:['POST'], name: 'set_logs_status_all_readed')]
+    #[Response(response: JsonResponse::HTTP_OK, description: 'Update logs status to READED successfully!')]
+    #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: 'Error to update logs')]
+    public function setLogsStatusAllReaded(): JsonResponse
+    {
+        try {
+            $this->logManager->setAllLogsToReaded();
+            return $this->json([
+                'status' => 'success',
+                'message' => 'Update all logs status to READED successfully!'
+            ], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'Error to update all logs status to READED!',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage(),
+            );
+        }
     }
 
     /**
