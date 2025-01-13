@@ -2,6 +2,7 @@
 
 namespace App\Tests\Manager;
 
+use DateTime;
 use Exception;
 use App\Entity\Log;
 use App\Util\AppUtil;
@@ -300,5 +301,43 @@ class LogManagerTest extends TestCase
 
         // call tested method
         $this->logManager->truncateLogsTable();
+    }
+
+    /**
+     * Test format log entity to array
+     *
+     * @return void
+     */
+    public function testFormatLogs(): void
+    {
+        // mock log entity
+        $fakeLog = $this->createMock(Log::class);
+        $fakeLog->method('getId')->willReturn(1);
+        $fakeLog->method('getName')->willReturn('Test log');
+        $fakeLog->method('getMessage')->willReturn('Test message');
+        $fakeLog->method('getTime')->willReturn(new DateTime());
+        $fakeLog->method('getUserAgent')->willReturn('Test user agent');
+        $fakeLog->method('getRequestUri')->willReturn('/test-uri');
+        $fakeLog->method('getRequestMethod')->willReturn('POST');
+        $fakeLog->method('getIpAddress')->willReturn('127.0.0.1');
+        $fakeLog->method('getLevel')->willReturn(LogManager::LEVEL_WARNING);
+        $fakeLog->method('getUserId')->willReturn(1);
+        $fakeLog->method('getStatus')->willReturn('READED');
+
+        // call tested method
+        $formattedLog = $this->logManager->formatLogs($fakeLog);
+
+        // assert logs are returned as expected
+        $this->assertArrayHasKey('id', $formattedLog);
+        $this->assertArrayHasKey('name', $formattedLog);
+        $this->assertArrayHasKey('message', $formattedLog);
+        $this->assertArrayHasKey('time', $formattedLog);
+        $this->assertArrayHasKey('user_agent', $formattedLog);
+        $this->assertArrayHasKey('request_uri', $formattedLog);
+        $this->assertArrayHasKey('request_method', $formattedLog);
+        $this->assertArrayHasKey('ip_address', $formattedLog);
+        $this->assertArrayHasKey('level', $formattedLog);
+        $this->assertArrayHasKey('user_id', $formattedLog);
+        $this->assertArrayHasKey('status', $formattedLog);
     }
 }

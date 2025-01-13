@@ -315,4 +315,51 @@ class LogManager
             level: self::LEVEL_CRITICAL
         );
     }
+
+    /**
+     * Get formated logs by status with pagination
+     *
+     * @param string $status The status of the logs
+     * @param int $page The page number
+     * @param int $paginationLimit The pagination limit (default: get from env value LIMIT_CONTENT_PER_PAGE)
+     *
+     * @return array<array<mixed>> Formated logs list
+     */
+    public function getFormatedLogs(string $status, int $page, ?int $paginationLimit = null): array
+    {
+        // get logs by status
+        $logs = $this->getLogsByStatus($status, $page, $paginationLimit);
+
+        // format logs
+        $formattedLogs = [];
+        foreach ($logs as $log) {
+            $formattedLogs[] = $this->formatLogs($log);
+        }
+
+        return $formattedLogs;
+    }
+
+    /**
+     * Format log entity to array
+     *
+     * @param Log $log The log entity
+     *
+     * @return array<mixed> The formatted log
+     */
+    public function formatLogs(Log $log): array
+    {
+        return [
+            'id' => $log->getId(),
+            'name' => $log->getName(),
+            'message' => $log->getMessage(),
+            'time' => $log->getTime(),
+            'user_agent' => $log->getUserAgent(),
+            'request_uri' => $log->getRequestUri(),
+            'request_method' => $log->getRequestMethod(),
+            'ip_address' => $log->getIpAddress(),
+            'level' => $log->getLevel(),
+            'user_id' => $log->getUserId(),
+            'status' => $log->getStatus()
+        ];
+    }
 }
