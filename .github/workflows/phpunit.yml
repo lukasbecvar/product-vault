@@ -42,7 +42,7 @@ jobs:
 
       # composer install
       - name: Install dependencies
-        run: composer install --no-interaction --no-progress --no-suggest
+        run: composer install --no-interaction --no-progress
 
       # create test database
       - name: Create database
