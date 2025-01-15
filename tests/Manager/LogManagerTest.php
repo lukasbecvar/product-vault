@@ -271,6 +271,22 @@ class LogManagerTest extends TestCase
     }
 
     /**
+     * Test get logs statistics and count
+     *
+     * @return void
+     */
+    public function testGetLogsStats(): void
+    {
+        // call tested method
+        $result = $this->logManager->getLogsStats();
+
+        // assert result
+        $this->assertArrayHasKey('logs_count', $result);
+        $this->assertArrayHasKey('unreaded_logs_count', $result);
+        $this->assertArrayHasKey('readed_logs_count', $result);
+    }
+
+    /**
      * Test truncate logs table
      *
      * @return void

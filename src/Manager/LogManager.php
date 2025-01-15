@@ -288,6 +288,33 @@ class LogManager
     }
 
     /**
+     * Get logs statistics and count
+     *
+     * @return array<string, int> Logs statistics and count
+     */
+    public function getLogsStats(): array
+    {
+        // get data
+        try {
+            $logsCount = $this->logRepository->count([]);
+            $unreadedLogsCount = $this->logRepository->count(['status' => 'UNREADED']);
+            $readedLogsCount = $this->logRepository->count(['status' => 'READED']);
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'Error to get logs statistics and count',
+                code: Response::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
+
+        return [
+            'logs_count' => $logsCount,
+            'unreaded_logs_count' => $unreadedLogsCount,
+            'readed_logs_count' => $readedLogsCount,
+        ];
+    }
+
+    /**
      * Truncate logs table
      *
      * This method truncates the logs table in the database
