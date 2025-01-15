@@ -6,7 +6,14 @@ when@dev:
                 description: 'REST-API documentation'
                 version: '%env(APP_VERSION)%'
 
-            # security components
+            # app servers
+            servers:
+                - url: 'http://localhost' # testing dev env
+                  description: 'Local development environment'
+                - url: 'https://vault.becvar.xyz' # live production system server url
+                  description: 'Production server'
+
+            # security components (for user authentication and authorization)
             components:
                 securitySchemes:
                     JWTSecurity:
