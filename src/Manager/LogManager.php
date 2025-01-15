@@ -336,7 +336,13 @@ class LogManager
             $formattedLogs[] = $this->formatLogs($log);
         }
 
-        return $formattedLogs;
+        // get pagination info
+        $paginationInfo = $this->logRepository->getPaginationInfo($status, $page, $paginationLimit);
+
+        return [
+            'logs_data' => $formattedLogs,
+            'pagination_info' => $paginationInfo,
+        ];
     }
 
     /**

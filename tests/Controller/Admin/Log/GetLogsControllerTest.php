@@ -116,17 +116,24 @@ class GetLogsControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('success', $responseData['status']);
-        $this->assertArrayHasKey('logs', $responseData);
-        $this->assertArrayHasKey('name', $responseData['logs'][1]);
-        $this->assertArrayHasKey('message', $responseData['logs'][1]);
-        $this->assertArrayHasKey('status', $responseData['logs'][1]);
-        $this->assertArrayHasKey('time', $responseData['logs'][1]);
-        $this->assertArrayHasKey('user_agent', $responseData['logs'][1]);
-        $this->assertArrayHasKey('request_uri', $responseData['logs'][1]);
-        $this->assertArrayHasKey('request_method', $responseData['logs'][1]);
-        $this->assertArrayHasKey('ip_address', $responseData['logs'][1]);
-        $this->assertArrayHasKey('level', $responseData['logs'][1]);
-        $this->assertArrayHasKey('user_id', $responseData['logs'][1]);
+        $this->assertArrayHasKey('logs_data', $responseData['data']);
+        $this->assertArrayHasKey('pagination_info', $responseData['data']);
+        $this->assertArrayHasKey('name', $responseData['data']['logs_data'][1]);
+        $this->assertArrayHasKey('message', $responseData['data']['logs_data'][1]);
+        $this->assertArrayHasKey('status', $responseData['data']['logs_data'][1]);
+        $this->assertArrayHasKey('time', $responseData['data']['logs_data'][1]);
+        $this->assertArrayHasKey('user_agent', $responseData['data']['logs_data'][1]);
+        $this->assertArrayHasKey('request_uri', $responseData['data']['logs_data'][1]);
+        $this->assertArrayHasKey('request_method', $responseData['data']['logs_data'][1]);
+        $this->assertArrayHasKey('ip_address', $responseData['data']['logs_data'][1]);
+        $this->assertArrayHasKey('level', $responseData['data']['logs_data'][1]);
+        $this->assertArrayHasKey('user_id', $responseData['data']['logs_data'][1]);
+        $this->assertArrayHasKey('total_logs_count', $responseData['data']['pagination_info']);
+        $this->assertArrayHasKey('current_page', $responseData['data']['pagination_info']);
+        $this->assertArrayHasKey('total_pages_count', $responseData['data']['pagination_info']);
+        $this->assertArrayHasKey('is_next_page_exists', $responseData['data']['pagination_info']);
+        $this->assertArrayHasKey('is_previous_page_exists', $responseData['data']['pagination_info']);
+        $this->assertArrayHasKey('last_page_number', $responseData['data']['pagination_info']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
     }
 }

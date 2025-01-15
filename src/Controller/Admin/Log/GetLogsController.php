@@ -49,10 +49,10 @@ class GetLogsController extends AbstractController
         $status = (string) $request->query->get('status', 'UNREADED');
 
         // get logs list
-        $logs = $this->logManager->getFormatedLogs($status, $page);
+        $logsData = $this->logManager->getFormatedLogs($status, $page);
 
         // check if logs list found
-        if (empty($logs)) {
+        if (empty($logsData['logs_data'])) {
             return $this->json([
                 'status' => 'error',
                 'message' => 'No logs found for specified filters'
@@ -62,7 +62,7 @@ class GetLogsController extends AbstractController
         // return logs list
         return $this->json([
             'status' => 'success',
-            'logs' => $logs
+            'data' => $logsData
         ], JsonResponse::HTTP_OK);
     }
 }

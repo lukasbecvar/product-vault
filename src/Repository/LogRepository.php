@@ -84,4 +84,42 @@ class LogRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
+    /**
+     * Get logs pagination info
+     *
+     * @param string $status The status of the logs
+     * @param int $currentPage The current page number
+     * @param int $limit The limit of logs per page (default: 50)
+     *
+     * @return array<string, int|bool> Pagination info
+     */
+    public function getPaginationInfo(string $status, int $currentPage, ?int $limit): array
+    {
+        // set default limit if not provided
+        if ($limit === null) {
+            $limit = 50;
+        }
+
+        $queryBuilder = $this->createQueryBuilder('log')
+            ->select('COUNT(log.id) as totalLogs')
+            ->where('log.status = :status')
+            ->setParameter('status', $status);
+
+        // get pagination info data
+        $totalLogsCount = (int) $queryBuilder->getQuery()->getSingleScalarResult();
+        $totalPagesCount = (int) ceil($totalLogsCount / $limit);
+        $isNextPageExists = $currentPage < $totalPagesCount;
+        $isPreviousPageExists = $currentPage > 1;
+        $lastPageNumber = $totalPagesCount;
+
+        return [
+            'total_logs_count' => $totalLogsCount,
+            'current_page' => $currentPage,
+            'total_pages_count' => $totalPagesCount,
+            'is_next_page_exists' => $isNextPageExists,
+            'is_previous_page_exists' => $isPreviousPageExists,
+            'last_page_number' => $lastPageNumber,
+        ];
+    }
 }
