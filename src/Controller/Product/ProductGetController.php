@@ -58,6 +58,11 @@ class ProductGetController extends AbstractController
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
+        // set requested currency to uppercase
+        if ($requestedCurrency !== null) {
+            $requestedCurrency = strtoupper($requestedCurrency);
+        }
+
         // get product by id
         $product = $this->productManager->getProductById($productId);
 
@@ -172,11 +177,15 @@ class ProductGetController extends AbstractController
             currency: $currency,
         );
 
+        // get stats data
+        $stats = $this->productManager->getProductStats();
+
         // return products list
         return $this->json([
             'status' => 'success',
             'products_data' => $data['products'],
             'pagination_info' => $data['pagination_info'],
+            'stats' => $stats,
         ], JsonResponse::HTTP_OK);
     }
 }

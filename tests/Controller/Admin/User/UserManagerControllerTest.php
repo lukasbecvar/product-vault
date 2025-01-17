@@ -29,7 +29,7 @@ class UserManagerControllerTest extends CustomTestCase
      */
     public function testUpdateUserRoleWhenRequestMethodIsNotValid(): void
     {
-        $this->client->request('GET', '/api/admin/user/data/update/role');
+        $this->client->request('GET', '/api/admin/user/update/role');
 
         /** @var array<mixed> $responseData */
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
@@ -46,7 +46,7 @@ class UserManagerControllerTest extends CustomTestCase
      */
     public function testUpdateUserRoleWhenAuthTokenIsNotProvided(): void
     {
-        $this->client->request('PATCH', '/api/admin/user/data/update/role');
+        $this->client->request('PATCH', '/api/admin/user/update/role');
 
         /** @var array<mixed> $responseData */
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
@@ -63,7 +63,7 @@ class UserManagerControllerTest extends CustomTestCase
      */
     public function testUpdateUserRoleWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('PATCH', '/api/admin/user/data/update/role', [], [], [
+        $this->client->request('PATCH', '/api/admin/user/update/role', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
@@ -84,7 +84,7 @@ class UserManagerControllerTest extends CustomTestCase
      */
     public function testUpdateUserRoleWhenUserIdIsNotValid(): void
     {
-        $this->client->request('PATCH', '/api/admin/user/data/update/role', [], [], [
+        $this->client->request('PATCH', '/api/admin/user/update/role', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
@@ -109,7 +109,7 @@ class UserManagerControllerTest extends CustomTestCase
      */
     public function testUpdateUserRoleWhenTaskIsNotValid(): void
     {
-        $this->client->request('PATCH', '/api/admin/user/data/update/role', [], [], [
+        $this->client->request('PATCH', '/api/admin/user/update/role', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
@@ -123,7 +123,7 @@ class UserManagerControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Task is not valid!', $responseData['message']);
+        $this->assertSame('Task is not valid (allowed: add, remove)!', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -134,7 +134,7 @@ class UserManagerControllerTest extends CustomTestCase
      */
     public function testUpdateUserRoleWhenRoleIsNotValid(): void
     {
-        $this->client->request('PATCH', '/api/admin/user/data/update/role', [], [], [
+        $this->client->request('PATCH', '/api/admin/user/update/role', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
@@ -159,7 +159,7 @@ class UserManagerControllerTest extends CustomTestCase
      */
     public function testUpdateUserRoleWhenUserRoleIsAlreadySet(): void
     {
-        $this->client->request('PATCH', '/api/admin/user/data/update/role', [], [], [
+        $this->client->request('PATCH', '/api/admin/user/update/role', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
@@ -184,7 +184,7 @@ class UserManagerControllerTest extends CustomTestCase
      */
     public function testUpdateUserRoleWhenSuccessful(): void
     {
-        $this->client->request('PATCH', '/api/admin/user/data/update/role', [], [], [
+        $this->client->request('PATCH', '/api/admin/user/update/role', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
@@ -209,7 +209,7 @@ class UserManagerControllerTest extends CustomTestCase
      */
     public function testUpdateUserStatusWhenRequestMethodIsNotValid(): void
     {
-        $this->client->request('POST', '/api/admin/user/data/update/status');
+        $this->client->request('POST', '/api/admin/user/update/status');
 
         /** @var array<mixed> $responseData */
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
@@ -226,7 +226,7 @@ class UserManagerControllerTest extends CustomTestCase
      */
     public function testUpdateUserStatusWhenAuthTokenIsNotProvided(): void
     {
-        $this->client->request('PATCH', '/api/admin/user/data/update/status');
+        $this->client->request('PATCH', '/api/admin/user/update/status');
 
         /** @var array<mixed> $responseData */
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
@@ -243,7 +243,7 @@ class UserManagerControllerTest extends CustomTestCase
      */
     public function testUpdateUserStatusWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('PATCH', '/api/admin/user/data/update/status', [], [], [
+        $this->client->request('PATCH', '/api/admin/user/update/status', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
@@ -264,7 +264,7 @@ class UserManagerControllerTest extends CustomTestCase
      */
     public function testUpdateUserStatusWhenUserIdIsNotProvided(): void
     {
-        $this->client->request('PATCH', '/api/admin/user/data/update/status', [], [], [
+        $this->client->request('PATCH', '/api/admin/user/update/status', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
@@ -285,7 +285,7 @@ class UserManagerControllerTest extends CustomTestCase
      */
     public function testUpdateUserStatusWhenRequestInputDataIsEmpty(): void
     {
-        $this->client->request('PATCH', '/api/admin/user/data/update/status', [], [], [
+        $this->client->request('PATCH', '/api/admin/user/update/status', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
@@ -309,7 +309,7 @@ class UserManagerControllerTest extends CustomTestCase
      */
     public function testUpdateUserStatusWhenUserStatusIsAlreadySet(): void
     {
-        $this->client->request('PATCH', '/api/admin/user/data/update/status', [], [], [
+        $this->client->request('PATCH', '/api/admin/user/update/status', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
@@ -333,7 +333,7 @@ class UserManagerControllerTest extends CustomTestCase
      */
     public function testUpdateUserStatusSuccessful(): void
     {
-        $this->client->request('PATCH', '/api/admin/user/data/update/status', [], [], [
+        $this->client->request('PATCH', '/api/admin/user/update/status', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),

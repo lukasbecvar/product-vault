@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Tests\Controller\Admin\Log;
+namespace App\Tests\Controller\Admin\Product\Category;
 
 use App\Tests\CustomTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
- * Class GetLogsStatsControllerTest
+ * Class GetProductCategoryListControllerTest
  *
- * Test cases for log manager controller
+ * Test cases for categories get controller
  *
- * @package App\Tests\Controller\Admin\Log
+ * @package App\Tests\Controller\Admin\Product\Category
  */
-class GetLogsStatsControllerTest extends CustomTestCase
+class GetProductCategoryListControllerTest extends CustomTestCase
 {
     private KernelBrowser $client;
 
@@ -23,13 +23,13 @@ class GetLogsStatsControllerTest extends CustomTestCase
     }
 
     /**
-     * Test get logs statistics and count when request method is invalid
+     * Test get all product categories when request method is invalid
      *
      * @return void
      */
-    public function testGetLogsStatsListWhenRequestMethodIsInvalid(): void
+    public function testGetAllProductCategoriesWhenRequestMethodIsInvalid(): void
     {
-        $this->client->request('POST', '/api/admin/logs/stats');
+        $this->client->request('POST', '/api/admin/product/category/list');
 
         /** @var array<mixed> $responseData */
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
@@ -40,13 +40,13 @@ class GetLogsStatsControllerTest extends CustomTestCase
     }
 
     /**
-     * Test get logs statistics and count when api access token is not provided
+     * Test get all product categories when api access token is not provided
      *
      * @return void
      */
-    public function testGetLogsStatsListWhenApiAccessTokenIsNotProvided(): void
+    public function testGetAllProductCategoriesWhenApiAccessTokenIsNotProvided(): void
     {
-        $this->client->request('GET', '/api/admin/logs/stats', [], [], [
+        $this->client->request('GET', '/api/admin/product/category/list', [], [], [
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ]);
 
@@ -59,13 +59,13 @@ class GetLogsStatsControllerTest extends CustomTestCase
     }
 
     /**
-     * Test get logs statistics and count when api access token is invalid
+     * Test get all product categories when api access token is invalid
      *
      * @return void
      */
-    public function testGetLogsStatsListWhenApiAccessTokenIsInvalid(): void
+    public function testGetAllProductCategoriesWhenApiAccessTokenIsInvalid(): void
     {
-        $this->client->request('GET', '/api/admin/logs/stats', [], [], [
+        $this->client->request('GET', '/api/admin/product/category/list', [], [], [
             'HTTP_X_API_TOKEN' => 'invalud-token',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
@@ -80,13 +80,13 @@ class GetLogsStatsControllerTest extends CustomTestCase
     }
 
     /**
-     * Test get logs statistics and count when auth token is invalid
+     * Test get all product categories when auth token is invalid
      *
      * @return void
      */
-    public function testGetLogsStatsListWhenAuthTokenIsInvalid(): void
+    public function testGetAllProductCategoriesWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('GET', '/api/admin/logs/stats', [], [], [
+        $this->client->request('GET', '/api/admin/product/category/list', [], [], [
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
         ]);
@@ -100,13 +100,13 @@ class GetLogsStatsControllerTest extends CustomTestCase
     }
 
     /**
-     * Test get logs statistics and count when response is success
+     * Test get all product categories when response is success
      *
      * @return void
      */
-    public function testGetLogsStatsListWhenResponseIsSuccess(): void
+    public function testGetAllProductCategoriesWhenResponseIsSuccess(): void
     {
-        $this->client->request('GET', '/api/admin/logs/stats', [], [], [
+        $this->client->request('GET', '/api/admin/product/category/list', [], [], [
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
@@ -116,9 +116,7 @@ class GetLogsStatsControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('success', $responseData['status']);
-        $this->assertArrayHasKey('logs_count', $responseData['data']);
-        $this->assertArrayHasKey('unreaded_logs_count', $responseData['data']);
-        $this->assertArrayHasKey('readed_logs_count', $responseData['data']);
+        $this->assertArrayHasKey('categories', $responseData);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
     }
 }

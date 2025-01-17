@@ -10,6 +10,7 @@ use App\Manager\ProductManager;
 use OpenApi\Attributes\Property;
 use OpenApi\Attributes\Response;
 use OpenApi\Attributes\MediaType;
+use OpenApi\Attributes\Parameter;
 use OpenApi\Attributes\RequestBody;
 use App\Manager\ProductAssetsManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,6 +49,7 @@ class ProductAssetManagerController extends AbstractController
      *
      * @return JsonResponse The status response in JSON
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Tag(name: "Admin (product manager)")]
     #[RequestBody(
         content: [
@@ -71,11 +73,10 @@ class ProductAssetManagerController extends AbstractController
         ]
     )]
     #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: "Product not found")]
-    #[Response(response: JsonResponse::HTTP_BAD_REQUEST, description: "Invalid file type")]
-    #[Response(response: JsonResponse::HTTP_OK, description: "The icon file uploaded successfully")]
-    #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: "The icon file upload failed")]
-    #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/admin/product/asset/create/icon', methods:['POST'], name: 'create_product_icon')]
+    #[Response(response: JsonResponse::HTTP_BAD_REQUEST, description: "Invalid request data")]
+    #[Response(response: JsonResponse::HTTP_CREATED, description: "The icon file uploaded successfully")]
+    #[Response(response: JsonResponse::HTTP_OK, description: "The icon file updated successfully")]
+    #[Route('/api/admin/product/asset/icon/create', methods:['POST'], name: 'create_product_icon')]
     public function createProductIcon(Request $request): JsonResponse
     {
         // get request parameters
@@ -126,15 +127,19 @@ class ProductAssetManagerController extends AbstractController
         try {
             if ($this->productAssetsManager->checkIfProductHaveIcon($product)) {
                 $this->productAssetsManager->updateProductIcon($iconFile->getPathname(), $product, $iconFile->getClientOriginalExtension());
+                return $this->json([
+                    'status' => 'success',
+                    'message' => 'Product icon updated successfully!',
+                    'product_data' => $this->productManager->formatProductData($product)
+                ], JsonResponse::HTTP_OK);
             } else {
                 $this->productAssetsManager->createProductIcon($iconFile->getPathname(), $product, $iconFile->getClientOriginalExtension());
+                return $this->json([
+                    'status' => 'success',
+                    'message' => 'Product icon uploaded successfully!',
+                    'product_data' => $this->productManager->formatProductData($product)
+                ], JsonResponse::HTTP_CREATED);
             }
-
-            return $this->json([
-                'status' => 'success',
-                'message' => 'Product icon uploaded successfully!',
-                'product_data' => $this->productManager->formatProductData($product)
-            ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'Product icon upload failed',
@@ -151,6 +156,7 @@ class ProductAssetManagerController extends AbstractController
      *
      * @return JsonResponse The status response in JSON
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Tag(name: "Admin (product manager)")]
     #[RequestBody(
         content: [
@@ -174,10 +180,8 @@ class ProductAssetManagerController extends AbstractController
         ]
     )]
     #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: "Product not found")]
-    #[Response(response: JsonResponse::HTTP_BAD_REQUEST, description: "Invalid file type")]
-    #[Response(response: JsonResponse::HTTP_OK, description: "The image file uploaded successfully")]
-    #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: "The image file upload failed")]
-    #[IsGranted('ROLE_ADMIN')]
+    #[Response(response: JsonResponse::HTTP_BAD_REQUEST, description: "Invalid request data")]
+    #[Response(response: JsonResponse::HTTP_CREATED, description: "The image file uploaded successfully")]
     #[Route('/api/admin/product/asset/create/image', methods:['POST'], name: 'create_product_image')]
     public function createProductImage(Request $request): JsonResponse
     {
@@ -249,33 +253,14 @@ class ProductAssetManagerController extends AbstractController
      *
      * @return JsonResponse The status response in JSON
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Tag(name: "Admin (product manager)")]
-    #[RequestBody(
-        content: [
-            new MediaType(
-                mediaType: "multipart/form-data",
-                schema: new Schema(properties: [
-                    new Property(
-                        property: "product_id",
-                        type: "integer",
-                        description: "Product id to delete image",
-                        example: 1
-                    ),
-                    new Property(
-                        property: "image_id",
-                        type: "integer",
-                        description: "Image id to delete",
-                        example: 1
-                    )
-                ])
-            )
-        ]
-    )]
+    #[Parameter(name: 'product_id', in: 'query', description: 'Product id associated with image', required: true)]
+    #[Parameter(name: 'image_id', in: 'query', description: 'Image id to delete', required: true)]
     #[Response(response: JsonResponse::HTTP_OK, description: "The image deleted successfully")]
     #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: "Product or image not found")]
     #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: "The image delete failed")]
-    #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/admin/product/asset/delete/image', methods:['POST'], name: 'delete_product_image')]
+    #[Route('/api/admin/product/asset/image/delete', methods:['DELETE'], name: 'delete_product_image')]
     public function deleteProductImage(Request $request): JsonResponse
     {
         // get request parameters

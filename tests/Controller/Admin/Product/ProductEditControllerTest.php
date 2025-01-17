@@ -29,7 +29,7 @@ class ProductEditControllerTest extends CustomTestCase
      */
     public function testUpdateProductDataWhenRequestMethodIsNotValid(): void
     {
-        $this->client->request('GET', '/api/admin/product/update/data');
+        $this->client->request('GET', '/api/admin/product/update');
 
         /** @var array<mixed> $responseData */
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
@@ -46,7 +46,7 @@ class ProductEditControllerTest extends CustomTestCase
      */
     public function testUpdateProductDataWhenAuthTokenIsNotProvided(): void
     {
-        $this->client->request('PATCH', '/api/admin/product/update/data');
+        $this->client->request('PATCH', '/api/admin/product/update');
 
         /** @var array<mixed> $responseData */
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
@@ -63,7 +63,7 @@ class ProductEditControllerTest extends CustomTestCase
      */
     public function testUpdateProductDataWhenApiAccessTokenIsNotProvided(): void
     {
-        $this->client->request('PATCH', '/api/admin/product/update/data', [], [], [
+        $this->client->request('PATCH', '/api/admin/product/update', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ]);
@@ -83,7 +83,7 @@ class ProductEditControllerTest extends CustomTestCase
      */
     public function testUpdateProductDataApiAccessTokenIsInvalid(): void
     {
-        $this->client->request('PATCH', '/api/admin/product/update/data', [], [], [
+        $this->client->request('PATCH', '/api/admin/product/update', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => 'invalud-token',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
@@ -104,7 +104,7 @@ class ProductEditControllerTest extends CustomTestCase
      */
     public function testUpdateProductDataWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('PATCH', '/api/admin/product/update/data', [], [], [
+        $this->client->request('PATCH', '/api/admin/product/update', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
@@ -125,7 +125,7 @@ class ProductEditControllerTest extends CustomTestCase
      */
     public function testUpdateProductDataWhenProductIdIsNotSet(): void
     {
-        $this->client->request('PATCH', '/api/admin/product/update/data', [], [], [
+        $this->client->request('PATCH', '/api/admin/product/update', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -148,7 +148,7 @@ class ProductEditControllerTest extends CustomTestCase
      */
     public function testUpdateProductDataWhenProductIdIsInvalid(): void
     {
-        $this->client->request('PATCH', '/api/admin/product/update/data', [], [], [
+        $this->client->request('PATCH', '/api/admin/product/update', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
@@ -172,7 +172,7 @@ class ProductEditControllerTest extends CustomTestCase
      */
     public function testUpdateProductDataWhenProductNotFound(): void
     {
-        $this->client->request('PATCH', '/api/admin/product/update/data', [], [], [
+        $this->client->request('PATCH', '/api/admin/product/update', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
@@ -196,7 +196,7 @@ class ProductEditControllerTest extends CustomTestCase
      */
     public function testUpdateProductDataWhenUpdateProductDataIsSuccessful(): void
     {
-        $this->client->request('PATCH', '/api/admin/product/update/data', [], [], [
+        $this->client->request('PATCH', '/api/admin/product/update', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),

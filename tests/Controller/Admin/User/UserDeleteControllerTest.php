@@ -46,7 +46,7 @@ class UserDeleteControllerTest extends CustomTestCase
      */
     public function testUpdateUserPasswordWhenAuthTokenIsNotProvided(): void
     {
-        $this->client->request('POST', '/api/admin/user/delete');
+        $this->client->request('DELETE', '/api/admin/user/delete');
 
         /** @var array<mixed> $responseData */
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
@@ -63,7 +63,7 @@ class UserDeleteControllerTest extends CustomTestCase
      */
     public function testDeleteUserWhenApiAccessTokenIsNotProvided(): void
     {
-        $this->client->request('POST', '/api/admin/user/delete', [], [], [
+        $this->client->request('DELETE', '/api/admin/user/delete', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ]);
@@ -83,7 +83,7 @@ class UserDeleteControllerTest extends CustomTestCase
      */
     public function testUpdateUserPasswordWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/admin/user/delete', [], [], [
+        $this->client->request('DELETE', '/api/admin/user/delete', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
@@ -104,7 +104,7 @@ class UserDeleteControllerTest extends CustomTestCase
      */
     public function testDeleteUserWhenRequestDataIsNotProvided(): void
     {
-        $this->client->request('POST', '/api/admin/user/delete', [], [], [
+        $this->client->request('DELETE', '/api/admin/user/delete', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
@@ -114,7 +114,7 @@ class UserDeleteControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Request body is empty.', $responseData['message']);
+        $this->assertSame('Parameter "user_id" are required!', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -125,19 +125,19 @@ class UserDeleteControllerTest extends CustomTestCase
      */
     public function testDeleteUserWhenUserIdIsEmpty(): void
     {
-        $this->client->request('POST', '/api/admin/user/delete', [], [], [
+        $this->client->request('DELETE', '/api/admin/user/delete', [
+            'user_id' => ''
+        ], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
-        ], json_encode([
-            'user-id' => ''
-        ]) ?: null);
+        ]);
 
         /** @var array<mixed> $responseData */
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('Parameter "status" are required!', $responseData['message']);
+        $this->assertSame('Parameter "user_id" are required!', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -148,13 +148,13 @@ class UserDeleteControllerTest extends CustomTestCase
      */
     public function testDeleteUserWhenUserIdNotExist(): void
     {
-        $this->client->request('POST', '/api/admin/user/delete', [], [], [
+        $this->client->request('DELETE', '/api/admin/user/delete', [
+            'user_id' => 999999999
+        ], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
-        ], json_encode([
-            'user-id' => 999999999
-        ]) ?: null);
+        ]);
 
         /** @var array<mixed> $responseData */
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
@@ -171,13 +171,13 @@ class UserDeleteControllerTest extends CustomTestCase
      */
     public function testDeleteUserSuccessful(): void
     {
-        $this->client->request('POST', '/api/admin/user/delete', [], [], [
+        $this->client->request('DELETE', '/api/admin/user/delete', [
+            'user_id' => 6
+        ], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
-        ], json_encode([
-            'user-id' => 3
-        ]) ?: null);
+        ]);
 
         /** @var array<mixed> $responseData */
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);

@@ -115,15 +115,15 @@ class UserInfoControllerTest extends CustomTestCase
 
         // assert response
         $this->assertNotEmpty($responseData);
-        $this->assertArrayHasKey('email', $responseData);
-        $this->assertArrayHasKey('first-name', $responseData);
-        $this->assertArrayHasKey('last-name', $responseData);
-        $this->assertArrayHasKey('roles', $responseData);
-        $this->assertArrayHasKey('register-time', $responseData);
-        $this->assertArrayHasKey('last-login-time', $responseData);
-        $this->assertArrayHasKey('ip-address', $responseData);
-        $this->assertArrayHasKey('user-agent', $responseData);
-        $this->assertArrayHasKey('status', $responseData);
+        $this->assertArrayHasKey('email', $responseData['data']);
+        $this->assertArrayHasKey('first-name', $responseData['data']);
+        $this->assertArrayHasKey('last-name', $responseData['data']);
+        $this->assertArrayHasKey('roles', $responseData['data']);
+        $this->assertArrayHasKey('register-time', $responseData['data']);
+        $this->assertArrayHasKey('last-login-time', $responseData['data']);
+        $this->assertArrayHasKey('ip-address', $responseData['data']);
+        $this->assertArrayHasKey('user-agent', $responseData['data']);
+        $this->assertArrayHasKey('status', $responseData['data']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
     }
 }

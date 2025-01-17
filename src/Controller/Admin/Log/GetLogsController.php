@@ -41,7 +41,7 @@ class GetLogsController extends AbstractController
     #[Parameter(name: 'status', in: 'query', description: 'Status of the logs', required: false)]
     #[Response(response: JsonResponse::HTTP_OK, description: 'The logs list')]
     #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: 'No logs found for specified filters')]
-    #[Route('/api/admin/logs/get', methods:['GET'], name: 'get_logs')]
+    #[Route('/api/admin/logs', methods:['GET'], name: 'get_logs_list')]
     public function getLogs(Request $request): JsonResponse
     {
         // get request parameters
@@ -55,7 +55,11 @@ class GetLogsController extends AbstractController
         if (empty($logsData['logs_data'])) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'No logs found for specified filters'
+                'message' => 'No logs found for specified filters',
+                'current_filters' => [
+                    'status' => $status,
+                    'page' => $page
+                ]
             ], JsonResponse::HTTP_NOT_FOUND);
         }
 
@@ -63,6 +67,26 @@ class GetLogsController extends AbstractController
         return $this->json([
             'status' => 'success',
             'data' => $logsData
+        ], JsonResponse::HTTP_OK);
+    }
+
+    /**
+     * Get logs statistics and count
+     *
+     * @return JsonResponse The logs statistics and count
+     */
+    #[IsGranted('ROLE_ADMIN')]
+    #[Tag(name: "Admin (log manager)")]
+    #[Response(response: JsonResponse::HTTP_OK, description: 'The logs statistics and count')]
+    #[Route('/api/admin/logs/stats', methods:['GET'], name: 'get_logs_stats')]
+    public function getLogsStats(): JsonResponse
+    {
+        // get logs stats
+        $data = $this->logManager->getLogsStats();
+
+        return $this->json([
+            'status' => 'success',
+            'data' => $data,
         ], JsonResponse::HTTP_OK);
     }
 }

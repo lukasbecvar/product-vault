@@ -10,6 +10,7 @@ use OpenApi\Attributes\Property;
 use App\Manager\CategoryManager;
 use OpenApi\Attributes\Response;
 use OpenApi\Attributes\MediaType;
+use OpenApi\Attributes\Parameter;
 use OpenApi\Attributes\RequestBody;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,41 +37,13 @@ class ProductCategoryManagerController extends AbstractController
     }
 
     /**
-     * Get all product categories with their database ids and names
-     *
-     * @return JsonResponse The status response in JSON
-     */
-    #[Tag(name: "Admin (product manager)")]
-    #[Response(response: JsonResponse::HTTP_OK, description: "All product categories")]
-    #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: "The category list failed")]
-    #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/admin/product/category/list', methods:['GET'], name: 'get_product_category_list')]
-    public function getProductCategoryList(): JsonResponse
-    {
-        // get all categories
-        try {
-            $categories = $this->categoryManager->getCategoriesListRaw();
-            return $this->json([
-                'status' => 'success',
-                'message' => 'All product categories',
-                'categories' => $categories
-            ], JsonResponse::HTTP_OK);
-        } catch (Exception $e) {
-            return $this->errorManager->handleError(
-                message: 'Category list failed',
-                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                exceptionMessage: $e->getMessage()
-            );
-        }
-    }
-
-    /**
      * Create product category
      *
      * @param Request $request Request object
      *
      * @return JsonResponse The status response in JSON
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Tag(name: "Admin (product manager)")]
     #[RequestBody(
         content: [
@@ -87,9 +60,8 @@ class ProductCategoryManagerController extends AbstractController
             )
         ]
     )]
-    #[Response(response: JsonResponse::HTTP_OK, description: "The category created successfully")]
-    #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: "The category create failed")]
-    #[IsGranted('ROLE_ADMIN')]
+    #[Response(response: JsonResponse::HTTP_CONFLICT, description: "Category already exists")]
+    #[Response(response: JsonResponse::HTTP_CREATED, description: "The category created successfully")]
     #[Route('/api/admin/product/category/create', methods:['POST'], name: 'create_product_category')]
     public function createProductIcon(Request $request): JsonResponse
     {
@@ -110,7 +82,7 @@ class ProductCategoryManagerController extends AbstractController
             return $this->json([
                 'status' => 'success',
                 'message' => 'Category created successfully!',
-            ], JsonResponse::HTTP_OK);
+            ], JsonResponse::HTTP_CREATED);
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'Category create failed',
@@ -127,34 +99,14 @@ class ProductCategoryManagerController extends AbstractController
      *
      * @return JsonResponse The status response in JSON
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Tag(name: "Admin (product manager)")]
-    #[RequestBody(
-        content: [
-            new MediaType(
-                mediaType: "multipart/form-data",
-                schema: new Schema(properties: [
-                    new Property(
-                        property: "category_id",
-                        type: "integer",
-                        description: "Category id to rename",
-                        example: 1
-                    ),
-                    new Property(
-                        property: "category_name",
-                        type: "string",
-                        description: "Category name",
-                        example: "Category name"
-                    )
-                ])
-            )
-        ]
-    )]
+    #[Parameter(name: 'category_id', in: 'query', description: 'Category id to rename', required: true)]
+    #[Parameter(name: 'category_name', in: 'query', description: 'Category new name', required: true)]
     #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: "Category not found")]
     #[Response(response: JsonResponse::HTTP_CONFLICT, description: "Category name already exists")]
-    #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: "The category rename failed")]
     #[Response(response: JsonResponse::HTTP_OK, description: "The category renamed successfully")]
-    #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/admin/product/category/rename', methods:['POST'], name: 'rename_product_category')]
+    #[Route('/api/admin/product/category/rename', methods:['PATCH'], name: 'rename_product_category')]
     public function renameProductCategory(Request $request): JsonResponse
     {
         // get request parameters
@@ -200,27 +152,13 @@ class ProductCategoryManagerController extends AbstractController
      *
      * @return JsonResponse The status response in JSON
      */
-    #[Tag(name: "Admin (product manager)")]
-    #[RequestBody(
-        content: [
-            new MediaType(
-                mediaType: "multipart/form-data",
-                schema: new Schema(properties: [
-                    new Property(
-                        property: "category_id",
-                        type: "integer",
-                        description: "Category id to delete",
-                        example: 1
-                    )
-                ])
-            )
-        ]
-    )]
-    #[Response(response: JsonResponse::HTTP_OK, description: "The category deleted successfully")]
-    #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: "Category not found")]
-    #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: "The category delete failed")]
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/admin/product/category/delete', methods:['POST'], name: 'delete_product_category')]
+    #[Tag(name: "Admin (product manager)")]
+    #[Parameter(name: 'category_id', in: 'query', description: 'Category id to delete', required: true)]
+    #[Response(response: JsonResponse::HTTP_BAD_REQUEST, description: "Category id not set")]
+    #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: "Category not found")]
+    #[Response(response: JsonResponse::HTTP_OK, description: "The category deleted successfully")]
+    #[Route('/api/admin/product/category/delete', methods:['DELETE'], name: 'delete_product_category')]
     public function deleteProductCategory(Request $request): JsonResponse
     {
         // get request parameters
@@ -239,7 +177,7 @@ class ProductCategoryManagerController extends AbstractController
             $this->categoryManager->deleteCategory($categoryId);
             return $this->json([
                 'status' => 'success',
-                'message' => 'Category deleted successfully!',
+                'message' => 'Category deleted success!',
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return $this->errorManager->handleError(

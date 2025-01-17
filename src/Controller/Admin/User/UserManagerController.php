@@ -63,15 +63,11 @@ class UserManagerController extends AbstractController
             new OA\Response(
                 response: JsonResponse::HTTP_NOT_FOUND,
                 description: 'User not found message'
-            ),
-            new OA\Response(
-                response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                description: 'The update error message'
-            ),
+            )
         ]
     )]
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/admin/user/data/update/role', methods:['PATCH'], name: 'user_data_update_role')]
+    #[Route('/api/admin/user/update/role', methods:['PATCH'], name: 'user_data_update_role')]
     public function updateUserRole(Request $request): JsonResponse
     {
         // get request data
@@ -98,34 +94,30 @@ class UserManagerController extends AbstractController
 
         // check if task is valid
         if (!in_array($task, ['add', 'remove'])) {
-            $this->errorManager->handleError(
-                message: 'Task is not valid!',
-                code: JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Task is not valid (allowed: add, remove)!'
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
+        // add role to user
         if ($task === 'add') {
-            // add role to user
             $this->userManager->addRoleToUser((int) $userId, $role);
-
-            // return success message
             return $this->json([
                 'status' => 'success',
                 'message' => 'Role added successfully!'
             ], JsonResponse::HTTP_OK);
+        // remove user role
         } elseif ($task === 'remove') {
-            // remove role from user
             $this->userManager->removeRoleFromUser((int) $userId, $role);
-
-            // return success message
             return $this->json([
                 'status' => 'success',
                 'message' => 'Role removed successfully!'
             ], JsonResponse::HTTP_OK);
         } else {
             $this->errorManager->handleError(
-                message: 'Task is not valid!',
-                code: JsonResponse::HTTP_BAD_REQUEST
+                message: 'Unexpected error to update user role!',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR
             );
         }
     }
@@ -171,7 +163,7 @@ class UserManagerController extends AbstractController
         ]
     )]
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/admin/user/data/update/status', methods: ['PATCH'], name: 'update_user_status')]
+    #[Route('/api/admin/user/update/status', methods: ['PATCH'], name: 'update_user_status')]
     public function updateUserStatus(Request $request): JsonResponse
     {
         // get request data

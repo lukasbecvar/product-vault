@@ -62,10 +62,6 @@ class ProductDeleteController extends AbstractController
             new OA\Response(
                 response: JsonResponse::HTTP_NOT_FOUND,
                 description: 'Product not found message'
-            ),
-            new OA\Response(
-                response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                description: 'The delete error message'
             )
         ]
     )]

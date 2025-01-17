@@ -24,104 +24,6 @@ class ProductCategoryManagerControllerTest extends CustomTestCase
     }
 
     /**
-     * Test get all product categories when request method is invalid
-     *
-     * @return void
-     */
-    public function testGetAllProductCategoriesWhenRequestMethodIsInvalid(): void
-    {
-        $this->client->request('POST', '/api/admin/product/category/list');
-
-        /** @var array<mixed> $responseData */
-        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
-
-        // assert response
-        $this->assertSame('error', $responseData['status']);
-        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_METHOD_NOT_ALLOWED);
-    }
-
-    /**
-     * Test get all product categories when api access token is not provided
-     *
-     * @return void
-     */
-    public function testGetAllProductCategoriesWhenApiAccessTokenIsNotProvided(): void
-    {
-        $this->client->request('GET', '/api/admin/product/category/list', [], [], [
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
-        ]);
-
-        /** @var array<mixed> $responseData */
-        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
-
-        // assert response
-        $this->assertSame('error', $responseData['status']);
-        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
-    }
-
-    /**
-     * Test get all product categories when api access token is invalid
-     *
-     * @return void
-     */
-    public function testGetAllProductCategoriesWhenApiAccessTokenIsInvalid(): void
-    {
-        $this->client->request('GET', '/api/admin/product/category/list', [], [], [
-            'HTTP_X_API_TOKEN' => 'invalud-token',
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
-        ]);
-
-        /** @var array<mixed> $responseData */
-        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
-
-        // assert response
-        $this->assertSame('error', $responseData['status']);
-        $this->assertEquals('Invalid access token.', $responseData['message']);
-        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
-    }
-
-    /**
-     * Test get all product categories when auth token is invalid
-     *
-     * @return void
-     */
-    public function testGetAllProductCategoriesWhenAuthTokenIsInvalid(): void
-    {
-        $this->client->request('GET', '/api/admin/product/category/list', [], [], [
-            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
-        ]);
-
-        /** @var array<mixed> $responseData */
-        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
-
-        // assert response
-        $this->assertEquals('Invalid JWT Token', $responseData['message']);
-        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
-    }
-
-    /**
-     * Test get all product categories when response is success
-     *
-     * @return void
-     */
-    public function testGetAllProductCategoriesWhenResponseIsSuccess(): void
-    {
-        $this->client->request('GET', '/api/admin/product/category/list', [], [], [
-            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
-        ]);
-
-        /** @var array<mixed> $responseData */
-        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
-
-        // assert response
-        $this->assertSame('success', $responseData['status']);
-        $this->assertArrayHasKey('categories', $responseData);
-        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
-    }
-
-    /**
      * Test create product category when request method is invalid
      *
      * @return void
@@ -244,7 +146,7 @@ class ProductCategoryManagerControllerTest extends CustomTestCase
         // assert response
         $this->assertSame('success', $responseData['status']);
         $this->assertSame('Category created successfully!', $responseData['message']);
-        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_CREATED);
     }
 
     /**
@@ -271,7 +173,7 @@ class ProductCategoryManagerControllerTest extends CustomTestCase
      */
     public function testRenameProductCategoryWhenApiAccessTokenIsNotProvided(): void
     {
-        $this->client->request('POST', '/api/admin/product/category/rename', [], [], [
+        $this->client->request('PATCH', '/api/admin/product/category/rename', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ]);
@@ -291,7 +193,7 @@ class ProductCategoryManagerControllerTest extends CustomTestCase
      */
     public function testRenameProductCategoryWhenApiAccessTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/admin/product/category/rename', [], [], [
+        $this->client->request('PATCH', '/api/admin/product/category/rename', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => 'invalud-token',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -313,7 +215,7 @@ class ProductCategoryManagerControllerTest extends CustomTestCase
      */
     public function testRenameProductCategoryWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/admin/product/category/rename', [], [], [
+        $this->client->request('PATCH', '/api/admin/product/category/rename', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
@@ -334,7 +236,7 @@ class ProductCategoryManagerControllerTest extends CustomTestCase
      */
     public function testRenameProductCategoryWhenCategoryIdIsNotSet(): void
     {
-        $this->client->request('POST', '/api/admin/product/category/rename', [], [], [
+        $this->client->request('PATCH', '/api/admin/product/category/rename', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -356,7 +258,7 @@ class ProductCategoryManagerControllerTest extends CustomTestCase
      */
     public function testRenameProductCategoryWhenCategoryNameIsNotSet(): void
     {
-        $this->client->request('POST', '/api/admin/product/category/rename', [
+        $this->client->request('PATCH', '/api/admin/product/category/rename', [
             'category_id' => 1
         ], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -380,7 +282,7 @@ class ProductCategoryManagerControllerTest extends CustomTestCase
      */
     public function testRenameProductCategoryWhenResponseIsSuccess(): void
     {
-        $this->client->request('POST', '/api/admin/product/category/rename', [
+        $this->client->request('PATCH', '/api/admin/product/category/rename', [
             'category_id' => 1,
             'category_name' => 'New Category ' . ByteString::fromRandom(16)->toString()
         ], [], [
@@ -422,7 +324,7 @@ class ProductCategoryManagerControllerTest extends CustomTestCase
      */
     public function testDeleteProductCategoryWhenApiAccessTokenIsNotProvided(): void
     {
-        $this->client->request('POST', '/api/admin/product/category/delete', [], [], [
+        $this->client->request('DELETE', '/api/admin/product/category/delete', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ]);
@@ -442,7 +344,7 @@ class ProductCategoryManagerControllerTest extends CustomTestCase
      */
     public function testDeleteProductCategoryWhenApiAccessTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/admin/product/category/delete', [], [], [
+        $this->client->request('DELETE', '/api/admin/product/category/delete', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => 'invalud-token',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -464,7 +366,7 @@ class ProductCategoryManagerControllerTest extends CustomTestCase
      */
     public function testDeleteProductCategoryWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/admin/product/category/delete', [], [], [
+        $this->client->request('DELETE', '/api/admin/product/category/delete', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
@@ -485,7 +387,7 @@ class ProductCategoryManagerControllerTest extends CustomTestCase
      */
     public function testDeleteProductCategoryWhenCategoryIdIsNotSet(): void
     {
-        $this->client->request('POST', '/api/admin/product/category/delete', [], [], [
+        $this->client->request('DELETE', '/api/admin/product/category/delete', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -507,7 +409,7 @@ class ProductCategoryManagerControllerTest extends CustomTestCase
      */
     public function testDeleteProductCategoryWhenResponseIsSuccess(): void
     {
-        $this->client->request('POST', '/api/admin/product/category/delete', [
+        $this->client->request('DELETE', '/api/admin/product/category/delete', [
             'category_id' => 12
         ], [], [
             'CONTENT_TYPE' => 'application/json',
@@ -520,7 +422,7 @@ class ProductCategoryManagerControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('success', $responseData['status']);
-        $this->assertSame('Category deleted successfully!', $responseData['message']);
+        $this->assertSame('Category deleted success!', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
     }
 }

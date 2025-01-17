@@ -37,7 +37,6 @@ class UserInfoController extends AbstractController
     #[Response(response: JsonResponse::HTTP_OK, description: 'The user information')]
     #[Response(response: JsonResponse::HTTP_UNAUTHORIZED, description: 'The unauthorized message')]
     #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: 'The user not found message')]
-    #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: 'The error to get user information')]
     #[Route('/api/user/info', methods:['GET'], name: 'user_info')]
     public function userInfo(Security $security): JsonResponse
     {
@@ -67,6 +66,9 @@ class UserInfoController extends AbstractController
         $userInfo = $this->userManager->getUserInfo($id);
 
         // return user info
-        return $this->json($userInfo, JsonResponse::HTTP_OK);
+        return $this->json([
+            'status' => 'success',
+            'data' => $userInfo,
+        ], JsonResponse::HTTP_OK);
     }
 }

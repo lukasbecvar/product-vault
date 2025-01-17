@@ -39,9 +39,8 @@ class LogManagerController extends AbstractController
      */
     #[IsGranted('ROLE_ADMIN')]
     #[Tag(name: "Admin (log manager)")]
-    #[Route('/api/admin/log/status/set/all/readed', methods:['POST'], name: 'set_logs_status_all_readed')]
+    #[Route('/api/admin/logs/mark-all-read', methods:['POST'], name: 'set_logs_status_all_readed')]
     #[Response(response: JsonResponse::HTTP_OK, description: 'Update logs status to READED successfully!')]
-    #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: 'Error to update logs')]
     public function setLogsStatusAllReaded(): JsonResponse
     {
         try {
@@ -70,10 +69,9 @@ class LogManagerController extends AbstractController
     #[Tag(name: "Admin (log manager)")]
     #[Parameter(name: 'id', in: 'query', description: 'Log id', required: false)]
     #[Parameter(name: 'status', in: 'query', description: 'New log status', required: false)]
-    #[Route('/api/admin/log/status/update', methods:['POST'], name: 'update_logs_status')]
+    #[Route('/api/admin/log/status/update', methods:['PATCH'], name: 'update_logs_status')]
     #[Response(response: JsonResponse::HTTP_OK, description: 'Log status updated successfully!')]
     #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: 'Log not found!')]
-    #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: 'Error to update log status!')]
     public function updateLogsStatus(Request $request): JsonResponse
     {
         // get request parameters

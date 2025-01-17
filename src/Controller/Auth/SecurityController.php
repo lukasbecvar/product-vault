@@ -42,7 +42,6 @@ class SecurityController extends AbstractController
     #[Tag(name: "Auth")]
     #[Response(response: JsonResponse::HTTP_OK, description: 'The logout successful message')]
     #[Response(response: JsonResponse::HTTP_UNAUTHORIZED, description: 'The JWT token Invalid message')]
-    #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: 'The logout error message')]
     #[Route('/api/auth/logout', methods:['POST'], name: 'auth_logout')]
     public function logout(Request $request, Security $security): JsonResponse
     {

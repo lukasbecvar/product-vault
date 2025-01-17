@@ -125,6 +125,17 @@ class ProductFixtures extends Fixture
             $manager->persist($product);
         }
 
+        // create product without icon and properties for testing
+        $productWithoutIcon = new Product();
+        $productWithoutIcon->setName('Product without icon');
+        $productWithoutIcon->setDescription('Product without icon description');
+        $productWithoutIcon->setAddedTime($faker->dateTimeThisYear);
+        $productWithoutIcon->setLastEditTime($faker->dateTimeThisMonth);
+        $productWithoutIcon->setPrice((string)$faker->randomFloat(2, 10, 1000));
+        $productWithoutIcon->setPriceCurrency('USD');
+        $productWithoutIcon->setActive(true);
+        $manager->persist($productWithoutIcon);
+
         // create non assigned test category
         $testingCategory = new Category();
         $testingCategory->setName('Non assigned test category');

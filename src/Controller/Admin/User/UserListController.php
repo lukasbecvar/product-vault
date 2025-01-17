@@ -31,13 +31,12 @@ class UserListController extends AbstractController
      *
      * @return JsonResponse The users list
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Tag(name: "Admin (user manager)")]
     #[Response(response: JsonResponse::HTTP_OK, description: 'The users list')]
     #[Response(response: JsonResponse::HTTP_UNAUTHORIZED, description: 'The unauthorized message')]
-    #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: 'The error to get user list')]
-    #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/admin/user/list', methods:['GET'], name: 'admin_user_list')]
-    public function updateUserPassword(): JsonResponse
+    public function getUsersList(): JsonResponse
     {
         // get users list
         $users = $this->userManager->getUsersList();

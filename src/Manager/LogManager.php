@@ -366,9 +366,13 @@ class LogManager
         // get pagination info
         $paginationInfo = $this->logRepository->getPaginationInfo($status, $page, $paginationLimit);
 
+        // get log stats
+        $stats = $this->getLogsStats();
+
         return [
+            'stats' => $stats,
             'logs_data' => $formattedLogs,
-            'pagination_info' => $paginationInfo,
+            'pagination_info' => $paginationInfo
         ];
     }
 

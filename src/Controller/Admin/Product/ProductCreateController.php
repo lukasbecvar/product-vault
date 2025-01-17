@@ -97,10 +97,6 @@ class ProductCreateController extends AbstractController
             new OA\Response(
                 response: JsonResponse::HTTP_BAD_REQUEST,
                 description: 'Invalid request data message'
-            ),
-            new OA\Response(
-                response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                description: 'The create error message'
             )
         ]
     )]

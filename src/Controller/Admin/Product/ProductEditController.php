@@ -78,15 +78,11 @@ class ProductEditController extends AbstractController
             new OA\Response(
                 response: JsonResponse::HTTP_BAD_REQUEST,
                 description: 'Invalid request data message'
-            ),
-            new OA\Response(
-                response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                description: 'The update error message'
             )
         ]
     )]
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/admin/product/update/data', methods:['PATCH'], name: 'update_product_data')]
+    #[Route('/api/admin/product/update', methods:['PATCH'], name: 'update_product_data')]
     public function updateProductData(Request $request): JsonResponse
     {
         // get data from request
@@ -234,10 +230,6 @@ class ProductEditController extends AbstractController
             new OA\Response(
                 response: JsonResponse::HTTP_NOT_FOUND,
                 description: 'Product not found message'
-            ),
-            new OA\Response(
-                response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                description: 'The update error message'
             )
         ]
     )]
@@ -362,10 +354,6 @@ class ProductEditController extends AbstractController
             new OA\Response(
                 response: JsonResponse::HTTP_NOT_FOUND,
                 description: 'Product not found message'
-            ),
-            new OA\Response(
-                response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                description: 'The update error message'
             )
         ]
     )]
@@ -519,10 +507,6 @@ class ProductEditController extends AbstractController
             new OA\Response(
                 response: JsonResponse::HTTP_NOT_FOUND,
                 description: 'Product not found message'
-            ),
-            new OA\Response(
-                response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                description: 'The update error message'
             )
         ]
     )]

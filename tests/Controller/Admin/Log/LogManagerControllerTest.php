@@ -29,7 +29,7 @@ class LogManagerControllerTest extends CustomTestCase
      */
     public function testSetAllLogsStatusToReadedWhenRequestMethodIsInvalid(): void
     {
-        $this->client->request('GET', '/api/admin/log/status/set/all/readed');
+        $this->client->request('GET', '/api/admin/logs/mark-all-read');
 
         /** @var array<mixed> $responseData */
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
@@ -46,7 +46,7 @@ class LogManagerControllerTest extends CustomTestCase
      */
     public function testSetAllLogsStatusToReadedWhenApiAccessTokenIsNotProvided(): void
     {
-        $this->client->request('POST', '/api/admin/log/status/set/all/readed', [], [], [
+        $this->client->request('POST', '/api/admin/logs/mark-all-read', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ]);
@@ -66,7 +66,7 @@ class LogManagerControllerTest extends CustomTestCase
      */
     public function testSetAllLogsStatusToReadedWhenApiAccessTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/admin/log/status/set/all/readed', [], [], [
+        $this->client->request('POST', '/api/admin/logs/mark-all-read', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => 'invalud-token',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -88,7 +88,7 @@ class LogManagerControllerTest extends CustomTestCase
      */
     public function testSetAllLogsStatusToReadedWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/admin/log/status/set/all/readed', [], [], [
+        $this->client->request('POST', '/api/admin/logs/mark-all-read', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
@@ -109,7 +109,7 @@ class LogManagerControllerTest extends CustomTestCase
      */
     public function testSetAllLogsStatusToReadedWhenResponseIsSuccess(): void
     {
-        $this->client->request('POST', '/api/admin/log/status/set/all/readed', [], [], [
+        $this->client->request('POST', '/api/admin/logs/mark-all-read', [], [], [
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
@@ -147,7 +147,7 @@ class LogManagerControllerTest extends CustomTestCase
      */
     public function testUpdateLogStatusWhenApiAccessTokenIsNotProvided(): void
     {
-        $this->client->request('POST', '/api/admin/log/status/update', [], [], [
+        $this->client->request('PATCH', '/api/admin/log/status/update', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ]);
@@ -167,7 +167,7 @@ class LogManagerControllerTest extends CustomTestCase
      */
     public function testUpdateLogStatusWhenApiAccessTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/admin/log/status/update', [], [], [
+        $this->client->request('PATCH', '/api/admin/log/status/update', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => 'invalud-token',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
@@ -189,7 +189,7 @@ class LogManagerControllerTest extends CustomTestCase
      */
     public function testUpdateLogStatusWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/admin/log/status/update', [], [], [
+        $this->client->request('PATCH', '/api/admin/log/status/update', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
@@ -210,7 +210,7 @@ class LogManagerControllerTest extends CustomTestCase
      */
     public function testUpdateLogStatusWhenLogIdIsNotSet(): void
     {
-        $this->client->request('POST', '/api/admin/log/status/update', [
+        $this->client->request('PATCH', '/api/admin/log/status/update', [
             'id' => '',
             'status' => ''
         ], [], [
@@ -235,7 +235,7 @@ class LogManagerControllerTest extends CustomTestCase
      */
     public function testUpdateLogStatusWhenNewLogStatusIsNotSet(): void
     {
-        $this->client->request('POST', '/api/admin/log/status/update', [
+        $this->client->request('PATCH', '/api/admin/log/status/update', [
             'id' => 1,
             'status' => ''
         ], [], [
@@ -260,7 +260,7 @@ class LogManagerControllerTest extends CustomTestCase
      */
     public function testUpdateLogStatusWhenLogNotFound(): void
     {
-        $this->client->request('POST', '/api/admin/log/status/update', [
+        $this->client->request('PATCH', '/api/admin/log/status/update', [
             'id' => 33333,
             'status' => 'READED'
         ], [], [
@@ -285,7 +285,7 @@ class LogManagerControllerTest extends CustomTestCase
      */
     public function testUpdateLogStatusWhenResponseIsSuccess(): void
     {
-        $this->client->request('POST', '/api/admin/log/status/update', [
+        $this->client->request('PATCH', '/api/admin/log/status/update', [
             'id' => 1,
             'status' => 'READED'
         ], [], [
