@@ -160,7 +160,7 @@ class UserDeleteControllerTest extends CustomTestCase
         $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('User not found!', $responseData['message']);
+        $this->assertSame('User id: 999999999 not found in database!', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_NOT_FOUND);
     }
 

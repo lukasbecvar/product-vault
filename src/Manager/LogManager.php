@@ -221,7 +221,15 @@ class LogManager
     public function updateLogStatus(int $id, string $status): void
     {
         // get log by id
-        $log = $this->logRepository->find($id);
+        try {
+            $log = $this->logRepository->find($id);
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'Error to get log by id: ' . $id,
+                code: Response::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
 
         // check if log is found
         if ($log === null) {
@@ -258,14 +266,20 @@ class LogManager
      */
     public function setAllLogsToReaded(): void
     {
-        /** @var array<Log> $logs */
-        $logs = $this->logRepository->findBy(['status' => 'UNREADED']);
+        try {
+            /** @var array<Log> $logs */
+            $logs = $this->logRepository->findBy(['status' => 'UNREADED']);
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'Error to get logs by status',
+                code: Response::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
 
-        if (is_iterable($logs)) {
-            // set all logs to readed status
-            foreach ($logs as $log) {
-                $log->setStatus('READED');
-            }
+        // set all logs to readed status
+        foreach ($logs as $log) {
+            $log->setStatus('READED');
         }
 
         try {
@@ -355,16 +369,22 @@ class LogManager
     public function getFormatedLogs(string $status, int $page, ?int $paginationLimit = null): array
     {
         // get logs by status
-        $logs = $this->getLogsByStatus($status, $page, $paginationLimit);
+        try {
+            $logs = $this->getLogsByStatus($status, $page, $paginationLimit);
+            $paginationInfo = $this->logRepository->getPaginationInfo($status, $page, $paginationLimit);
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'Error to get logs by status',
+                code: Response::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
 
         // format logs
         $formattedLogs = [];
         foreach ($logs as $log) {
             $formattedLogs[] = $this->formatLogs($log);
         }
-
-        // get pagination info
-        $paginationInfo = $this->logRepository->getPaginationInfo($status, $page, $paginationLimit);
 
         // get log stats
         $stats = $this->getLogsStats();

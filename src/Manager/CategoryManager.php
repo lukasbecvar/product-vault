@@ -7,6 +7,7 @@ use App\Entity\Category;
 use App\Entity\ProductCategory;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -88,12 +89,20 @@ class CategoryManager
      */
     public function getCategoriesListRaw(): array
     {
-        return array_map(function ($category) {
-            return [
-                'id' => $category->getId(),
-                'name' => $category->getName()
-            ];
-        }, $this->categoryRepository->findAll());
+        try {
+            return array_map(function ($category) {
+                return [
+                    'id' => $category->getId(),
+                    'name' => $category->getName()
+                ];
+            }, $this->categoryRepository->findAll());
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'Error to get categories list',
+                code: Response::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
     }
 
     /**

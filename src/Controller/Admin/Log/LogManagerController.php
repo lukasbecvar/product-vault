@@ -97,7 +97,7 @@ class LogManagerController extends AbstractController
         // update log status
         $this->logManager->updateLogStatus($id, $status);
 
-        // return success message
+        // return message
         return $this->json([
             'status' => 'success',
             'message' => 'Log status updated successfully!'

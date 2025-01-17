@@ -47,7 +47,7 @@ class GetProductCategoryListController extends AbstractController
             $categories = $this->categoryManager->getCategoriesListRaw();
         } catch (Exception $e) {
             return $this->errorManager->handleError(
-                message: 'Category list failed',
+                message: 'Category list get failed',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );

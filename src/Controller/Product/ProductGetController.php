@@ -2,8 +2,10 @@
 
 namespace App\Controller\Product;
 
+use Exception;
 use App\Util\AppUtil;
 use OpenApi\Attributes\Tag;
+use App\Manager\ErrorManager;
 use OpenApi\Attributes as OA;
 use App\Manager\ProductManager;
 use OpenApi\Attributes\Response;
@@ -23,11 +25,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ProductGetController extends AbstractController
 {
     private AppUtil $appUtil;
+    private ErrorManager $errorManager;
     private ProductManager $productManager;
 
-    public function __construct(AppUtil $appUtil, ProductManager $productManager)
+    public function __construct(AppUtil $appUtil, ErrorManager $errorManager, ProductManager $productManager)
     {
         $this->appUtil = $appUtil;
+        $this->errorManager = $errorManager;
         $this->productManager = $productManager;
     }
 
@@ -167,25 +171,29 @@ class ProductGetController extends AbstractController
         $currency = $content['currency'] ?? null;
 
         // get filtered product list
-        $data = $this->productManager->getProductsList(
-            search: $search,
-            attributeValues: $attributes,
-            categories: $categories,
-            page: $page,
-            limit: $limit,
-            sort: $sort,
-            currency: $currency,
-        );
-
-        // get stats data
-        $stats = $this->productManager->getProductStats();
-
-        // return products list
-        return $this->json([
-            'status' => 'success',
-            'products_data' => $data['products'],
-            'pagination_info' => $data['pagination_info'],
-            'stats' => $stats,
-        ], JsonResponse::HTTP_OK);
+        try {
+            $stats = $this->productManager->getProductStats();
+            $data = $this->productManager->getProductsList(
+                search: $search,
+                attributeValues: $attributes,
+                categories: $categories,
+                page: $page,
+                limit: $limit,
+                sort: $sort,
+                currency: $currency,
+            );
+            return $this->json([
+                'status' => 'success',
+                'products_data' => $data['products'],
+                'pagination_info' => $data['pagination_info'],
+                'stats' => $stats,
+            ], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            return $this->errorManager->handleError(
+                message: 'Product list get failed',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
     }
 }

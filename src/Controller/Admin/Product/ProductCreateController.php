@@ -2,8 +2,10 @@
 
 namespace App\Controller\Admin\Product;
 
+use Exception;
 use App\Util\AppUtil;
 use App\DTO\ProductDTO;
+use App\Manager\ErrorManager;
 use OpenApi\Attributes as OA;
 use App\Manager\ProductManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,16 +26,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ProductCreateController extends AbstractController
 {
     private AppUtil $appUtil;
+    private ErrorManager $errorManager;
     private ValidatorInterface $validator;
     private ProductManager $productManager;
 
     public function __construct(
         AppUtil $appUtil,
+        ErrorManager $errorManager,
         ValidatorInterface $validator,
         ProductManager $productManager
     ) {
         $this->appUtil = $appUtil;
         $this->validator = $validator;
+        $this->errorManager = $errorManager;
         $this->productManager = $productManager;
     }
 
@@ -164,20 +169,26 @@ class ProductCreateController extends AbstractController
         }
 
         // create new product
-        $data = $this->productManager->createProduct(
-            $productDTO->name,
-            $productDTO->description,
-            $productDTO->price,
-            $productDTO->priceCurrency,
-            $categories,
-            $attributes
-        );
-
-        // return success response
-        return $this->json([
-            'status' => 'success',
-            'message' => 'Product: ' . $productDTO->name . ' created successfully!',
-            'product_data' => $this->productManager->formatProductData($data)
-        ], JsonResponse::HTTP_CREATED);
+        try {
+            $data = $this->productManager->createProduct(
+                $productDTO->name,
+                $productDTO->description,
+                $productDTO->price,
+                $productDTO->priceCurrency,
+                $categories,
+                $attributes
+            );
+            return $this->json([
+                'status' => 'success',
+                'message' => 'Product: ' . $productDTO->name . ' created successfully!',
+                'product_data' => $this->productManager->formatProductData($data)
+            ], JsonResponse::HTTP_CREATED);
+        } catch (Exception $e) {
+            return $this->errorManager->handleError(
+                message: 'Product create failed',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
     }
 }

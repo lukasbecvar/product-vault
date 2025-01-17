@@ -3,7 +3,6 @@
 namespace App\Controller\Product;
 
 use OpenApi\Attributes\Tag;
-use App\Manager\ErrorManager;
 use OpenApi\Attributes\Response;
 use OpenApi\Attributes\Parameter;
 use App\Manager\ProductAssetsManager;
@@ -22,12 +21,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class ProductAssetGetController extends AbstractController
 {
-    private ErrorManager $errorManager;
     private ProductAssetsManager $productAssetsManager;
 
-    public function __construct(ErrorManager $errorManager, ProductAssetsManager $productAssetsManager)
+    public function __construct(ProductAssetsManager $productAssetsManager)
     {
-        $this->errorManager = $errorManager;
         $this->productAssetsManager = $productAssetsManager;
     }
 
@@ -43,17 +40,17 @@ class ProductAssetGetController extends AbstractController
     #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: 'Product icon not found')]
     #[Response(response: StreamedResponse::HTTP_OK, description: 'The product icon')]
     #[Route('/api/product/asset/icon', methods:['GET'], name: 'get_product_icon')]
-    public function getProductIcon(Request $request): StreamedResponse
+    public function getProductIcon(Request $request): StreamedResponse|JsonResponse
     {
         // get icon file from request parameter
         $iconFile = $request->get('icon_file');
 
         // check if icon file set
         if ($iconFile == null) {
-            $this->errorManager->handleError(
-                message: 'Icon file not set.',
-                code: JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Icon file not set.'
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         // get product icon
@@ -83,17 +80,17 @@ class ProductAssetGetController extends AbstractController
     #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: 'Product image not found')]
     #[Response(response: StreamedResponse::HTTP_OK, description: 'The product image')]
     #[Route('/api/product/asset/image', methods:['GET'], name: 'get_product_image')]
-    public function getProductImage(Request $request): StreamedResponse
+    public function getProductImage(Request $request): StreamedResponse|JsonResponse
     {
         // get image file from request parameter
         $imageFile = $request->get('image_file');
 
         // check if image file set
         if ($imageFile == null) {
-            $this->errorManager->handleError(
-                message: 'Image file not set.',
-                code: JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Image file not set.'
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         // get product image

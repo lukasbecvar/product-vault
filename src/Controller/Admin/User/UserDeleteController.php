@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin\User;
 
+use Exception;
 use OpenApi\Attributes\Tag;
 use App\Manager\UserManager;
 use App\Manager\ErrorManager;
@@ -51,27 +52,33 @@ class UserDeleteController extends AbstractController
 
         // check if parameters are valid
         if (empty($userId)) {
-            $this->errorManager->handleError(
-                message: 'Parameter "user_id" are required!',
-                code: JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Parameter "user_id" are required!'
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         // check if user id exist in database
         if (!$this->userManager->checkIfUserIdExistInDatabase($userId)) {
-            $this->errorManager->handleError(
-                message: 'User not found!',
-                code: JsonResponse::HTTP_NOT_FOUND
-            );
+            return $this->json([
+                'status' => 'error',
+                'message' => 'User id: ' . $userId . ' not found in database!'
+            ], JsonResponse::HTTP_NOT_FOUND);
         }
 
         // delete user
-        $this->userManager->deleteUser($userId);
-
-        // return success response
-        return $this->json([
-            'status' => 'success',
-            'message' => 'User deleted successfully!',
-        ], JsonResponse::HTTP_OK);
+        try {
+            $this->userManager->deleteUser($userId);
+            return $this->json([
+                'status' => 'success',
+                'message' => 'User deleted successfully!',
+            ], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            return $this->errorManager->handleError(
+                message: 'User delete error',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
     }
 }
