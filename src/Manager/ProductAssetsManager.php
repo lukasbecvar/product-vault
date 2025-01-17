@@ -281,6 +281,22 @@ class ProductAssetsManager
     }
 
     /**
+     * Get product image id by file name
+     *
+     * @param string $fileName The product image file name
+     *
+     * @return int|null The product image id or null if product image not found
+     */
+    public function getProductImageIdByFileName(string $fileName): ?int
+    {
+        $image = $this->productImageRepository->findOneBy(['image_file' => $fileName]);
+        if ($image != null) {
+            return $image->getId();
+        }
+        return null;
+    }
+
+    /**
      * Get product image by id
      *
      * @param int $id The product image id

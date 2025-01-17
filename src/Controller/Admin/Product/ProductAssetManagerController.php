@@ -256,7 +256,7 @@ class ProductAssetManagerController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     #[Tag(name: "Admin (product manager)")]
     #[Parameter(name: 'product_id', in: 'query', description: 'Product id associated with image', required: true)]
-    #[Parameter(name: 'image_id', in: 'query', description: 'Image id to delete', required: true)]
+    #[Parameter(name: 'image_file', in: 'query', description: 'Image file to delete', required: true)]
     #[Response(response: JsonResponse::HTTP_OK, description: "The image deleted successfully")]
     #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: "Product or image not found")]
     #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: "The image delete failed")]
@@ -265,7 +265,7 @@ class ProductAssetManagerController extends AbstractController
     {
         // get request parameters
         $productId = (int) $request->request->get('product_id');
-        $imageId = (int) $request->request->get('image_id');
+        $imageFile = (string) $request->request->get('image_file');
 
         // check if product id is set
         if ($productId == null) {
@@ -276,11 +276,20 @@ class ProductAssetManagerController extends AbstractController
         }
 
         // check if image id is set
+        if ($imageFile == null) {
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Parameter "image_file" not set.'
+            ], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        // get image id by file name
+        $imageId = $this->productAssetsManager->getProductImageIdByFileName($imageFile);
         if ($imageId == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Image id not set.'
-            ], JsonResponse::HTTP_BAD_REQUEST);
+                'message' => 'Image file: ' . $imageFile . ' not found.'
+            ], JsonResponse::HTTP_NOT_FOUND);
         }
 
         // get product by id
@@ -298,7 +307,7 @@ class ProductAssetManagerController extends AbstractController
         if (!$this->productAssetsManager->checkIfProductHaveImage($product, $imageId)) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product: ' . $productId . ' does not have image: ' . $imageId . '.'
+                'message' => 'Product: ' . $productId . ' does not have image: ' . $imageFile
             ], JsonResponse::HTTP_NOT_FOUND);
         }
 
@@ -307,7 +316,7 @@ class ProductAssetManagerController extends AbstractController
             $this->productAssetsManager->deleteProductImage($imageId);
             return $this->json([
                 'status' => 'success',
-                'message' => 'Product image: ' . $imageId . ' deleted successfully',
+                'message' => 'Product image: ' . $imageFile . ' deleted successfully',
                 'product_data' => $this->productManager->formatProductData($product)
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {

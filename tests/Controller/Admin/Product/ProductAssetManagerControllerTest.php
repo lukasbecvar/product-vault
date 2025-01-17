@@ -491,7 +491,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('error', $responseData['status']);
-        $this->assertSame('Image id not set.', $responseData['message']);
+        $this->assertSame('Parameter "image_file" not set.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -504,7 +504,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
     {
         $this->client->request('DELETE', '/api/admin/product/asset/image/delete', [
             'product_id' => 2,
-            'image_id' => 6,
+            'image_file' => 'test-image-2.jpg',
         ], [], [
             'CONTENT_TYPE' => 'multipart/form-data',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
@@ -516,7 +516,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
 
         // assert response
         $this->assertSame('success', $responseData['status']);
-        $this->assertSame('Product image: 6 deleted successfully', $responseData['message']);
+        $this->assertSame('Product image: test-image-2.jpg deleted successfully', $responseData['message']);
         $this->assertArrayHasKey('product_data', $responseData);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
     }
