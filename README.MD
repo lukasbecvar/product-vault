@@ -3,7 +3,7 @@ Open-source API system for managing product databases, designed with a focus on 
 
 ## Features
 * Product data management
-* RESTful API (main interface for comunication with the system)
+* RESTful API (main interface for communication with the system)
 * Security user authentication and authorization system (Using JWT)
 * CLI commands (for managing products)
 
@@ -13,19 +13,19 @@ You can install the application on your server as a classic PHP application and 
 ## Environment configuration variables
 | Variable | Description | Example value |
 | --- | --- | --- |
-| `APP_ENV` | Specific enviroment name | `dev` |
-| `APP_SECRET` | Session & token encrypton key | `369af56dccfce490cb9325e8b4b59a90` |
+| `APP_ENV` | Specific environment name | `dev` |
+| `APP_SECRET` | Session & token encryption key | `369af56dccfce490cb9325e8b4b59a90` |
 | `API_TOKEN` | API access token for authentication | `1234` |
 | `APP_VERSION` | App version identifier | `1.0` |
 | `TRUSTED_HOSTS` | Trusted domain names | `^.*$` |
-| `ALLOWED_IP_ADDRESSES` | Allowed ip addresses (use % for all ip-addresses) | `%` |
+| `ALLOWED_IP_ADDRESSES` | Allowed ip addresses (use % for all IP addresses) | `%` |
 | `SSL_ONLY` | Enable only SSL traffic (true/false) | `false` |
 | `MAINTENANCE_MODE` | Enable maintenance mode (true/false) | `false` |
 | `LIMIT_CONTENT_PER_PAGE` | Pagination config (int value) | `10` |
 | `REGISTRATION_WITH_API_ENDPOINT_ENABLED` | Enable registration API endpoint (true/false) | `true` |
 | `DATABASE_LOGGING` | Log manager config | `true` |
 | `LOG_LEVEL` | Log level (1: CRITICAL, 2: WARNING, 3: NOTICE, 4: INFO) | `4` |
-| `EXCHANGE_RATE_API_ENDPOINT` | Currency convertor API config | `https://open.er-api.com/v6/latest` |
+| `EXCHANGE_RATE_API_ENDPOINT` | Currency converter API config | `https://open.er-api.com/v6/latest` |
 | `EXCHANGE_DATA_CACHE_TTL` | Currency convertor API config | `86400` (1 day cache expiration) |
 | `DATABASE_DRIVER` | Database driver | `pdo_mysql` |
 | `DATABASE_HOST` | Database host | `127.0.0.1` |
