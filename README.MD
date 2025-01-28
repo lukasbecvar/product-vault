@@ -7,6 +7,9 @@ Open-source API system for managing product databases, designed with a focus on 
 * Security user authentication and authorization system (Using JWT)
 * CLI commands (for managing products)
 
+# API documentation
+The documentation for API endpoints can be found at the route `/api/doc`, with Nelmio UI complete documentation and also allows testing requests directly in the web browser. Alternatively, you can find documentation in JSON format at `/api/doc.json` (this API doc routes are only available in development mode).
+
 ## Installation
 You can install the application on your server as a classic PHP application and manage dependencies via Composer, or you can use Docker.
 
@@ -70,6 +73,7 @@ Based on [api-base](https://github.com/lukasbecvar/api-base)
     * [Github](https://github.com/phpstan/phpstan)
 
 ## TODO LIST
+- [ ] Docker compose deployment template (link template in readme Installation info)
 - [ ] Cache system
     - [ ] Cache product by id when product is requested
     - [ ] Get product by id from cache or mysql database if not in cache
