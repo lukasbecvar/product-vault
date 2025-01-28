@@ -103,4 +103,4 @@ Based on [api-base](https://github.com/lukasbecvar/api-base)
 - [ ] React admin app implementation
 
 ## License
-This software is licensed under the [MIT license](blob/main/LICENSE).
+This software is licensed under the [MIT license](LICENSE).
