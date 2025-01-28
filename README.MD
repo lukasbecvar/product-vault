@@ -73,7 +73,6 @@ Based on [api-base](https://github.com/lukasbecvar/api-base)
     * [Github](https://github.com/phpstan/phpstan)
 
 ## TODO LIST
-- [ ] Docker compose deployment template (link template in readme Installation info)
 - [ ] Cache system
     - [ ] Cache product by id when product is requested
     - [ ] Get product by id from cache or mysql database if not in cache
