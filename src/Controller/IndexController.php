@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Util\AppUtil;
 use OpenApi\Attributes\Tag;
 use OpenApi\Attributes\Response;
 use Nelmio\ApiDocBundle\Attribute\Security;
@@ -18,6 +19,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class IndexController extends AbstractController
 {
+    private AppUtil $appUtil;
+
+    public function __construct(AppUtil $appUtil)
+    {
+        $this->appUtil = $appUtil;
+    }
+
     /**
      * Index route for check api status
      *
@@ -29,10 +37,19 @@ class IndexController extends AbstractController
     #[Route('/', methods:['GET'], name: 'main_index')]
     public function index(): JsonResponse
     {
-        return $this->json([
+        // return backend status
+        $responseData = [
             'status' => 'success',
             'message' => 'product-vault is running!',
             'version' => $_ENV['APP_VERSION'],
-        ], JsonResponse::HTTP_OK);
+        ];
+
+        // add warning if app is running in dev mode
+        if ($this->appUtil->isDevMode()) {
+            $responseData['warning'] = 'App is running in dev mode!';
+        }
+
+        // return response
+        return $this->json($responseData, JsonResponse::HTTP_OK);
     }
 }
