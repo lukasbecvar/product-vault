@@ -11,7 +11,7 @@ Open-source API system for managing product databases, designed with a focus on 
 The documentation for API endpoints can be found at the route `/api/doc`, with Nelmio UI complete documentation and also allows testing requests directly in the web browser. Alternatively, you can find documentation in JSON format at `/api/doc.json` (this API doc routes are only available in development mode).
 
 ## Installation
-You can install the application on your server as a classic PHP application and manage dependencies via Composer, or you can use Docker.
+You can install the application on your server as a classic PHP application and manage dependencies via Composer, or you can use Docker ([compose-stack-example](https://github.com/lukasbecvar/admin-suite/blob/main/.github/assets/docker-compose-example.yml)).
 
 ## Environment configuration variables
 | Variable | Description | Example value |
