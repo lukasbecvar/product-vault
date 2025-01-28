@@ -46,7 +46,7 @@ class IndexController extends AbstractController
 
         // add warning if app is running in dev mode
         if ($this->appUtil->isDevMode()) {
-            $responseData['warning'] = 'App is running in dev mode!';
+            $responseData['warning'] = 'App is running in dev mode (you can find documentation at /api/doc)!';
         }
 
         // return response

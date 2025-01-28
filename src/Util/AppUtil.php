@@ -2,6 +2,7 @@
 
 namespace App\Util;
 
+use Exception;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -118,10 +119,16 @@ class AppUtil
      *
      * @param string $key The environment variable key
      *
+     * @throws Exception If the environment variable is not set
+     *
      * @return string The environment variable value
      */
     public function getEnvValue(string $key): string
     {
+        if (!isset($_ENV[$key])) {
+            throw new Exception('Environment variable not found: ' . $key);
+        }
+
         return $_ENV[$key];
     }
 

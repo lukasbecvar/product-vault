@@ -5,6 +5,7 @@ namespace App\Tests\Manager;
 use Predis\Client;
 use App\Manager\CacheManager;
 use App\Manager\ErrorManager;
+use App\Util\AppUtil;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -19,16 +20,18 @@ class CacheManagerTest extends TestCase
 {
     private CacheManager $cacheManager;
     private Client & MockObject $redis;
+    private AppUtil & MockObject $appUtilMock;
     private ErrorManager & MockObject $errorManager;
 
     public function setUp(): void
     {
         // mock dependencies
         $this->redis = $this->createMock(Client::class);
+        $this->appUtilMock = $this->createMock(AppUtil::class);
         $this->errorManager = $this->createMock(ErrorManager::class);
 
         // init cache manager instance
-        $this->cacheManager = new CacheManager($this->redis, $this->errorManager);
+        $this->cacheManager = new CacheManager($this->redis, $this->appUtilMock, $this->errorManager);
     }
 
     /**
@@ -115,5 +118,33 @@ class CacheManagerTest extends TestCase
 
         // call tested method
         $this->cacheManager->deleteCacheValue('test_key');
+    }
+
+    /**
+     * Test invalidate all keys that start with a given prefix
+     *
+     * @return void
+     */
+    public function testInvalidateAllKeysStartsWith(): void
+    {
+        // mock scan responses for iterations
+        $scanResponses = [
+            [1, ['prefix:key1', 'prefix:key2']],
+            [0, []]
+        ];
+
+        // mock scan and del behavior
+        $this->redis->method('__call')->willReturnCallback(function ($name, $arguments) use (&$scanResponses) {
+            if ($name === 'scan') {
+                return array_shift($scanResponses);
+            } elseif ($name === 'del') {
+                $this->assertEquals(['prefix:key1', 'prefix:key2'], $arguments);
+                return null;
+            }
+            return null;
+        });
+
+        // call tested method
+        $this->cacheManager->invalidateAllKeysStartsWith('prefix:');
     }
 }

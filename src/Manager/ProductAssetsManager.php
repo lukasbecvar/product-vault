@@ -24,6 +24,7 @@ class ProductAssetsManager
 {
     private LogManager $logManager;
     private StorageUtil $storageUtil;
+    private CacheManager $cacheManager;
     private ErrorManager $errorManager;
     private EntityManagerInterface $entityManager;
     private ProductIconRepository $productIconRepository;
@@ -32,6 +33,7 @@ class ProductAssetsManager
     public function __construct(
         LogManager $logManager,
         StorageUtil $storageUtil,
+        CacheManager $cacheManager,
         ErrorManager $errorManager,
         EntityManagerInterface $entityManager,
         ProductIconRepository $productIconRepository,
@@ -39,6 +41,7 @@ class ProductAssetsManager
     ) {
         $this->logManager = $logManager;
         $this->storageUtil = $storageUtil;
+        $this->cacheManager = $cacheManager;
         $this->errorManager = $errorManager;
         $this->entityManager = $entityManager;
         $this->productIconRepository = $productIconRepository;
@@ -170,6 +173,10 @@ class ProductAssetsManager
             );
         }
 
+        // invalidate cache data
+        $this->cacheManager->invalidateAllKeysStartsWith('product_' . $product->getId() . '_currency_');
+        $this->cacheManager->invalidateAllKeysStartsWith('product_list_search_');
+
         // log action
         $this->logManager->saveLog(
             name: 'product-manager',
@@ -261,6 +268,10 @@ class ProductAssetsManager
                 exceptionMessage: $e->getMessage()
             );
         }
+
+        // invalidate cache data
+        $this->cacheManager->invalidateAllKeysStartsWith('product_' . $product->getId() . '_currency_');
+        $this->cacheManager->invalidateAllKeysStartsWith('product_list_search_');
 
         // log action
         $this->logManager->saveLog(
@@ -417,6 +428,10 @@ class ProductAssetsManager
             );
         }
 
+        // invalidate cache data
+        $this->cacheManager->invalidateAllKeysStartsWith('product_' . $product->getId() . '_currency_');
+        $this->cacheManager->invalidateAllKeysStartsWith('product_list_search_');
+
         // log action
         $this->logManager->saveLog(
             name: 'product-manager',
@@ -470,6 +485,9 @@ class ProductAssetsManager
                 exceptionMessage: $e->getMessage()
             );
         }
+
+        // invalidate cache data
+        $this->cacheManager->invalidateAllKeysStartsWith('product_');
 
         // log action
         $this->logManager->saveLog(

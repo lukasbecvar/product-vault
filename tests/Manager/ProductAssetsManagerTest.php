@@ -7,6 +7,7 @@ use App\Util\StorageUtil;
 use App\Manager\LogManager;
 use App\Entity\ProductIcon;
 use App\Entity\ProductImage;
+use App\Manager\CacheManager;
 use App\Manager\ErrorManager;
 use PHPUnit\Framework\TestCase;
 use App\Manager\ProductAssetsManager;
@@ -26,6 +27,7 @@ class ProductAssetsManagerTest extends TestCase
 {
     private LogManager & MockObject $logManager;
     private StorageUtil & MockObject $storageUtil;
+    private CacheManager & MockObject $cacheManager;
     private ErrorManager & MockObject $errorManager;
     private ProductAssetsManager $productAssetsManager;
     private EntityManagerInterface & MockObject $entityManager;
@@ -37,6 +39,7 @@ class ProductAssetsManagerTest extends TestCase
         // mock dependencies
         $this->logManager = $this->createMock(LogManager::class);
         $this->storageUtil = $this->createMock(StorageUtil::class);
+        $this->cacheManager = $this->createMock(CacheManager::class);
         $this->errorManager = $this->createMock(ErrorManager::class);
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->productIconRepository = $this->createMock(ProductIconRepository::class);
@@ -46,6 +49,7 @@ class ProductAssetsManagerTest extends TestCase
         $this->productAssetsManager = new ProductAssetsManager(
             $this->logManager,
             $this->storageUtil,
+            $this->cacheManager,
             $this->errorManager,
             $this->entityManager,
             $this->productIconRepository,

@@ -6,6 +6,7 @@ use Exception;
 use App\Util\AppUtil;
 use OpenApi\Attributes\Tag;
 use App\Manager\ErrorManager;
+use App\Manager\CacheManager;
 use OpenApi\Attributes as OA;
 use App\Manager\ProductManager;
 use OpenApi\Attributes\Response;
@@ -26,12 +27,18 @@ class ProductGetController extends AbstractController
 {
     private AppUtil $appUtil;
     private ErrorManager $errorManager;
+    private CacheManager $cacheManager;
     private ProductManager $productManager;
 
-    public function __construct(AppUtil $appUtil, ErrorManager $errorManager, ProductManager $productManager)
-    {
+    public function __construct(
+        AppUtil $appUtil,
+        ErrorManager $errorManager,
+        CacheManager $cacheManager,
+        ProductManager $productManager
+    ) {
         $this->appUtil = $appUtil;
         $this->errorManager = $errorManager;
+        $this->cacheManager = $cacheManager;
         $this->productManager = $productManager;
     }
 
@@ -54,7 +61,7 @@ class ProductGetController extends AbstractController
         $productId = $request->get('id');
         $requestedCurrency = $request->get('currency', null);
 
-        // check if product id is set
+        // check if product parameter id is set
         if (!$productId) {
             return $this->json([
                 'status' => 'error',
@@ -65,6 +72,20 @@ class ProductGetController extends AbstractController
         // set requested currency to uppercase
         if ($requestedCurrency !== null) {
             $requestedCurrency = strtoupper($requestedCurrency);
+        }
+
+        // init cache key for product
+        $cacheKey = 'product_' . $productId . '_currency_' . $requestedCurrency;
+
+        // get product data from cache storage
+        $cachedProductData = $this->cacheManager->getCacheValue($cacheKey);
+
+        // check if product data is cached and return it
+        if ($cachedProductData !== null) {
+            return $this->json([
+                'statusf' => 'success',
+                'data' => unserialize($cachedProductData),
+            ], JsonResponse::HTTP_OK);
         }
 
         // get product by id
@@ -80,6 +101,10 @@ class ProductGetController extends AbstractController
 
         // format product data
         $data = $this->productManager->formatProductData($product, $requestedCurrency);
+
+        // save product data to cache storage
+        $productCacheTTL = (int) $this->appUtil->getEnvValue('PRODUCT_CACHE_TTL');
+        $this->cacheManager->saveCacheValue($cacheKey, serialize($data), $productCacheTTL);
 
         // return product data
         return $this->json([
@@ -170,9 +195,38 @@ class ProductGetController extends AbstractController
         $sort = $content['sort'] ?? null;
         $currency = $content['currency'] ?? null;
 
+        // get ttl for product cache
+        $productCacheTTL = (int) $this->appUtil->getEnvValue('PRODUCT_CACHE_TTL');
+
+        // cache key for list filter
+        $cacheKey = 'product_list_search_' . $search . '_attributes_' . implode('_', $attributes) . '_categories_' . implode('_', $categories) . '_page_' . $page . '_limit_' . $limit . '_sort_' . $sort . '_currency_' . $currency;
+        $statsCacheKey = "product_stats";
+
+        // get data from cache
+        $cachedStats = $this->cacheManager->getCacheValue($statsCacheKey);
+        $cachedProductListData = $this->cacheManager->getCacheValue($cacheKey);
+
+        // check if stats data is cached
+        if ($cachedStats !== null) {
+            $stats = unserialize($cachedStats);
+        } else {
+            $stats = $this->productManager->getProductStats();
+            $this->cacheManager->saveCacheValue($statsCacheKey, serialize($stats), $productCacheTTL);
+        }
+
+        // check if product list data is cached and return it
+        if ($cachedProductListData !== null) {
+            $cachedData = unserialize($cachedProductListData);
+            return $this->json([
+                'status' => 'success',
+                'products_data' => $cachedData['products'],
+                'pagination_info' => $cachedData['pagination_info'],
+                'stats' => $stats,
+            ], JsonResponse::HTTP_OK);
+        }
+
         // get filtered product list
         try {
-            $stats = $this->productManager->getProductStats();
             $data = $this->productManager->getProductsList(
                 search: $search,
                 attributeValues: $attributes,
@@ -182,6 +236,15 @@ class ProductGetController extends AbstractController
                 sort: $sort,
                 currency: $currency,
             );
+
+            // save product list data to cache
+            $cacheData = [
+                'products' => $data['products'],
+                'pagination_info' => $data['pagination_info'],
+                'stats' => $stats,
+            ];
+            $this->cacheManager->saveCacheValue($cacheKey, serialize($cacheData), $productCacheTTL);
+
             return $this->json([
                 'status' => 'success',
                 'products_data' => $data['products'],

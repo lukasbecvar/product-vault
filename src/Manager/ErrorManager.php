@@ -3,6 +3,7 @@
 namespace App\Manager;
 
 use App\Util\AppUtil;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
@@ -15,9 +16,11 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class ErrorManager
 {
     private AppUtil $appUtil;
+    private LoggerInterface $logger;
 
-    public function __construct(AppUtil $appUtil)
+    public function __construct(AppUtil $appUtil, LoggerInterface $logger)
     {
+        $this->logger = $logger;
         $this->appUtil = $appUtil;
     }
 
@@ -38,5 +41,18 @@ class ErrorManager
         }
 
         throw new HttpException($code, $message, null, [], $code);
+    }
+
+    /**
+     * Log error to exception log
+     *
+     * @param string $message The error message
+     * @param int $code The error code
+     *
+     * @return void
+     */
+    public function logError(string $message, int $code): void
+    {
+        $this->logger->error($message, ['code' => $code]);
     }
 }

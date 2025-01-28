@@ -3,6 +3,7 @@
 namespace App\Tests\Manager;
 
 use App\Util\AppUtil;
+use Psr\Log\LoggerInterface;
 use App\Manager\ErrorManager;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -20,14 +21,16 @@ class ErrorManagerTest extends TestCase
 {
     private ErrorManager $errorManager;
     private AppUtil & MockObject $appUtilMock;
+    private LoggerInterface & MockObject $loggerMock;
 
     protected function setUp(): void
     {
         // mock dependencies
         $this->appUtilMock = $this->createMock(AppUtil::class);
+        $this->loggerMock = $this->createMock(LoggerInterface::class);
 
         // create error manager instance
-        $this->errorManager = new ErrorManager($this->appUtilMock);
+        $this->errorManager = new ErrorManager($this->appUtilMock, $this->loggerMock);
     }
 
     /**

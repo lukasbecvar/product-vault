@@ -9,6 +9,7 @@ use App\Entity\Category;
 use App\Entity\Attribute;
 use App\Manager\LogManager;
 use App\Manager\ErrorManager;
+use App\Manager\CacheManager;
 use App\Manager\ProductManager;
 use App\Entity\ProductCategory;
 use PHPUnit\Framework\TestCase;
@@ -34,6 +35,7 @@ class ProductManagerTest extends TestCase
     private AppUtil & MockObject $appUtil;
     private ProductManager $productManager;
     private LogManager & MockObject $logManager;
+    private CacheManager & MockObject $cacheManager;
     private ErrorManager & MockObject $errorManager;
     private CategoryManager & MockObject $categoryManager;
     private AttributeManager & MockObject $attributeManager;
@@ -46,6 +48,7 @@ class ProductManagerTest extends TestCase
         // mock dependencies
         $this->appUtil = $this->createMock(AppUtil::class);
         $this->logManager = $this->createMock(LogManager::class);
+        $this->cacheManager = $this->createMock(CacheManager::class);
         $this->errorManager = $this->createMock(ErrorManager::class);
         $this->categoryManager = $this->createMock(CategoryManager::class);
         $this->attributeManager = $this->createMock(AttributeManager::class);
@@ -57,6 +60,7 @@ class ProductManagerTest extends TestCase
         $this->productManager = new ProductManager(
             $this->appUtil,
             $this->logManager,
+            $this->cacheManager,
             $this->errorManager,
             $this->categoryManager,
             $this->attributeManager,

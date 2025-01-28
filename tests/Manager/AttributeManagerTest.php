@@ -4,6 +4,7 @@ namespace App\Tests\Manager;
 
 use App\Entity\Attribute;
 use App\Manager\LogManager;
+use App\Manager\CacheManager;
 use App\Manager\ErrorManager;
 use PHPUnit\Framework\TestCase;
 use App\Manager\AttributeManager;
@@ -23,6 +24,7 @@ class AttributeManagerTest extends TestCase
 {
     private AttributeManager $attributeManager;
     private LogManager & MockObject $logManager;
+    private CacheManager & MockObject $cacheManager;
     private ErrorManager & MockObject $errorManager;
     private EntityManagerInterface & MockObject $entityManager;
     private AttributeRepository & MockObject $attributeRepository;
@@ -31,6 +33,7 @@ class AttributeManagerTest extends TestCase
     {
         // mock dependencies
         $this->logManager = $this->createMock(LogManager::class);
+        $this->cacheManager = $this->createMock(CacheManager::class);
         $this->errorManager = $this->createMock(ErrorManager::class);
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->attributeRepository = $this->createMock(AttributeRepository::class);
@@ -38,6 +41,7 @@ class AttributeManagerTest extends TestCase
         // create attribute manager instance
         $this->attributeManager = new AttributeManager(
             $this->logManager,
+            $this->cacheManager,
             $this->errorManager,
             $this->entityManager,
             $this->attributeRepository

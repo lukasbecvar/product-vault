@@ -4,6 +4,7 @@ namespace App\Tests\Manager;
 
 use App\Entity\Category;
 use App\Manager\LogManager;
+use App\Manager\CacheManager;
 use App\Manager\ErrorManager;
 use PHPUnit\Framework\TestCase;
 use App\Manager\CategoryManager;
@@ -23,6 +24,7 @@ class CategoryManagerTest extends TestCase
 {
     private CategoryManager $categoryManager;
     private LogManager & MockObject $logManager;
+    private CacheManager & MockObject $cacheManager;
     private ErrorManager & MockObject $errorManager;
     private EntityManagerInterface & MockObject $entityManager;
     private CategoryRepository & MockObject $categoryRepository;
@@ -31,6 +33,7 @@ class CategoryManagerTest extends TestCase
     {
         // mock dependencies
         $this->logManager = $this->createMock(LogManager::class);
+        $this->cacheManager = $this->createMock(CacheManager::class);
         $this->errorManager = $this->createMock(ErrorManager::class);
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->categoryRepository = $this->createMock(CategoryRepository::class);
@@ -38,6 +41,7 @@ class CategoryManagerTest extends TestCase
         // create category manager instance
         $this->categoryManager = new CategoryManager(
             $this->logManager,
+            $this->cacheManager,
             $this->errorManager,
             $this->entityManager,
             $this->categoryRepository

@@ -4,6 +4,7 @@ namespace App\Manager;
 
 use Exception;
 use Predis\Client;
+use App\Util\AppUtil;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -16,11 +17,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class CacheManager
 {
     private Client $redis;
+    private AppUtil $appUtil;
     private ErrorManager $errorManager;
 
-    public function __construct(Client $redis, ErrorManager $errorManager)
+    public function __construct(Client $redis, AppUtil $appUtil, ErrorManager $errorManager)
     {
         $this->redis = $redis;
+        $this->appUtil = $appUtil;
         $this->errorManager = $errorManager;
     }
 
@@ -60,6 +63,11 @@ class CacheManager
      */
     public function saveCacheValue(string $key, string $value, int $expirationTTL = 60): void
     {
+        // check if product data caching is enabled
+        if ($this->appUtil->getEnvValue('CACHE_PRODUCT_DATA') === 'false' && str_starts_with($key, 'product')) {
+            return;
+        }
+
         try {
             $this->redis->set($key, $value, 'EX', $expirationTTL);
         } catch (Exception $e) {
@@ -80,6 +88,11 @@ class CacheManager
      */
     public function checkIsCacheValueExists(string $key): bool
     {
+        // check if product data caching is enabled
+        if ($this->appUtil->getEnvValue('CACHE_PRODUCT_DATA') === 'false' && str_starts_with($key, 'product')) {
+            return false;
+        }
+
         try {
             $status = $this->redis->exists($key);
         } catch (Exception $e) {
@@ -107,6 +120,11 @@ class CacheManager
      */
     public function getCacheValue(string $key): ?string
     {
+        // check if product data caching is enabled
+        if ($this->appUtil->getEnvValue('CACHE_PRODUCT_DATA') === 'false' && str_starts_with($key, 'product')) {
+            return null;
+        }
+
         try {
             return $this->redis->get($key);
         } catch (Exception $e) {
@@ -127,11 +145,55 @@ class CacheManager
      */
     public function deleteCacheValue(string $key): void
     {
+        // check if product data caching is enabled
+        if ($this->appUtil->getEnvValue('CACHE_PRODUCT_DATA') === 'false' && str_starts_with($key, 'product')) {
+            return;
+        }
+
         try {
             $this->redis->del($key);
         } catch (Exception $e) {
             $this->errorManager->handleError(
                 message: 'Error to delete cache value',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
+    }
+
+    /**
+     * Invalidate all cache keys that start with a given prefix
+     *
+     * @param string $prefix The prefix to match cache keys
+     *
+     * @return void
+     */
+    public function invalidateAllKeysStartsWith(string $prefix): void
+    {
+        // check if product data caching is enabled
+        if ($this->appUtil->getEnvValue('CACHE_PRODUCT_DATA') === 'false' && str_starts_with($prefix, 'product')) {
+            return;
+        }
+
+        $cursor = 0;
+        try {
+            do {
+                // scan for keys starting with the given prefix
+                $result = $this->redis->scan($cursor, [
+                    'MATCH' => $prefix . '*'
+                ]);
+
+                $cursor = $result[0]; // update cursor for next iteration
+                $keys = $result[1];  // extract matching keys
+
+                // delete found keys
+                if (!empty($keys)) {
+                    $this->redis->del(...$keys);
+                }
+            } while ($cursor != 0);
+        } catch (Exception $e) {
+            $this->errorManager->handleError(
+                message: 'Error to invalidate cache keys',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );

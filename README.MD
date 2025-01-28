@@ -73,15 +73,6 @@ Based on [api-base](https://github.com/lukasbecvar/api-base)
     * [Github](https://github.com/phpstan/phpstan)
 
 ## TODO LIST
-- [ ] Cache system
-    - [ ] Cache product by id when product is requested
-    - [ ] Get product by id from cache or mysql database if not in cache
-    - [ ] Invalidate cached product if product is edited
-    - [ ] Cache products list by specific filter (cache per page list)
-    - [ ] Cache preload (CLI command)
-        - [ ] Preload cache for all products
-        - [ ] Preload cache for most used products list filtering
-        - [ ] When preload process is not finished use mysql database for getting products
 - [ ] Products export
     - [ ] Export products to excel file
     - [ ] Export products to pdf file 

@@ -26,6 +26,7 @@ class ProductManager
 {
     private AppUtil $appUtil;
     private LogManager $logManager;
+    private CacheManager $cacheManager;
     private ErrorManager $errorManager;
     private CategoryManager $categoryManager;
     private AttributeManager $attributeManager;
@@ -36,6 +37,7 @@ class ProductManager
     public function __construct(
         AppUtil $appUtil,
         LogManager $logManager,
+        CacheManager $cacheManager,
         ErrorManager $errorManager,
         CategoryManager $categoryManager,
         AttributeManager $attributeManager,
@@ -45,6 +47,7 @@ class ProductManager
     ) {
         $this->appUtil = $appUtil;
         $this->logManager = $logManager;
+        $this->cacheManager = $cacheManager;
         $this->errorManager = $errorManager;
         $this->entityManager = $entityManager;
         $this->categoryManager = $categoryManager;
@@ -273,6 +276,12 @@ class ProductManager
             }
         }
 
+        // invalidate cache data
+        $this->cacheManager->invalidateAllKeysStartsWith('product_list_search_');
+        $this->cacheManager->deleteCacheValue('product_attributes');
+        $this->cacheManager->deleteCacheValue('product_categories');
+        $this->cacheManager->deleteCacheValue('product_stats');
+
         // log action
         $this->logManager->saveLog(
             name: 'product-manager',
@@ -333,6 +342,12 @@ class ProductManager
             );
         }
 
+        // invalidate cache data
+        $this->cacheManager->invalidateAllKeysStartsWith('product_' . $productId . '_currency_');
+        $this->cacheManager->invalidateAllKeysStartsWith('product_list_search_');
+        $this->cacheManager->deleteCacheValue('product_attributes');
+        $this->cacheManager->deleteCacheValue('product_categories');
+
         // log action
         $this->logManager->saveLog(
             name: 'product-manager',
@@ -372,6 +387,13 @@ class ProductManager
                 exceptionMessage: $e->getMessage()
             );
         }
+
+        // invalidate cache data
+        $this->cacheManager->invalidateAllKeysStartsWith('product_' . $productId);
+        $this->cacheManager->invalidateAllKeysStartsWith('product_list_search_');
+        $this->cacheManager->deleteCacheValue('product_attributes');
+        $this->cacheManager->deleteCacheValue('product_categories');
+        $this->cacheManager->deleteCacheValue('product_stats');
 
         // log action
         $this->logManager->saveLog(
@@ -424,6 +446,11 @@ class ProductManager
             );
         }
 
+        // invalidate cache data
+        $this->cacheManager->invalidateAllKeysStartsWith('product_' . $productId . '_currency_');
+        $this->cacheManager->invalidateAllKeysStartsWith('product_list_search_');
+        $this->cacheManager->deleteCacheValue('product_stats');
+
         // log action
         $this->logManager->saveLog(
             name: 'product-manager',
@@ -475,6 +502,10 @@ class ProductManager
             );
         }
 
+        // invalidate cache data
+        $this->cacheManager->invalidateAllKeysStartsWith('product_' . $productId . '_currency_');
+        $this->cacheManager->invalidateAllKeysStartsWith('product_list_search_');
+
         // log action
         $this->logManager->saveLog(
             name: 'product-manager',
@@ -518,6 +549,10 @@ class ProductManager
             );
         }
 
+        // invalidate cache data
+        $this->cacheManager->invalidateAllKeysStartsWith('product_' . $product->getId() . '_currency_');
+        $this->cacheManager->invalidateAllKeysStartsWith('product_list_search_');
+
         // log action
         $this->logManager->saveLog(
             name: 'product-manager',
@@ -560,6 +595,11 @@ class ProductManager
                 exceptionMessage: $e->getMessage()
             );
         }
+
+        // invalidate cache data
+        $this->cacheManager->invalidateAllKeysStartsWith('product_' . $product->getId() . '_currency_');
+        $this->cacheManager->invalidateAllKeysStartsWith('product_list_search_');
+        $this->cacheManager->deleteCacheValue('product_stats');
 
         // log action
         $this->logManager->saveLog(
@@ -608,6 +648,10 @@ class ProductManager
             );
         }
 
+        // invalidate cache data
+        $this->cacheManager->invalidateAllKeysStartsWith('product_' . $product->getId() . '_currency_');
+        $this->cacheManager->invalidateAllKeysStartsWith('product_list_search_');
+
         // log action
         $this->logManager->saveLog(
             name: 'product-manager',
@@ -655,6 +699,10 @@ class ProductManager
             );
         }
 
+        // invalidate cache data
+        $this->cacheManager->invalidateAllKeysStartsWith('product_' . $product->getId() . '_currency_');
+        $this->cacheManager->invalidateAllKeysStartsWith('product_list_search_');
+
         // log action
         $this->logManager->saveLog(
             name: 'product-manager',
@@ -697,6 +745,10 @@ class ProductManager
                 exceptionMessage: $e->getMessage()
             );
         }
+
+        // invalidate cache data
+        $this->cacheManager->invalidateAllKeysStartsWith('product_' . $product->getId() . '_currency_');
+        $this->cacheManager->invalidateAllKeysStartsWith('product_list_search_');
 
         // log action
         $this->logManager->saveLog(

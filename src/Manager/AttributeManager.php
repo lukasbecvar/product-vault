@@ -19,17 +19,20 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class AttributeManager
 {
     private LogManager $logManager;
+    private CacheManager $cacheManager;
     private ErrorManager $errorManager;
     private EntityManagerInterface $entityManager;
     private AttributeRepository $attributeRepository;
 
     public function __construct(
         LogManager $logManager,
+        CacheManager $cacheManager,
         ErrorManager $errorManager,
         EntityManagerInterface $entityManager,
         AttributeRepository $attributeRepository
     ) {
         $this->logManager = $logManager;
+        $this->cacheManager = $cacheManager;
         $this->errorManager = $errorManager;
         $this->entityManager = $entityManager;
         $this->attributeRepository = $attributeRepository;
@@ -114,6 +117,10 @@ class AttributeManager
             );
         }
 
+        // invalidate cache data
+        $this->cacheManager->deleteCacheValue('product_attributes');
+        $this->cacheManager->deleteCacheValue('product_stats');
+
         // log action
         $this->logManager->saveLog(
             name: 'product-manager',
@@ -165,6 +172,11 @@ class AttributeManager
             );
         }
 
+        // invalidate cache data
+        $this->cacheManager->invalidateAllKeysStartsWith('product_list_search_');
+        $this->cacheManager->deleteCacheValue('product_attributes');
+        $this->cacheManager->deleteCacheValue('product_stats');
+
         // log action
         $this->logManager->saveLog(
             name: 'product-manager',
@@ -205,6 +217,10 @@ class AttributeManager
             );
         }
 
+        // invalidate cache data
+        $this->cacheManager->deleteCacheValue('product_attributes');
+        $this->cacheManager->deleteCacheValue('product_stats');
+
         // log action
         $this->logManager->saveLog(
             name: 'product-manager',
@@ -237,5 +253,10 @@ class AttributeManager
                 exceptionMessage: $e->getMessage()
             );
         }
+
+        // invalidate cache data
+        $this->cacheManager->invalidateAllKeysStartsWith('product_list_search_');
+        $this->cacheManager->deleteCacheValue('product_attributes');
+        $this->cacheManager->deleteCacheValue('product_stats');
     }
 }
