@@ -1,0 +1,135 @@
+<?php
+
+namespace App\Util;
+
+use App\Repository\ProductRepository;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+
+/**
+ * Class ExportUtil
+ *
+ * Util for data exporting
+ *
+ * @package App\Util
+ */
+class ExportUtil
+{
+    private ProductRepository $productRepository;
+
+    public function __construct(ProductRepository $productRepository)
+    {
+        $this->productRepository = $productRepository;
+    }
+
+    /**
+     * Export products to xlsx file
+     *
+     * @return StreamedResponse Return xlsx file as streamed response
+     */
+    public function exportToXls(): StreamedResponse
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // style table header
+        $headerStyle = [
+            'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF'], 'size' => 12],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '333333']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+        ];
+
+        // style table body
+        $tableStyle = [
+            'font' => ['color' => ['rgb' => 'EEEEEE']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '222222']],
+            'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => '555555']]],
+        ];
+
+        // set column widths
+        $columns = [
+            'A' => ['label' => 'ID', 'width' => 10],
+            'B' => ['label' => 'Name', 'width' => 25],
+            'C' => ['label' => 'Description', 'width' => 60],
+            'D' => ['label' => 'Price', 'width' => 12],
+            'E' => ['label' => 'Currency', 'width' => 10],
+            'F' => ['label' => 'Added Time', 'width' => 20],
+            'G' => ['label' => 'Last Edit', 'width' => 20],
+            'H' => ['label' => 'Active', 'width' => 10],
+            'I' => ['label' => 'Categories', 'width' => 60],
+            'J' => ['label' => 'Attributes', 'width' => 60],
+        ];
+
+        foreach ($columns as $col => $data) {
+            $sheet->setCellValue("{$col}1", $data['label']);
+            $sheet->getColumnDimension($col)->setWidth($data['width']);
+        }
+
+        $sheet->getStyle('A1:J1')->applyFromArray($headerStyle);
+
+        // get product list data
+        $products = $this->productRepository->findAll();
+
+        $row = 2;
+        $categoryCounts = [];
+
+        foreach ($products as $product) {
+            $categories = $product->getCategoriesRaw();
+            foreach ($categories as $category) {
+                $categoryCounts[$category] = ($categoryCounts[$category] ?? 0) + 1;
+            }
+
+            // get time values
+            $addedTime = $product->getAddedTime();
+            $lastEditTime = $product->getLastEditTime();
+
+            // format time values
+            if ($addedTime != null) {
+                $addedTime = $addedTime->format('Y-m-d H:i:s');
+            } else {
+                $addedTime = 'N/A';
+            }
+            if ($lastEditTime != null) {
+                $lastEditTime = $lastEditTime->format('Y-m-d H:i:s');
+            } else {
+                $lastEditTime = 'N/A';
+            }
+
+            // set values
+            $sheet->setCellValue("A$row", $product->getId());
+            $sheet->setCellValue("B$row", $product->getName());
+            $sheet->setCellValue("C$row", $product->getDescription());
+            $sheet->setCellValue("D$row", $product->getPrice());
+            $sheet->setCellValue("E$row", $product->getPriceCurrency());
+            $sheet->setCellValue("F$row", $addedTime);
+            $sheet->setCellValue("G$row", $lastEditTime);
+            $sheet->setCellValue("H$row", $product->isActive() ? 'Yes' : 'No');
+            $sheet->setCellValue("I$row", implode(', ', $categories));
+            $sheet->setCellValue("J$row", implode(', ', $product->getProductAttributesRaw()));
+
+            // apply table style
+            $sheet->getStyle("A$row:J$row")->applyFromArray($tableStyle);
+            $sheet->getStyle("A$row:H$row")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $sheet->getStyle("I$row:J$row")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+
+            $row++;
+        }
+
+        // create response
+        $response = new StreamedResponse(function () use ($spreadsheet) {
+            $writer = new Xlsx($spreadsheet);
+            $writer->setIncludeCharts(true);
+            $writer->save('php://output');
+        });
+
+        // return response
+        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $response->headers->set('Content-Disposition', 'attachment;filename="products-' . date('Y-m-d') . '.xlsx"');
+        $response->headers->set('Cache-Control', 'max-age=0');
+        return $response;
+    }
+}

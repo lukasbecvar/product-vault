@@ -65,6 +65,8 @@ Based on [api-base](https://github.com/lukasbecvar/api-base)
     * [Github](https://github.com/doctrine/orm)
 * Lexik JWT Authentication Bundle
     * [Github](https://github.com/lexik/LexikJWTAuthenticationBundle)
+* PHPSpreadsheet
+    * [Github](https://github.com/PHPOffice/PhpSpreadsheet)
 * PHPUnit
     * [Github](https://github.com/sebastianbergmann/phpunit)
 * Better PHPUnit CLI output
@@ -74,7 +76,7 @@ Based on [api-base](https://github.com/lukasbecvar/api-base)
 
 ## TODO LIST
 - [ ] Products export
-    - [ ] Export products to excel file
+    - [X] Export products to excel file
     - [ ] Export products to pdf file 
     - [ ] Export products to xml file
     - [ ] Export products to json file
