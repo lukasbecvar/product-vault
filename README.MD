@@ -44,7 +44,7 @@ You can install the application on your server as a classic PHP application and 
 | `JWT_TOKEN_TTL` | JWT token TTL (in seconds) | `2629536` (1 month token expiration) |
 | `JWT_SECRET_KEY` | JWT secret key | `%kernel.project_dir%/config/jwt/private.pem` |
 | `JWT_PUBLIC_KEY` | JWT public key | `%kernel.project_dir%/config/jwt/public.pem` |
-| `JWT_PASSPHRASE` | JWT passphrase | `f82fdd5f4644df4ba8fe9d600c5026abc7d7e97cb4413607073d9fc03aa85ba4` |
+| `JWT_PASSPHRASE` | JWT passphrase | `f82fdd5f4644df4ba8fe9df82fdd5f4644df4ba8fe9d` |
 | `MAILER_ENABLED` | Enable mailer | `false` |
 | `MAILER_HOST` | Mailer host | `smtp.seznam.cz` |
 | `MAILER_PORT` | Mailer port | `465` |
@@ -78,15 +78,6 @@ Based on [api-base](https://github.com/lukasbecvar/api-base)
     - [ ] Export products to pdf file 
     - [ ] Export products to xml file
     - [ ] Export products to json file
-- [ ] Product data translation
-    - [ ] Product name
-    - [ ] Product description
-    - [ ] Category name
-    - [ ] Attribute name
-- [ ] Access control system
-    - [ ] Access log entity (id, access-type, time, ip-address, user-agent request-uri)
-    - [ ] Access log method in log manager (log access to product by id or access to product list)
-    - [ ] Controller for get access log data per concrete period (hour, day, week, month, year, alltime)
 - [ ] Create API documentation with postman
     - [ ] Create postman collection
         - [ ] Create tests in postman
