@@ -95,4 +95,37 @@ class ExportUtilTest extends TestCase
         $this->assertStringContainsString('attachment;filename="products-', $response->headers->get('Content-Disposition') ?? '');
         $this->assertStringContainsString('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $response->headers->get('content-type') ?? '');
     }
+
+    /**
+     * Test export product to xml
+     *
+     * @return void
+     */
+    public function testExportToXml(): void
+    {
+        // create testing product mock
+        $product = $this->createMock(Product::class);
+        $product->method('getId')->willReturn(1);
+        $product->method('getName')->willReturn('Test Product');
+        $product->method('getDescription')->willReturn('Test Description');
+        $product->method('getPrice')->willReturn('100.00');
+        $product->method('getPriceCurrency')->willReturn('USD');
+        $product->method('getAddedTime')->willReturn(new DateTime('2024-01-01 12:00:00'));
+        $product->method('getLastEditTime')->willReturn(new DateTime('2024-01-02 14:00:00'));
+        $product->method('isActive')->willReturn(true);
+        $product->method('getCategoriesRaw')->willReturn(['Category 1', 'Category 2']);
+        $product->method('getProductAttributesRaw')->willReturn(['Attribute 1', 'Attribute 2']);
+        $this->productRepository->method('findAll')->willReturn([$product]);
+
+        // capture output buffer
+        ob_start();
+        $response = $this->exportUtil->exportToXml();
+        $response->sendContent();
+        $output = ob_get_clean();
+
+        // assert response
+        $this->assertNotEmpty($output);
+        $this->assertStringContainsString('attachment;filename="products-', $response->headers->get('Content-Disposition') ?? '');
+        $this->assertStringContainsString('application/xml', $response->headers->get('content-type') ?? '');
+    }
 }

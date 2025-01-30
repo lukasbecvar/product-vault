@@ -2,6 +2,9 @@
 
 namespace App\Util;
 
+use Exception;
+use DOMDocument;
+use SimpleXMLElement;
 use App\Repository\ProductRepository;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -180,6 +183,89 @@ class ExportUtil
         $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         $response->headers->set('Content-Disposition', 'attachment;filename="products-' . date('Y-m-d') . '.xlsx"');
         $response->headers->set('Cache-Control', 'max-age=0');
+        return $response;
+    }
+
+    /**
+     * Export products to xml file
+     *
+     * @return StreamedResponse Return xml file as streamed response
+     */
+    public function exportToXml(): StreamedResponse
+    {
+        $response = new StreamedResponse(function () {
+            $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><products></products>');
+
+            // get product list
+            $products = $this->productRepository->findAll();
+
+            foreach ($products as $product) {
+                // get product data and validate
+                $productId = $product->getId() ?? 'Unknown';
+                $productName = $product->getName() ?? 'Unknown';
+                $productDescription = $product->getDescription() ?? 'Unknown';
+                $productPrice = $product->getPrice() ?? 'Unknown';
+                $productPriceCurrency = $product->getPriceCurrency() ?? 'Unknown';
+                $productAddedTime = $product->getAddedTime() ? $product->getAddedTime()->format('Y-m-d H:i:s') : 'N/A';
+                $productLastEditTime = $product->getLastEditTime() ? $product->getLastEditTime()->format('Y-m-d H:i:s') : 'N/A';
+                $productActive = $product->isActive() ?? false;
+                $productCategories = $product->getCategoriesRaw() ?? [];
+                $productAttributes = $product->getProductAttributesRaw() ?? [];
+                $productIcon = $product->getIconFile() ?? 'NULL';
+                $productImages = $product->getImagesRaw() ?? [];
+
+                // add product data to xml
+                $productXml = $xml->addChild('product');
+                $productXml->addChild('id', (string) $productId);
+                $productXml->addChild('name', htmlspecialchars($productName, ENT_XML1, 'UTF-8'));
+                $productXml->addChild('description', htmlspecialchars($productDescription, ENT_XML1, 'UTF-8'));
+                $productXml->addChild('price', $productPrice);
+                $productXml->addChild('priceCurrency', $productPriceCurrency);
+                $productXml->addChild('addedTime', $productAddedTime);
+                $productXml->addChild('lastEditTime', $productLastEditTime);
+                $productXml->addChild('active', $productActive ? 'true' : 'false');
+
+                // add categories to xml
+                $categoriesXml = $productXml->addChild('categories');
+                foreach ($productCategories as $category) {
+                    if ($category !== null) {
+                        $categoriesXml->addChild('category', htmlspecialchars($category, ENT_XML1, 'UTF-8'));
+                    }
+                }
+
+                // add attributes to xml
+                $attributesXml = $productXml->addChild('attributes');
+                foreach ($productAttributes as $attribute) {
+                    if ($attribute !== null) {
+                        $attributesXml->addChild('attribute', htmlspecialchars($attribute, ENT_XML1, 'UTF-8'));
+                    }
+                }
+
+                // add product assets to xml
+                $productXml->addChild('product_icon', $productIcon);
+                $imagesXml = $productXml->addChild('product_images');
+                foreach ($productImages as $image) {
+                    $imagesXml->addChild('image', $image);
+                }
+            }
+
+            // format xml output
+            $dom = new DOMDocument("1.0", "UTF-8");
+            $dom->preserveWhiteSpace = false;
+            $dom->formatOutput = true;
+            $xmlFile = $xml->asXML();
+            if ($xmlFile == false) {
+                throw new Exception('Error to encode/format xml data!');
+            }
+            $dom->loadXML($xmlFile);
+
+            // print xml data to output buffer
+            echo $dom->saveXML();
+        });
+
+        // return response
+        $response->headers->set('Content-Type', 'application/xml');
+        $response->headers->set('Content-Disposition', 'attachment;filename="products-' . date('Y-m-d') . '.xml"');
         return $response;
     }
 }

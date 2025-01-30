@@ -172,4 +172,79 @@ class ProductExportControllerTest extends WebTestCase
         $this->assertStringContainsString('attachment;filename="products-', $response->headers->get('Content-Disposition') ?? '');
         $this->assertStringContainsString('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $response->headers->get('content-type') ?? '');
     }
+
+    /**
+     * Test get product list xml export when request method is invalid
+     *
+     * @return void
+     */
+    public function testGetProductListXmlExportWhenRequestMethodIsInvalid(): void
+    {
+        $this->client->request('POST', '/api/product/export/xml');
+
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
+
+        // assert response
+        $this->assertSame('error', $responseData['status']);
+        $this->assertResponseStatusCodeSame(StreamedResponse::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * Test get product list xml export when api access token is not provided
+     *
+     * @return void
+     */
+    public function testGetProductListXmlExportWhenApiAccessTokenIsNotProvided(): void
+    {
+        $this->client->request('GET', '/api/product/export/xml');
+
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
+
+        // assert response
+        $this->assertSame('error', $responseData['status']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
+        $this->assertResponseStatusCodeSame(StreamedResponse::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * Test get product list xml export when api access token is invalid
+     *
+     * @return void
+     */
+    public function testGetProductListXmlExportWhenApiAccessTokenIsInvalid(): void
+    {
+        $this->client->request('GET', '/api/product/export/xml', [], [], [
+            'HTTP_X_API_TOKEN' => 'invalid-token'
+        ]);
+
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
+
+        // assert response
+        $this->assertSame('error', $responseData['status']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
+        $this->assertResponseStatusCodeSame(StreamedResponse::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * Test get product list xml export when response is success
+     *
+     * @return void
+     */
+    public function testGetProductListXmlExportWhenResponseIsSuccess(): void
+    {
+        $this->client->request('GET', '/api/product/export/xml', [], [], [
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
+        ]);
+
+        // get response
+        $response = $this->client->getResponse();
+
+        // assert response
+        $this->assertResponseStatusCodeSame(StreamedResponse::HTTP_OK);
+        $this->assertStringContainsString('attachment;filename="products-', $response->headers->get('Content-Disposition') ?? '');
+        $this->assertStringContainsString('application/xml', $response->headers->get('content-type') ?? '');
+    }
 }
