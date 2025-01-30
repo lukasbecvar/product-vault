@@ -49,7 +49,7 @@ class IndexController extends AbstractController
             $responseData['warning'] = 'App is running in dev mode (you can find documentation at /api/doc)!';
         }
 
-        // return response
-        return $this->json($responseData, JsonResponse::HTTP_OK);
+        // return backend status as json response
+        return new JsonResponse(json_encode($responseData, JSON_UNESCAPED_SLASHES), JsonResponse::HTTP_OK, json: true);
     }
 }

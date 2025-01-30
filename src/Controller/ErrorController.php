@@ -44,15 +44,15 @@ class ErrorController extends AbstractController
 
         // error messages list
         $messages = [
-            400 => 'Bad request.',
-            401 => 'Unauthorized.',
-            403 => 'Forbidden.',
-            404 => 'This route does not exist.',
-            405 => 'This request method is not allowed.',
-            426 => 'Upgrade required.',
-            429 => 'Too many requests.',
-            500 => 'Internal server error.',
-            503 => 'Service currently unavailable.',
+            JsonResponse::HTTP_BAD_REQUEST => 'Bad request.',
+            JsonResponse::HTTP_UNAUTHORIZED => 'Unauthorized.',
+            JsonResponse::HTTP_FORBIDDEN => 'Forbidden.',
+            JsonResponse::HTTP_NOT_FOUND => 'This route does not exist.',
+            JsonResponse::HTTP_METHOD_NOT_ALLOWED => 'This request method is not allowed.',
+            JsonResponse::HTTP_UPGRADE_REQUIRED => 'Upgrade required.',
+            JsonResponse::HTTP_TOO_MANY_REQUESTS => 'Too many requests.',
+            JsonResponse::HTTP_INTERNAL_SERVER_ERROR => 'Internal server error.',
+            JsonResponse::HTTP_SERVICE_UNAVAILABLE => 'Service currently unavailable.',
         ];
 
         // get error message
@@ -95,16 +95,10 @@ class ErrorController extends AbstractController
         $statusCode = $exception instanceof HttpException
             ? $exception->getStatusCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR;
 
-        // build error response
-        $response = [
+        // return error response as json
+        return new JsonResponse(json_encode([
             'status' => 'error',
             'message' => $exception->getMessage(),
-        ];
-
-        // encode response to json
-        $jsonResponse = json_encode($response, JSON_UNESCAPED_UNICODE);
-
-        // return json response
-        return new JsonResponse($jsonResponse, $statusCode, [], true);
+        ], JSON_UNESCAPED_SLASHES), $statusCode, json: true);
     }
 }
