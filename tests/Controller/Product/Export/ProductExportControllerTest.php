@@ -23,6 +23,82 @@ class ProductExportControllerTest extends WebTestCase
     }
 
     /**
+     * Test get product list json export when request method is invalid
+     *
+     * @return void
+     */
+    public function testGetProductListJsonExportWhenRequestMethodIsInvalid(): void
+    {
+        $this->client->request('POST', '/api/product/export/json');
+
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
+
+        // assert response
+        $this->assertSame('error', $responseData['status']);
+        $this->assertResponseStatusCodeSame(StreamedResponse::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * Test get product list json export when api access token is not provided
+     *
+     * @return void
+     */
+    public function testGetProductListJsonExportWhenApiAccessTokenIsNotProvided(): void
+    {
+        $this->client->request('GET', '/api/product/export/json');
+
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
+
+        // assert response
+        $this->assertSame('error', $responseData['status']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
+        $this->assertResponseStatusCodeSame(StreamedResponse::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * Test get product list json export when api access token is invalid
+     *
+     * @return void
+     */
+    public function testGetProductListJsonExportWhenApiAccessTokenIsInvalid(): void
+    {
+        $this->client->request('GET', '/api/product/export/json', [], [], [
+            'HTTP_X_API_TOKEN' => 'invalid-token'
+        ]);
+
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
+
+        // assert response
+        $this->assertSame('error', $responseData['status']);
+        $this->assertEquals('Invalid access token.', $responseData['message']);
+        $this->assertResponseStatusCodeSame(StreamedResponse::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * Test get product list json export when response is success
+     *
+     * @return void
+     */
+    public function testGetProductListJsonExportWhenResponseIsSuccess(): void
+    {
+        $this->client->request('GET', '/api/product/export/json', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
+        ]);
+
+        // get response
+        $response = $this->client->getResponse();
+
+        // assert response
+        $this->assertResponseStatusCodeSame(StreamedResponse::HTTP_OK);
+        $this->assertStringContainsString('attachment;filename="products-', $response->headers->get('Content-Disposition') ?? '');
+        $this->assertStringContainsString('application/json', $response->headers->get('content-type') ?? '');
+    }
+
+    /**
      * Test get product list xls export when request method is invalid
      *
      * @return void

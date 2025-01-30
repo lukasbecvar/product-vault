@@ -26,6 +26,56 @@ class ExportUtil
         $this->productRepository = $productRepository;
     }
 
+    public function exportToJson(): StreamedResponse
+    {
+        $response = new StreamedResponse(function () {
+            $data = [];
+
+            // get product list
+            $products = $this->productRepository->findAll();
+
+            foreach ($products as $product) {
+                $categories = $product->getCategoriesRaw();
+                foreach ($categories as $category) {
+                    $categoryCounts[$category] = ($categoryCounts[$category] ?? 0) + 1;
+                }
+
+                // get time values
+                $addedTime = $product->getAddedTime();
+                $lastEditTime = $product->getLastEditTime();
+
+                // format time values
+                $addedTime = $addedTime ? $addedTime->format('Y-m-d H:i:s') : 'N/A';
+                $lastEditTime = $lastEditTime ? $lastEditTime->format('Y-m-d H:i:s') : 'N/A';
+
+                // add product data to array
+                $data[] = [
+                    'id' => $product->getId(),
+                    'name' => $product->getName(),
+                    'description' => $product->getDescription(),
+                    'price' => $product->getPrice(),
+                    'priceCurrency' => $product->getPriceCurrency(),
+                    'addedTime' => $addedTime,
+                    'lastEditTime' => $lastEditTime,
+                    'active' => $product->isActive(),
+                    'categories' => implode(', ', $categories),
+                    'attributes' => implode(', ', $product->getProductAttributesRaw()),
+                    'product_icon' => $product->getIconFile(),
+                    'product_images' => implode(', ', $product->getImagesRaw()),
+
+                ];
+            }
+
+            // encode data to JSON and output directly
+            echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        });
+
+        // return response
+        $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Content-Disposition', 'attachment;filename="products-' . date('Y-m-d') . '.json"');
+        return $response;
+    }
+
     /**
      * Export products to xlsx file
      *

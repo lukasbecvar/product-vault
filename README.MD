@@ -76,10 +76,10 @@ Based on [api-base](https://github.com/lukasbecvar/api-base)
 
 ## TODO LIST
 - [ ] Products export
+    - [X] Export products to json file
     - [X] Export products to excel file
-    - [ ] Export products to pdf file 
     - [ ] Export products to xml file
-    - [ ] Export products to json file
+    - [ ] Export products to pdf file 
 - [ ] Create API documentation with postman
     - [ ] Create postman collection
         - [ ] Create tests in postman

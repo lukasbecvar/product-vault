@@ -30,13 +30,34 @@ class ProductExportController extends AbstractController
     }
 
     /**
+     * Export products to json file
+     *
+     * @return StreamedResponse Return json file as streamed response
+     */
+    #[Tag(name: "Product export")]
+    #[Response(response: StreamedResponse::HTTP_OK, description: 'The export data')]
+    #[Route('/api/product/export/json', methods:['GET'], name: 'get_product_export_json')]
+    public function getProductExportJson(): StreamedResponse
+    {
+        try {
+            return $this->exportUtil->exportToJson();
+        } catch (Exception $e) {
+            return $this->errorManager->handleError(
+                message: 'Export to export data',
+                code: StreamedResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
+    }
+
+    /**
      * Export products to xlsx file
      *
      * @return StreamedResponse Return xlsx file as streamed response
      */
     #[Tag(name: "Product export")]
     #[Response(response: StreamedResponse::HTTP_OK, description: 'The export data')]
-    #[Route('/api/product/export/xls', methods:['GET'], name: 'get_product_export_xls')]
+    #[Route('/api/product/export/xls', methods:['GET'], name: 'get_product_export_xlsx')]
     public function getProductExportXls(): StreamedResponse
     {
         try {

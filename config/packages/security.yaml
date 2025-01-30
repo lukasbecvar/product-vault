@@ -45,9 +45,9 @@ security:
         - { path: ^/api/product/get,            roles: PUBLIC_ACCESS }
         - { path: ^/api/product/list,           roles: PUBLIC_ACCESS }
         - { path: ^/api/product/stats,          roles: PUBLIC_ACCESS }
+        - { path: ^/api/product/export,         roles: PUBLIC_ACCESS }
         - { path: ^/api/product/categories,     roles: PUBLIC_ACCESS }
         - { path: ^/api/product/attributes,     roles: PUBLIC_ACCESS }
-        - { path: ^/api/product/export/xls,     roles: PUBLIC_ACCESS }
         - { path: ^/api/product/asset/icon,     roles: PUBLIC_ACCESS }
         - { path: ^/api/product/asset/image,    roles: PUBLIC_ACCESS }
         
