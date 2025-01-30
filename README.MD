@@ -75,11 +75,6 @@ Based on [api-base](https://github.com/lukasbecvar/api-base)
     * [Github](https://github.com/phpstan/phpstan)
 
 ## TODO LIST
-- [ ] Products export
-    - [X] Export products to json file
-    - [X] Export products to excel file
-    - [ ] Export products to xml file
-    - [ ] Export products to pdf file 
 - [ ] Create API documentation with postman
     - [ ] Create postman collection
         - [ ] Create tests in postman
