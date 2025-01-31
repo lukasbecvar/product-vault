@@ -29,7 +29,7 @@ jobs:
 
       # install composer dependencies
       - name: Install dependencies
-        run: composer install --no-interaction --no-progress
+        run: composer install --ignore-platform-reqs --no-interaction --no-progress
 
       # build and push Docker image
       - name: Build and push Docker image

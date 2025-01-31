@@ -24,7 +24,7 @@ jobs:
 
     # composer install
     - name: Install dependencies
-      run: composer install --no-interaction --no-progress
+      run: composer install --ignore-platform-reqs --no-interaction --no-progress
 
     # phpstan process
     - name: Run PHPStan

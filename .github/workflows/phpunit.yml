@@ -38,11 +38,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.3
-          extensions: intl, pdo_mysql, pdo
+          extensions: intl, pdo_mysql, gd
 
       # composer install
       - name: Install dependencies
-        run: composer install --no-interaction --no-progress
+        run: composer install --ignore-platform-reqs --no-interaction --no-progress
 
       # create test database
       - name: Create database
