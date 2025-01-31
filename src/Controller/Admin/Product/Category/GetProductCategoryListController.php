@@ -5,8 +5,11 @@ namespace App\Controller\Admin\Product\Category;
 use Exception;
 use OpenApi\Attributes\Tag;
 use App\Manager\ErrorManager;
-use App\Manager\CategoryManager;
+use OpenApi\Attributes\Items;
 use OpenApi\Attributes\Response;
+use App\Manager\CategoryManager;
+use OpenApi\Attributes\Property;
+use OpenApi\Attributes\JsonContent;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -37,8 +40,39 @@ class GetProductCategoryListController extends AbstractController
      */
     #[IsGranted('ROLE_ADMIN')]
     #[Tag(name: "Admin (product manager)")]
-    #[Response(response: JsonResponse::HTTP_OK, description: "All product categories")]
-    #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: "No product categories found")]
+    #[Response(
+        response: JsonResponse::HTTP_OK,
+        description: "All product categories",
+        content: new JsonContent(
+            type: "object",
+            properties: [
+                new Property(property: "status", type: "string", example: "success"),
+                new Property(property: "message", type: "string", example: "All product categories"),
+                new Property(
+                    property: "categories",
+                    type: "array",
+                    items: new Items(
+                        type: "object",
+                        properties: [
+                            new Property(property: "id", type: "integer", example: 1),
+                            new Property(property: "name", type: "string", example: "Category 1")
+                        ]
+                    )
+                )
+            ]
+        )
+    )]
+    #[Response(
+        response: JsonResponse::HTTP_NOT_FOUND,
+        description: "No product categories found",
+        content: new JsonContent(
+            type: "object",
+            properties: [
+                new Property(property: "status", type: "string", example: "error"),
+                new Property(property: "message", type: "string", example: "No product categories found")
+            ]
+        )
+    )]
     #[Route('/api/admin/product/category/list', methods:['GET'], name: 'get_product_category_list')]
     public function getProductCategoryList(): JsonResponse
     {
@@ -48,8 +82,8 @@ class GetProductCategoryListController extends AbstractController
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'Category list get failed',
-                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                exceptionMessage: $e->getMessage()
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
 

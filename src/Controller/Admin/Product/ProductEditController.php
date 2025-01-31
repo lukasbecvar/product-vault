@@ -73,11 +73,26 @@ class ProductEditController extends AbstractController
         responses: [
             new OA\Response(
                 response: JsonResponse::HTTP_OK,
-                description: 'The success product data update message'
+                description: 'The success product data update message',
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(property: "status", type: "string", example: "success"),
+                        new OA\Property(property: "message", type: "string", example: "Product data updated successfully!"),
+                        new OA\Property(property: "product", type: "array", items: new OA\Items(type: "object"))
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_BAD_REQUEST,
-                description: 'Invalid request data message'
+                description: 'Invalid request data message',
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(property: "status", type: "string", example: "error"),
+                        new OA\Property(property: "message", type: "string", example: "Invalid request data!")
+                    ]
+                )
             )
         ]
     )]
@@ -181,8 +196,8 @@ class ProductEditController extends AbstractController
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'Product edit error',
-                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                exceptionMessage: $e->getMessage()
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
 
@@ -221,15 +236,37 @@ class ProductEditController extends AbstractController
         responses: [
             new OA\Response(
                 response: JsonResponse::HTTP_OK,
-                description: 'The success product data update message'
+                description: 'The success product data update message',
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(property: "status", type: "string", example: "success"),
+                        new OA\Property(property: "message", type: "string", example: "Product data updated successfully!"),
+                        new OA\Property(property: "product", type: "object", example: [])
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_BAD_REQUEST,
-                description: 'Invalid request data message'
+                description: 'Invalid request data message',
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(property: "status", type: "string", example: "error"),
+                        new OA\Property(property: "message", type: "string", example: "Invalid request data!")
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_NOT_FOUND,
-                description: 'Product not found message'
+                description: 'Product not found message',
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(property: "status", type: "string", example: "error"),
+                        new OA\Property(property: "message", type: "string", example: "Product not found!")
+                    ]
+                )
             )
         ]
     )]
@@ -295,8 +332,8 @@ class ProductEditController extends AbstractController
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'Product activate error',
-                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                exceptionMessage: $e->getMessage()
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
 
@@ -345,15 +382,36 @@ class ProductEditController extends AbstractController
         responses: [
             new OA\Response(
                 response: JsonResponse::HTTP_OK,
-                description: 'The success product data update message'
+                description: 'The success product data update message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Product data updated successfully!')
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_BAD_REQUEST,
-                description: 'Invalid request data message'
+                description: 'Invalid request data message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Invalid request data!')
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_NOT_FOUND,
-                description: 'Product not found message'
+                description: 'Product not found message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Product not found!')
+                    ]
+                )
             )
         ]
     )]
@@ -460,8 +518,8 @@ class ProductEditController extends AbstractController
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'Product update error',
-                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                exceptionMessage: $e->getMessage()
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
 
@@ -498,15 +556,36 @@ class ProductEditController extends AbstractController
         responses: [
             new OA\Response(
                 response: JsonResponse::HTTP_OK,
-                description: 'The success product data update message'
+                description: 'The success product data update message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Product data updated successfully!')
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_BAD_REQUEST,
-                description: 'Invalid request data message'
+                description: 'Invalid request data message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Invalid request data!')
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_NOT_FOUND,
-                description: 'Product not found message'
+                description: 'Product not found message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Product not found!')
+                    ]
+                )
             )
         ]
     )]
@@ -607,8 +686,8 @@ class ProductEditController extends AbstractController
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'Product update error',
-                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                exceptionMessage: $e->getMessage()
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
 

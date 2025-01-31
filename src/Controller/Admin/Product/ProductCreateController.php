@@ -97,11 +97,26 @@ class ProductCreateController extends AbstractController
         responses: [
             new OA\Response(
                 response: JsonResponse::HTTP_CREATED,
-                description: 'The success product create message'
+                description: 'The success product create message',
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(property: "status", type: "string", example: "success"),
+                        new OA\Property(property: "message", type: "string", example: "Product created successfully!"),
+                        new OA\Property(property: "product_data", type: "array", items: new OA\Items(type: "object"))
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_BAD_REQUEST,
-                description: 'Invalid request data message'
+                description: 'Invalid request data message',
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(property: "status", type: "string", example: "error"),
+                        new OA\Property(property: "message", type: "string", example: "Invalid request data")
+                    ]
+                )
             )
         ]
     )]
@@ -186,8 +201,8 @@ class ProductCreateController extends AbstractController
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'Product create failed',
-                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                exceptionMessage: $e->getMessage()
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
     }

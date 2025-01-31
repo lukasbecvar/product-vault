@@ -11,7 +11,3 @@ if [ ! -d 'config/jwt/' ]
 then
     docker-compose run php ./bin/console lexik:jwt:generate-keypair
 fi
-
-# fix storage permissions
-sudo chmod -R 777 var/
-sudo chown -R www-data:www-data var/

@@ -44,8 +44,8 @@ class ProductExportController extends AbstractController
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'Export to export data',
-                code: StreamedResponse::HTTP_INTERNAL_SERVER_ERROR,
-                exceptionMessage: $e->getMessage()
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? StreamedResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
     }
@@ -65,8 +65,8 @@ class ProductExportController extends AbstractController
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'Export to export data',
-                code: StreamedResponse::HTTP_INTERNAL_SERVER_ERROR,
-                exceptionMessage: $e->getMessage()
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? StreamedResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
     }
@@ -86,8 +86,8 @@ class ProductExportController extends AbstractController
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'Export to export data',
-                code: StreamedResponse::HTTP_INTERNAL_SERVER_ERROR,
-                exceptionMessage: $e->getMessage()
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? StreamedResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
     }

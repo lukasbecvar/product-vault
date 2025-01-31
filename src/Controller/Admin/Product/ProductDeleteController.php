@@ -53,15 +53,36 @@ class ProductDeleteController extends AbstractController
         responses: [
             new OA\Response(
                 response: JsonResponse::HTTP_OK,
-                description: 'The success product data delete message'
+                description: 'The success product data delete message',
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(property: "status", type: "string", example: "success"),
+                        new OA\Property(property: "message", type: "string", example: "Product data deleted successfully!")
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_BAD_REQUEST,
-                description: 'Invalid request data message'
+                description: 'Invalid request data message',
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(property: "status", type: "string", example: "error"),
+                        new OA\Property(property: "message", type: "string", example: "Invalid request data")
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_NOT_FOUND,
-                description: 'Product not found message'
+                description: 'Product not found message',
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(property: "status", type: "string", example: "error"),
+                        new OA\Property(property: "message", type: "string", example: "Product not found")
+                    ]
+                )
             )
         ]
     )]
@@ -108,8 +129,8 @@ class ProductDeleteController extends AbstractController
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'Product delete error',
-                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                exceptionMessage: $e->getMessage()
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
 

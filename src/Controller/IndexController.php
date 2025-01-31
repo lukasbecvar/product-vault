@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Util\AppUtil;
 use OpenApi\Attributes\Tag;
 use OpenApi\Attributes\Response;
+use OpenApi\Attributes\Property;
+use OpenApi\Attributes\JsonContent;
 use Nelmio\ApiDocBundle\Attribute\Security;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,7 +35,18 @@ class IndexController extends AbstractController
      */
     #[Tag(name: "Index")]
     #[Security(name: null)]
-    #[Response(response: JsonResponse::HTTP_OK, description: 'The api status')]
+    #[Response(
+        response: JsonResponse::HTTP_OK,
+        description: 'The API status',
+        content: new JsonContent(
+            type: 'object',
+            properties: [
+                new Property(property: 'status', type: 'string', example: 'success'),
+                new Property(property: 'message', type: 'string', example: 'status message'),
+                new Property(property: 'version', type: 'string', example: 'app version')
+            ]
+        )
+    )]
     #[Route('/', methods:['GET'], name: 'main_index')]
     public function index(): JsonResponse
     {

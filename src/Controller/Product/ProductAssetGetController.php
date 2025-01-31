@@ -4,7 +4,9 @@ namespace App\Controller\Product;
 
 use OpenApi\Attributes\Tag;
 use OpenApi\Attributes\Response;
+use OpenApi\Attributes\Property;
 use OpenApi\Attributes\Parameter;
+use OpenApi\Attributes\JsonContent;
 use App\Manager\ProductAssetsManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -37,7 +39,17 @@ class ProductAssetGetController extends AbstractController
      */
     #[Tag(name: "Product")]
     #[Parameter(name: 'icon_file', in: 'query', description: 'Product icon file', example: 'testing-icon.png', required: true)]
-    #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: 'Product icon not found')]
+    #[Response(
+        response: JsonResponse::HTTP_NOT_FOUND,
+        description: 'The product icon not found message',
+        content: new JsonContent(
+            type: 'object',
+            properties: [
+                new Property(property: 'status', type: 'string', example: 'error'),
+                new Property(property: 'message', type: 'string', example: 'Product icon not found')
+            ]
+        )
+    )]
     #[Response(response: StreamedResponse::HTTP_OK, description: 'The product icon')]
     #[Route('/api/product/asset/icon', methods:['GET'], name: 'get_product_icon')]
     public function getProductIcon(Request $request): StreamedResponse|JsonResponse
@@ -77,7 +89,17 @@ class ProductAssetGetController extends AbstractController
      */
     #[Tag(name: "Product")]
     #[Parameter(name: 'image_file', in: 'query', description: 'Product image file', example: 'test-image-1.jpg', required: true)]
-    #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: 'Product image not found')]
+    #[Response(
+        response: JsonResponse::HTTP_NOT_FOUND,
+        description: 'The product image not found message',
+        content: new JsonContent(
+            type: 'object',
+            properties: [
+                new Property(property: 'status', type: 'string', example: 'error'),
+                new Property(property: 'message', type: 'string', example: 'Product image not found')
+            ]
+        )
+    )]
     #[Response(response: StreamedResponse::HTTP_OK, description: 'The product image')]
     #[Route('/api/product/asset/image', methods:['GET'], name: 'get_product_image')]
     public function getProductImage(Request $request): StreamedResponse|JsonResponse

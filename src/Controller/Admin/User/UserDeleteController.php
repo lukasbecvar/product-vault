@@ -6,8 +6,10 @@ use Exception;
 use OpenApi\Attributes\Tag;
 use App\Manager\UserManager;
 use App\Manager\ErrorManager;
+use OpenApi\Attributes\Property;
 use OpenApi\Attributes\Response;
 use OpenApi\Attributes\Parameter;
+use OpenApi\Attributes\JsonContent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -42,9 +44,39 @@ class UserDeleteController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     #[Tag(name: "Admin (user manager)")]
     #[Parameter(name: 'user_id', in: 'query', description: 'User id to delete', required: true)]
-    #[Response(response: JsonResponse::HTTP_OK, description: 'The user deleted successfully')]
-    #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: 'User not found')]
-    #[Response(response: JsonResponse::HTTP_BAD_REQUEST, description: 'Parameter "status" are required!')]
+    #[Response(
+        response: JsonResponse::HTTP_OK,
+        description: 'The user deleted successfully',
+        content: new JsonContent(
+            type: 'object',
+            properties: [
+                new Property(property: 'status', type: 'string', example: 'success'),
+                new Property(property: 'message', type: 'string', example: 'User deleted successfully!')
+            ]
+        )
+    )]
+    #[Response(
+        response: JsonResponse::HTTP_NOT_FOUND,
+        description: 'User not found',
+        content: new JsonContent(
+            type: 'object',
+            properties: [
+                new Property(property: 'status', type: 'string', example: 'error'),
+                new Property(property: 'message', type: 'string', example: 'User not found!')
+            ]
+        )
+    )]
+    #[Response(
+        response: JsonResponse::HTTP_BAD_REQUEST,
+        description: 'Parameter "status" are required!',
+        content: new JsonContent(
+            type: 'object',
+            properties: [
+                new Property(property: 'status', type: 'string', example: 'error'),
+                new Property(property: 'message', type: 'string', example: 'Parameter "user_id" are required!')
+            ]
+        )
+    )]
     #[Route('/api/admin/user/delete', methods:['DELETE'], name: 'admin_user_delete')]
     public function deleteUser(Request $request): JsonResponse
     {
@@ -76,8 +108,8 @@ class UserDeleteController extends AbstractController
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'User delete error',
-                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                exceptionMessage: $e->getMessage()
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
     }

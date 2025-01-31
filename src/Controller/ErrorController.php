@@ -5,7 +5,9 @@ namespace App\Controller;
 use Throwable;
 use OpenApi\Attributes\Tag;
 use OpenApi\Attributes\Response;
+use OpenApi\Attributes\Property;
 use OpenApi\Attributes\Parameter;
+use OpenApi\Attributes\JsonContent;
 use Nelmio\ApiDocBundle\Attribute\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -32,7 +34,17 @@ class ErrorController extends AbstractController
     #[Tag(name: "Error")]
     #[Security(name: null)]
     #[Parameter(name: 'code', in: 'query', description: 'Error code', required: true)]
-    #[Response(response: JsonResponse::HTTP_OK, description: 'The error message')]
+    #[Response(
+        response: JsonResponse::HTTP_OK,
+        description: 'The error message',
+        content: new JsonContent(
+            type: 'object',
+            properties: [
+                new Property(property: 'status', type: 'string', example: 'error'),
+                new Property(property: 'message', type: 'string', example: 'Internal server error')
+            ]
+        )
+    )]
     #[Route('/error', methods: ['GET'], name: 'error_by_code')]
     public function handleError(Request $request): JsonResponse
     {
@@ -72,7 +84,17 @@ class ErrorController extends AbstractController
      */
     #[Tag(name: "Error")]
     #[Security(name: null)]
-    #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: 'The not found error message')]
+    #[Response(
+        response: JsonResponse::HTTP_OK,
+        description: 'The not found error message',
+        content: new JsonContent(
+            type: 'object',
+            properties: [
+                new Property(property: 'status', type: 'string', example: 'error'),
+                new Property(property: 'message', type: 'string', example: 'This route does not exist')
+            ]
+        )
+    )]
     #[Route('/error/notfound', methods:['GET'], name: 'error_not_found')]
     public function handleNotFoundError(): JsonResponse
     {

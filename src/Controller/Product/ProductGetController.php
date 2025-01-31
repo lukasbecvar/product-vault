@@ -9,7 +9,6 @@ use App\Manager\ErrorManager;
 use App\Manager\CacheManager;
 use OpenApi\Attributes as OA;
 use App\Manager\ProductManager;
-use OpenApi\Attributes\Response;
 use OpenApi\Attributes\Parameter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -52,8 +51,42 @@ class ProductGetController extends AbstractController
     #[Tag(name: "Product")]
     #[Parameter(name: 'id', in: 'query', description: 'Product id', example: '1', required: true)]
     #[Parameter(name: 'currency', in: 'query', description: 'Product price currency', example: 'USD', required: false)]
-    #[Response(response: JsonResponse::HTTP_OK, description: 'The product data')]
-    #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: 'Product not found')]
+    #[OA\Response(
+        response: JsonResponse::HTTP_OK,
+        description: 'Product data',
+        content: new OA\JsonContent(
+            type: 'object',
+            properties: [
+                new OA\Property(property: 'status', type: 'string', example: 'success'),
+                new OA\Property(
+                    property: 'data',
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'id', type: 'integer', example: 1),
+                        new OA\Property(property: 'name', type: 'string', example: 'Running Shoes - ullam'),
+                        new OA\Property(property: 'description', type: 'string', example: 'Quam voluptatem sit sed et sint neque labore quia beatae harum minima.'),
+                        new OA\Property(property: 'price', type: 'number', format: 'float', example: 657.09),
+                        new OA\Property(property: 'priceCurrency', type: 'string', example: 'USD'),
+                        new OA\Property(property: 'active', type: 'boolean', example: true),
+                        new OA\Property(property: 'categories', type: 'array', items: new OA\Items(type: 'string', example: 'Home Appliances')),
+                        new OA\Property(property: 'attributes', type: 'array', items: new OA\Items(type: 'string', example: 'Brand: Samsung')),
+                        new OA\Property(property: 'icon', type: 'string', example: 'testing-icon.png'),
+                        new OA\Property(property: 'images', type: 'array', items: new OA\Items(type: 'string', example: 'test-image-1.jpg'))
+                    ]
+                )
+            ]
+        )
+    )]
+    #[OA\Response(
+        response: JsonResponse::HTTP_NOT_FOUND,
+        description: 'The error message',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'status', type: 'string', example: 'error'),
+                new OA\Property(property: 'message', type: 'string', example: 'Product not found')
+            ]
+        )
+    )]
     #[Route('/api/product/get', methods:['GET'], name: 'get_product')]
     public function getProductById(Request $request): JsonResponse
     {
@@ -162,16 +195,84 @@ class ProductGetController extends AbstractController
         responses: [
             new OA\Response(
                 response: JsonResponse::HTTP_OK,
-                description: 'The list of filtered products'
+                description: 'The list of filtered products',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(
+                            property: 'products_data',
+                            type: 'object',
+                            properties: [
+                                new OA\Property(
+                                    property: 'products_data',
+                                    type: 'array',
+                                    items: new OA\Items(
+                                        type: 'object',
+                                        properties: [
+                                            new OA\Property(property: 'id', type: 'integer', example: 1),
+                                            new OA\Property(property: 'name', type: 'string', example: 'Running Shoes - ullam'),
+                                            new OA\Property(property: 'description', type: 'string', example: 'Quam voluptatem sit sed et sint neque labore quia beatae harum minima.'),
+                                            new OA\Property(property: 'price', type: 'number', format: 'float', example: 657.09),
+                                            new OA\Property(property: 'priceCurrency', type: 'string', example: 'USD'),
+                                            new OA\Property(property: 'active', type: 'boolean', example: true),
+                                            new OA\Property(property: 'categories', type: 'array', items: new OA\Items(type: 'string', example: 'Home Appliances')),
+                                            new OA\Property(property: 'attributes', type: 'array', items: new OA\Items(type: 'string', example: 'Brand: Samsung')),
+                                            new OA\Property(property: 'icon', type: 'string', example: 'testing-icon.png'),
+                                            new OA\Property(property: 'images', type: 'array', items: new OA\Items(type: 'string', example: 'test-image-1.jpg'))
+                                        ]
+                                    )
+                                ),
+                                new OA\Property(
+                                    property: 'pagination_info',
+                                    type: 'array',
+                                    items: new OA\Items(
+                                        type: 'object',
+                                        properties: [
+                                            new OA\Property(property: 'total_pages', type: 'integer', example: 1),
+                                            new OA\Property(property: 'current_page_number', type: 'integer', example: 1),
+                                            new OA\Property(property: 'total_items', type: 'integer', example: 6),
+                                            new OA\Property(property: 'items_per_actual_page', type: 'integer', example: 6),
+                                            new OA\Property(property: 'last_page_number', type: 'integer', example: 1),
+                                            new OA\Property(property: 'is_next_page_exists', type: 'boolean', example: false),
+                                            new OA\Property(property: 'is_previous_page_exists', type: 'boolean', example: false)
+                                        ]
+                                    )
+                                )
+                            ]
+                        ),
+                        new OA\Property(
+                            property: 'stats',
+                            type: 'object',
+                            properties: [
+                                new OA\Property(property: 'total', type: 'integer', example: 1001),
+                                new OA\Property(property: 'active', type: 'integer', example: 1000),
+                                new OA\Property(property: 'inactive', type: 'integer', example: 1)
+                            ]
+                        )
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_BAD_REQUEST,
-                description: 'Invalid request data message'
+                description: 'Invalid request data message',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Invalid request data')
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                description: 'Server error'
-            ),
+                description: 'Server error',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Server error')
+                    ]
+                )
+            )
         ]
     )]
     #[Route('/api/product/list', methods:['POST'], name: 'get_product_list')]
@@ -254,8 +355,8 @@ class ProductGetController extends AbstractController
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'Product list get failed',
-                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                exceptionMessage: $e->getMessage()
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
     }

@@ -6,8 +6,10 @@ use Exception;
 use App\Manager\LogManager;
 use OpenApi\Attributes\Tag;
 use App\Manager\ErrorManager;
+use OpenApi\Attributes\Property;
 use OpenApi\Attributes\Response;
 use OpenApi\Attributes\Parameter;
+use OpenApi\Attributes\JsonContent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,8 +41,18 @@ class LogManagerController extends AbstractController
      */
     #[IsGranted('ROLE_ADMIN')]
     #[Tag(name: "Admin (log manager)")]
+    #[Response(
+        response: JsonResponse::HTTP_OK,
+        description: 'Update logs status to READED successfully!',
+        content: new JsonContent(
+            type: 'object',
+            properties: [
+                new Property(property: 'status', type: 'string', example: 'success'),
+                new Property(property: 'message', type: 'string', example: 'Update logs status to READED successfully!')
+            ]
+        )
+    )]
     #[Route('/api/admin/logs/mark-all-read', methods:['POST'], name: 'set_logs_status_all_readed')]
-    #[Response(response: JsonResponse::HTTP_OK, description: 'Update logs status to READED successfully!')]
     public function setLogsStatusAllReaded(): JsonResponse
     {
         try {
@@ -69,9 +81,29 @@ class LogManagerController extends AbstractController
     #[Tag(name: "Admin (log manager)")]
     #[Parameter(name: 'id', in: 'query', description: 'Log id', required: false)]
     #[Parameter(name: 'status', in: 'query', description: 'New log status', required: false)]
+    #[Response(
+        response: JsonResponse::HTTP_OK,
+        description: 'Log status updated successfully!',
+        content: new JsonContent(
+            type: 'object',
+            properties: [
+                new Property(property: 'status', type: 'string', example: 'success'),
+                new Property(property: 'message', type: 'string', example: 'Log status updated successfully!')
+            ]
+        )
+    )]
+    #[Response(
+        response: JsonResponse::HTTP_NOT_FOUND,
+        description: 'Log not found!',
+        content: new JsonContent(
+            type: 'object',
+            properties: [
+                new Property(property: 'status', type: 'string', example: 'error'),
+                new Property(property: 'message', type: 'string', example: 'Error to get log by id: (id)')
+            ]
+        )
+    )]
     #[Route('/api/admin/log/status/update', methods:['PATCH'], name: 'update_logs_status')]
-    #[Response(response: JsonResponse::HTTP_OK, description: 'Log status updated successfully!')]
-    #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: 'Log not found!')]
     public function updateLogsStatus(Request $request): JsonResponse
     {
         // get request parameters

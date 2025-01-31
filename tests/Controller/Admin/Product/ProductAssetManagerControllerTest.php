@@ -366,7 +366,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
         $this->assertSame('success', $responseData['status']);
         $this->assertSame('Product image uploaded successfully!', $responseData['message']);
         $this->assertArrayHasKey('product_data', $responseData);
-        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_CREATED);
     }
 
     /**

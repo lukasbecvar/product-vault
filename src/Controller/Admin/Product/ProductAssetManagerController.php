@@ -12,6 +12,7 @@ use OpenApi\Attributes\Response;
 use OpenApi\Attributes\MediaType;
 use OpenApi\Attributes\Parameter;
 use OpenApi\Attributes\RequestBody;
+use OpenApi\Attributes\JsonContent;
 use App\Manager\ProductAssetsManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -72,10 +73,50 @@ class ProductAssetManagerController extends AbstractController
             )
         ]
     )]
-    #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: "Product not found")]
-    #[Response(response: JsonResponse::HTTP_BAD_REQUEST, description: "Invalid request data")]
-    #[Response(response: JsonResponse::HTTP_CREATED, description: "The icon file uploaded successfully")]
-    #[Response(response: JsonResponse::HTTP_OK, description: "The icon file updated successfully")]
+    #[Response(
+        response: JsonResponse::HTTP_NOT_FOUND,
+        description: "Product not found",
+        content: new JsonContent(
+            type: "object",
+            properties: [
+                new Property(property: "status", type: "string", example: "error"),
+                new Property(property: "message", type: "string", example: "Product not found")
+            ]
+        )
+    )]
+    #[Response(
+        response: JsonResponse::HTTP_BAD_REQUEST,
+        description: "Invalid request data",
+        content: new JsonContent(
+            type: "object",
+            properties: [
+                new Property(property: "status", type: "string", example: "error"),
+                new Property(property: "message", type: "string", example: "Invalid request data")
+            ]
+        )
+    )]
+    #[Response(
+        response: JsonResponse::HTTP_CREATED,
+        description: "The icon file uploaded successfully",
+        content: new JsonContent(
+            type: "object",
+            properties: [
+                new Property(property: "status", type: "string", example: "success"),
+                new Property(property: "message", type: "string", example: "Icon file uploaded successfully")
+            ]
+        )
+    )]
+    #[Response(
+        response: JsonResponse::HTTP_OK,
+        description: "The icon file updated successfully",
+        content: new JsonContent(
+            type: "object",
+            properties: [
+                new Property(property: "status", type: "string", example: "success"),
+                new Property(property: "message", type: "string", example: "Icon file updated successfully")
+            ]
+        )
+    )]
     #[Route('/api/admin/product/asset/icon/create', methods:['POST'], name: 'create_product_icon')]
     public function createProductIcon(Request $request): JsonResponse
     {
@@ -143,8 +184,8 @@ class ProductAssetManagerController extends AbstractController
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'Product icon upload failed',
-                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                exceptionMessage: $e->getMessage()
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
     }
@@ -179,9 +220,39 @@ class ProductAssetManagerController extends AbstractController
             )
         ]
     )]
-    #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: "Product not found")]
-    #[Response(response: JsonResponse::HTTP_BAD_REQUEST, description: "Invalid request data")]
-    #[Response(response: JsonResponse::HTTP_CREATED, description: "The image file uploaded successfully")]
+    #[Response(
+        response: JsonResponse::HTTP_NOT_FOUND,
+        description: "Product not found",
+        content: new JsonContent(
+            type: "object",
+            properties: [
+                new Property(property: "status", type: "string", example: "error"),
+                new Property(property: "message", type: "string", example: "Product not found")
+            ]
+        )
+    )]
+    #[Response(
+        response: JsonResponse::HTTP_BAD_REQUEST,
+        description: "Invalid request data",
+        content: new JsonContent(
+            type: "object",
+            properties: [
+                new Property(property: "status", type: "string", example: "error"),
+                new Property(property: "message", type: "string", example: "Invalid request data")
+            ]
+        )
+    )]
+    #[Response(
+        response: JsonResponse::HTTP_CREATED,
+        description: "The image file uploaded successfully",
+        content: new JsonContent(
+            type: "object",
+            properties: [
+                new Property(property: "status", type: "string", example: "success"),
+                new Property(property: "message", type: "string", example: "Image file uploaded successfully")
+            ]
+        )
+    )]
     #[Route('/api/admin/product/asset/create/image', methods:['POST'], name: 'create_product_image')]
     public function createProductImage(Request $request): JsonResponse
     {
@@ -236,12 +307,12 @@ class ProductAssetManagerController extends AbstractController
                 'status' => 'success',
                 'message' => 'Product image uploaded successfully!',
                 'product_data' => $this->productManager->formatProductData($product)
-            ], JsonResponse::HTTP_OK);
+            ], JsonResponse::HTTP_CREATED);
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'Product image upload failed',
-                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                exceptionMessage: $e->getMessage()
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
     }
@@ -257,9 +328,39 @@ class ProductAssetManagerController extends AbstractController
     #[Tag(name: "Admin (product manager)")]
     #[Parameter(name: 'product_id', in: 'query', description: 'Product id associated with image', required: true)]
     #[Parameter(name: 'image_file', in: 'query', description: 'Image file to delete', required: true)]
-    #[Response(response: JsonResponse::HTTP_OK, description: "The image deleted successfully")]
-    #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: "Product or image not found")]
-    #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: "The image delete failed")]
+    #[Response(
+        response: JsonResponse::HTTP_OK,
+        description: "The image deleted successfully",
+        content: new JsonContent(
+            type: "object",
+            properties: [
+                new Property(property: "status", type: "string", example: "success"),
+                new Property(property: "message", type: "string", example: "Image deleted successfully")
+            ]
+        )
+    )]
+    #[Response(
+        response: JsonResponse::HTTP_NOT_FOUND,
+        description: "Product or image not found",
+        content: new JsonContent(
+            type: "object",
+            properties: [
+                new Property(property: "status", type: "string", example: "error"),
+                new Property(property: "message", type: "string", example: "Product or image not found")
+            ]
+        )
+    )]
+    #[Response(
+        response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+        description: "The image delete failed",
+        content: new JsonContent(
+            type: "object",
+            properties: [
+                new Property(property: "status", type: "string", example: "error"),
+                new Property(property: "message", type: "string", example: "The image delete failed")
+            ]
+        )
+    )]
     #[Route('/api/admin/product/asset/image/delete', methods:['DELETE'], name: 'delete_product_image')]
     public function deleteProductImage(Request $request): JsonResponse
     {
@@ -322,8 +423,8 @@ class ProductAssetManagerController extends AbstractController
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'Product image delete failed',
-                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                exceptionMessage: $e->getMessage()
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
     }

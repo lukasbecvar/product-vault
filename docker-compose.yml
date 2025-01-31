@@ -14,7 +14,7 @@ services:
         mem_limit: 1g
         volumes:
             - .:/app
-        command: composer install --ignore-platform-reqs
+        command: composer install --ignore-platform-reqs && sh scripts/set-storage-permissions.sh
 
     # database container
     mysql:
