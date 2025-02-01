@@ -1,0 +1,107 @@
+# run api tests with postman
+name: Postman Tests
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  postman:
+    name: Run tests
+    runs-on: ubuntu-latest
+
+    services:
+      # mysql database service
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --network-alias=mysql
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+      # redis cache service
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+        options: >-
+          --network-alias=redis
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # setup php interpreter
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: intl, pdo_mysql, gd
+
+      # wait for mysql and redis to be ready
+      - name: Wait for MySQL and Redis to be ready
+        run: |
+          echo "Waiting for MySQL and Redis..."
+          sleep 10
+
+      # composer install
+      - name: Install dependencies
+        run: composer install --ignore-platform-reqs --no-interaction --no-progress
+
+      # fix storage permissions
+      - name: set storage permissions
+        run: sh scripts/set-storage-permissions.sh
+
+      # create database
+      - name: Create database
+        run: php bin/console doctrine:database:create --if-not-exists
+
+      # migrate database to latest version
+      - name: Migrate database
+        run: php bin/console doctrine:migrations:migrate --no-interaction
+        
+      # load testing datafixtures
+      - name: Load db datafixtures
+        run: php bin/console doctrine:fixtures:load --no-interaction
+
+      # generate jwk key
+      - name: Generate JWT keys
+        run: php bin/console lexik:jwt:generate-keypair
+
+      # start apache in docker
+      - name: Start Apache in Docker
+        run: |
+          docker build -t product_vault_website -f .docker/DockerFile.dev .
+          docker run -d --name apache \
+            --network=host \
+            -p 80:80 \
+            -v ${{ github.workspace }}/.docker/config/apache.conf:/etc/apache2/sites-available/000-default.conf \
+            -v ${{ github.workspace }}/.docker/config/php.ini:/usr/local/etc/php/php.ini \
+            -v ${{ github.workspace }}:/var/www \
+            -e DATABASE_HOST=127.0.0.1 \
+            -e REDIS_HOST=127.0.0.1 \
+            product_vault_website
+      - name: Wait for Apache to be ready
+        run: |
+          for i in {1..10}; do
+            curl --silent --fail http://localhost && break || sleep 3
+          done
+
+      # run api tests with newman
+      - name: Run API tests with Newman
+        uses: matt-ball/newman-action@master
+        with:
+          collection: postman-collection.json
+          environment: postman-environment.json

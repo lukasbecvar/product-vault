@@ -8,7 +8,10 @@ Open-source API system for managing product databases, designed with a focus on 
 * CLI commands (for managing products)
 
 # API documentation
+## Nelmio UI
 The documentation for API endpoints can be found at the route `/api/doc`, with Nelmio UI complete documentation and also allows testing requests directly in the web browser. Alternatively, you can find documentation in JSON format at `/api/doc.json` (this API doc routes are only available in development mode).
+## Postman
+For testing and generating documentation, you can also use the Postman collection available in [postman-collection.json](postman-collection.json) and [postman-environment.json](postman-environment.json).
 
 ## Installation
 You can install the application on your server as a classic PHP application and manage dependencies via Composer, or you can use Docker ([compose-stack-example](.github/assets/docker-compose-example.yml)).
@@ -29,6 +32,8 @@ You can install the application on your server as a classic PHP application and 
 | `DATABASE_LOGGING` | Log manager config | `true` |
 | `LOG_LEVEL` | Log level (1: CRITICAL, 2: WARNING, 3: NOTICE, 4: INFO) | `4` |
 | `EXCHANGE_RATE_API_ENDPOINT` | Currency converter API config | `https://open.er-api.com/v6/latest` |
+| `CACHE_PRODUCT_DATA` | Enable caching for product data | `true` |
+| `PRODUCT_CACHE_TTL` | Cache expiration for product data | `43200` (12 hours) |
 | `EXCHANGE_DATA_CACHE_TTL` | Currency convertor API config | `86400` (1 day cache expiration) |
 | `DATABASE_DRIVER` | Database driver | `pdo_mysql` |
 | `DATABASE_HOST` | Database host | `127.0.0.1` |
@@ -73,10 +78,6 @@ Based on [api-base](https://github.com/lukasbecvar/api-base)
     * [Github](https://github.com/robiningelbrecht/phpunit-pretty-print)
 * PHPStan
     * [Github](https://github.com/phpstan/phpstan)
-
-## TODO LIST
-- [ ] Kubernetes deployment template
-- [ ] React admin app implementation
 
 ## License
 This software is licensed under the [MIT license](LICENSE).
