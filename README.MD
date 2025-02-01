@@ -75,9 +75,6 @@ Based on [api-base](https://github.com/lukasbecvar/api-base)
     * [Github](https://github.com/phpstan/phpstan)
 
 ## TODO LIST
-- [ ] Create API documentation with postman
-    - [ ] Create postman collection
-    - [ ] Create tests in postman
 - [ ] Kubernetes deployment template
 - [ ] React admin app implementation
 
