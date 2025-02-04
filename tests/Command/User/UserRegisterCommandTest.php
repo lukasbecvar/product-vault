@@ -98,7 +98,7 @@ class UserRegisterCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('User already exists: test@test.com', $output);
+        $this->assertStringContainsString('User: test@test.com already exists.', $output);
         $this->assertEquals(Command::INVALID, $exitCode);
     }
 

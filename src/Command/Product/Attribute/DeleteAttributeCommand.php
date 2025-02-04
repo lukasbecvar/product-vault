@@ -51,7 +51,7 @@ class DeleteAttributeCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        // fix get visitor info for cli mode
+        // set server headers for cli console
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['HTTP_USER_AGENT'] = 'CLI-COMMAND';
 
@@ -69,7 +69,7 @@ class DeleteAttributeCommand extends Command
 
         // check if attribute found
         if ($attribute === null) {
-            $io->error('Attribute not found with name: ' . $name . '.');
+            $io->error('Attribute: ' . $name . ' not found.');
             return Command::INVALID;
         }
 
@@ -78,7 +78,7 @@ class DeleteAttributeCommand extends Command
 
         // check if attribute id is set
         if ($id == null) {
-            $io->error('Attribute id is required.');
+            $io->error('Attribute id not found.');
             return Command::INVALID;
         }
 
@@ -90,7 +90,6 @@ class DeleteAttributeCommand extends Command
             $io->error('Error to delete attribute: ' . $e->getMessage());
             return Command::FAILURE;
         }
-
         return Command::SUCCESS;
     }
 }

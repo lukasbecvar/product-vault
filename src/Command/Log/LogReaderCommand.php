@@ -15,11 +15,11 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
 /**
  * Class LogReaderCommand
  *
- * Command for reading logs based on the specified filter
+ * Command for reading logs based on specified filter
  *
  * @package App\Command\Log
  */
-#[AsCommand(name: 'app:log:reader', description: 'Reads logs based on the specified filter')]
+#[AsCommand(name: 'app:log:reader', description: 'Get logs based on specified filter')]
 class LogReaderCommand extends Command
 {
     private LogManager $logManager;
@@ -46,11 +46,11 @@ class LogReaderCommand extends Command
             ->setHelp(<<<'HELP'
                 Usage: 
 
-                <fg=green>app:log:reader --status=<status></>  Filter by status (READED, UNREADED)
-                <fg=green>app:log:reader --user=<user></>      Filter by user (email)
-                <fg=green>app:log:reader --ip=<ip></>          Filter by IP address (192.168.1.1)
+                <fg=green>php %command.full_name% --status=<status></>  Filter by status (READED, UNREADED)
+                <fg=green>php %command.full_name% --user=<user></>      Filter by user (email)
+                <fg=green>php %command.full_name% --ip=<ip></>          Filter by IP address (192.168.1.1)
 
-                <comment>Note:</comment> Only one of these parameters can be used at a time.
+                <comment>Note:</comment> Only one of these parameters can be used.
                 HELP
             )
         ;
@@ -68,7 +68,7 @@ class LogReaderCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        // fix get visitor info for cli mode
+        // set server headers for cli console
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['HTTP_USER_AGENT'] = 'CLI-COMMAND';
 
@@ -77,15 +77,12 @@ class LogReaderCommand extends Command
         $user = $input->getOption('user');
         $ip = $input->getOption('ip');
 
-        // build options array
+        // build command options array
         $options = array_filter([
             'status' => $status,
             'user' => $user,
             'ip' => $ip,
         ]);
-
-        // init logs array
-        $logs = [];
 
         // check if any options are set
         if (count($options) === 0) {
@@ -95,8 +92,11 @@ class LogReaderCommand extends Command
 
         // check if only one option is set
         if (count($options) > 1) {
-            throw new InvalidArgumentException('You can only use one parameter at a time.');
+            throw new InvalidArgumentException('You can only use one option parameter.');
         }
+
+        // init logs array
+        $logs = [];
 
         // get logs by status
         if ($status !== null) {
@@ -107,6 +107,7 @@ class LogReaderCommand extends Command
                 $status = 'READED';
             }
 
+            // get logs by status
             $logs = $this->logManager->getLogsByStatus($status, 1, PHP_INT_MAX);
 
         // get logs by user
@@ -120,7 +121,7 @@ class LogReaderCommand extends Command
             // get user id by email
             $userId = $this->userManager->getUserIdByEmail($user);
 
-            // get logs by user email
+            // get logs by user id
             $logs = $this->logManager->getLogsByUserId($userId, 1, PHP_INT_MAX);
 
         // get logs by ip address
@@ -159,7 +160,6 @@ class LogReaderCommand extends Command
             headers: ['#', 'Name', 'Message', 'time', 'Ip Address', 'User',],
             rows: $data
         );
-
         return Command::SUCCESS;
     }
 }

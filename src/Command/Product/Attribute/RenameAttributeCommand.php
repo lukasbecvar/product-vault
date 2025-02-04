@@ -52,21 +52,19 @@ class RenameAttributeCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        // fix get visitor info for cli mode
+        // set server headers for cli console
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['HTTP_USER_AGENT'] = 'CLI-COMMAND';
 
-        // get attribute old-name
+        // get command arguments
         $oldName = $input->getArgument('old-name');
+        $newName = $input->getArgument('new-name');
 
         // check if attribute old-name is set
         if ($oldName == null) {
             $io->error('Attribute old-name is required.');
             return Command::INVALID;
         }
-
-        // get attribute name
-        $newName = $input->getArgument('new-name');
 
         // check if attribute new-name is set
         if ($newName == null) {
@@ -79,7 +77,7 @@ class RenameAttributeCommand extends Command
 
         // check if attribute found
         if ($attribute === null) {
-            $io->error('Attribute not found with name: ' . $oldName . '.');
+            $io->error('Attribute: ' . $oldName . ' not found.');
             return Command::INVALID;
         }
 
@@ -88,7 +86,7 @@ class RenameAttributeCommand extends Command
 
         // check if attribute id is set
         if ($id == null) {
-            $io->error('Attribute id is required.');
+            $io->error('Attribute id is not set.');
             return Command::INVALID;
         }
 
@@ -100,7 +98,6 @@ class RenameAttributeCommand extends Command
             $io->error('Error to rename attribute: ' . $e->getMessage());
             return Command::FAILURE;
         }
-
         return Command::SUCCESS;
     }
 }

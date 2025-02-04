@@ -53,7 +53,7 @@ class UserInfoCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        // fix get visitor info for cli mode
+        // set server headers for cli console
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['HTTP_USER_AGENT'] = 'CLI-COMMAND';
 
@@ -72,7 +72,7 @@ class UserInfoCommand extends Command
 
         // check if user exists
         if (!$this->userManager->checkIfUserEmailAlreadyRegistered($email)) {
-            $io->error('User not found: ' . $email . '.');
+            $io->error('User: ' . $email . ' not found.');
             return Command::INVALID;
         }
 
@@ -131,7 +131,6 @@ class UserInfoCommand extends Command
                 ],
             ]
         );
-
         return Command::SUCCESS;
     }
 }

@@ -44,7 +44,7 @@ class UserRegisterCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        // fix get visitor info for cli mode
+        // set server headers for cli console
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['HTTP_USER_AGENT'] = 'CLI-COMMAND';
 
@@ -98,7 +98,7 @@ class UserRegisterCommand extends Command
 
         // check if user already exists
         if ($this->userManager->checkIfUserEmailAlreadyRegistered($email)) {
-            $io->error('User already exists: ' . $email);
+            $io->error('User: ' . $email . ' already exists.');
             return Command::INVALID;
         }
 
@@ -115,7 +115,6 @@ class UserRegisterCommand extends Command
             $io->error('Error registering user: ' . $e->getMessage());
             return Command::FAILURE;
         }
-
         return Command::SUCCESS;
     }
 }

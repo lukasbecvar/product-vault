@@ -74,7 +74,7 @@ class DeleteAttributeCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('Attribute not found with name: non-existent-attribute', $output);
+        $this->assertStringContainsString('Attribute: non-existent-attribute not found.', $output);
         $this->assertEquals(Command::INVALID, $exitCode);
     }
 

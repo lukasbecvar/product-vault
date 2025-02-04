@@ -1,3 +1,5 @@
+# docker file for production environment
+
 # define base php-apache image
 FROM php:8.3-apache
 

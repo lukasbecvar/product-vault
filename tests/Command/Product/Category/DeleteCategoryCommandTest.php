@@ -70,7 +70,7 @@ class DeleteCategoryCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('Category not found: NonExistentCategory', $output);
+        $this->assertStringContainsString('Category: NonExistentCategory not found.', $output);
         $this->assertEquals(Command::INVALID, $exitCode);
     }
 
@@ -94,7 +94,7 @@ class DeleteCategoryCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('Category not found: NonExistentCategory', $output);
+        $this->assertStringContainsString('Category: NonExistentCategory not found.', $output);
         $this->assertEquals(Command::INVALID, $exitCode);
     }
 

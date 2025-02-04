@@ -50,7 +50,7 @@ class IndexController extends AbstractController
     #[Route('/', methods:['GET'], name: 'main_index')]
     public function index(): JsonResponse
     {
-        // return backend status
+        // get backend status
         $responseData = [
             'status' => 'success',
             'message' => 'product-vault is running!',

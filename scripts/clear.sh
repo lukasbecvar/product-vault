@@ -13,8 +13,8 @@ sudo rm -rf public/bundles/
 sudo rm -rf var/
 
 # delete composer packages
-sudo rm -rf vendor/
 sudo rm -rf composer.lock
+sudo rm -rf vendor/
 
 # delete resources storage
 sudo rm -rf storage/

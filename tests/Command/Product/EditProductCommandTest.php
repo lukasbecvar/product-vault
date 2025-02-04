@@ -87,7 +87,7 @@ class EditProductCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('Product not found: 1', $output);
+        $this->assertStringContainsString('Product id: 1 not found.', $output);
         $this->assertEquals(Command::INVALID, $exitCode);
     }
 

@@ -65,7 +65,7 @@ class LogReaderCommandTest extends TestCase
     {
         // expect exception
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('You can only use one parameter at a time.');
+        $this->expectExceptionMessage('You can only use one option parameter.');
 
         // execute command
         $this->commandTester->execute(['--status' => 'READED', '--user' => '123']);

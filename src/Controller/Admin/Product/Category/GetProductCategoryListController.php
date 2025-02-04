@@ -87,7 +87,7 @@ class GetProductCategoryListController extends AbstractController
             );
         }
 
-        // check if categories are empty
+        // check if categories is empty
         if (empty($categories)) {
             return $this->json([
                 'status' => 'error',

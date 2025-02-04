@@ -87,7 +87,7 @@ class UserPasswordResetCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('User not found: test@test.com', $output);
+        $this->assertStringContainsString('User: test@test.com not found.', $output);
         $this->assertEquals(Command::INVALID, $exitCode);
     }
 

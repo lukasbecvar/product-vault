@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Class ProductDTO
  *
- * Data transfer object for product entity
+ * Data validation object for product creating and updating
  *
  * @package App\DTO
  */

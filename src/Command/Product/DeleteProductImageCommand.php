@@ -67,7 +67,7 @@ class DeleteProductImageCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        // fix get visitor info for cli mode
+        // set server headers for cli console
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['HTTP_USER_AGENT'] = 'CLI-COMMAND';
 
@@ -92,7 +92,7 @@ class DeleteProductImageCommand extends Command
 
         // check if product exists
         if ($product == null) {
-            $io->error('Product not found: ' . $productId . '.');
+            $io->error('Product id: ' . $productId . ' not found.');
             return Command::INVALID;
         }
 
@@ -110,7 +110,6 @@ class DeleteProductImageCommand extends Command
             $io->error('Error to delete product image: ' . $e->getMessage());
             return Command::FAILURE;
         }
-
         return Command::SUCCESS;
     }
 }

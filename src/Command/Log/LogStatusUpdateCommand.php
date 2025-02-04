@@ -47,7 +47,7 @@ class LogStatusUpdateCommand extends Command
                 <info>php %command.full_name% --id=all</info>
                 Marks all logs as read.
 
-                If you use --id=all, the --status option must be omitted.
+                <comment>Note:</comment> If you use --id=all, the --status option must be omitted.
                 HELP
             )
         ;
@@ -65,7 +65,7 @@ class LogStatusUpdateCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        // fix get visitor info for cli mode
+        // set server headers for cli console
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['HTTP_USER_AGENT'] = 'CLI-COMMAND';
 
@@ -105,7 +105,6 @@ class LogStatusUpdateCommand extends Command
             $this->logManager->updateLogStatus((int)$id, $status);
             $io->success('Log with ID ' . $id . ' has been updated to status "' . $status . '".');
         }
-
         return Command::SUCCESS;
     }
 }

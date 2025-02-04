@@ -51,7 +51,7 @@ class DeleteCategoryCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        // fix get visitor info for cli mode
+        // set server headers for cli console
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['HTTP_USER_AGENT'] = 'CLI-COMMAND';
 
@@ -66,7 +66,7 @@ class DeleteCategoryCommand extends Command
 
         // check if category name exists
         if (!$this->categoryManager->checkIfCategoryNameAlreadyExists($name)) {
-            $io->error('Category not found: ' . $name);
+            $io->error('Category: ' . $name . ' not found.');
             return Command::INVALID;
         }
 
@@ -75,7 +75,7 @@ class DeleteCategoryCommand extends Command
 
         // check if category found
         if ($category === null) {
-            $io->error('Category not found: ' . $name . '.');
+            $io->error('Category: ' . $name . ' not found.');
             return Command::INVALID;
         }
 
@@ -96,7 +96,6 @@ class DeleteCategoryCommand extends Command
             $io->error('Error to delete category: ' . $e->getMessage());
             return Command::FAILURE;
         }
-
         return Command::SUCCESS;
     }
 }

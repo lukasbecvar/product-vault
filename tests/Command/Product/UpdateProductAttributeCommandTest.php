@@ -97,7 +97,7 @@ class UpdateProductAttributeCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('Attribute not found: 2', $output);
+        $this->assertStringContainsString('Attribute: 2 not found.', $output);
         $this->assertEquals(Command::INVALID, $exitCode);
     }
 

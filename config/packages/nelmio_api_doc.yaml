@@ -6,11 +6,13 @@ when@dev:
                 description: 'REST-API documentation'
                 version: '%env(APP_VERSION)%'
 
-            # app servers
+            # api servers
             servers:
-                - url: 'http://localhost' # testing dev env
+                # testing dev env
+                - url: 'http://localhost'
                   description: 'Local development environment'
-                - url: 'https://vault.becvar.xyz' # live production system server url
+                # live production system server url
+                - url: 'https://vault.becvar.xyz'
                   description: 'Production server'
 
             # security components (for user authentication and authorization)
@@ -45,10 +47,31 @@ when@dev:
                         responses:
                             200: 
                                 description: Successful login (return token)
+                                content:
+                                    application/json:
+                                        examples:
+                                            success:
+                                                summary: Example of successful login
+                                                value:
+                                                    token: "eyJhbGciOiJIUzI1NiIsInR..."
                             401: 
                                 description: Invalid credentials
+                                content:
+                                    application/json:
+                                        examples:
+                                            unauthorized:
+                                                summary: Invalid credentials response
+                                                value:
+                                                    error: "Invalid credentials"
                             400: 
                                 description: Bad request body data
+                                content:
+                                    application/json:
+                                        examples:
+                                            bad_request:
+                                                summary: Example of bad request response
+                                                value:
+                                                    error: "Missing email or password"
                         requestBody:
                             required: true
                             content:

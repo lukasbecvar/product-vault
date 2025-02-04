@@ -57,7 +57,7 @@ class JsonUtil
             return (array) json_decode($data, true);
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'error to get json data from ' . $target,
+                message: 'Error to get json data from ' . $target,
                 code: Response::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );

@@ -97,7 +97,7 @@ class RenameAttributeCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('Attribute not found with name: old-name', $output);
+        $this->assertStringContainsString('Attribute: old-name not found.', $output);
         $this->assertEquals(Command::INVALID, $exitCode);
     }
 

@@ -498,7 +498,7 @@ class ProductAssetsManager
     }
 
     /**
-     * Generate asset name
+     * Generate unique asset name
      *
      * @param string $subPath The sub path (icons, images)
      * @param string $resourceName The resource name

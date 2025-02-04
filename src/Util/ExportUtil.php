@@ -29,6 +29,11 @@ class ExportUtil
         $this->productRepository = $productRepository;
     }
 
+    /**
+     * Export products to json file
+     *
+     * @return StreamedResponse Return json file as streamed response
+     */
     public function exportToJson(): StreamedResponse
     {
         $response = new StreamedResponse(function () {

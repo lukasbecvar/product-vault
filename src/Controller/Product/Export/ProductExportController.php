@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 /**
  * Class ProductExportController
  *
- * Controller for exporting products
+ * Controller for exporting products and downloading the exported data
  *
  * @package App\Controller\Product
  */

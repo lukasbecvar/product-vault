@@ -37,7 +37,7 @@ class LoginEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Return array of event names subscribed by this event
+     * Return array with event names to listen to
      *
      * @return array<string> The event names to listen to
      */

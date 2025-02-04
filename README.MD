@@ -1,6 +1,17 @@
 # Product Vault
 Open-source API system for managing product databases, designed with a focus on simplicity, flexibility, and security with efficient storage organization and manipulation of product data through a RESTful API, ensuring seamless integration with your e-shop or other applications that require product lists or product details.
 
+## Index
+* [Features](#features)
+* [API documentation](#api-documentation)
+* [Installation](#installation)
+* [File system](#file-system)
+* [Database](#database)
+* [CLI commands](#cli-commands)
+* [Environment configuration variables](#environment-configuration-variables)
+* [Dependencies](#dependencies--requirements)
+* [License](#license)
+
 ## Features
 * Product data management
 * RESTful API (main interface for communication with the system)
@@ -8,13 +19,27 @@ Open-source API system for managing product databases, designed with a focus on 
 * CLI commands (for managing products)
 
 # API documentation
-## Nelmio UI
-The documentation for API endpoints can be found at the route `/api/doc`, with Nelmio UI complete documentation and also allows testing requests directly in the web browser. Alternatively, you can find documentation in JSON format at `/api/doc.json` (this API doc routes are only available in development mode).
-## Postman
-For testing and generating documentation, you can also use the Postman collection available in [postman-collection.json](postman-collection.json) and [postman-environment.json](postman-environment.json).
+##### Nelmio UI
+The documentation for API endpoints can be found at the route `/api/doc`, with Nelmio UI complete documentation and also allows testing requests directly in the web browser. Alternatively, you can find documentation in JSON format at `/api/doc.json` (You can use this JSON response to import the configuration into Postman).
 
 ## Installation
-You can install the application on your server as a classic PHP application and manage dependencies via Composer, or you can use Docker ([compose-stack-example](.github/assets/docker-compose-example.yml)).
+##### Docker compose
+Example of stack deployment ([docker-compose-stack-configuration](.github/examples/docker-compose-example.yml)).
+
+## File system
+##### Internal symfony cache
+The internal Symfony cache is stored in the project root in directory ``/var/www/var``. You don't need to worry about this, but you can mount this cache if needed.
+##### Products assets storage
+The products assets storage is stored in the project root in directory ``/var/www/storage``. If you run the application in a container, you need to create a storage volume and mount it to this directory to ensure data persistence.
+
+## Database
+##### MySQL - long term storage
+MySQL database is used for products data storage, with access configured through environment variables. It stores product data, administrator user accounts, and some logs.
+##### Redis - cache storage
+Redis is used for caching data and store invalidated user tokens and some runtime data.
+
+## CLI commands
+The application is primarily designed as a REST API but also includes console commands for managing products, logs, and users. These commands allow easy automation of various processes, for example, using cron jobs. This eliminates the need to send cURL requests, as actions can be executed directly via the Symfony console.
 
 ## Environment configuration variables
 | Variable | Description | Example value |

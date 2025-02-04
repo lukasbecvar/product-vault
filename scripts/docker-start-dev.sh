@@ -4,7 +4,7 @@
 sh scripts/install.sh
 
 # fix storage permissions
-sh scripts/set-storage-permissions.sh
+sh scripts/fix-storage-permissions.sh
 
 # build and start docker services
 docker-compose up --build

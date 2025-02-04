@@ -96,7 +96,7 @@ class RenameCategoryCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('Category not found: NonExistentOldCategory', $output);
+        $this->assertStringContainsString('Category: NonExistentOldCategory not found.', $output);
         $this->assertEquals(Command::INVALID, $exitCode);
     }
 

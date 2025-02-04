@@ -40,8 +40,8 @@ jobs:
           php-version: 8.3
           extensions: intl, pdo_mysql, gd
 
-      # composer install
-      - name: Install dependencies
+      # install composer dependencies
+      - name: Install backend dependencies
         run: composer install --ignore-platform-reqs --no-interaction --no-progress
 
       # create test database

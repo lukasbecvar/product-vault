@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class AddProductImageCommand
  *
- * Command for adding product image
+ * Command for add product image
  *
  * @package App\Command\Product
  */
@@ -67,7 +67,7 @@ class AddProductImageCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        // fix get visitor info for cli mode
+        // set server headers for cli console
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['HTTP_USER_AGENT'] = 'CLI-COMMAND';
 
@@ -92,7 +92,7 @@ class AddProductImageCommand extends Command
 
         // check if product exists
         if ($product == null) {
-            $io->error('Product not found: ' . $productId);
+            $io->error('Product id: ' . $productId . ' not found.');
             return Command::INVALID;
         }
 
@@ -104,7 +104,6 @@ class AddProductImageCommand extends Command
             $io->error('Error to add product image: ' . $e->getMessage());
             return Command::FAILURE;
         }
-
         return Command::SUCCESS;
     }
 }

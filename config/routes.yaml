@@ -18,7 +18,7 @@ api_login_check:
     path: /api/auth/login
     methods: [POST]
 
-# api doc routes
+# api doc routes (nelmio actions)
 when@dev:
     # api doc in swagger ui
     app.doc_swagger_ui:

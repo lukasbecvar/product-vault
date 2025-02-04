@@ -1,3 +1,4 @@
+# publisher for building and publishing docker image to github packages container registry
 name: Publish Docker Image
 
 on:
@@ -28,11 +29,11 @@ jobs:
           php-version: 8.3
 
       # install composer dependencies
-      - name: Install dependencies
+      - name: Install backend dependencies
         run: composer install --ignore-platform-reqs --no-interaction --no-progress
 
-      # build and push Docker image
-      - name: Build and push Docker image
+      # build and push docker image
+      - name: Build and push docker image
         uses: docker/build-push-action@v4
         with:
           file: .docker/DockerFile.prod

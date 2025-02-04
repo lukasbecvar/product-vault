@@ -96,7 +96,7 @@ class UpdateProductCategoryCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('Category not found: 2', $output);
+        $this->assertStringContainsString('Category: 2 not found.', $output);
         $this->assertEquals(Command::INVALID, $exitCode);
     }
 

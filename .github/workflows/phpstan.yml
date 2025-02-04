@@ -22,10 +22,10 @@ jobs:
       with:
         php-version: 8.3
 
-    # composer install
-    - name: Install dependencies
+    # install composer dependencies
+    - name: Install backend dependencies
       run: composer install --ignore-platform-reqs --no-interaction --no-progress
 
-    # phpstan process
+    # phpstan test process
     - name: Run PHPStan
       run: ./bin/phpstan analyse --configuration phpstan.neon -vvv

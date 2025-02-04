@@ -1,4 +1,4 @@
-# Example of deploying the product-vault application with a complete Docker stack
+# Example of deploying product-vault application with complete stack
 # Warning: do not use this in production, it is only a template for creating your own deployment
 networks:
     main:

@@ -76,7 +76,7 @@ class UpdateProductAttributeCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        // fix get visitor info for cli mode
+        // set server headers for cli console
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['HTTP_USER_AGENT'] = 'CLI-COMMAND';
 
@@ -103,14 +103,14 @@ class UpdateProductAttributeCommand extends Command
             // get attribute by id
             $attribute = $this->attributeManager->getAttributeById($attributeIdToAdd);
             if ($attribute == null) {
-                $io->error('Attribute not found: ' . $attributeIdToAdd . '.');
+                $io->error('Attribute: ' . $attributeIdToAdd . ' not found.');
                 return Command::INVALID;
             }
 
             // get product by id
             $product = $this->productManager->getProductById($productId);
             if ($product == null) {
-                $io->error('Product not found: ' . $productId . '.');
+                $io->error('Product id: ' . $productId . ' not found.');
                 return Command::INVALID;
             }
 
@@ -134,14 +134,14 @@ class UpdateProductAttributeCommand extends Command
             // get attribute by id
             $attribute = $this->attributeManager->getAttributeById($attributeIdToRemove);
             if ($attribute == null) {
-                $io->error('Attribute not found: ' . $attributeIdToRemove . '.');
+                $io->error('Attribute: ' . $attributeIdToRemove . ' not found.');
                 return Command::INVALID;
             }
 
             // get product by id
             $product = $this->productManager->getProductById($productId);
             if ($product == null) {
-                $io->error('Product not found: ' . $productId . '.');
+                $io->error('Product id: ' . $productId . ' not found.');
                 return Command::INVALID;
             }
 
@@ -153,7 +153,6 @@ class UpdateProductAttributeCommand extends Command
                 return Command::FAILURE;
             }
         }
-
         return Command::SUCCESS;
     }
 }

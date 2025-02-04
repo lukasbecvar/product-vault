@@ -63,7 +63,7 @@ class LogManagerController extends AbstractController
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             $this->errorManager->handleError(
-                message: 'Error to update all logs status to READED!',
+                message: 'Error to update all logs status to READED',
                 code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage(),
             );

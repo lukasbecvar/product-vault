@@ -32,7 +32,7 @@ class ExceptionEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Return array of event names subscribed by this event
+     * Return array with event names to listen to
      *
      * @return array<string> The event names to listen to
      */
@@ -44,7 +44,7 @@ class ExceptionEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Method called when the KernelEvents::EXCEPTION event is dispatched
+     * Method called when this event is dispatched
      *
      * @param ExceptionEvent $event The event object
      *

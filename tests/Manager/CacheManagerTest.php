@@ -3,9 +3,9 @@
 namespace App\Tests\Manager;
 
 use Predis\Client;
+use App\Util\AppUtil;
 use App\Manager\CacheManager;
 use App\Manager\ErrorManager;
-use App\Util\AppUtil;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
