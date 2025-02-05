@@ -1,0 +1,303 @@
+# product-vault kubernetes deployment (minikube example)
+# kubectl apply -f minikube-k8s-deploy-example.yml
+
+# Define namespace for deployment
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: product-vault # name of namespace
+---
+
+# Define secrets for password values
+apiVersion: v1
+kind: Secret
+metadata:
+  name: product-vault-secrets
+  namespace: product-vault
+type: Opaque
+data:
+  MYSQL_PASSWORD: cm9vdA== # base64 encoded password for MySQL (root)
+  REDIS_PASSWORD: cm9vdA== # base64 encoded password for Redis (root)
+---
+
+# Prepare PersistentVolumeClaim for MySQL
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+  namespace: product-vault
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+
+# Prepare persistent file storage
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: storage-pvc
+  namespace: product-vault
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+---
+
+# Mysql service configutation
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: product-vault
+spec:
+  ports:
+    - port: 3306 # mysql service port
+  selector:
+    app: mysql
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  namespace: product-vault
+spec:
+  serviceName: "mysql" # mysql service name
+  replicas: 1 # number of mysql replicas
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      restartPolicy: Always # restart website pod automatically
+      containers:
+        - name: mysql
+          image: mysql:latest # specify mysql docker image
+          ports:
+            - containerPort: 3306 # export container port
+          env: # mysql environment variables
+            - name: MYSQL_ROOT_PASSWORD # specify mysql root password
+              valueFrom:
+                secretKeyRef:
+                  name: product-vault-secrets
+                  key: MYSQL_PASSWORD
+          volumeMounts: # specify volume mounts
+            - mountPath: /var/lib/mysql
+              name: mysql-storage
+      volumes: # mount volumes
+        - name: mysql-storage
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+---
+
+# Redis service configutation
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: product-vault
+spec:
+  ports:
+    - port: 6379 # redis service port
+  selector:
+    app: redis
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+  namespace: product-vault
+spec:
+  serviceName: "redis" # redis service name
+  replicas: 1 # number of redis replicas
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      restartPolicy: Always # restart website pod automatically
+      containers:
+        - name: redis
+          image: redis:latest # specify redis docker image
+          ports:
+            - containerPort: 6379
+          command: ["redis-server", "--requirepass", "$(REDIS_PASSWORD)"]
+          env: # redis environment variables
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: product-vault-secrets
+                  key: REDIS_PASSWORD
+---
+
+# Web service (apache with PHP) configutation
+apiVersion: v1
+kind: Service
+metadata:
+  name: website
+  namespace: product-vault
+spec:
+  type: NodePort # web app export as node port
+  ports:
+    - port: 80 # web app port
+      targetPort: 80 # web app port
+      nodePort: 30080 # port of node port (access with http://minikube-ip:30080)
+  selector:
+    app: website
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: website
+  namespace: product-vault
+spec:
+  serviceName: "website" # website service name
+  replicas: 1 # number of website replicas
+  selector:
+    matchLabels:
+      app: website
+  template:
+    metadata:
+      labels:
+        app: website
+    spec:
+      restartPolicy: Always # restart website pod automatically
+      initContainers: # run database initialization container (migrate database on container start)
+        - name: init-db
+          image: ghcr.io/lukasbecvar/product-vault:latest # product-vault docker image
+          command: ["sh", "-c", "php bin/console doctrine:database:create --if-not-exists && php bin/console doctrine:migrations:migrate --no-interaction"]  # Command to initialize the database
+          env: # db init env
+            - name: APP_ENV
+              value: "prod"
+            - name: TRUSTED_HOSTS
+              value: "^.*$"
+            - name: REDIS_SCHEME
+              value: "redis"
+            - name: REDIS_HOST
+              value: "redis"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_USER
+              value: "default"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: product-vault-secrets
+                  key: REDIS_PASSWORD
+            - name: DATABASE_DRIVER
+              value: "pdo_mysql"
+            - name: DATABASE_HOST
+              value: "mysql"
+            - name: DATABASE_PORT
+              value: "3306"
+            - name: DATABASE_NAME
+              value: "product_vault"
+            - name: DATABASE_USERNAME
+              value: "root"
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: product-vault-secrets
+                  key: MYSQL_PASSWORD
+      containers:
+        - name: website
+          image: ghcr.io/lukasbecvar/product-vault:latest # product-vault docker image
+          ports:
+            - containerPort: 80 # export container port
+          env: # website env variables
+            - name: APP_ENV
+              value: "dev"
+            - name: APP_SECRET
+              value: "369af56dccfce490cb9325e8b4b59a90"
+            - name: API_TOKEN
+              value: "1234"
+            - name: APP_VERSION
+              value: "1.0"
+            - name: TRUSTED_HOSTS
+              value: "^.*$"
+            - name: ALLOWED_IP_ADDRESSES
+              value: "%"
+            - name: SSL_ONLY
+              value: "false"
+            - name: MAINTENANCE_MODE
+              value: "false"
+            - name: LIMIT_CONTENT_PER_PAGE
+              value: "10"
+            - name: REGISTRATION_WITH_API_ENDPOINT_ENABLED
+              value: "true"
+            - name: DATABASE_LOGGING
+              value: "true"
+            - name: LOG_LEVEL
+              value: "4"
+            - name: EXCHANGE_RATE_API_ENDPOINT
+              value: "https://open.er-api.com/v6/latest"
+            - name: CACHE_PRODUCT_DATA
+              value: "true"
+            - name: PRODUCT_CACHE_TTL
+              value: "43200"
+            - name: EXCHANGE_DATA_CACHE_TTL
+              value: "86400"
+            - name: REDIS_SCHEME
+              value: "redis"
+            - name: REDIS_HOST
+              value: "redis"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_USER
+              value: "default"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: product-vault-secrets
+                  key: REDIS_PASSWORD
+            - name: MAILER_ENABLED
+              value: "false"
+            - name: MAILER_HOST
+              value: "smtp.seznam.cz"
+            - name: MAILER_PORT
+              value: "465"
+            - name: MAILER_USERNAME
+              value: "service@becvar.xyz"
+            - name: MAILER_PASSWORD
+              value: "password"
+            - name: DATABASE_DRIVER
+              value: "pdo_mysql"
+            - name: DATABASE_HOST
+              value: "mysql"
+            - name: DATABASE_PORT
+              value: "3306"
+            - name: DATABASE_NAME
+              value: "product_vault"
+            - name: DATABASE_USERNAME
+              value: "root"
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: product-vault-secrets
+                  key: MYSQL_PASSWORD
+            - name: JWT_TOKEN_TTL
+              value: "2629536"
+            - name: JWT_SECRET_KEY
+              value: "%kernel.project_dir%/config/jwt/private.pem"
+            - name: JWT_PUBLIC_KEY
+              value: "%kernel.project_dir%/config/jwt/public.pem"
+            - name: JWT_PASSPHRASE
+              value: "f82fdd5f4644df4ba8fe9d600c5026abc7d7e97cb4413607073d9fc03aa85ba4"
+          volumeMounts:
+          - mountPath: /var/www/storage
+            name: storage-volume
+      volumes:
+      - name: storage-volume
+        persistentVolumeClaim:
+          claimName: storage-pvc
+      restartPolicy: Always

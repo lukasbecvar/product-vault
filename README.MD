@@ -19,23 +19,25 @@ Open-source API system for managing product databases, designed with a focus on 
 * CLI commands (for managing products)
 
 # API documentation
-##### Nelmio UI
+#### Nelmio UI
 The documentation for API endpoints can be found at the route `/api/doc`, with Nelmio UI complete documentation and also allows testing requests directly in the web browser. Alternatively, you can find documentation in JSON format at `/api/doc.json` (You can use this JSON response to import the configuration into Postman).
 
 ## Installation
-##### Docker compose
+#### Docker compose
 Example of stack deployment ([docker-compose-stack-configuration](.github/examples/docker-compose-example.yml)).
+#### Kubernetes
+Example of deployment on Kubernetes ([minikube-k8s-deploy.yml](.github/examples/minikube-k8s-deploy-example.yml)).
 
 ## File system
-##### Internal symfony cache
+#### Internal symfony cache
 The internal Symfony cache is stored in the project root in directory ``/var/www/var``. You don't need to worry about this, but you can mount this cache if needed.
-##### Products assets storage
+#### Products assets storage
 The products assets storage is stored in the project root in directory ``/var/www/storage``. If you run the application in a container, you need to create a storage volume and mount it to this directory to ensure data persistence.
 
 ## Database
-##### MySQL - long term storage
+#### MySQL - long term storage
 MySQL database is used for products data storage, with access configured through environment variables. It stores product data, administrator user accounts, and some logs.
-##### Redis - cache storage
+#### Redis - cache storage
 Redis is used for caching data and store invalidated user tokens and some runtime data.
 
 ## CLI commands
