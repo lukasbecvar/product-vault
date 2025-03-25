@@ -3,7 +3,7 @@
 # install dependencies
 if [ ! -d 'vendor/' ]
 then
-    docker-compose run composer
+    docker-compose run composer && sh scripts/fix-storage-permissions.sh
 fi
 
 # generate jwk key
