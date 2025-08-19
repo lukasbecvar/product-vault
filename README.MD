@@ -63,6 +63,7 @@ The application is primarily designed as a REST API but also includes console co
 | `PRODUCT_CACHE_TTL` | Cache expiration for product data | `43200` (12 hours) |
 | `EXCHANGE_DATA_CACHE_TTL` | Currency convertor API config | `86400` (1 day cache expiration) |
 | `DATABASE_DRIVER` | Database driver | `pdo_mysql` |
+| `DATABASE_VERSION` | Database version | `8.0.43` |
 | `DATABASE_HOST` | Database host | `127.0.0.1` |
 | `DATABASE_PORT` | Database port | `3306` |
 | `DATABASE_NAME` | Database name | `product_vault` |
@@ -85,7 +86,7 @@ The application is primarily designed as a REST API but also includes console co
 
 ## Dependencies & requirements
 Based on [api-base](https://github.com/lukasbecvar/api-base)
-* PHP 8.3
+* PHP
     * [Website](https://php.net)
 * Redis
     * [Website](https://redis.io)
