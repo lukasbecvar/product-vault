@@ -64,7 +64,7 @@ class SetProductIconCommandTest extends TestCase
     {
         // execute command
         $exitCode = $this->commandTester->execute([
-            '--product' => '1',
+            '--product' => '1'
         ]);
 
         // get command output
@@ -89,7 +89,7 @@ class SetProductIconCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
-            '--icon' => 'path/to/icon.png',
+            '--icon' => 'path/to/icon.png'
         ]);
 
         // get command output
@@ -119,7 +119,7 @@ class SetProductIconCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
-            '--icon' => 'path/to/icon.png',
+            '--icon' => 'path/to/icon.png'
         ]);
 
         // get command output
@@ -150,7 +150,7 @@ class SetProductIconCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
-            '--icon' => 'path/to/icon.png',
+            '--icon' => 'path/to/icon.png'
         ]);
 
         // get command output

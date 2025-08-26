@@ -98,7 +98,7 @@ class ProductGetController extends AbstractController
         if (!$productId) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product id parameter is required!',
+                'message' => 'Product id parameter is required!'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -117,7 +117,7 @@ class ProductGetController extends AbstractController
         if ($cachedProductData !== null) {
             return $this->json([
                 'statusf' => 'success',
-                'data' => unserialize($cachedProductData),
+                'data' => unserialize($cachedProductData)
             ], JsonResponse::HTTP_OK);
         }
 
@@ -128,7 +128,7 @@ class ProductGetController extends AbstractController
         if ($product == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Product id: ' . $productId . ' not found.',
+                'message' => 'Product id: ' . $productId . ' not found.'
             ], JsonResponse::HTTP_NOT_FOUND);
         }
 
@@ -142,7 +142,7 @@ class ProductGetController extends AbstractController
         // return product data
         return $this->json([
             'status' => 'success',
-            'data' => $data,
+            'data' => $data
         ], JsonResponse::HTTP_OK);
     }
 
@@ -283,7 +283,7 @@ class ProductGetController extends AbstractController
         if (json_last_error() !== JSON_ERROR_NONE) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Invalid JSON payload.',
+                'message' => 'Invalid JSON payload.'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -322,7 +322,7 @@ class ProductGetController extends AbstractController
                 'status' => 'success',
                 'products_data' => $cachedData['products'],
                 'pagination_info' => $cachedData['pagination_info'],
-                'stats' => $stats,
+                'stats' => $stats
             ], JsonResponse::HTTP_OK);
         }
 
@@ -335,14 +335,14 @@ class ProductGetController extends AbstractController
                 page: $page,
                 limit: $limit,
                 sort: $sort,
-                currency: $currency,
+                currency: $currency
             );
 
             // save product list data to cache
             $cacheData = [
                 'products' => $data['products'],
                 'pagination_info' => $data['pagination_info'],
-                'stats' => $stats,
+                'stats' => $stats
             ];
             $this->cacheManager->saveCacheValue($cacheKey, serialize($cacheData), $productCacheTTL);
 
@@ -350,7 +350,7 @@ class ProductGetController extends AbstractController
                 'status' => 'success',
                 'products_data' => $data['products'],
                 'pagination_info' => $data['pagination_info'],
-                'stats' => $stats,
+                'stats' => $stats
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return $this->errorManager->handleError(

@@ -64,7 +64,7 @@ class UserUpdateRoleCommandTest extends TestCase
 
         // execute command
         $exitCode = $this->commandTester->execute([
-            '--user' => 'test@test.com',
+            '--user' => 'test@test.com'
         ]);
 
         // get command output
@@ -89,7 +89,7 @@ class UserUpdateRoleCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--user' => 'test@test.com',
-            '--add' => 'ROLE_ADMIN',
+            '--add' => 'ROLE_ADMIN'
         ]);
 
         // get command output
@@ -121,7 +121,7 @@ class UserUpdateRoleCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--user' => 'test@test.com',
-            '--add' => 'ROLE_ADMIN',
+            '--add' => 'ROLE_ADMIN'
         ]);
 
         // get command output
@@ -153,7 +153,7 @@ class UserUpdateRoleCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--user' => 'test@test.com',
-            '--remove' => 'ROLE_ADMIN',
+            '--remove' => 'ROLE_ADMIN'
         ]);
 
         // get command output
@@ -182,7 +182,7 @@ class UserUpdateRoleCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--user' => 'test@test.com',
-            '--add' => 'ROLE_ADMIN',
+            '--add' => 'ROLE_ADMIN'
         ]);
 
         // get command output

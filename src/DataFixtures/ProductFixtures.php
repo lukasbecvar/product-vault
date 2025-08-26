@@ -183,7 +183,7 @@ class ProductFixtures extends Fixture
         $testingImages = [
             'test-image-1.jpg' => file_get_contents(__DIR__ . '/assets/images/test-image-1.jpg'),
             'test-image-2.jpg' => file_get_contents(__DIR__ . '/assets/images/test-image-2.jpg'),
-            'test-image-3.jpg' => file_get_contents(__DIR__ . '/assets/images/test-image-3.jpg'),
+            'test-image-3.jpg' => file_get_contents(__DIR__ . '/assets/images/test-image-3.jpg')
         ];
         foreach ($testingImages as $imageFile => $imageData) {
             file_put_contents($basePath . '/images/' . $imageFile, $imageData);

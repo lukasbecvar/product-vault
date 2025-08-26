@@ -49,7 +49,7 @@ class ProductCategoryManagerControllerTest extends CustomTestCase
     {
         $this->client->request('POST', '/api/admin/product/category/create', [], [], [
             'CONTENT_TYPE' => 'application/json',
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */
@@ -175,7 +175,7 @@ class ProductCategoryManagerControllerTest extends CustomTestCase
     {
         $this->client->request('PATCH', '/api/admin/product/category/rename', [], [], [
             'CONTENT_TYPE' => 'application/json',
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */
@@ -326,7 +326,7 @@ class ProductCategoryManagerControllerTest extends CustomTestCase
     {
         $this->client->request('DELETE', '/api/admin/product/category/delete', [], [], [
             'CONTENT_TYPE' => 'application/json',
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */

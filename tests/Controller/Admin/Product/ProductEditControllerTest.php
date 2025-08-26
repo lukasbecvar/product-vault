@@ -65,7 +65,7 @@ class ProductEditControllerTest extends CustomTestCase
     {
         $this->client->request('PATCH', '/api/admin/product/update', [], [], [
             'CONTENT_TYPE' => 'application/json',
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */
@@ -86,7 +86,7 @@ class ProductEditControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/product/update', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => 'invalud-token',
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */
@@ -151,7 +151,7 @@ class ProductEditControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/product/update', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'product-id' => 'invalid-id'
         ]) ?: null);
@@ -175,7 +175,7 @@ class ProductEditControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/product/update', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'product-id' => 999999999
         ]) ?: null);
@@ -199,7 +199,7 @@ class ProductEditControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/product/update', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'product-id' => 1,
             'name' => 'Updated Product Name',
@@ -261,7 +261,7 @@ class ProductEditControllerTest extends CustomTestCase
     {
         $this->client->request('PATCH', '/api/admin/product/update/activity', [], [], [
             'CONTENT_TYPE' => 'application/json',
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */
@@ -326,7 +326,7 @@ class ProductEditControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/product/update/activity', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'product-id' => 'invalid-id'
         ]) ?: null);
@@ -349,7 +349,7 @@ class ProductEditControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/product/update/activity', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'product-id' => 999999999,
             'active' => 'true'
@@ -374,7 +374,7 @@ class ProductEditControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/product/update/activity', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'product-id' => 113,
             'active' => 'false'
@@ -433,7 +433,7 @@ class ProductEditControllerTest extends CustomTestCase
     {
         $this->client->request('PATCH', '/api/admin/product/update/categories', [], [], [
             'CONTENT_TYPE' => 'application/json',
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */
@@ -498,7 +498,7 @@ class ProductEditControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/product/update/categories', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'product-id' => 'invalid-id'
         ]) ?: null);
@@ -521,7 +521,7 @@ class ProductEditControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/product/update/categories', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'product-id' => 1,
             'process' => 'invalid-process'
@@ -545,7 +545,7 @@ class ProductEditControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/product/update/categories', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'product-id' => 1,
             'process' => 'add',
@@ -570,7 +570,7 @@ class ProductEditControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/product/update/categories', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'product-id' => 1,
             'process' => 'add',
@@ -629,7 +629,7 @@ class ProductEditControllerTest extends CustomTestCase
     {
         $this->client->request('PATCH', '/api/admin/product/update/attribute', [], [], [
             'CONTENT_TYPE' => 'application/json',
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */
@@ -694,7 +694,7 @@ class ProductEditControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/product/update/attribute', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'product-id' => 'invalid-id'
         ]) ?: null);
@@ -717,7 +717,7 @@ class ProductEditControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/product/update/attribute', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'product-id' => 1,
             'process' => 'invalid-process'
@@ -766,7 +766,7 @@ class ProductEditControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/product/update/attribute', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'product-id' => 1,
             'process' => 'add',
@@ -792,7 +792,7 @@ class ProductEditControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/product/update/attribute', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'product-id' => 1,
             'process' => 'add',

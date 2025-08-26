@@ -100,7 +100,7 @@ class ProductCategoryManagerController extends AbstractController
             $this->categoryManager->createCategory($categoryName);
             return $this->json([
                 'status' => 'success',
-                'message' => 'Category created successfully!',
+                'message' => 'Category created successfully!'
             ], JsonResponse::HTTP_CREATED);
         } catch (Exception $e) {
             return $this->errorManager->handleError(
@@ -180,7 +180,7 @@ class ProductCategoryManagerController extends AbstractController
             $this->categoryManager->renameCategory($categoryId, $categoryName);
             return $this->json([
                 'status' => 'success',
-                'message' => 'Category renamed successfully!',
+                'message' => 'Category renamed successfully!'
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return $this->errorManager->handleError(
@@ -253,7 +253,7 @@ class ProductCategoryManagerController extends AbstractController
             $this->categoryManager->deleteCategory($categoryId);
             return $this->json([
                 'status' => 'success',
-                'message' => 'Category deleted success!',
+                'message' => 'Category deleted success!'
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return $this->errorManager->handleError(

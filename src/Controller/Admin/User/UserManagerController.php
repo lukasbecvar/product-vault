@@ -209,7 +209,7 @@ class UserManagerController extends AbstractController
                         new OA\Property(property: 'message', type: 'string', example: 'Update error!')
                     ]
                 )
-            ),
+            )
         ]
     )]
     #[IsGranted('ROLE_ADMIN')]

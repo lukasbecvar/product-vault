@@ -87,7 +87,7 @@ class AddProductImageCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
-            '--image' => 'path/to/image.jpg',
+            '--image' => 'path/to/image.jpg'
         ]);
 
         // get command output
@@ -117,7 +117,7 @@ class AddProductImageCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
-            '--image' => 'path/to/image.jpg',
+            '--image' => 'path/to/image.jpg'
         ]);
 
         // get command output
@@ -147,7 +147,7 @@ class AddProductImageCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
-            '--image' => 'path/to/image.jpg',
+            '--image' => 'path/to/image.jpg'
         ]);
 
         // get command output

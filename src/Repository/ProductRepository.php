@@ -190,7 +190,7 @@ class ProductRepository extends ServiceEntityRepository
             'items_per_actual_page' => $itemsOnCurrentPage,
             'last_page_number' => $totalPages,
             'is_next_page_exists' => $isNextPageExists,
-            'is_previous_page_exists' => $isPreviousPageExists,
+            'is_previous_page_exists' => $isPreviousPageExists
         ];
     }
 
@@ -334,7 +334,7 @@ class ProductRepository extends ServiceEntityRepository
         return [
             'total' => $total,
             'active' => $active,
-            'inactive' => $inactive,
+            'inactive' => $inactive
         ];
     }
 }

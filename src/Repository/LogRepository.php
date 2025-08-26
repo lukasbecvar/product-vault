@@ -119,7 +119,7 @@ class LogRepository extends ServiceEntityRepository
             'total_pages_count' => $totalPagesCount,
             'is_next_page_exists' => $isNextPageExists,
             'is_previous_page_exists' => $isPreviousPageExists,
-            'last_page_number' => $lastPageNumber,
+            'last_page_number' => $lastPageNumber
         ];
     }
 }

@@ -65,7 +65,7 @@ class UpdateProductCategoryCommandTest extends TestCase
     {
         // execute command
         $exitCode = $this->commandTester->execute([
-            '--product' => '1',
+            '--product' => '1'
         ]);
 
         // get command output
@@ -89,7 +89,7 @@ class UpdateProductCategoryCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
-            '--add' => '2',
+            '--add' => '2'
         ]);
 
         // get command output
@@ -118,7 +118,7 @@ class UpdateProductCategoryCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
-            '--add' => '2',
+            '--add' => '2'
         ]);
 
         // get command output
@@ -147,7 +147,7 @@ class UpdateProductCategoryCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
-            '--remove' => '2',
+            '--remove' => '2'
         ]);
 
         // get command output
@@ -177,7 +177,7 @@ class UpdateProductCategoryCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
-            '--add' => '2',
+            '--add' => '2'
         ]);
 
         // get command output

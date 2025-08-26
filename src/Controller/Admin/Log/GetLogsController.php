@@ -189,7 +189,7 @@ class GetLogsController extends AbstractController
 
         return $this->json([
             'status' => 'success',
-            'data' => $data,
+            'data' => $data
         ], JsonResponse::HTTP_OK);
     }
 }

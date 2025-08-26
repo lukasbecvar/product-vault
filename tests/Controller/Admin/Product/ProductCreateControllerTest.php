@@ -65,7 +65,7 @@ class ProductCreateControllerTest extends CustomTestCase
     {
         $this->client->request('POST', '/api/admin/product/create', [], [], [
             'CONTENT_TYPE' => 'application/json',
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */

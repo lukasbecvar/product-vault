@@ -44,6 +44,19 @@ when@dev:
                         tags: ['Auth']
                         summary: User login action
                         description: User login for get JWT auth token
+                        requestBody:
+                            required: true
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            email:
+                                                type: email
+                                                default: test@test.test
+                                            password:
+                                                type: string
+                                                default: test
                         responses:
                             200: 
                                 description: Successful login (return token)
@@ -72,16 +85,3 @@ when@dev:
                                                 summary: Example of bad request response
                                                 value:
                                                     error: "Missing email or password"
-                        requestBody:
-                            required: true
-                            content:
-                                application/json:
-                                    schema:
-                                        type: object
-                                        properties:
-                                            email:
-                                                type: email
-                                                default: test@test.test
-                                            password:
-                                                type: string
-                                                default: test

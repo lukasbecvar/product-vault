@@ -1,6 +1,4 @@
-# docker file for local development environment
-
-# define base php-apache image
+# define base php-apache image for local development environment
 FROM php:8.4-apache
 
 # set container working directory

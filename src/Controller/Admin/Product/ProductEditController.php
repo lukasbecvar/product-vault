@@ -453,7 +453,7 @@ class ProductEditController extends AbstractController
         if (!in_array($process, ['add', 'remove'])) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Process is not valid (allowed: add, remove).',
+                'message' => 'Process is not valid (allowed: add, remove).'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 

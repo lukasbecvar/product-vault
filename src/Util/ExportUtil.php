@@ -69,8 +69,7 @@ class ExportUtil
                     'categories' => implode(', ', $categories),
                     'attributes' => implode(', ', $product->getProductAttributesRaw()),
                     'product_icon' => $product->getIconFile(),
-                    'product_images' => implode(', ', $product->getImagesRaw()),
-
+                    'product_images' => implode(', ', $product->getImagesRaw())
                 ];
             }
 
@@ -98,14 +97,14 @@ class ExportUtil
         $headerStyle = [
             'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF'], 'size' => 12],
             'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '333333']],
-            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER]
         ];
 
         // style table body
         $tableStyle = [
             'font' => ['color' => ['rgb' => 'EEEEEE']],
             'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '222222']],
-            'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => '555555']]],
+            'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => '555555']]]
         ];
 
         // set column widths
@@ -119,7 +118,7 @@ class ExportUtil
             'G' => ['label' => 'Last Edit', 'width' => 20],
             'H' => ['label' => 'Active', 'width' => 10],
             'I' => ['label' => 'Categories', 'width' => 60],
-            'J' => ['label' => 'Attributes', 'width' => 60],
+            'J' => ['label' => 'Attributes', 'width' => 60]
         ];
 
         foreach ($columns as $col => $data) {

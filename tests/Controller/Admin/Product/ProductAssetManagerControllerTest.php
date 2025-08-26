@@ -49,7 +49,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
     {
         $this->client->request('POST', '/api/admin/product/asset/icon/create', [], [], [
             'CONTENT_TYPE' => 'application/json',
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */
@@ -158,7 +158,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
     public function testUpdateProductIconWhenResponseIsSuccess(): void
     {
         $this->client->request('POST', '/api/admin/product/asset/icon/create', [
-            'product_id' => 5,
+            'product_id' => 5
         ], [
             'icon_file' => new UploadedFile(
                 __DIR__ . '/../../../../src/DataFixtures/assets/icons/testing-icon.png',
@@ -189,7 +189,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
     public function testCreateProductIconWhenResponseIsSuccess(): void
     {
         $this->client->request('POST', '/api/admin/product/asset/icon/create', [
-            'product_id' => 1001,
+            'product_id' => 1001
         ], [
             'icon_file' => new UploadedFile(
                 __DIR__ . '/../../../../src/DataFixtures/assets/icons/testing-icon.png',
@@ -395,7 +395,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
     {
         $this->client->request('DELETE', '/api/admin/product/asset/image/delete', [], [], [
             'CONTENT_TYPE' => 'application/json',
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */
@@ -479,7 +479,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
     public function testDeleteProductImageWhenImageIdIsNotSet(): void
     {
         $this->client->request('DELETE', '/api/admin/product/asset/image/delete', [
-            'product_id' => 5,
+            'product_id' => 5
         ], [], [
             'CONTENT_TYPE' => 'multipart/form-data',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
@@ -504,7 +504,7 @@ class ProductAssetManagerControllerTest extends CustomTestCase
     {
         $this->client->request('DELETE', '/api/admin/product/asset/image/delete', [
             'product_id' => 2,
-            'image_file' => 'test-image-2.jpg',
+            'image_file' => 'test-image-2.jpg'
         ], [], [
             'CONTENT_TYPE' => 'multipart/form-data',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],

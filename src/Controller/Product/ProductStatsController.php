@@ -88,7 +88,7 @@ class ProductStatsController extends AbstractController
                 $data = unserialize($cachedProductStats);
                 return $this->json([
                     'status' => 'success',
-                    'data' => $data,
+                    'data' => $data
                 ], JsonResponse::HTTP_OK);
             }
 
@@ -102,7 +102,7 @@ class ProductStatsController extends AbstractController
             // return product stats
             return $this->json([
                 'status' => 'success',
-                'data' => $data,
+                'data' => $data
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return $this->errorManager->handleError(
@@ -157,7 +157,7 @@ class ProductStatsController extends AbstractController
                 $data = unserialize($cachedProductCategories);
                 return $this->json([
                     'status' => 'success',
-                    'data' => $data,
+                    'data' => $data
                 ], JsonResponse::HTTP_OK);
             }
 
@@ -171,7 +171,7 @@ class ProductStatsController extends AbstractController
             // return product categories list
             return $this->json([
                 'status' => 'success',
-                'data' => $data,
+                'data' => $data
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return $this->errorManager->handleError(
@@ -221,7 +221,7 @@ class ProductStatsController extends AbstractController
                 $data = unserialize($cachedProductAttributes);
                 return $this->json([
                     'status' => 'success',
-                    'data' => $data,
+                    'data' => $data
                 ], JsonResponse::HTTP_OK);
             }
 
@@ -235,7 +235,7 @@ class ProductStatsController extends AbstractController
             // return product attributes list
             return $this->json([
                 'status' => 'success',
-                'data' => $data,
+                'data' => $data
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return $this->errorManager->handleError(

@@ -47,7 +47,7 @@ class GetProductCategoryListControllerTest extends CustomTestCase
     public function testGetAllProductCategoriesWhenApiAccessTokenIsNotProvided(): void
     {
         $this->client->request('GET', '/api/admin/product/category/list', [], [], [
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */

@@ -48,7 +48,7 @@ class LogManagerControllerTest extends CustomTestCase
     {
         $this->client->request('POST', '/api/admin/logs/mark-all-read', [], [], [
             'CONTENT_TYPE' => 'application/json',
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */
@@ -149,7 +149,7 @@ class LogManagerControllerTest extends CustomTestCase
     {
         $this->client->request('PATCH', '/api/admin/log/status/update', [], [], [
             'CONTENT_TYPE' => 'application/json',
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */

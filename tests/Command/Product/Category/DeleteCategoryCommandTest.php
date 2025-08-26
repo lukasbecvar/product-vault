@@ -106,7 +106,7 @@ class DeleteCategoryCommandTest extends TestCase
     public function testExecuteCommandWithCategoryDeletedSuccessfully(): void
     {
         // mock category object
-        $categoryMock = $this->createMock(\App\Entity\Category::class);
+        $categoryMock = $this->createMock(Category::class);
         $categoryMock->method('getId')->willReturn(1);
 
         // mock methods to return valid data

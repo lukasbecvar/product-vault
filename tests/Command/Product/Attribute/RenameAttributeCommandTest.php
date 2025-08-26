@@ -90,7 +90,7 @@ class RenameAttributeCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             'old-name' => 'old-name',
-            'new-name' => 'new-name',
+            'new-name' => 'new-name'
         ]);
 
         // get command output
@@ -120,7 +120,7 @@ class RenameAttributeCommandTest extends TestCase
         // call tested method
         $exitCode = $this->commandTester->execute([
             'old-name' => 'old-name',
-            'new-name' => 'new-name',
+            'new-name' => 'new-name'
         ]);
 
         // get command output
@@ -151,7 +151,7 @@ class RenameAttributeCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             'old-name' => 'old-name',
-            'new-name' => 'new-name',
+            'new-name' => 'new-name'
         ]);
 
         // get command output

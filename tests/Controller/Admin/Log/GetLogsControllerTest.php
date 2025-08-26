@@ -47,7 +47,7 @@ class GetLogsControllerTest extends CustomTestCase
     public function testGetLogsListWhenApiAccessTokenIsNotProvided(): void
     {
         $this->client->request('GET', '/api/admin/logs', [], [], [
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */
@@ -187,7 +187,7 @@ class GetLogsControllerTest extends CustomTestCase
     public function testGetLogsStatsListWhenApiAccessTokenIsNotProvided(): void
     {
         $this->client->request('GET', '/api/admin/logs/stats', [], [], [
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */

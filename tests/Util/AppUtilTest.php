@@ -42,7 +42,7 @@ class AppUtilTest extends TestCase
         // test valid attributes
         $attributes = [
             ['name' => 'color', 'attribute-value' => 'red'],
-            ['name' => 'size', 'attribute-value' => 'XXL'],
+            ['name' => 'size', 'attribute-value' => 'XXL']
         ];
         $this->assertTrue($this->appUtil->validateAttributes($attributes));
 
@@ -50,7 +50,7 @@ class AppUtilTest extends TestCase
         $attributes = [
             ['name' => 'color', 'attribute-value' => 'red'],
             ['name' => 'size', 'attribute-value' => 'XXL'],
-            ['name' => 'color'],
+            ['name' => 'color']
         ];
         $this->assertFalse($this->appUtil->validateAttributes($attributes));
     }

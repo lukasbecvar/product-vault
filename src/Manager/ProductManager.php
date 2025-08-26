@@ -115,7 +115,7 @@ class ProductManager
             'categories' => $categories,
             'attributes' => $attributes,
             'icon' => $icon,
-            'images' => $images,
+            'images' => $images
         ];
     }
 
@@ -172,7 +172,7 @@ class ProductManager
         // return products list and pagination info
         return [
             'products' => $products_data,
-            'pagination_info' => $paginationInfo,
+            'pagination_info' => $paginationInfo
         ];
     }
 
@@ -286,7 +286,7 @@ class ProductManager
         $this->logManager->saveLog(
             name: 'product-manager',
             message: 'Product: ' . $product->getName() . ' created',
-            level: LogManager::LEVEL_INFO,
+            level: LogManager::LEVEL_INFO
         );
 
         return $product;
@@ -352,7 +352,7 @@ class ProductManager
         $this->logManager->saveLog(
             name: 'product-manager',
             message: 'Product: ' . $product->getName() . ' edited',
-            level: LogManager::LEVEL_INFO,
+            level: LogManager::LEVEL_INFO
         );
     }
 
@@ -399,7 +399,7 @@ class ProductManager
         $this->logManager->saveLog(
             name: 'product-manager',
             message: 'Product: ' . $product->getName() . ' with id: ' . $productId . ' deleted',
-            level: LogManager::LEVEL_INFO,
+            level: LogManager::LEVEL_INFO
         );
     }
 
@@ -455,7 +455,7 @@ class ProductManager
         $this->logManager->saveLog(
             name: 'product-manager',
             message: 'Product: ' . $product->getName() . ' activated',
-            level: LogManager::LEVEL_INFO,
+            level: LogManager::LEVEL_INFO
         );
     }
 
@@ -510,7 +510,7 @@ class ProductManager
         $this->logManager->saveLog(
             name: 'product-manager',
             message: 'Product: ' . $product->getName() . ' deactivated',
-            level: LogManager::LEVEL_INFO,
+            level: LogManager::LEVEL_INFO
         );
     }
 
@@ -557,7 +557,7 @@ class ProductManager
         $this->logManager->saveLog(
             name: 'product-manager',
             message: 'Product: ' . $product->getName() . ' assigned to category: ' . $category->getName(),
-            level: LogManager::LEVEL_INFO,
+            level: LogManager::LEVEL_INFO
         );
     }
 
@@ -574,7 +574,7 @@ class ProductManager
         // get category by id
         $productCategory = $this->entityManager->getRepository(ProductCategory::class)->findOneBy([
             'product' => $product,
-            'category' => $category,
+            'category' => $category
         ]);
 
         // check if category exists
@@ -605,7 +605,7 @@ class ProductManager
         $this->logManager->saveLog(
             name: 'product-manager',
             message: 'Product: ' . $product->getName() . ' removed from category: ' . $category->getName(),
-            level: LogManager::LEVEL_INFO,
+            level: LogManager::LEVEL_INFO
         );
     }
 
@@ -656,7 +656,7 @@ class ProductManager
         $this->logManager->saveLog(
             name: 'product-manager',
             message: 'Product: ' . $product->getName() . ' assigned to attribute: ' . $attribute->getName(),
-            level: LogManager::LEVEL_INFO,
+            level: LogManager::LEVEL_INFO
         );
     }
 
@@ -674,7 +674,7 @@ class ProductManager
         // get attribute by id
         $productAttribute = $this->entityManager->getRepository(ProductAttribute::class)->findOneBy([
             'product' => $product,
-            'attribute' => $attribute,
+            'attribute' => $attribute
         ]);
 
         // check if attribute exists
@@ -707,7 +707,7 @@ class ProductManager
         $this->logManager->saveLog(
             name: 'product-manager',
             message: 'Product: ' . $product->getName() . ' attribute value updated',
-            level: LogManager::LEVEL_INFO,
+            level: LogManager::LEVEL_INFO
         );
     }
 
@@ -724,7 +724,7 @@ class ProductManager
         // get product attribute by id
         $productAttribute = $this->entityManager->getRepository(ProductAttribute::class)->findOneBy([
             'product' => $product,
-            'attribute' => $attribute,
+            'attribute' => $attribute
         ]);
 
         // check if attribute exists
@@ -754,7 +754,7 @@ class ProductManager
         $this->logManager->saveLog(
             name: 'product-manager',
             message: 'Product: ' . $product->getName() . ' removed from attribute: ' . $attribute->getName(),
-            level: LogManager::LEVEL_INFO,
+            level: LogManager::LEVEL_INFO
         );
     }
 }

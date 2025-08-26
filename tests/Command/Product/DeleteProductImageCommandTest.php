@@ -87,7 +87,7 @@ class DeleteProductImageCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
-            '--image' => '1',
+            '--image' => '1'
         ]);
 
         // get command output
@@ -120,7 +120,7 @@ class DeleteProductImageCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
-            '--image' => '1',
+            '--image' => '1'
         ]);
 
         // get command output
@@ -154,7 +154,7 @@ class DeleteProductImageCommandTest extends TestCase
         // execute command
         $exitCode = $this->commandTester->execute([
             '--product' => '1',
-            '--image' => '1',
+            '--image' => '1'
         ]);
 
         // get command output
