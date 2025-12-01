@@ -45,6 +45,9 @@ class ExportUtil
             foreach ($products as $product) {
                 $categories = $product->getCategoriesRaw();
                 foreach ($categories as $category) {
+                    if ($category === null) {
+                        continue;
+                    }
                     $categoryCounts[$category] = ($categoryCounts[$category] ?? 0) + 1;
                 }
 
@@ -137,6 +140,9 @@ class ExportUtil
         foreach ($products as $product) {
             $categories = $product->getCategoriesRaw();
             foreach ($categories as $category) {
+                if ($category === null) {
+                    continue;
+                }
                 $categoryCounts[$category] = ($categoryCounts[$category] ?? 0) + 1;
             }
 
