@@ -14,7 +14,7 @@ use OpenApi\Attributes\Parameter;
 use OpenApi\Attributes\JsonContent;
 use OpenApi\Attributes\RequestBody;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

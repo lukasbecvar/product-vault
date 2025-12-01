@@ -7,7 +7,7 @@ use App\Util\ExportUtil;
 use OpenApi\Attributes\Tag;
 use App\Manager\ErrorManager;
 use OpenApi\Attributes\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 

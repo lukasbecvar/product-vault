@@ -55,7 +55,7 @@ class ProductAssetGetController extends AbstractController
     public function getProductIcon(Request $request): StreamedResponse|JsonResponse
     {
         // get icon file from request parameter
-        $iconFile = $request->get('icon_file');
+        $iconFile = $request->query->get('icon_file');
 
         // check if icon file set
         if ($iconFile == null) {
@@ -105,7 +105,7 @@ class ProductAssetGetController extends AbstractController
     public function getProductImage(Request $request): StreamedResponse|JsonResponse
     {
         // get image file from request parameter
-        $imageFile = $request->get('image_file');
+        $imageFile = $request->query->get('image_file');
 
         // check if image file set
         if ($imageFile == null) {

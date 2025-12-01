@@ -91,8 +91,8 @@ class ProductGetController extends AbstractController
     public function getProductById(Request $request): JsonResponse
     {
         // get request parameters
-        $productId = $request->get('id');
-        $requestedCurrency = $request->get('currency', null);
+        $productId = (int) $request->query->get('id');
+        $requestedCurrency = $request->query->get('currency', null);
 
         // check if product parameter id is set
         if (!$productId) {

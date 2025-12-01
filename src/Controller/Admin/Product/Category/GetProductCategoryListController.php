@@ -10,7 +10,7 @@ use OpenApi\Attributes\Response;
 use App\Manager\CategoryManager;
 use OpenApi\Attributes\Property;
 use OpenApi\Attributes\JsonContent;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
