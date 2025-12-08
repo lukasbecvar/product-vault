@@ -1,6 +1,9 @@
 # env config files
 .env.prod
 
+# symfony reference config
+./config/reference.php
+
 # docker services data
 .docker/services
 
